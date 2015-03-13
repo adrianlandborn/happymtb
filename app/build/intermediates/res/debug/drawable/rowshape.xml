@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item>
+      <shape 
+        android:shape="rectangle">
+            <stroke android:width="1dp" android:color="#FFbdbcbc" />
+            <solid android:color="#FFFFFFFF" />
+           	<corners
+	            android:bottomLeftRadius="10dip"
+	            android:bottomRightRadius="10dip"
+	            android:topLeftRadius="10dip"
+	            android:topRightRadius="10dip"/>   
+            
+        </shape>
+   </item>
+   
+   <item android:bottom="1dp"> 
+      <shape 
+        android:shape="rectangle">
+            <stroke android:width="1dp" android:color="#FFFFFFFF" />
+            <solid android:color="#00bdbcbc" />
+           	<corners
+	            android:bottomLeftRadius="10dip"
+	            android:bottomRightRadius="10dip"
+	            android:topLeftRadius="10dip"
+	            android:topRightRadius="10dip"/>               
+        </shape>
+   </item>
+   
+</layer-list><!-- From: file:/C:/Users/Adrian/AndroidStudioProjects/happymtb/app/src/main/res/drawable/rowshape.xml -->

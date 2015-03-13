@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item 
+        android:id="@+id/thread_left" 
+        android:icon="@drawable/back" 
+        android:showAsAction="always" 
+        android:title="Föregående sida"
+        android:visible="true">        
+    </item>    
+    
+    <item 
+        android:id="@+id/thread_right" 
+        android:icon="@drawable/forward" 
+        android:showAsAction="always"
+        android:title="Nästa sida" 
+        android:visible="true">        
+    </item>     
+            
+    <item android:id="@+id/thread_submenu"
+        android:icon="@drawable/submenu" 
+    	android:title="Submenu &gt;"
+        android:showAsAction="always">
+        <menu>
+    		<item 
+        		android:id="@+id/thread_refresh" 
+        		android:icon="@drawable/refresh"  
+        		android:title="Ladda om sidan"/>                        
+            
+			<item
+            	android:id="@+id/thread_go_to_page"
+            	android:icon="@drawable/jump"
+                android:title="Gå till sidan..." />            
+            
+            <item
+            	android:id="@+id/thread_markasread"
+            	android:icon="@drawable/mark"
+                android:title="Markera alla trådar som lästa" />
+                    	        	
+<!--     		<item -->
+<!--             	android:id="@+id/thread_search" -->
+<!--             	android:icon="@drawable/search" -->
+<!--                 android:title="Sök" /> -->
+    		
+			<item
+            	android:id="@+id/thread_new_thread"
+            	android:icon="@drawable/write"
+                android:title="Nytt ämne" />
+		</menu>            
+	</item>			         
+</menu>

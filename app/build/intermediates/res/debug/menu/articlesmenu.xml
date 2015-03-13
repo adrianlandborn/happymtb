@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+        <item android:id="@+id/article_submenu"
+        android:icon="@drawable/submenu" 
+    	android:title="Submenu &gt;"
+        android:showAsAction="always">
+        <menu>
+    		<item 
+        		android:id="@+id/article_expand_all" 
+        		android:icon="@drawable/expand"  
+        		android:title="Expandera alla"/>
+    		       		
+    		<item 
+        		android:id="@+id/article_hide_all" 
+        		android:icon="@drawable/collapse"  
+        		android:title="Dölj alla"/>            		    	
+		</menu>            
+	</item>	    
+	
+</menu><!-- From: file:/C:/Users/Adrian/AndroidStudioProjects/happymtb/app/src/main/res/menu/articlesmenu.xml -->

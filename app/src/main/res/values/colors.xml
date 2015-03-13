@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="black">#ff000000</color>
+	<color name="white">#ffffffff</color>
+	<color name="red">#ffCC0000</color>
+	<color name="grey">#ffdbd9da</color>
+	<color name="grey_dark">#ffbdbcbc</color>
+	
+	<color name="calender_event">#ffcd0707</color>
+	<color name="calender_happyride">#ff21a40f</color>
+	<color name="calender_motion">#ff3a87ad</color>
+	<color name="calender_svartrejs">#ff000000</color>
+	<color name="calender_ovrigt">#ff949494</color>
+	
+	<color name="beige">#ff8f7d05</color>
+	<color name="beige_light">#ffb59c04</color>
+
+	<color name="transparent">#00000000</color>
+	
+    <color name="sa_green">#14a804</color>
+    <color name="stacked_green">#118504</color>
+    <color name="accent_green">#97e08f</color>
+    
+    <color name="title_1_text">#ff8f7d05</color>
+    <color name="title_2_text">#ff838283</color>
+    <color name="title_3_text">#ffffffff</color>
+	<color name="actionbar_background">#ffb59c04</color>
+	
+	<color name="background_2">#ff8f7d05</color>
+	
+    <color name="pressed_happymtb">#CC8f7d05</color>
+</resources>

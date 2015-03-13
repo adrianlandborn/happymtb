@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>   
+    <string name="title_section3">Section 3</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section1">Section 1</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>    
+    
+    <string name="app_name">happymtb</string>
+    
+    <string name="title_bar_home">Förstasidan</string>
+    <string name="title_bar_forum">Forum</string>
+    <string name="title_bar_kos">Köp &amp; Sälj</string>
+    <string name="title_bar_shops">Butiker</string>
+    <string name="title_bar_video">Video</string>
+    <string name="title_bar_articles">Artiklar</string>
+    <string name="title_bar_calendar">Kalender</string>
+	<string name="title_bar_settings">Inställningar</string>
+    
+    <string name="thread_not_logged_in">Ej inloggad</string>
+    <string name="thread_page">Sida:&#160;</string>
+    <string name="thread_by">&#160;av&#160;</string>
+    <string name="thread_one">1</string>
+    <string name="thread_offline">Offline</string>
+    <string name="thread_new">ny</string>
+    
+    <string name="kos_page">Sida:&#160;</string>
+    <string name="kos_by">&#160;av&#160;</string>
+    <string name="kos_one">1</string>
+
+    <string name="video_page">Sida:&#160;</string>
+    <string name="video_by">&#160;av&#160;</string>
+    <string name="video_one">1</string>    
+    
+    <string name="main_happymtb">happymtb</string>
+    <string name="main_home">Förstasidan</string>
+    <string name="main_forum">Forum</string>
+    <string name="main_articles">Artiklar</string>
+    <string name="main_kos">Köp &amp; Sälj</string>
+    <string name="main_video">Video</string>
+    <string name="main_shops">Butiker</string>
+    <string name="main_calendar">Kalender</string>
+    <string name="main_settings">Inställningar</string>
+    
+    <string name="collapse">Collapse</string>
+    <string name="expand">Expand</string>    
+</resources>

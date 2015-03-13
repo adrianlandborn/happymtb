@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res"><file name="collapse" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\collapse.png" qualifiers="" type="drawable"/><file name="expand" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\expand.png" qualifiers="" type="drawable"/><file name="expand_collapse" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\expand_collapse.xml" qualifiers="" type="drawable"/><file name="new_indicator" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\new_indicator.xml" qualifiers="" type="drawable"/><file name="pressed_background_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\pressed_background_happymtb.xml" qualifiers="" type="drawable"/><file name="progress_horizontal_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\progress_horizontal_happymtb.xml" qualifiers="" type="drawable"/><file name="rowshape" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\rowshape.xml" qualifiers="" type="drawable"/><file name="rowshapecalendar" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\rowshapecalendar.xml" qualifiers="" type="drawable"/><file name="rowshapeevent" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\rowshapeevent.xml" qualifiers="" type="drawable"/><file name="rowshapegreen" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\rowshapegreen.xml" qualifiers="" type="drawable"/><file name="rowshapehappyride" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\rowshapehappyride.xml" qualifiers="" type="drawable"/><file name="rowshapeheader" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\rowshapeheader.xml" qualifiers="" type="drawable"/><file name="rowshapekos" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\rowshapekos.xml" qualifiers="" type="drawable"/><file name="rowshapemotion" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\rowshapemotion.xml" qualifiers="" type="drawable"/><file name="rowshapeovrigt" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\rowshapeovrigt.xml" qualifiers="" type="drawable"/><file name="rowshapered" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\rowshapered.xml" qualifiers="" type="drawable"/><file name="rowshapesvartrejs" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\rowshapesvartrejs.xml" qualifiers="" type="drawable"/><file name="selectable_background_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\selectable_background_happymtb.xml" qualifiers="" type="drawable"/><file name="shadow" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\shadow.xml" qualifiers="" type="drawable"/><file name="shadowright" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\shadowright.xml" qualifiers="" type="drawable"/><file name="spinner_background_ab_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\spinner_background_ab_happymtb.xml" qualifiers="" type="drawable"/><file name="tab_indicator_ab_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable\tab_indicator_ab_happymtb.xml" qualifiers="" type="drawable"/><file name="ab_bottom_solid_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\ab_bottom_solid_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="ab_solid_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\ab_solid_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="ab_stacked_solid_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\ab_stacked_solid_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="ab_transparent_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\ab_transparent_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="articles" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\articles.png" qualifiers="hdpi-v4" type="drawable"/><file name="back" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\back.png" qualifiers="hdpi-v4" type="drawable"/><file name="calendar" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\calendar.png" qualifiers="hdpi-v4" type="drawable"/><file name="forum" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\forum.png" qualifiers="hdpi-v4" type="drawable"/><file name="forward" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\forward.png" qualifiers="hdpi-v4" type="drawable"/><file name="happyheader_thin" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\happyheader_thin.gif" qualifiers="hdpi-v4" type="drawable"/><file name="icon" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\icon.png" qualifiers="hdpi-v4" type="drawable"/><file name="indicator" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\indicator.png" qualifiers="hdpi-v4" type="drawable"/><file name="jump" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\jump.png" qualifiers="hdpi-v4" type="drawable"/><file name="list_focused_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\list_focused_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="mark" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\mark.png" qualifiers="hdpi-v4" type="drawable"/><file name="menu_dropdown_panel_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\menu_dropdown_panel_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="menu_hardkey_panel_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\menu_hardkey_panel_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="offline" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\offline.png" qualifiers="hdpi-v4" type="drawable"/><file name="online" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\online.png" qualifiers="hdpi-v4" type="drawable"/><file name="pageback" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\pageback.png" qualifiers="hdpi-v4" type="drawable"/><file name="picture" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\picture.png" qualifiers="hdpi-v4" type="drawable"/><file name="pictureview" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\pictureview.png" qualifiers="hdpi-v4" type="drawable"/><file name="progress_bg_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\progress_bg_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="progress_primary_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\progress_primary_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="progress_secondary_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\progress_secondary_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="refresh" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\refresh.png" qualifiers="hdpi-v4" type="drawable"/><file name="search" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\search.png" qualifiers="hdpi-v4" type="drawable"/><file name="settings" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\settings.png" qualifiers="hdpi-v4" type="drawable"/><file name="sort" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\sort.png" qualifiers="hdpi-v4" type="drawable"/><file name="spinner_ab_default_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\spinner_ab_default_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="spinner_ab_disabled_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\spinner_ab_disabled_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="spinner_ab_focused_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\spinner_ab_focused_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="spinner_ab_pressed_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\spinner_ab_pressed_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="submenu" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\submenu.png" qualifiers="hdpi-v4" type="drawable"/><file name="tab_selected_focused_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\tab_selected_focused_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="tab_selected_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\tab_selected_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="tab_selected_pressed_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\tab_selected_pressed_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="tab_unselected_focused_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\tab_unselected_focused_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="tab_unselected_pressed_happymtb" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\tab_unselected_pressed_happymtb.9.png" qualifiers="hdpi-v4" type="drawable"/><file name="textview" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\textview.png" qualifiers="hdpi-v4" type="drawable"/><file name="video" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\video.png" qualifiers="hdpi-v4" type="drawable"/><file name="write" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\drawable-hdpi\write.png" qualifiers="hdpi-v4" type="drawable"/><file name="activity_main" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\activity_main.xml" qualifiers="" type="layout"/><file name="calendarframe" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\calendarframe.xml" qualifiers="" type="layout"/><file name="calendarrow" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\calendarrow.xml" qualifiers="" type="layout"/><file name="calendarsearch" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\calendarsearch.xml" qualifiers="" type="layout"/><file name="content_frame" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\content_frame.xml" qualifiers="" type="layout"/><file name="homeframe" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\homeframe.xml" qualifiers="" type="layout"/><file name="homerow" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\homerow.xml" qualifiers="" type="layout"/><file name="itemrow" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\itemrow.xml" qualifiers="" type="layout"/><file name="kosframe" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\kosframe.xml" qualifiers="" type="layout"/><file name="kosobjectframe" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\kosobjectframe.xml" qualifiers="" type="layout"/><file name="kospicturerow" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\kospicturerow.xml" qualifiers="" type="layout"/><file name="kosrow" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\kosrow.xml" qualifiers="" type="layout"/><file name="kossearch" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\kossearch.xml" qualifiers="" type="layout"/><file name="kossort" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\kossort.xml" qualifiers="" type="layout"/><file name="menuframe" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\menuframe.xml" qualifiers="" type="layout"/><file name="menurow" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\menurow.xml" qualifiers="" type="layout"/><file name="messageframe" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\messageframe.xml" qualifiers="" type="layout"/><file name="messagerow" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\messagerow.xml" qualifiers="" type="layout"/><file name="progresslayout" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\progresslayout.xml" qualifiers="" type="layout"/><file name="settingsframe" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\settingsframe.xml" qualifiers="" type="layout"/><file name="threadframe" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\threadframe.xml" qualifiers="" type="layout"/><file name="threadrow" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\threadrow.xml" qualifiers="" type="layout"/><file name="videoframe" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\videoframe.xml" qualifiers="" type="layout"/><file name="videopicturerow" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\videopicturerow.xml" qualifiers="" type="layout"/><file name="videorow" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\videorow.xml" qualifiers="" type="layout"/><file name="videosearch" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\layout\videosearch.xml" qualifiers="" type="layout"/><file name="activity_main" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\menu\activity_main.xml" qualifiers="" type="menu"/><file name="articlesmenu" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\menu\articlesmenu.xml" qualifiers="" type="menu"/><file name="calendarmenu" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\menu\calendarmenu.xml" qualifiers="" type="menu"/><file name="homemenu" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\menu\homemenu.xml" qualifiers="" type="menu"/><file name="kosmenu" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\menu\kosmenu.xml" qualifiers="" type="menu"/><file name="kosobjectmenu" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\menu\kosobjectmenu.xml" qualifiers="" type="menu"/><file name="linksmenu" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\menu\linksmenu.xml" qualifiers="" type="menu"/><file name="messagemenu" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\menu\messagemenu.xml" qualifiers="" type="menu"/><file name="settingsmenu" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\menu\settingsmenu.xml" qualifiers="" type="menu"/><file name="shopsmenu" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\menu\shopsmenu.xml" qualifiers="" type="menu"/><file name="threadloginedmenu" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\menu\threadloginedmenu.xml" qualifiers="" type="menu"/><file name="threadmenu" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\menu\threadmenu.xml" qualifiers="" type="menu"/><file name="videomenu" path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\menu\videomenu.xml" qualifiers="" type="menu"/><file path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\values\array.xml" qualifiers=""><string-array name="calendar_dialog_search_region_position">
+	    <item>0</item>
+	   	<item>1</item>
+		<item>2</item>	   	
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
+		<item>12</item>
+		<item>13</item>
+		<item>14</item>
+		<item>15</item>
+		<item>16</item>
+		<item>17</item>
+		<item>18</item>
+		<item>19</item>
+		<item>20</item>
+		<item>21</item>
+		<item>22</item>
+		<item>23</item>
+	</string-array><string-array name="kos_dialog_search_region_position">
+		<item>0</item>
+		<item>22</item>
+		<item>6</item>
+		<item>19</item>
+		<item>5</item>
+		<item>15</item>
+		<item>20</item>
+		<item>3</item>
+		<item>17</item>
+		<item>18</item>
+		<item>21</item>
+		<item>1</item>
+		<item>13</item>
+		<item>23</item>
+		<item>11</item>
+		<item>12</item>
+		<item>10</item>
+		<item>7</item>
+		<item>2</item>
+		<item>4</item>
+		<item>9</item>
+		<item>16</item>
+		<item>8</item>
+		<item>14</item>
+	</string-array><string-array name="video_dialog_search_category_position">
+		<item>0</item>
+		<item>58</item>		
+		<item>59</item>
+		<item>54</item>
+		<item>56</item>
+		<item>55</item>
+		<item>57</item>
+		<item>60</item>												
+	</string-array><string-array name="kos_dialog_search_region">
+		<item>Hela Sverige</item>
+		<item>Blekinge</item>
+		<item>Dalarna</item>
+		<item>Gotland</item>
+		<item>Gävleborg</item>
+		<item>Göteborg</item>
+		<item>Halland</item>
+		<item>Jämtland</item>
+		<item>Jönköping</item>
+		<item>Kalmar</item>
+		<item>Kronoberg</item>
+		<item>Norrbotten</item>
+		<item>Skaraborg</item>
+		<item>Skåne</item>
+		<item>Stockholm</item>
+		<item>Södermanland</item>
+		<item>Uppsala</item>
+		<item>Värmland</item>
+		<item>Västerbotten</item>
+		<item>Västernorrland</item>
+		<item>Västmanland</item>
+		<item>Älvsborg</item>
+		<item>Örebro</item>
+		<item>Östergötland</item>
+	</string-array><string-array name="calendar_dialog_search_category">
+		<item>Alla Kategorier</item>
+		<item>Event/Mässa</item>		
+		<item>Happyride</item>
+		<item>Motionslopp/Tävling</item>
+		<item>Svartrejs</item>
+		<item>Övrigt</item>
+	</string-array><string-array name="calendar_dialog_search_category_position">
+		<item>0</item>
+		<item>7</item>		
+		<item>3</item>
+		<item>1</item>
+		<item>6</item>
+		<item>5</item>
+	</string-array><string-array name="settings_startpage">
+	    <item>Förstasidan</item>
+	    <item>Forum</item>
+	    <item>Artiklar</item>
+	    <item>Köp &amp; Sälj</item>
+	    <item>Video</item>
+	    <item>Butiker</item>
+	    <item>Kalender</item>
+	</string-array><string-array name="kos_dialog_sort_attribute">
+		<item>Tid</item>
+		<item>Rubrik</item>		
+		<item>Område</item>
+		<item>Kategori</item>
+		<item>Pris</item>
+	</string-array><string-array name="kos_dialog_sort_order">
+		<item>Stigande</item>
+		<item>Fallande</item>		
+	</string-array><string-array name="calendar_dialog_search_region">
+	    <item>Alla län</item>
+	    <item>Blekinge</item>
+	    <item>Dalarna</item>
+	    <item>Gotland</item>
+		<item>Gävleborg</item>
+		<item>Göteborg</item>
+		<item>Halland</item>
+		<item>Jämtland</item>
+		<item>Jönköping</item>
+		<item>Kalmar</item>
+		<item>Kronoberg</item>
+		<item>Norrbotten</item>
+		<item>Skaraborg</item>
+		<item>Skåne</item>
+		<item>Stockholm</item>
+		<item>Södermanland</item>
+		<item>Uppsala</item>
+		<item>Värmland</item>
+		<item>Västerbotten</item>
+		<item>Västernorrland</item>
+		<item>Västmanland</item>
+		<item>Älvsborg</item>
+		<item>Örebro</item>
+		<item>Östergötland</item>
+	</string-array><string-array name="kos_dialog_search_type_position">
+		<item>3</item>
+		<item>1</item>		
+		<item>2</item>
+	</string-array><string-array name="entries_list_fontsize">
+        <item>small</item>
+        <item>medium</item>
+        <item>large</item>
+        <item>x-large</item>
+    </string-array><string-array name="kos_dialog_search_category">
+		<item>Alla Kategorier</item>
+		<item>Kompletta Cyklar</item>		
+		<item>Ramar</item>
+		<item>Komponenter och tillbehör</item>
+		<item>Övrigt</item>
+	</string-array><string-array name="settings_textsize">
+        <item>9</item>
+        <item>10</item>
+		<item>11</item>
+		<item>12</item>
+		<item>13</item>
+		<item>14</item>		
+		<item>15</item>
+	</string-array><string-array name="kos_dialog_sort_order_position">
+		<item>ASC</item>
+		<item>DESC</item>		
+	</string-array><string-array name="kos_dialog_search_category_position">
+		<item>0</item>
+		<item>1</item>		
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+	</string-array><string-array name="kos_dialog_sort_attribute_position">
+		<item>creationdate</item>
+		<item>headline</item>		
+		<item>region</item>
+		<item>category</item>
+		<item>price</item>
+	</string-array><string-array name="entryvalues_list_fontsize">
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+    </string-array><string-array name="video_dialog_search_category">
+		<item>Alla</item>
+		<item>Dirt/Street</item>		
+		<item>Freeride/DH</item>
+		<item>HappyMTB</item>
+		<item>Landsväg</item>
+		<item>Stigcykling/XC/AM</item>
+		<item>Övrigt</item>
+		<item>Ingen kategori</item>												
+	</string-array><string-array name="kos_dialog_search_type">
+		<item>Alla</item>
+		<item>Säljes</item>		
+		<item>Köpes</item>
+	</string-array></file><file path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\values\colors.xml" qualifiers=""><color name="sa_green">#14a804</color><color name="calender_happyride">#ff21a40f</color><color name="calender_svartrejs">#ff000000</color><color name="red">#ffCC0000</color><color name="grey_dark">#ffbdbcbc</color><color name="beige">#ff8f7d05</color><color name="background_2">#ff8f7d05</color><color name="title_3_text">#ffffffff</color><color name="stacked_green">#118504</color><color name="grey">#ffdbd9da</color><color name="calender_motion">#ff3a87ad</color><color name="beige_light">#ffb59c04</color><color name="title_2_text">#ff838283</color><color name="white">#ffffffff</color><color name="black">#ff000000</color><color name="pressed_happymtb">#CC8f7d05</color><color name="accent_green">#97e08f</color><color name="actionbar_background">#ffb59c04</color><color name="transparent">#00000000</color><color name="calender_ovrigt">#ff949494</color><color name="title_1_text">#ff8f7d05</color><color name="calender_event">#ffcd0707</color></file><file path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\values\strings.xml" qualifiers=""><string name="main_settings">Inställningar</string><string name="title_section1">Section 1</string><string name="expand">Expand</string><string name="title_section3">Section 3</string><string name="title_section2">Section 2</string><string name="thread_by"> av </string><string name="title_bar_shops">Butiker</string><string name="thread_not_logged_in">Ej inloggad</string><string name="title_bar_forum">Forum</string><string name="main_shops">Butiker</string><string name="main_calendar">Kalender</string><string name="thread_page">Sida: </string><string name="main_articles">Artiklar</string><string name="main_video">Video</string><string name="kos_by"> av </string><string name="hello_world">Hello world!</string><string name="collapse">Collapse</string><string name="thread_one">1</string><string name="menu_settings">Settings</string><string name="video_by"> av </string><string name="title_bar_calendar">Kalender</string><string name="kos_page">Sida: </string><string name="video_page">Sida: </string><string name="main_home">Förstasidan</string><string name="title_bar_settings">Inställningar</string><string name="main_forum">Forum</string><string name="title_bar_video">Video</string><string name="thread_offline">Offline</string><string name="kos_one">1</string><string name="app_name">happymtb</string><string name="main_kos">Köp &amp; Sälj</string><string name="title_bar_articles">Artiklar</string><string name="thread_new">ny</string><string name="title_bar_home">Förstasidan</string><string name="main_happymtb">happymtb</string><string name="video_one">1</string><string name="title_bar_kos">Köp &amp; Sälj</string></file><file path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\values\styles.xml" qualifiers=""><style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style><style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style></file><file path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\values-v11\styles.xml" qualifiers="v11"><style name="AppBaseTheme" parent="android:Theme.Holo.Light">
+        <!-- API 11 theme customizations can go here. -->
+    </style></file><file path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\main\res\values-v14\styles.xml" qualifiers="v14"><style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- API 14 theme customizations can go here. -->
+    </style></file></source><source path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\build\generated\res\rs\debug"/><source path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\build\generated\res\generated\debug"/></dataSet><dataSet config="debug"><source path="C:\Users\Adrian\AndroidStudioProjects\happymtb\app\src\debug\res"/></dataSet><mergedItems/></merger>

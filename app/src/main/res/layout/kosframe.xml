@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">	
+
+	<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:id="@+id/kosframe"
+    	android:layout_width="fill_parent"
+    	android:layout_height="0dip"
+    	android:layout_weight="1" />		
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/black"
+		android:paddingLeft="3dip"
+		android:baselineAligned="false">	
+		    
+	    <TextView
+	    	android:id="@+id/kos_region"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Region"
+			android:textSize="13sp"
+			android:textColor="@color/white"/>		
+			
+		<TextView
+		    android:id="@+id/kos_sort"
+		   	android:layout_width="wrap_content"
+		   	android:layout_height="wrap_content"
+		   	android:text=""			    
+		   	android:textSize="13sp" 
+			android:textColor="@color/white"/>		    
+	</LinearLayout>	
+	
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/black"
+		android:paddingLeft="3dip"
+		android:paddingRight="3dip"
+		android:baselineAligned="false">		
+		
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="left"
+			android:layout_weight="1">
+					        
+			<TextView
+		    	android:id="@+id/kos_category"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Kategori"
+				android:textSize="13sp"
+				android:textColor="@color/white"/>
+			
+			<TextView
+			    android:id="@+id/kos_search"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:text=""			    
+		    	android:textSize="13sp" 
+				android:textColor="@color/white"/>		
+		</LinearLayout>
+						
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="right"
+			android:layout_weight="1">
+		    			
+			<TextView
+			    android:id="@+id/kos_page_text"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/kos_page"
+				android:textSize="13sp"
+				android:textColor="@color/white"
+				android:layout_gravity="center_vertical"/>
+				
+			<TextView
+				android:id="@+id/kos_current_page"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/kos_one"
+				android:textSize="13sp"
+				android:textColor="@color/white"
+				android:layout_gravity="center_vertical"/>				
+	
+			<TextView
+			    android:id="@+id/kos_by_text"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/kos_by"
+				android:textSize="13sp"
+				android:textColor="@color/white"
+				android:layout_gravity="center_vertical"/>	
+				
+			<TextView
+				android:id="@+id/kos_no_of_pages"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/kos_one"					
+				android:textSize="13sp"
+				android:textColor="@color/white"
+				android:layout_gravity="center_vertical"/>
+		</LinearLayout>	
+	</LinearLayout>
+	
+	
+</LinearLayout>

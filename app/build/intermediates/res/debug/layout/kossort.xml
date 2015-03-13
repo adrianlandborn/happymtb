@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+    
+	<TextView		 	
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:textSize="13dip" 
+	    android:textStyle="bold"
+	    android:textColor="@color/title_1_text"
+	    android:text="Sortering"/>	
+		        
+	<TextView		 	
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:textSize="13dip"
+	    android:textStyle="bold"
+	    android:textColor="@color/title_1_text"
+	    android:text="Sortera efter"/>	
+    
+    <Spinner 
+        android:id="@+id/kos_dialog_sort_attribute"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="true"
+        android:entries="@array/kos_dialog_sort_attribute"
+    />
+    
+    <Spinner 
+        android:id="@+id/kos_dialog_sort_order"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="true"
+        android:entries="@array/kos_dialog_sort_order"
+    />
+</LinearLayout><!-- From: file:/C:/Users/Adrian/AndroidStudioProjects/happymtb/app/src/main/res/layout/kossort.xml -->
