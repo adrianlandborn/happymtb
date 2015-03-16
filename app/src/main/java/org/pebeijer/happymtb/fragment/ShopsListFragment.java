@@ -17,30 +17,30 @@ import android.widget.ExpandableListView.OnChildClickListener;
 
 public class ShopsListFragment extends ItemsListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
 	
-	private ShopsListTask getItems;
+	private ShopsListTask mShopsTask;
 	
 	@Override
 	protected void FetchItems() {
-		if ((progDialog == null) || (!progDialog.isShowing())) {
-			progDialog = ProgressDialog.show(getActivity(), "", "", true, true);
-			progDialog.setContentView(R.layout.progresslayout);
-			progDialog.setOnCancelListener(this);
+		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+			mProgressDialog = ProgressDialog.show(getActivity(), "", "", true, true);
+			mProgressDialog.setContentView(R.layout.progress_layout);
+			mProgressDialog.setOnCancelListener(this);
 		}
 		
-		getItems = new ShopsListTask();
-		getItems.addItemListListener(new ItemListListener() {
-			public void Success(List<Item> Items) {
-				mAllItems = Items;
-				FillList();
-				progDialog.dismiss();
-			}
+		mShopsTask = new ShopsListTask();
+		mShopsTask.addItemListListener(new ItemListListener() {
+            public void Success(List<Item> Items) {
+                mAllItems = Items;
+                FillList();
+                mProgressDialog.dismiss();
+            }
 
-			public void Fail() {
-				progDialog.dismiss();
-			}
-		});
+            public void Fail() {
+                mProgressDialog.dismiss();
+            }
+        });
 
-		getItems.execute();
+		mShopsTask.execute();
 	}	
 	
 	@Override

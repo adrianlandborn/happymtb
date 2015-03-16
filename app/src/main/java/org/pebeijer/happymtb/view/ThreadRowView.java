@@ -31,7 +31,7 @@ public class ThreadRowView extends LinearLayout {
 		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
 		mTextSize = Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 0)]);		
 		
-		compoundView = (LinearLayout) inflater.inflate(R.layout.threadrow, this);
+		compoundView = (LinearLayout) inflater.inflate(R.layout.thread_row, this);
 
 		mTitle = (TextView) compoundView.findViewById(R.id.thread_title);
 		mNew = (TextView) compoundView.findViewById(R.id.thread_new);

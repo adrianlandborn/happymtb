@@ -39,11 +39,11 @@ import android.widget.Toast;
 
 public class KoSListFragment extends ListFragment implements DialogInterface.OnCancelListener {
 	private final static int DIALOG_FETCH_KOS_ERROR = 0;
-	private ProgressDialog progDialog = null;
-	private KoSListTask getKoS;
-	private ListKoSAdapter KoSAdapter;
+	private ProgressDialog mProgressDialog = null;
+	private KoSListTask mKoSTask;
+	private ListKoSAdapter mKoSAdapter;
 	private KoSData mKoSData = new KoSData(1, 1, 3, 0, "Hela Sverige", 0, "Alla Kategorier", "", null, 0, "creationdate", "Tid", 0, "ASC", "Stigande", 0);
-	private SharedPreferences preferences;
+	private SharedPreferences mPreferences;
 	private Boolean mPictureList;
 	private int mTextSize;
 	MainActivity mActivity;
@@ -60,10 +60,10 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		
 		FetchData();
 		
-		preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
-		mTextSize = Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 0)]);	
-		mPictureList = preferences.getBoolean("kospicturelist", true);
+		mTextSize = Integer.parseInt(TextSizeArray[mPreferences.getInt("textsize", 0)]);
+		mPictureList = mPreferences.getBoolean("kospicturelist", true);
 	    
 		TextView Category = (TextView) mActivity.findViewById(R.id.kos_category);
 		TextView Region = (TextView) mActivity.findViewById(R.id.kos_region);
@@ -174,7 +174,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 	
 	@Override
 	public void onDestroy() {
-		progDialog.dismiss();
+		mProgressDialog.dismiss();
 		super.onDestroy();
 	}
 
@@ -189,43 +189,43 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 	}
 
 	private void FetchData() {
-		if ((progDialog == null) || (!progDialog.isShowing())) {
-			progDialog = ProgressDialog.show(mActivity, "", "", true, true);
-			progDialog.setContentView(R.layout.progresslayout);
-			progDialog.setOnCancelListener(this);
+		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
+			mProgressDialog.setContentView(R.layout.progress_layout);
+			mProgressDialog.setOnCancelListener(this);
 		}
 		
-		getKoS = new KoSListTask();
-		getKoS.addKoSListListener(new KoSListListener() {
-			public void Success(List<KoSItem> KoSItems) {
-				mKoSData.setKoSItems(KoSItems);										
-				FillList();			
-				if (mPictureList) {
-					KoSImageDownloadTask getKoSImages = new KoSImageDownloadTask();
-					getKoSImages.execute(mKoSData.getKoSItems(), KoSAdapter);
-				}
-				progDialog.dismiss();
-			}
+		mKoSTask = new KoSListTask();
+		mKoSTask.addKoSListListener(new KoSListListener() {
+            public void Success(List<KoSItem> KoSItems) {
+                mKoSData.setKoSItems(KoSItems);
+                FillList();
+                if (mPictureList) {
+                    KoSImageDownloadTask getKoSImages = new KoSImageDownloadTask();
+                    getKoSImages.execute(mKoSData.getKoSItems(), mKoSAdapter);
+                }
+                mProgressDialog.dismiss();
+            }
 
-			public void Fail() {
-				Toast mToast;
-				mToast = Toast.makeText(mActivity, "", Toast.LENGTH_LONG);
-				mToast.setText("Inga objekt hittades");
-				mToast.show();
-				
-				mKoSData = new KoSData(1, 1, 3, 0, "Hela Sverige", 0, "Alla Kategorier", "", null, 0, "creationdate", "Tid", 0, "ASC", "Stigande", 0);
-				
-				progDialog.dismiss();
+            public void Fail() {
+                Toast mToast;
+                mToast = Toast.makeText(mActivity, "", Toast.LENGTH_LONG);
+                mToast.setText(mActivity.getString(R.string.no_items_found));
+                mToast.show();
+
+                mKoSData = new KoSData(1, 1, 3, 0, "Hela Sverige", 0, "Alla Kategorier", "", null, 0, "creationdate", "Tid", 0, "ASC", "Stigande", 0);
+
+                mProgressDialog.dismiss();
 //				showDialog(DIALOG_FETCH_KOS_ERROR);
-			}
-		});
-		getKoS.execute(mKoSData.getCurrentPage() - 1, mKoSData.getType(), mKoSData.getRegion(), mKoSData.getCategory(), 
-				mKoSData.getSearch(), mKoSData.getSortAttribute(), mKoSData.getSortOrder());
+            }
+        });
+		mKoSTask.execute(mKoSData.getCurrentPage() - 1, mKoSData.getType(), mKoSData.getRegion(), mKoSData.getCategory(),
+                mKoSData.getSearch(), mKoSData.getSortAttribute(), mKoSData.getSortOrder());
 	}
 
 	private void FillList() {
-		KoSAdapter = new ListKoSAdapter(mActivity, mKoSData.getKoSItems());
-		setListAdapter(KoSAdapter);
+		mKoSAdapter = new ListKoSAdapter(mActivity, mKoSData.getKoSItems());
+		setListAdapter(mKoSAdapter);
 		
 		getListView().setSelection(mKoSData.getListPosition());
 		
@@ -237,7 +237,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		mKoSData.setMaxPages(mKoSData.getKoSItems().get(0).getNumberOfKoSPages());
 				
 		TextView Category = (TextView) mActivity.findViewById(R.id.kos_category);
-		Category.setText("Katergori: " + mKoSData.getKoSItems().get(0).getSelectedCategory());						
+		Category.setText("Kategori: " + mKoSData.getKoSItems().get(0).getSelectedCategory());
 
 		TextView Region = (TextView) mActivity.findViewById(R.id.kos_region);
 		Region.setText("Region: " + mKoSData.getKoSItems().get(0).getSelectedRegion());
@@ -247,7 +247,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		String mSearch = mKoSData.getSearch();
 		
 		if (mSearch.length() > 0) {
-			Search.setText(" (S�kord: " + mSearch + ")");			
+			Search.setText(" (Sökord: " + mSearch + ")");
 		} else {
 			Search.setText("");
 		}		
@@ -315,12 +315,12 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 
 	@Override
 	public void onCancel(DialogInterface dialog) {
-		if (getKoS != null) {
-			getKoS.cancel(true);
+		if (mKoSTask != null) {
+			mKoSTask.cancel(true);
 		}
 	}
 	
-	public class KoSSortDialogFragment extends DialogFragment {	
+	public class KoSSortDialogFragment extends DialogFragment {
 		public DialogFragment newInstace() {
 			DialogFragment dialogFragment = new KoSSortDialogFragment();
 			return dialogFragment;
@@ -330,7 +330,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		public Dialog onCreateDialog(Bundle savedInstanceState) {		
 			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
 			LayoutInflater inflater = mActivity.getLayoutInflater();
-			final View view = inflater.inflate(R.layout.kossort, null);
+			final View view = inflater.inflate(R.layout.kos_sort, null);
 			builder.setView(view);
 			builder.setPositiveButton("Sortera", new DialogInterface.OnClickListener() {	            	   
 				@Override
@@ -379,9 +379,9 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
 			LayoutInflater inflater = mActivity.getLayoutInflater();
-			final View view = inflater.inflate(R.layout.kossearch, null);
+			final View view = inflater.inflate(R.layout.kos_search, null);
 			builder.setView(view);
-			builder.setPositiveButton("S�k", new DialogInterface.OnClickListener() {	            	   
+			builder.setPositiveButton("Sök", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
 					mKoSData.setListPosition(0);

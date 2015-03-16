@@ -43,5 +43,6 @@
     <string name="main_settings">Inställningar</string>
     
     <string name="collapse">Collapse</string>
-    <string name="expand">Expand</string>    
+    <string name="expand">Expand</string>
+    <string name="no_items_found">Inga objekt hittades</string>
 </resources>

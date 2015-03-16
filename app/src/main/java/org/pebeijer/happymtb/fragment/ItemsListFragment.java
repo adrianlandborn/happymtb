@@ -17,8 +17,8 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 
 public class ItemsListFragment extends ListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
-	protected ProgressDialog progDialog = null;
-	protected ListItemsAdapter ItemsAdapter;
+	protected ProgressDialog mProgressDialog = null;
+	protected ListItemsAdapter mItemsAdapter;
 	protected List<Item> mAllItems = new ArrayList<Item>();
 	protected List<Item> mItems = new ArrayList<Item>();
 	
@@ -34,7 +34,7 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 	
 	@Override
 	public void onDestroy() {
-		progDialog.dismiss();
+		mProgressDialog.dismiss();
 		super.onDestroy();
 	}
 
@@ -53,11 +53,11 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 	
 	protected void FillList() {
 		PopulateList();
-		if (ItemsAdapter == null) {
-			ItemsAdapter = new ListItemsAdapter(getActivity(), mItems);
-			setListAdapter(ItemsAdapter);
+		if (mItemsAdapter == null) {
+			mItemsAdapter = new ListItemsAdapter(getActivity(), mItems);
+			setListAdapter(mItemsAdapter);
 		} else {
-			ItemsAdapter.notifyDataSetChanged();
+			mItemsAdapter.notifyDataSetChanged();
 		}		
 	}	
 	

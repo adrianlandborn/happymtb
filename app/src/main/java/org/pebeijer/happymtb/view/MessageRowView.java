@@ -34,7 +34,7 @@ public class MessageRowView extends LinearLayout {
 		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
 		mTextSize = Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 0)]);		
 		
-		compoundView = (LinearLayout)inflater.inflate(R.layout.messagerow, this);			
+		compoundView = (LinearLayout)inflater.inflate(R.layout.message_row, this);
 		
 		mTitle = (TextView) compoundView.findViewById(R.id.message_title);
 		mText = (TextView) compoundView.findViewById(R.id.message_text);

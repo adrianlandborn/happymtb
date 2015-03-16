@@ -16,7 +16,7 @@ public class KoSItem implements Serializable {
 	private String mSelectedCategory;
 	private String mSelectedRegion;
 	private String mPrice;
-	private Drawable ObjectImage;
+	private Drawable mObjectImage;
 	private int mNumberOfKoSPages;
 	
 	public KoSItem(String Time, String Title, String Area, String Link,
@@ -108,11 +108,11 @@ public class KoSItem implements Serializable {
 	}
 
 	public Drawable getObjectImage() {
-		return ObjectImage;
+		return mObjectImage;
 	}
 
 	public void setObjectImage(Drawable objectImage) {
-		ObjectImage = objectImage;
+		mObjectImage = objectImage;
 	}
 
 	public String getTime() {

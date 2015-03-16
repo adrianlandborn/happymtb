@@ -15,7 +15,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class SettingsFragment extends Fragment {
-	private SharedPreferences preferences;
+	private SharedPreferences mPreferences;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -28,11 +28,11 @@ public class SettingsFragment extends Fragment {
 		Spinner TextSize = (Spinner) getActivity().findViewById(R.id.Settings_TextSize);
 		Spinner StartPage = (Spinner) getActivity().findViewById(R.id.Settings_StartPage);
 		
-		preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		UserName.setText(preferences.getString("username", ""));	
-		Password.setText(preferences.getString("password", ""));
-		TextSize.setSelection(preferences.getInt("textsize", 0));
-		StartPage.setSelection(preferences.getInt("startpage", 0));
+		mPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		UserName.setText(mPreferences.getString("username", ""));
+		Password.setText(mPreferences.getString("password", ""));
+		TextSize.setSelection(mPreferences.getInt("textsize", 0));
+		StartPage.setSelection(mPreferences.getInt("startpage", 0));
 		
 		Button SaveButton = (Button) getActivity().findViewById(R.id.Settings_Save);
 		SaveButton.setOnClickListener(new View.OnClickListener(){

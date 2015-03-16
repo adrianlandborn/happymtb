@@ -20,7 +20,6 @@ import android.app.ActionBar;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.ListFragment;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,13 +29,12 @@ import android.widget.Toast;
 public class MainActivity extends FragmentActivity implements
 		ActionBar.OnNavigationListener {
 
-	protected ListFragment mFrag;
 	public static String mActiveKoSObjectLink = "";
-	public static KoSData mKoSData = new KoSData(1, 1, 3, 0, "Hela Sverige", 0, "Alla Kategorier", "", null, 0, "creationdate", "Tid", 0, "ASC", "Stigande", 0);	
+	public static KoSData mKoSData = new KoSData(1, 1, 3, 0, "Hela Sverige", 0, "Alla Kategorier", "", null, 0, "creationdate", "Tid", 0, "ASC", "Stigande", 0);
 	public static ThreadData mThreadData = new ThreadData(1, 1, null, 0, false);	
 	Fragment mFragment = new HomesListFragment();	
 	int mFrameId = R.id.homeframe;
-	int mFrameLayout = R.layout.homeframe;
+	int mFrameLayout = R.layout.home_frame;
 	private ActionBar mActionBar;	
 	ArrayAdapter<String> mActionbaradapter;
 	private SharedPreferences mPreferences;	
@@ -117,13 +115,13 @@ public class MainActivity extends FragmentActivity implements
 		case 1:
 			mFragment = new HomesListFragment();
 			mFrameId = R.id.homeframe;
-			mFrameLayout = R.layout.homeframe;			
+			mFrameLayout = R.layout.home_frame;
 //			title = R.string.title_bar_home;
 			break;
 		case 2:
 			mFragment = new ThreadListFragment();
 			mFrameId = R.id.threadframe;
-			mFrameLayout = R.layout.threadframe;
+			mFrameLayout = R.layout.thread_frame;
 //			title = R.string.title_bar_forum;
 		    break;
 		case 3:
@@ -135,13 +133,13 @@ public class MainActivity extends FragmentActivity implements
 		case 4:
 			mFragment = new KoSListFragment();
 			mFrameId = R.id.kosframe;
-			mFrameLayout = R.layout.kosframe;
+			mFrameLayout = R.layout.kos_frame;
 //			title = R.string.title_bar_kos;
 		    break;
 		case 5:
 			mFragment = new VideoListFragment();
 			mFrameId = R.id.videoframe; 
-			mFrameLayout = R.layout.videoframe; 
+			mFrameLayout = R.layout.video_frame;
 //			title = R.string.title_bar_video;
 		    break;
 		case 6:
@@ -153,13 +151,13 @@ public class MainActivity extends FragmentActivity implements
 		case 7:
 			mFragment = new CalendarListFragment();
 			mFrameId = R.id.calendarframe; 
-			mFrameLayout = R.layout.calendarframe; 
+			mFrameLayout = R.layout.calendar_frame;
 //			title = R.string.title_bar_shops;
 		    break;		    
 		case 8:
 			mFragment = new SettingsFragment();
 			mFrameId = R.id.settingsframe;
-			mFrameLayout = R.layout.settingsframe;
+			mFrameLayout = R.layout.settings_frame;
 //			title = R.string.title_bar_settings;
 		    break;
 	    }		
@@ -171,7 +169,7 @@ public class MainActivity extends FragmentActivity implements
         .commit();  	
     }
 	
-    public void Back() {
+    public void back() {
         if(mBackToast != null && mBackToast.getView().getWindowToken() != null) {
             finish();
         } else {
@@ -183,7 +181,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void onBackPressed() {
     	if (mActionBar.getSelectedNavigationIndex() == mPreferences.getInt("startpage", 0)) {    		
-    		Back();
+    		back();
     	} else {
     		mActionBar.setSelectedNavigationItem(mPreferences.getInt("startpage", 0));
     	}
@@ -246,7 +244,7 @@ public class MainActivity extends FragmentActivity implements
 	        switch (event.getAction()) {
 	        case KeyEvent.ACTION_DOWN:
 	        	if (mActionBar.getSelectedNavigationIndex() == mPreferences.getInt("startpage", 0)) {    		
-	        		Back();
+	        		back();
 	        	} else {
 	        		mActionBar.setSelectedNavigationItem(mPreferences.getInt("startpage", 0));
 	        	}

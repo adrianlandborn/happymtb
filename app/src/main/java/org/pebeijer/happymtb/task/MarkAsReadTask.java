@@ -16,18 +16,18 @@ import android.preference.PreferenceManager;
 
 public class MarkAsReadTask extends AsyncTask<Object, Void, Boolean>  
 {	
-	private ArrayList<MarkAsReadListener> MarkAsReadListenerList;
+	private ArrayList<MarkAsReadListener> mMarkAsReadListenerList;
 	
 	public MarkAsReadTask() {
-		MarkAsReadListenerList = new ArrayList<MarkAsReadListener>();
+		mMarkAsReadListenerList = new ArrayList<MarkAsReadListener>();
 	}
 	
 	public void addMarkAsReadListener(MarkAsReadListener l) {
-		MarkAsReadListenerList.add(l);
+		mMarkAsReadListenerList.add(l);
 	}
 
 	public void removeMarkAsReadListener(MarkAsReadListener l) {
-		MarkAsReadListenerList.remove(l);
+		mMarkAsReadListenerList.remove(l);
 	}
 	
 	@Override
@@ -55,7 +55,7 @@ public class MarkAsReadTask extends AsyncTask<Object, Void, Boolean>
 	
 	@Override
 	protected void onPostExecute(Boolean result) {
-		for (MarkAsReadListener l : MarkAsReadListenerList) {
+		for (MarkAsReadListener l : mMarkAsReadListenerList) {
 			if (result)	{
 				l.Success();
 			} else {

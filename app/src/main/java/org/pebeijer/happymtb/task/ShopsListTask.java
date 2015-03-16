@@ -17,20 +17,20 @@ import org.pebeijer.happymtb.item.Item;
 import org.pebeijer.happymtb.listener.ItemListListener;
 
 public class ShopsListTask extends AsyncTask<Object, Void, Boolean> {
-	private ArrayList<ItemListListener> ItemListListenerList;
+	private ArrayList<ItemListListener> mItemListListenerList;
 	private List<Item> mShopItems = new ArrayList<Item>();
-	private String Group;
+	private String mGroup;
 
 	public ShopsListTask() {
-		ItemListListenerList = new ArrayList<ItemListListener>();
+		mItemListListenerList = new ArrayList<ItemListListener>();
 	}
 
 	public void addItemListListener(ItemListListener l) {
-		ItemListListenerList.add(l);
+		mItemListListenerList.add(l);
 	}
 
 	public void removeItemListListener(ItemListListener l) {
-		ItemListListenerList.remove(l);
+		mItemListListenerList.remove(l);
 	}
 
 	public Item ExtractItemRow(String ShopStr) {
@@ -48,7 +48,7 @@ public class ShopsListTask extends AsyncTask<Object, Void, Boolean> {
 		End = ShopStr.indexOf("</span>", Start);
 		String Description = Utilities.ReplaceHTMLChars(ShopStr.substring(Start, End));
 
-		return new Item(Title, Link, Description, Group, false);
+		return new Item(Title, Link, Description, mGroup, false);
 	}
 
 	@Override
@@ -79,11 +79,11 @@ public class ShopsListTask extends AsyncTask<Object, Void, Boolean> {
 					ksStringBuilder = new StringBuilder();
 					ksStringBuilder.append(lineString);
 				} else if (lineString.contains("Header' nowrap='nowrap' w")) {				
-					Group = Utilities.ReplaceHTMLChars(lineString.substring(
+					mGroup = Utilities.ReplaceHTMLChars(lineString.substring(
 							lineString.indexOf("=0'>", 0) + 4,
 							lineString.indexOf("</", 0)));	
 
-					shopItem = new Item(Group, false);
+					shopItem = new Item(mGroup, false);
 					mShopItems.add(shopItem);					
 				} else if (StartRead) {
 					ksStringBuilder.append(lineString);
@@ -107,7 +107,7 @@ public class ShopsListTask extends AsyncTask<Object, Void, Boolean> {
 	
 	@Override
 	protected void onPostExecute(Boolean result) {
-		for (ItemListListener l : ItemListListenerList) {
+		for (ItemListListener l : mItemListListenerList) {
 			if (result) {
 				l.Success(mShopItems);
 			} else {

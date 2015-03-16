@@ -15,7 +15,7 @@ public class MessageActivity extends FragmentActivity {
 	private ActionBar mActionBar;
 	Fragment mFragment = new MessagesListFragment();	
 	int mFrameId = R.id.messageframe;
-	int mFrameLayout = R.layout.messageframe;
+	int mFrameLayout = R.layout.message_frame;
 	public static MessageData mMessageData = new MessageData(1, 1, false, "", null, 0);
 	
 	@Override
@@ -47,7 +47,7 @@ public class MessageActivity extends FragmentActivity {
 		
 		mFragment = new MessagesListFragment();
 		mFrameId = R.id.messageframe;
-		mFrameLayout = R.layout.messageframe; 
+		mFrameLayout = R.layout.message_frame;
 			
 		setContentView(mFrameLayout);
 		getSupportFragmentManager()

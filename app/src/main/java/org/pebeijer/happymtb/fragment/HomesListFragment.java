@@ -23,10 +23,10 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 
 public class HomesListFragment extends ListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
-	protected ProgressDialog progDialog = null;
-	protected ListHomeAdapter HomeAdapter;
-	protected List<Home> mAllHomes = new ArrayList<Home>();
-	protected List<Home> mHomes = new ArrayList<Home>();
+	private ProgressDialog mProgressDialog = null;
+	private ListHomeAdapter mHomeAdapter;
+	private List<Home> mAllHomes = new ArrayList<Home>();
+	private List<Home> mHomes = new ArrayList<Home>();
 	private HomeListTask getHome;
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 	
 	@Override
 	public void onDestroy() {
-		progDialog.dismiss();
+		mProgressDialog.dismiss();
 		super.onDestroy();
 	}
 
@@ -69,10 +69,10 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 	}
 	
 	private void FetchData() {
-		if ((progDialog == null) || (!progDialog.isShowing())) {
-			progDialog = ProgressDialog.show(getActivity(), "", "", true, true);
-			progDialog.setContentView(R.layout.progresslayout);
-			progDialog.setOnCancelListener(this);
+		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+			mProgressDialog = ProgressDialog.show(getActivity(), "", "", true, true);
+			mProgressDialog.setContentView(R.layout.progress_layout);
+			mProgressDialog.setOnCancelListener(this);
 		}
 		
 		getHome = new HomeListTask();
@@ -80,7 +80,7 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 			public void Success(List<Home> Homes) {
 				mHomes = Homes;										
 				FillList();			
-				progDialog.dismiss();
+				mProgressDialog.dismiss();
 			}
 
 			public void Fail() {
@@ -89,7 +89,7 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 				mToast.setText("Inga objekt hittades");
 				mToast.show();
 							
-				progDialog.dismiss();
+				mProgressDialog.dismiss();
 //				showDialog(DIALOG_FETCH_KOS_ERROR);
 			}
 		});
@@ -97,11 +97,11 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 	}
 	
 	protected void FillList() {	
-		if (HomeAdapter == null) {
-			HomeAdapter = new ListHomeAdapter(getActivity(), mHomes);
-			setListAdapter(HomeAdapter);
+		if (mHomeAdapter == null) {
+			mHomeAdapter = new ListHomeAdapter(getActivity(), mHomes);
+			setListAdapter(mHomeAdapter);
 		} else {
-			HomeAdapter.notifyDataSetChanged();
+			mHomeAdapter.notifyDataSetChanged();
 		}		
 	}	
 			

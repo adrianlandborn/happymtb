@@ -35,7 +35,7 @@ import android.widget.Toast;
 
 public class CalendarListFragment extends ListFragment implements DialogInterface.OnCancelListener {
   	private final static int DIALOG_FETCH_CALENDAR_ERROR = 0;
-	private ProgressDialog progDialog = null;
+	private ProgressDialog mProgressDialog = null;
 	private CalendarListTask mGetCalendar;
 	private ListCalendarAdapter mCalendarAdapter;
 	private List<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
@@ -92,10 +92,10 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 	}		
 	
 	private void FetchData() {
-		if ((progDialog == null) || (!progDialog.isShowing())) {
-			progDialog = ProgressDialog.show(mActivity, "", "", true, true);
-			progDialog.setContentView(R.layout.progresslayout);
-			progDialog.setOnCancelListener(this);
+		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
+			mProgressDialog.setContentView(R.layout.progress_layout);
+			mProgressDialog.setOnCancelListener(this);
 		}
 		
 		mGetCalendar = new CalendarListTask();
@@ -103,7 +103,7 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 			public void Success(List<CalendarItem> CalendarItems) {
 				mCalendarItems = CalendarItems;										
 				FillList();			
-				progDialog.dismiss();
+				mProgressDialog.dismiss();
 			}
 
 			public void Fail() {
@@ -114,7 +114,7 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 			
 				mCalendarItems = new ArrayList<CalendarItem>();
 				
-				progDialog.dismiss();
+				mProgressDialog.dismiss();
 			}
 		});
 		mGetCalendar.execute(mSearch, mRegionPosition, mCategoryPosition);		
@@ -126,11 +126,11 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 		
 //		getListView().setSelection(mCalendarItems.getListPosition());
 		
-		mCategoryView.setText("Katergori: " + mCategory);						
+		mCategoryView.setText("Kategori: " + mCategory);
 		mRegionView.setText("Region: " + mRegion);	
 		
 		if (mSearch.length() > 0) {
-			mSearchView.setText(" (S�kord: " + mSearch + ")");			
+			mSearchView.setText(" (Sökord: " + mSearch + ")");
 		} else {
 			mSearchView.setText("");
 		}
@@ -204,9 +204,9 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
 			LayoutInflater inflater = mActivity.getLayoutInflater();
-			final View view = inflater.inflate(R.layout.calendarsearch, null);
+			final View view = inflater.inflate(R.layout.calendar_search, null);
 			builder.setView(view);
-			builder.setPositiveButton("S�k", new DialogInterface.OnClickListener() {	            	   
+			builder.setPositiveButton("Sök", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
 

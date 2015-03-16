@@ -34,7 +34,7 @@ public class VideoRowView extends LinearLayout {
 		mPictureList = preferences.getBoolean("videopicturelist", true);		
 		
 		if (mPictureList) {		
-			compoundView = (LinearLayout) inflater.inflate(R.layout.videopicturerow, this);
+			compoundView = (LinearLayout) inflater.inflate(R.layout.video_picture_row, this);
 	
 			mTitle = (TextView) compoundView.findViewById(R.id.video_picture_row_title);
 			mDate = (TextView) compoundView.findViewById(R.id.video_picture_row_date);
@@ -43,7 +43,7 @@ public class VideoRowView extends LinearLayout {
 			mLength = (TextView) compoundView.findViewById(R.id.video_picture_row_length);									
 			mObjectImage = (ImageView) compoundView.findViewById(R.id.video_picture_row_image);
 		} else {
-			compoundView = (LinearLayout) inflater.inflate(R.layout.videorow, this);
+			compoundView = (LinearLayout) inflater.inflate(R.layout.video_row, this);
 			
 			mTitle = (TextView) compoundView.findViewById(R.id.video_row_title);
 			mDate = (TextView) compoundView.findViewById(R.id.video_row_date);				

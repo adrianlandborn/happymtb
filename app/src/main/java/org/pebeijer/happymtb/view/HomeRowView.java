@@ -25,7 +25,7 @@ public class HomeRowView extends LinearLayout {
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
 		mTextSize = Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 0)]);		
-		compoundView = (LinearLayout) inflater.inflate(R.layout.homerow, this);
+		compoundView = (LinearLayout) inflater.inflate(R.layout.home_row, this);
 		
 		mTitle = (TextView) compoundView.findViewById(R.id.home_row_title);
 		mText = (TextView) compoundView.findViewById(R.id.home_row_text);

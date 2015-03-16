@@ -33,11 +33,11 @@ import android.widget.TextView;
 public class MessagesListFragment extends ListFragment implements DialogInterface.OnCancelListener{
 	private final static int DIALOG_FETCH_MESSAGES_ERROR = 0;
 	
-	private ProgressDialog progDialog = null;
+	private ProgressDialog mProgressDialog = null;
 	private MessageListTask mMessageListTask;
 	private MessageData mMessageData;
 	private ListMessagesAdapter mMessageAdapter;
-	private SharedPreferences preferences;
+	private SharedPreferences mPreferences;
 	private String mUsername = "";
 	MessageActivity mActivity;	
 	TextView mLoginStatus;
@@ -63,8 +63,8 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 		mMessageData = mActivity.GetMessageData();
 		FetchData();
 		
-		preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-		mUsername = preferences.getString("username", "");			
+		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+		mUsername = mPreferences.getString("username", "");
 				
 		if (mMessageData.getLogined()) {
 			ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.message_login_status_image);
@@ -83,7 +83,7 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 		ClearBitmapDir();
 		
 		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
-		int mTextSize = Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 0)]);	
+		int mTextSize = Integer.parseInt(TextSizeArray[mPreferences.getInt("textsize", 0)]);
 	    
 		mLoginStatus = (TextView) mActivity.findViewById(R.id.message_login_status);
 		mPageText = (TextView) mActivity.findViewById(R.id.message_page_text);
@@ -164,7 +164,7 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 	
 	@Override
 	public void onDestroy() {
-		progDialog.dismiss();
+		mProgressDialog.dismiss();
 		super.onDestroy();
 	}
 
@@ -205,27 +205,27 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 	}
 	
 	private void FetchData() {
-		if ((progDialog == null) || (!progDialog.isShowing())) {
-			progDialog = ProgressDialog.show(mActivity, "", "", true, true);
-			progDialog.setContentView(R.layout.progresslayout);
-			progDialog.setOnCancelListener(this);
+		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
+			mProgressDialog.setContentView(R.layout.progress_layout);
+			mProgressDialog.setOnCancelListener(this);
 		}
 		
 		mMessageData = mActivity.GetMessageData();
 		if ((mMessageData.getMessages() != null) && (mMessageData.getMessages().size() > 0)) {
 			FillList();	
-			progDialog.dismiss();
+			mProgressDialog.dismiss();
 		} else {				
 			mMessageListTask = new MessageListTask();
 			mMessageListTask.addMessageListListener(new MessageListListener() {
 				public void Success(List<Message> messages) {
 					mMessageData.setMessages(messages);
 					FillList();					
-					progDialog.dismiss();
+					mProgressDialog.dismiss();
 				}
 	
 				public void Fail() {
-					progDialog.dismiss();
+					mProgressDialog.dismiss();
 	//				showDialog(DIALOG_FETCH_MESSAGES_ERROR);
 				}
 			});

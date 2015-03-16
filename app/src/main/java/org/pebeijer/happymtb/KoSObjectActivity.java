@@ -11,7 +11,7 @@ public class KoSObjectActivity extends FragmentActivity {
 	private ActionBar mActionBar;
 	Fragment mFragment = new KoSObjectFragment();	
 	int mFrameId = R.id.kosobjectframe;
-	int mFrameLayout = R.layout.kosobjectframe;
+	int mFrameLayout = R.layout.kos_object_frame;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class KoSObjectActivity extends FragmentActivity {
 				
 		mFragment = new KoSObjectFragment();
 		mFrameId = R.id.kosobjectframe;
-		mFrameLayout = R.layout.kosobjectframe; 
+		mFrameLayout = R.layout.kos_object_frame;
 			
 		setContentView(mFrameLayout);
 		getSupportFragmentManager()
