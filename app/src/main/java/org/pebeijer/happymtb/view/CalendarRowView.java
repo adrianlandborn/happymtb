@@ -29,7 +29,7 @@ public class CalendarRowView extends LinearLayout {
 		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
 		mTextSize = Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 0)]);		
 	
-		compoundView = (LinearLayout) inflater.inflate(R.layout.calendarrow, this);
+		compoundView = (LinearLayout) inflater.inflate(R.layout.calendar_row, this);
 			
 		mRowColor = (LinearLayout) compoundView.findViewById(R.id.calendar_row_color);	
 		mTitle = (TextView) compoundView.findViewById(R.id.calendar_row_title);

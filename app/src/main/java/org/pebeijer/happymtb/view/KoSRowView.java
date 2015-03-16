@@ -36,7 +36,7 @@ public class KoSRowView extends LinearLayout {
 		mPictureList = preferences.getBoolean("kospicturelist", true);
 	
 		if (mPictureList) {
-			compoundView = (LinearLayout) inflater.inflate(R.layout.kospicturerow, this);
+			compoundView = (LinearLayout) inflater.inflate(R.layout.kos_picture_row, this);
 			
 			mRowColor = (LinearLayout) compoundView.findViewById(R.id.kos_picture_row_color);
 			mTitle = (TextView) compoundView.findViewById(R.id.kos_picture_row_title);
@@ -46,7 +46,7 @@ public class KoSRowView extends LinearLayout {
 			mPrice = (TextView) compoundView.findViewById(R.id.kos_picture_row_price);						
 			mObjectImage = (ImageView) compoundView.findViewById(R.id.kos_picture_row_image);
 		} else {
-			compoundView = (LinearLayout) inflater.inflate(R.layout.kosrow, this);
+			compoundView = (LinearLayout) inflater.inflate(R.layout.kos_row, this);
 			
 			mRowColor = (LinearLayout) compoundView.findViewById(R.id.kos_row_color);	
 			mTitle = (TextView) compoundView.findViewById(R.id.kos_row_title);
@@ -73,7 +73,7 @@ public class KoSRowView extends LinearLayout {
 	public void setObjectImage(Drawable ObjectImage) {
 		if (mObjectImage != null) {
 			if (ObjectImage == null) {
-				int imageResource = R.drawable.picture;
+				int imageResource = R.drawable.no_photo;
 				Drawable d = getResources().getDrawable(imageResource);						
 				ObjectImage = d;
 			}

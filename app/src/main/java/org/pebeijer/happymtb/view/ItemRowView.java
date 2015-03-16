@@ -30,7 +30,7 @@ public class ItemRowView extends LinearLayout {
 		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
 		mTextSize = Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 0)]);
 		
-		compoundView = (LinearLayout) inflater.inflate(R.layout.itemrow, this);
+		compoundView = (LinearLayout) inflater.inflate(R.layout.item_row, this);
 
 		mTitle = (TextView) compoundView.findViewById(R.id.item_title);
 		mHeaderTitle = (TextView) compoundView.findViewById(R.id.item_header_title);

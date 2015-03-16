@@ -56,15 +56,15 @@ public class ListCalendarAdapter extends BaseAdapter {
 		Log.d("test", mCalendarItems.get(position).getCategory());
 		
 		if (mCalendarItems.get(position).getCategory().contains("Event/M�ssa")) {
-			identifier = mContext.getResources().getIdentifier("rowshapeevent", "drawable","org.pebeijer.happymtb");
+			identifier = mContext.getResources().getIdentifier("rowshape_event", "drawable","org.pebeijer.happymtb");
 		} else if (mCalendarItems.get(position).getCategory().contains("Happyride")) {
-			identifier = mContext.getResources().getIdentifier("rowshapehappyride", "drawable","org.pebeijer.happymtb");
+			identifier = mContext.getResources().getIdentifier("rowshape_happyride", "drawable","org.pebeijer.happymtb");
 		} else if (mCalendarItems.get(position).getCategory().contains("Motionslopp/T�vling")) {
-			identifier = mContext.getResources().getIdentifier("rowshapemotion", "drawable","org.pebeijer.happymtb");
+			identifier = mContext.getResources().getIdentifier("rowshape_motion", "drawable","org.pebeijer.happymtb");
 		} else if (mCalendarItems.get(position).getCategory().contains("Svartrejs")) {
-			identifier = mContext.getResources().getIdentifier("rowshapesvartrejs", "drawable","org.pebeijer.happymtb");
+			identifier = mContext.getResources().getIdentifier("rowshape_svart_rejs", "drawable","org.pebeijer.happymtb");
 		} else {
-			identifier = mContext.getResources().getIdentifier("rowshapeovrigt", "drawable","org.pebeijer.happymtb");
+			identifier = mContext.getResources().getIdentifier("rowshape_ovrigt", "drawable","org.pebeijer.happymtb");
 		}
 		
 		CalendarRowV.setRowBackgroundColor(identifier);		

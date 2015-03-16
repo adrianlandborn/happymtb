@@ -53,10 +53,10 @@ public class ListKoSAdapter extends BaseAdapter {
 		KSRowV.setObjectImage(mKoSItems.get(position).getObjectImage());
 
 		if (mKoSItems.get(position).getTitle().charAt(0) == 'S'){
-			int identifier = mContext.getResources().getIdentifier("rowshapegreen", "drawable","org.pebeijer.happymtb");
+			int identifier = mContext.getResources().getIdentifier("rowshape_green", "drawable","org.pebeijer.happymtb");
 			KSRowV.setRowBackgroundColor(identifier);
 		} else {
-			int identifier = mContext.getResources().getIdentifier("rowshapered", "drawable","org.pebeijer.happymtb");
+			int identifier = mContext.getResources().getIdentifier("rowshape_red", "drawable","org.pebeijer.happymtb");
 			KSRowV.setRowBackgroundColor(identifier);
 		}		
 		

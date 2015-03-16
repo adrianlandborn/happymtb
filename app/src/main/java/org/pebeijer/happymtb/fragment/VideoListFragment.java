@@ -80,7 +80,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
-		inflater.inflate(R.menu.videomenu, menu);
+		inflater.inflate(R.menu.video_menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	}			
 
@@ -175,7 +175,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 	private void FetchData() {
 		if ((progDialog == null) || (!progDialog.isShowing())) {
 			progDialog = ProgressDialog.show(getActivity(), "", "", true, true);
-			progDialog.setContentView(R.layout.progresslayout);
+			progDialog.setContentView(R.layout.progress_layout);
 			progDialog.setOnCancelListener(this);		
 		}
 		
@@ -226,7 +226,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 		String mSearch = mVideoData.getSearch();
 		
 		if (mSearch.length() > 0) {
-			Search.setText(" (S�kord: " + mSearch + ")");			
+			Search.setText(" (Sökord: " + mSearch + ")");
 		} else {
 			Search.setText("");
 		}
@@ -300,9 +300,9 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 	    public Dialog onCreateDialog(Bundle savedInstanceState) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 	        LayoutInflater inflater = getActivity().getLayoutInflater();
-	        final View view = inflater.inflate(R.layout.videosearch, null);
+	        final View view = inflater.inflate(R.layout.video_search, null);
 	        builder.setView(view);
-	        builder.setPositiveButton("S�k", new DialogInterface.OnClickListener() {	            	   
+	        builder.setPositiveButton("Sök", new DialogInterface.OnClickListener() {
                @Override
                public void onClick(DialogInterface dialog, int id) {
             	   EditText mSearchString = (EditText) view.findViewById(R.id.video_dialog_search_text);

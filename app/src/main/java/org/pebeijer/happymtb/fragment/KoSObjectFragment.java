@@ -29,8 +29,8 @@ import android.widget.TextView;
 
 public class KoSObjectFragment extends Fragment implements DialogInterface.OnCancelListener {
 	private final static int DIALOG_FETCH_KOS_ERROR = 0;
-	private ProgressDialog progDialog = null;
-	private KoSObjectTask getKoSObject;
+	private ProgressDialog mProgressDialog = null;
+	private KoSObjectTask mKoSObjectTask;
 	private KoSObjectItem mKoSObjectItem;
 	private SharedPreferences mPreferences;	
 	String mKoSLink = "";	
@@ -74,37 +74,37 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
-		inflater.inflate(R.menu.kosobjectmenu, menu);
+		inflater.inflate(R.menu.kos_object_menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	}		
 	
 	private void FetchKoSObject(String ObjectLink) {
-		if ((progDialog == null) || (!progDialog.isShowing())) {
-			progDialog = ProgressDialog.show(mKoSObjectActivity, "", "", true, true);
-			progDialog.setContentView(R.layout.progresslayout);
-			progDialog.setOnCancelListener(this);
+		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+			mProgressDialog = ProgressDialog.show(mKoSObjectActivity, "", "", true, true);
+			mProgressDialog.setContentView(R.layout.progress_layout);
+			mProgressDialog.setOnCancelListener(this);
 		}
 		
-		getKoSObject = new KoSObjectTask();
-		getKoSObject.addKoSObjectListener(new KoSObjectListener() {
-			public void Success(KoSObjectItem KoSObjectItem) {
-				try {
-					mKoSObjectItem = KoSObjectItem;
-					FillList();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}						
-				progDialog.dismiss();
-			}
+		mKoSObjectTask = new KoSObjectTask();
+		mKoSObjectTask.addKoSObjectListener(new KoSObjectListener() {
+            public void Success(KoSObjectItem KoSObjectItem) {
+                try {
+                    mKoSObjectItem = KoSObjectItem;
+                    FillList();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                mProgressDialog.dismiss();
+            }
 
-			public void Fail() {				
-				progDialog.dismiss();
+            public void Fail() {
+                mProgressDialog.dismiss();
 //				showDialog(DIALOG_FETCH_KOS_ERROR);
-			}
-		});
+            }
+        });
 
-		getKoSObject.execute(ObjectLink);
+		mKoSObjectTask.execute(ObjectLink);
 
 	}	
 	
@@ -125,10 +125,10 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mPrice.setText("Pris: " + mKoSObjectItem.getPrice());
 		
 		if (mKoSObjectItem.getType().contains("S�ljes")){
-			int identifier = getResources().getIdentifier("rowshapegreen", "drawable","org.pebeijer.happymtb");
+			int identifier = getResources().getIdentifier("rowshape_green", "drawable","org.pebeijer.happymtb");
 			mBackgroundColor.setBackgroundResource(identifier);
 		} else {
-			int identifier = getResources().getIdentifier("rowshapered", "drawable","org.pebeijer.happymtb");
+			int identifier = getResources().getIdentifier("rowshape_red", "drawable","org.pebeijer.happymtb");
 			mBackgroundColor.setBackgroundResource(identifier);
 		}		
 	}	
@@ -159,8 +159,8 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	@Override
 	public void onCancel(DialogInterface dialog) {
 		// TODO Auto-generated method stub
-		if (getKoSObject != null) {
-			getKoSObject.cancel(true);
+		if (mKoSObjectTask != null) {
+			mKoSObjectTask.cancel(true);
 		}		
 	}
 	

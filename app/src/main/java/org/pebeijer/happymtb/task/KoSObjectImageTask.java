@@ -12,18 +12,18 @@ import android.widget.ImageView;
 
 public class KoSObjectImageTask extends AsyncTask<ImageView, Void, Bitmap> {
 
-	ImageView imageView = null;
+	ImageView mImageView = null;
 
 	@Override
 	protected Bitmap doInBackground(ImageView... imageViews) {
-	    this.imageView = imageViews[0];
-	    return download_Image((String)imageView.getTag());
+	    this.mImageView = imageViews[0];
+	    return download_Image((String) mImageView.getTag());
 	}
 
 	@Override
 	protected void onPostExecute(Bitmap result) {
-	    imageView.setImageBitmap(result);
-	    imageView.setVisibility(View.VISIBLE);
+	    mImageView.setImageBitmap(result);
+	    mImageView.setVisibility(View.VISIBLE);
 	}
 
 	private Bitmap download_Image(String url) {

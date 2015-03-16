@@ -14,30 +14,30 @@ import android.view.MenuItem;
 import android.widget.ExpandableListView.OnChildClickListener;
 
 public class ArticlesListFragment extends ItemsListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
-	private ArticlesListTask getItems;
+	private ArticlesListTask mGetItems;
 	
 	@Override
 	protected void FetchItems() {
-		if ((progDialog == null) || (!progDialog.isShowing())) {
-			progDialog = ProgressDialog.show(getActivity(), "", "", true, true);
-			progDialog.setContentView(R.layout.progresslayout);
-			progDialog.setOnCancelListener(this);
+		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+			mProgressDialog = ProgressDialog.show(getActivity(), "", "", true, true);
+			mProgressDialog.setContentView(R.layout.progress_layout);
+			mProgressDialog.setOnCancelListener(this);
 		}
 
-		getItems = new ArticlesListTask();
-		getItems.addItemListListener(new ItemListListener() {
-			public void Success(List<Item> Items) {
-				mAllItems = Items;
-				FillList();
-				progDialog.dismiss();
-			}
+		mGetItems = new ArticlesListTask();
+		mGetItems.addItemListListener(new ItemListListener() {
+            public void Success(List<Item> Items) {
+                mAllItems = Items;
+                FillList();
+                mProgressDialog.dismiss();
+            }
 
-			public void Fail() {
-				progDialog.dismiss();
-			}
-		});
+            public void Fail() {
+                mProgressDialog.dismiss();
+            }
+        });
 
-		getItems.execute();
+		mGetItems.execute();
 	}
 	
 	@Override
@@ -59,7 +59,7 @@ public class ArticlesListFragment extends ItemsListFragment implements DialogInt
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();
-		inflater.inflate(R.menu.articlesmenu, menu);
+		inflater.inflate(R.menu.articles_menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	}	
 }

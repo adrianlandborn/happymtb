@@ -31,7 +31,7 @@
 		        android:layout_marginTop="2dp"
 		        android:layout_marginBottom="3dp"
 		        android:paddingBottom="1dp"
-		        android:background="@drawable/rowshapekos"
+		        android:background="@drawable/rowshape_kos"
 				> 
 		        
 				<LinearLayout 
@@ -40,7 +40,7 @@
 					android:layout_height="wrap_content"
 					android:orientation="vertical"
 					android:padding="1dp"	    
-			        android:background="@drawable/rowshapegreen"
+			        android:background="@drawable/rowshape_green"
 					>   	  
 					  	    					    
 				    <TextView

@@ -20,18 +20,18 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
 public class LoginTask extends AsyncTask<Object, Void, Boolean> {
-	private ArrayList<LoginListener> LoginListenerList;
+	private ArrayList<LoginListener> mLoginListenerList;
 
 	public LoginTask() {
-		LoginListenerList = new ArrayList<LoginListener>();
+		mLoginListenerList = new ArrayList<LoginListener>();
 	}
 
 	public void addLoginListener(LoginListener l) {
-		LoginListenerList.add(l);
+		mLoginListenerList.add(l);
 	}
 
 	public void removeLoginListener(LoginListener l) {
-		LoginListenerList.remove(l);
+		mLoginListenerList.remove(l);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class LoginTask extends AsyncTask<Object, Void, Boolean> {
 
 	@Override
 	protected void onPostExecute(Boolean result) {
-		for (LoginListener l : LoginListenerList) {
+		for (LoginListener l : mLoginListenerList) {
 			if (result) {
 				l.Success();
 			} else {

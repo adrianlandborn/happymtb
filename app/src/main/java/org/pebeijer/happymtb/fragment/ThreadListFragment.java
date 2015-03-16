@@ -42,11 +42,11 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	private final static int DIALOG_FETCH_THREADS_ERROR = 0;
 	private final static int DIALOG_MARK_AS_READ_ERROR = 1;	
 
-	private ProgressDialog progDialog = null;
-	private ThreadListTask getThreads;
+	private ProgressDialog mProgressDialog = null;
+	private ThreadListTask mThreadsTask;
 	public static ThreadData mThreadData = new ThreadData(1, 1, null, 0, false);
-	private MarkAsReadTask markAsRead;	
-	private SharedPreferences preferences;
+	private MarkAsReadTask mMarkAsRead;
+	private SharedPreferences mPreferences;
 	private String mUsername = "";
 	private static Toast mToast;
 	MainActivity mActivity;
@@ -67,14 +67,14 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		CookieSyncManager.createInstance(mActivity);
 		CookieSyncManager.getInstance().startSync();		
 		
-		preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-		mUsername = preferences.getString("username", "");				
+		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+		mUsername = mPreferences.getString("username", "");
 		
 		if (!mActivity.GetThreadLogined()) {
 			if (mUsername.length() > 0) {
-				progDialog = ProgressDialog.show(mActivity, "", "", true, true);
-				progDialog.setContentView(R.layout.progresslayout);
-				progDialog.setOnCancelListener(this);
+				mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
+				mProgressDialog.setContentView(R.layout.progress_layout);
+				mProgressDialog.setOnCancelListener(this);
 	
 				LoginTask login = new LoginTask();
 				login.addLoginListener(new LoginListener() {
@@ -101,7 +101,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 						TextView LoginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
 						LoginStatus.setText("Ej inloggad");
 	
-						SharedPreferences.Editor editor = preferences.edit();
+						SharedPreferences.Editor editor = mPreferences.edit();
 						editor.putString("cookiename", "");
 						editor.putString("cookievalue", "");
 						editor.commit();
@@ -114,7 +114,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 				login.execute(mActivity);
 			}
 		} else {
-			SharedPreferences.Editor editor = preferences.edit();
+			SharedPreferences.Editor editor = mPreferences.edit();
 			editor.putString("cookiename", "");
 			editor.putString("cookievalue", "");
 			editor.commit();
@@ -136,8 +136,8 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	    getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 	    	@Override
 			public boolean onItemLongClick(AdapterView<?> av, View v, int position, long id) {
-	    		if ((mThreadData.getThreads() != null) && (mThreadData.getThreads().size() > 0)) {
-	    			mToast.setText(mThreadData.getThreads().get(position).getMessageText());
+	    		if ((mThreadData.mThreadsTask() != null) && (mThreadData.mThreadsTask().size() > 0)) {
+	    			mToast.setText(mThreadData.mThreadsTask().get(position).getMessageText());
 	                mToast.show();
 	    		}
 				return true;
@@ -145,7 +145,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	    });		
 */        
 		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
-		int mTextSize = Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 0)]);	
+		int mTextSize = Integer.parseInt(TextSizeArray[mPreferences.getInt("textsize", 0)]);
 	    
 		mLoginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
 		mPageText = (TextView) mActivity.findViewById(R.id.thread_page_text);
@@ -164,9 +164,9 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
 		if (mActivity.GetThreadLogined() == false) {
-			inflater.inflate(R.menu.threadmenu, menu);
+			inflater.inflate(R.menu.thread_menu, menu);
 		} else {
-			inflater.inflate(R.menu.threadloginedmenu, menu);				
+			inflater.inflate(R.menu.thread_logged_in_menu, menu);
 		}
 		super.onCreateOptionsMenu(menu, inflater);
 	}
@@ -227,7 +227,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	
 	@Override
 	public void onDestroy() {
-		progDialog.dismiss();
+		mProgressDialog.dismiss();
 		super.onDestroy();
 	}	
 	
@@ -244,24 +244,24 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	}	
 
 	public void MarkAsRead() {	
-		if ((progDialog == null) || (!progDialog.isShowing())) {
-			progDialog = ProgressDialog.show(mActivity, "", "", true, true);
-			progDialog.setContentView(R.layout.progresslayout);
-			progDialog.setOnCancelListener(this);
+		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
+			mProgressDialog.setContentView(R.layout.progress_layout);
+			mProgressDialog.setOnCancelListener(this);
 		}
 
-		markAsRead = new MarkAsReadTask();
-		markAsRead.addMarkAsReadListener(new MarkAsReadListener() {
-			public void Success() {
-				FetchData();
-			}
+		mMarkAsRead = new MarkAsReadTask();
+		mMarkAsRead.addMarkAsReadListener(new MarkAsReadListener() {
+            public void Success() {
+                FetchData();
+            }
 
-			public void Fail() {
-				progDialog.dismiss();
+            public void Fail() {
+                mProgressDialog.dismiss();
 //				showDialog(DIALOG_MARK_AS_READ_ERROR);
-			}
-		});
-		markAsRead.execute(mActivity);	
+            }
+        });
+		mMarkAsRead.execute(mActivity);
 	}
 	
 	public void RefreshPage() {
@@ -289,26 +289,26 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	}
 	
 	public void FetchData() {
-		if ((progDialog == null) || (!progDialog.isShowing())) {
-			progDialog = ProgressDialog.show(mActivity, "", "", true, true);
-			progDialog.setContentView(R.layout.progresslayout);
-			progDialog.setOnCancelListener(this);
+		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
+			mProgressDialog.setContentView(R.layout.progress_layout);
+			mProgressDialog.setOnCancelListener(this);
 		}
 		
-		getThreads = new ThreadListTask();
-		getThreads.addThreadListListener(new ThreadListListener() {
-			public void Success(List<Thread> threads) {
-				mThreadData.setThreads(threads);
-				FillList();
-				progDialog.dismiss();
-			}
+		mThreadsTask = new ThreadListTask();
+		mThreadsTask.addThreadListListener(new ThreadListListener() {
+            public void Success(List<Thread> threads) {
+                mThreadData.setThreads(threads);
+                FillList();
+                mProgressDialog.dismiss();
+            }
 
-			public void Fail() {
-				progDialog.dismiss();
+            public void Fail() {
+                mProgressDialog.dismiss();
 //				showDialog(DIALOG_MARK_AS_READ_ERROR);
-			}
-		});
-		getThreads.execute(mThreadData.getCurrentPage(), mActivity);
+            }
+        });
+		mThreadsTask.execute(mThreadData.getCurrentPage(), mActivity);
 	}
 
 	private void FillList() {
@@ -377,12 +377,12 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	
 	@Override
 	public void onCancel(DialogInterface arg0) {
-		if (markAsRead != null) {
-			markAsRead.cancel(true);
+		if (mMarkAsRead != null) {
+			mMarkAsRead.cancel(true);
 		}
 
-		if (getThreads != null) {
-			getThreads.cancel(true);
+		if (mThreadsTask != null) {
+			mThreadsTask.cancel(true);
 		}	
 	}
 }
