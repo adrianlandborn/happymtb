@@ -110,7 +110,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	
 	private void FillList() throws IOException {
 		mTitle.setText(mKoSObjectItem.getArea() + " - " + mKoSObjectItem.getType() + " - " + mKoSObjectItem.getTitle());		
-		mPerson.setText("Annons�r: " + mKoSObjectItem.getPerson() + "(Telefon: " + mKoSObjectItem.getPhone() + ")");			
+		mPerson.setText("Annonsör: " + mKoSObjectItem.getPerson() + "(Telefon: " + mKoSObjectItem.getPhone() + ")");
 		mDate.setText("Datum: " + mKoSObjectItem.getDate());		
 	
 		if (mKoSObjectItem.getImgLink() != "")
@@ -124,7 +124,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mText.setText(Html.fromHtml(mKoSObjectItem.getText()));		
 		mPrice.setText("Pris: " + mKoSObjectItem.getPrice());
 		
-		if (mKoSObjectItem.getType().contains("S�ljes")){
+		if (mKoSObjectItem.getType().contains("Säljes")){
 			int identifier = getResources().getIdentifier("rowshape_green", "drawable","org.pebeijer.happymtb");
 			mBackgroundColor.setBackgroundResource(identifier);
 		} else {
@@ -141,7 +141,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 			builder = new AlertDialog.Builder(mKoSObjectActivity);
 			builder.setTitle("Felmeddelande");
 			builder.setMessage(
-					"Det blev n�got fel vid h�mtning av k�p och s�lj")
+					"Det blev något fel vid hämtning av köp och sälj")
 					.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,

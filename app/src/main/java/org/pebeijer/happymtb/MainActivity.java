@@ -20,6 +20,7 @@ import android.app.ActionBar;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -173,7 +174,7 @@ public class MainActivity extends FragmentActivity implements
         if(mBackToast != null && mBackToast.getView().getWindowToken() != null) {
             finish();
         } else {
-        	mBackToast = Toast.makeText(this, "Press again to exit.", Toast.LENGTH_SHORT);
+        	mBackToast = Toast.makeText(this, "Tryck igen för att avsluta", Toast.LENGTH_SHORT);
         	mBackToast.show();
         }    	
     }

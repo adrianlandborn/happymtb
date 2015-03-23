@@ -133,7 +133,7 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 		case R.id.message_go_to_page:			
 			AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
 
-			alert.setTitle("G� till sidan...");
+			alert.setTitle("Gå till sidan...");
 			alert.setMessage("Skriv in sidnummer som du vill hoppa till (1 - " + mMessageData.getMaxPages() + ")");
 
 			// Set an EditText view to get user input 
@@ -253,7 +253,7 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 		case DIALOG_FETCH_MESSAGES_ERROR:
 			builder = new AlertDialog.Builder(mActivity);
 			builder.setTitle("Felmeddelande");
-			builder.setMessage("Det blev n�got fel vid h�mtning av inl�ggen")
+			builder.setMessage("Det blev något fel vid hämtning av inläggen")
 					.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,

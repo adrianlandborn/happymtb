@@ -179,7 +179,7 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 			builder = new AlertDialog.Builder(mActivity);
 			builder.setTitle("Felmeddelande");
 			builder.setMessage(
-					"Det blev n�got fel vid h�mtning av kalendern")
+					"Det blev något fel vid hämtning av kalendern")
 					.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,

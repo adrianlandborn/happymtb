@@ -191,7 +191,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		case R.id.thread_go_to_page:			
 			AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
 
-			alert.setTitle("G� till sidan...");
+			alert.setTitle("Gå till sidan...");
 			alert.setMessage("Skriv in sidnummer som du vill hoppa till (1 - " + mThreadData.getMaxPages() + ")");
 
 			// Set an EditText view to get user input 
@@ -343,7 +343,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		case DIALOG_FETCH_THREADS_ERROR:
 			builder = new AlertDialog.Builder(mActivity);
 			builder.setTitle("Felmeddelande");
-			builder.setMessage("Det blev n�got fel vid h�mtning av tr�darna")
+			builder.setMessage("Det blev något fel vid hämtning av trådarna")
 					.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -359,7 +359,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 			builder = new AlertDialog.Builder(mActivity);
 			builder.setTitle("Felmeddelande");
 			builder.setMessage(
-					"Det blev n�got fel n�r alla inl�ggen skulle markeras som l�sta")
+					"Det blev något fel när alla inläggen skulle markeras som lästa")
 					.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,

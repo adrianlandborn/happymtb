@@ -39,17 +39,16 @@ public class Utilities {
 	
 	public static String ReplaceHTMLChars(String HTMLCode)
 	{
-		HTMLCode=HTMLCode.replaceAll("&aring;", "�").
-		replaceAll("&auml;", "�").
-		replaceAll("&ouml;", "�").
-		replaceAll("&Aring;", "�").
-		replaceAll("&Auml;", "�").
-		replaceAll("&Ouml;", "�").
-		replaceAll("&Aring;", "�").
-		replaceAll("&#228;", "�").
-		replaceAll("&#229;", "�").
-		replaceAll("&#246;", "�").
-		replaceAll("&#196;", "�").
+		HTMLCode=HTMLCode.replaceAll("&aring;", "å").
+		replaceAll("&auml;", "ä").
+		replaceAll("&ouml;", "ö").
+		replaceAll("&Aring;", "Å").
+		replaceAll("&Auml;", "Ä").
+		replaceAll("&Ouml;", "Ö").
+		replaceAll("&#228;", "ä").
+		replaceAll("&#229;", "⊛").
+		replaceAll("&#246;", "ö").
+		replaceAll("&#196;", "Ä").
 		replaceAll("&#197;", "�").
 		replaceAll("&#214;", "�").
 		replaceAll("'", "&#39;").

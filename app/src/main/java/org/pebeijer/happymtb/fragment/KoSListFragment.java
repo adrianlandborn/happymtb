@@ -137,7 +137,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		case R.id.kos_go_to_page:			
 			AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
 
-			alert.setTitle("G� till sidan...");
+			alert.setTitle("Gå till sidan...");
 			alert.setMessage("Skriv in sidnummer som du vill hoppa till (1 - " + mKoSData.getMaxPages() + ")");
 
 			// Set an EditText view to get user input 
@@ -298,7 +298,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 			builder = new AlertDialog.Builder(mActivity);
 			builder.setTitle("Felmeddelande");
 			builder.setMessage(
-					"Det blev n�got fel vid h�mtning av k�p och s�lj")
+					"Det blev något fel vid hämtning av köp och sälj")
 					.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,

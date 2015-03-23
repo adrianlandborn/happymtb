@@ -122,7 +122,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 		case R.id.video_go_to_page:			
 			mAlertDialog = new AlertDialog.Builder(getActivity());
 
-			mAlertDialog.setTitle("G� till sidan...");
+			mAlertDialog.setTitle("Gå till sidan...");
 			mAlertDialog.setMessage("Skriv in sidnummer som du vill hoppa till (1 - " + mVideoData.getMaxPages() + ")");
 
 			// Set an EditText view to get user input 
@@ -270,7 +270,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 			builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle("Felmeddelande");
 			builder.setMessage(
-					"Det blev n�got fel vid h�mtning av k�p och s�lj")
+					"Det blev något fel vid hämtning av köp och sälj")
 					.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,

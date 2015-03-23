@@ -58,7 +58,7 @@ public class SettingsFragment extends Fragment {
                 editor.putInt("startpage", StartPage.getSelectedItemPosition());              
                 editor.commit();                
                 
-                Toast.makeText(getActivity(), "Anv�ndarnamn och l�senord sparade", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Användarnamn och lösenord sparade", Toast.LENGTH_SHORT).show();
         	}	
         }); 		
 	}
