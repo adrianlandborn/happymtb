@@ -25,7 +25,6 @@ import android.widget.ListView;
 public class HomesListFragment extends ListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
 	private ProgressDialog mProgressDialog = null;
 	private ListHomeAdapter mHomeAdapter;
-	private List<Home> mAllHomes = new ArrayList<Home>();
 	private List<Home> mHomes = new ArrayList<Home>();
 	private HomeListTask getHome;
 	
