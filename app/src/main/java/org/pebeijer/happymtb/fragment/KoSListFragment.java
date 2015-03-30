@@ -12,6 +12,8 @@ import org.pebeijer.happymtb.item.KoSItem;
 import org.pebeijer.happymtb.listener.KoSListListener;
 import org.pebeijer.happymtb.task.KoSImageDownloadTask;
 import org.pebeijer.happymtb.task.KoSListTask;
+
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -23,6 +25,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.util.TypedValue;
@@ -42,7 +45,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 	private ProgressDialog mProgressDialog = null;
 	private KoSListTask mKoSTask;
 	private ListKoSAdapter mKoSAdapter;
-	private KoSData mKoSData = new KoSData(1, 1, 3, 0, "Hela Sverige", 0, "Alla Kategorier", "", null, 0, "creationdate", "Tid", 0, "ASC", "Stigande", 0);
+	private KoSData mKoSData = new KoSData(1, 1, 3, 0, "Hela Sverige", 0, "Alla Kategorier", "", null, 0, "creationdate", "Tid", 0, "DESC", "Fallande", 0);
 	private SharedPreferences mPreferences;
 	private Boolean mPictureList;
 	private int mTextSize;
@@ -320,23 +323,24 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		}
 	}
 	
-	public class KoSSortDialogFragment extends DialogFragment {
+	private class KoSSortDialogFragment extends DialogFragment {
 		public DialogFragment newInstace() {
 			DialogFragment dialogFragment = new KoSSortDialogFragment();
 			return dialogFragment;
-		}		
-		
+		}
+
 		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {		
-			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-			LayoutInflater inflater = mActivity.getLayoutInflater();
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final MainActivity activity = (MainActivity) getActivity();
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			LayoutInflater inflater = activity.getLayoutInflater();
 			final View view = inflater.inflate(R.layout.kos_sort, null);
 			builder.setView(view);
 			builder.setPositiveButton("Sortera", new DialogInterface.OnClickListener() {	            	   
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
 					mKoSData.setListPosition(0);
-					mActivity.SetKoSDataItems(null);
+                    activity.SetKoSDataItems(null);
 					
 					Spinner SortAttribute = (Spinner) view.findViewById(R.id.kos_dialog_sort_attribute);
 					Spinner SortOrder = (Spinner) view.findViewById(R.id.kos_dialog_sort_order);

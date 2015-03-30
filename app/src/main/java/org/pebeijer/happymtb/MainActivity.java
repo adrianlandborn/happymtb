@@ -108,58 +108,48 @@ public class MainActivity extends FragmentActivity implements
 		return true;
 	}
 
-    public void switchContent(int position) {     	
-    	
-//    	int title = R.string.title_bar_home;
-    	
+    private void switchContent(int position) {
+
 		switch (position + 1) {
 		case 1:
 			mFragment = new HomesListFragment();
 			mFrameId = R.id.homeframe;
 			mFrameLayout = R.layout.home_frame;
-//			title = R.string.title_bar_home;
 			break;
 		case 2:
 			mFragment = new ThreadListFragment();
 			mFrameId = R.id.threadframe;
 			mFrameLayout = R.layout.thread_frame;
-//			title = R.string.title_bar_forum;
 		    break;
 		case 3:
 			mFragment = new ArticlesListFragment();
 			mFrameId = R.id.content_frame; 
 			mFrameLayout = R.layout.content_frame; 
-//			title = R.string.title_bar_articles;
 		    break;
 		case 4:
 			mFragment = new KoSListFragment();
 			mFrameId = R.id.kosframe;
 			mFrameLayout = R.layout.kos_frame;
-//			title = R.string.title_bar_kos;
 		    break;
 		case 5:
 			mFragment = new VideoListFragment();
 			mFrameId = R.id.videoframe; 
 			mFrameLayout = R.layout.video_frame;
-//			title = R.string.title_bar_video;
 		    break;
 		case 6:
 			mFragment = new ShopsListFragment();
 			mFrameId = R.id.content_frame; 
 			mFrameLayout = R.layout.content_frame; 
-//			title = R.string.title_bar_shops;
 		    break;
 		case 7:
 			mFragment = new CalendarListFragment();
 			mFrameId = R.id.calendarframe; 
 			mFrameLayout = R.layout.calendar_frame;
-//			title = R.string.title_bar_shops;
-		    break;		    
+		    break;
 		case 8:
 			mFragment = new SettingsFragment();
 			mFrameId = R.id.settingsframe;
 			mFrameLayout = R.layout.settings_frame;
-//			title = R.string.title_bar_settings;
 		    break;
 	    }		
 		setContentView(mFrameLayout);
@@ -170,7 +160,7 @@ public class MainActivity extends FragmentActivity implements
         .commit();  	
     }
 	
-    public void back() {
+    private void back() {
         if(mBackToast != null && mBackToast.getView().getWindowToken() != null) {
             finish();
         } else {

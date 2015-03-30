@@ -76,6 +76,7 @@ public class MessageImageDownloadTask extends AsyncTask<Object, Void, Void> {
 	}	
 	
     private Bitmap downloadBitmap(String url) {
+        //TODO  AndroidHttpClient is deprecated from Lollopop MR1
         final AndroidHttpClient client = AndroidHttpClient.newInstance("Android");
         final HttpGet getRequest = new HttpGet(url);
 
