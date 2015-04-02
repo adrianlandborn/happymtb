@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-	<item android:id="@+id/kos_object_submenu"
-        android:icon="@drawable/submenu" 
-    	android:title="Submenu &gt;"
-        android:showAsAction="always">
-        <menu>
-    		<item 
-        		android:id="@+id/kos_object_mail" 
-        		android:icon="@drawable/refresh"  
-        		android:title="Mejla annonsör"/>        	
-		</menu>            
-	</item>	 
+    <item
+        android:id="@+id/kos_object_share"
+        android:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_share"
+        android:title="Dela..."/>
+    <item
+        android:id="@+id/kos_object_mail"
+        android:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="Mejla annonsör"/>
 </menu>

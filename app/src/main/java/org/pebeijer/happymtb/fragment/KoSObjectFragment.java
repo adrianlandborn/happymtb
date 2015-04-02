@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -33,7 +34,6 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	private KoSObjectTask mKoSObjectTask;
 	private KoSObjectItem mKoSObjectItem;
 	private SharedPreferences mPreferences;	
-	String mKoSLink = "";	
 	TextView mTitle;
 	TextView mPerson;		
 	TextView mDate;
@@ -169,10 +169,21 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	    switch (item.getItemId()) {
 			case R.id.kos_object_mail:
 				Intent browserIntent = new Intent("android.intent.action.VIEW", Uri.parse(mKoSObjectActivity.GetObjectLink() + "&pm"));
-				startActivity(browserIntent);							
-				return true;				    		
+				startActivity(browserIntent);
+				return true;
+            case R.id.kos_object_share:
+                shareObject();
+                return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
-	}		
+	}
+
+    private void shareObject() {
+        String message = "Hej! Jag vill tipsa om en annons: " + mKoSObjectActivity.GetObjectLink();
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, message);
+        intent.setType("text/plain");
+        startActivity(Intent.createChooser(intent, "Dela annons..."));
+    }
 }
