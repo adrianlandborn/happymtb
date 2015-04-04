@@ -15,7 +15,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -78,7 +77,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		super.onCreateOptionsMenu(menu, inflater);
 	}		
 	
-	private void FetchKoSObject(String ObjectLink) {
+	private void FetchKoSObject(String objectLink) {
 		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
 			mProgressDialog = ProgressDialog.show(mKoSObjectActivity, "", "", true, true);
 			mProgressDialog.setContentView(R.layout.progress_layout);
@@ -87,10 +86,12 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		
 		mKoSObjectTask = new KoSObjectTask();
 		mKoSObjectTask.addKoSObjectListener(new KoSObjectListener() {
-            public void Success(KoSObjectItem KoSObjectItem) {
+            public void success(KoSObjectItem koSObjectItem) {
                 try {
-                    mKoSObjectItem = KoSObjectItem;
-                    FillList();
+                    mKoSObjectItem = koSObjectItem;
+                    if (getActivity() != null && mKoSObjectItem != null) {
+                        fillList();
+                    }
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -98,17 +99,17 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
                 mProgressDialog.dismiss();
             }
 
-            public void Fail() {
+            public void fail() {
                 mProgressDialog.dismiss();
 //				showDialog(DIALOG_FETCH_KOS_ERROR);
             }
         });
 
-		mKoSObjectTask.execute(ObjectLink);
+		mKoSObjectTask.execute(objectLink);
 
 	}	
 	
-	private void FillList() throws IOException {
+	private void fillList() throws IOException {
 		mTitle.setText(mKoSObjectItem.getArea() + " - " + mKoSObjectItem.getType() + " - " + mKoSObjectItem.getTitle());		
 		mPerson.setText("Annonsör: " + mKoSObjectItem.getPerson() + "(Telefon: " + mKoSObjectItem.getPhone() + ")");
 		mDate.setText("Datum: " + mKoSObjectItem.getDate());		
@@ -174,6 +175,9 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
             case R.id.kos_object_share:
                 shareObject();
                 return true;
+            case R.id.kos_object_browser:
+                openInBrowser();
+                return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
@@ -185,5 +189,12 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
         intent.putExtra(android.content.Intent.EXTRA_TEXT, message);
         intent.setType("text/plain");
         startActivity(Intent.createChooser(intent, "Dela annons..."));
+    }
+
+    private void openInBrowser() {
+
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mKoSObjectActivity.GetObjectLink()));
+        startActivity(browserIntent);
+
     }
 }

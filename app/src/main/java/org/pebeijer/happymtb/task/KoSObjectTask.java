@@ -140,9 +140,9 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 	protected void onPostExecute(Boolean result) {
 		for (KoSObjectListener l : mKoSObjectListenerList) {
 			if (result) {
-				l.Success(mKoSObjectItem);
+				l.success(mKoSObjectItem);
 			} else {
-				l.Fail();
+				l.fail();
 			}
 		}
 	}
