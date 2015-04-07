@@ -12,7 +12,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
 
-import org.pebeijer.happymtb.helpers.Utilities;
+import org.pebeijer.happymtb.helpers.HappyUtils;
 import org.pebeijer.happymtb.item.VideoItem;
 import org.pebeijer.happymtb.listener.VideoListListener;
 
@@ -35,47 +35,47 @@ public class VideoListTask extends AsyncTask<Object, Void, Boolean> {
 	}
 
 	public VideoItem ExtractVideoRow(String VideoStr) {
-		int Start = VideoStr.indexOf("<a href=\"", 0) + 9;
-		int End = VideoStr.indexOf("\">", Start);
-		String Link = "http://happymtb.org" + VideoStr.substring(Start, End);
-		Start = End;
+		int start = VideoStr.indexOf("<a href=\"", 0) + 9;
+		int end = VideoStr.indexOf("\">", start);
+		String link = "http://happymtb.org" + VideoStr.substring(start, end);
+		start = end;
 		
-		Start = VideoStr.indexOf("<img src=\"", Start) + 10;
-		End = VideoStr.indexOf("\" border", Start);
-		String ImgLink = VideoStr.substring(Start, End);
-		Start = End;
+		start = VideoStr.indexOf("<img src=\"", start) + 10;
+		end = VideoStr.indexOf("\" border", start);
+		String imgLink = VideoStr.substring(start, end);
+		start = end;
 
-		Start = VideoStr.indexOf("L�ngd: ", Start) + 7;
-		End = VideoStr.indexOf("\" title", Start);
-		String Length = "L�ngd: " + VideoStr.substring(Start, End);
-		Start = End;
+		start = VideoStr.indexOf("Längd: ", start) + 7;
+		end = VideoStr.indexOf("\" title", start);
+		String length = "Längd: " + VideoStr.substring(start, end);
+		start = end;
 		
-		Start = VideoStr.indexOf("\" title=\"", Start) + 9;
-		End = VideoStr.indexOf("\" width", Start) - 13;
-		String Title = Utilities.ReplaceHTMLChars(VideoStr.substring(Start, End));
-		Start = End;		
+		start = VideoStr.indexOf("\" title=\"", start) + 9;
+		end = VideoStr.indexOf("\" width", start) - 13;
+		String Title = HappyUtils.replaceHTMLChars(VideoStr.substring(start, end));
+		start = end;
 
-		Start = VideoStr.indexOf(" - ", Start) + 3;
-		End = VideoStr.indexOf("\" width", Start);
-		String Date = VideoStr.substring(Start, End);
-		Start = End;
+		start = VideoStr.indexOf(" - ", start) + 3;
+		end = VideoStr.indexOf("\" width", start);
+		String date = VideoStr.substring(start, end);
+		start = end;
 		
-		Start = VideoStr.indexOf("Uppladdad av ", Start) + 13;
-		End = VideoStr.indexOf("\">", Start);
-		Start = End + 2;
+		start = VideoStr.indexOf("Uppladdad av ", start) + 13;
+		end = VideoStr.indexOf("\">", start);
+		start = end + 2;
 			
-		End = VideoStr.indexOf("</a><br />", Start);
-		String Uploader = "Uppladdad av " + Utilities.ReplaceHTMLChars(VideoStr.substring(Start, End));
-		Start = End;
+		end = VideoStr.indexOf("</a><br />", start);
+		String uploader = "Uppladdad av " + HappyUtils.replaceHTMLChars(VideoStr.substring(start, end));
+		start = end;
 		
-		String Category = "Kategori: Ingen kategori";
+		String category = "Kategori: Ingen kategori";
 		if (VideoStr.contains("Kategori")) {
-			Start = VideoStr.indexOf("\">", Start) + 2;
-			End = VideoStr.indexOf("</a><br />", Start);
-			Category = "Kategori: " + Utilities.ReplaceHTMLChars(VideoStr.substring(Start, End));
+			start = VideoStr.indexOf("\">", start) + 2;
+			end = VideoStr.indexOf("</a><br />", start);
+			category = "Kategori: " + HappyUtils.replaceHTMLChars(VideoStr.substring(start, end));
 		}
 		
-		return new VideoItem(Title, Uploader, Category, Length, Date, Link, ImgLink, 1, mSelectedCategory);		
+		return new VideoItem(Title, uploader, category, length, date, link, imgLink, 1, mSelectedCategory);
 	}
 	
 	@Override
@@ -88,8 +88,7 @@ public class VideoListTask extends AsyncTask<Object, Void, Boolean> {
 			String urlStr = "http://happymtb.org/video/?p="
 					+ Integer.toString((Integer) params[0]) + "&c="
 					+ Integer.toString((Integer) params[1]) + "&search="
-					+ (String) params[2]
-					;
+					+ (String) params[2];
 					
 			HttpGet httpget = new HttpGet(urlStr);
 								
@@ -102,39 +101,39 @@ public class VideoListTask extends AsyncTask<Object, Void, Boolean> {
 			StringBuilder ksStringBuilder = new StringBuilder();
 			String lineString = "";
 			VideoItem item;
-			boolean StartRead = false;
-			boolean StartReadCategory = false;
-			boolean StartReadPages = false;
+			boolean startRead = false;
+			boolean startReadCategory = false;
+			boolean startReadPages = false;
 			
 			while ((lineString = lineNumberReader.readLine()) != null) {
 				if (lineString.contains("<div class=\"videobox")) {
-					StartRead = true;
+					startRead = true;
 					ksStringBuilder = new StringBuilder();
 					ksStringBuilder.append(lineString);
 				}
 				if (lineString.contains("<div id=\"searchvideo\">")) {
-					StartReadCategory = true;
+					startReadCategory = true;
 					ksStringBuilder = new StringBuilder();
 					ksStringBuilder.append(lineString);
 				}			
 				if (lineString.contains("<div class=\"pagination\">")) {
-					StartReadPages = true;
+					startReadPages = true;
 					ksStringBuilder = new StringBuilder();
 					ksStringBuilder.append(lineString);
 				}							
-				else if (StartRead) {
+				else if (startRead) {
 					ksStringBuilder.append(lineString);
 					if (lineString.contains("	</div>")) {
-						StartRead = false;
+						startRead = false;
 						item = ExtractVideoRow(ksStringBuilder.toString());
 						if (item != null) {
 							mVideoItems.add(item);
 						}
 					}
-				} else if (StartReadPages) {
+				} else if (startReadPages) {
 					ksStringBuilder.append(lineString);
 					if (lineString.contains("</div>")) {
-						StartReadPages = false;
+						startReadPages = false;
 												
 						String str = ksStringBuilder.toString();
 						
@@ -147,7 +146,7 @@ public class VideoListTask extends AsyncTask<Object, Void, Boolean> {
 							start = str.indexOf("\">", 0) + 2;	// Start
 							end = str.indexOf("</a>", start);	    // End																					
 							
-							if (Utilities.isInteger(str.substring(start, end))) {
+							if (HappyUtils.isInteger(str.substring(start, end))) {
 								if (Integer.parseInt(str.substring(start, end)) > mNumberOfVideoPages) {
 									mNumberOfVideoPages = Integer.parseInt(str.substring(start, end));
 								}
@@ -155,10 +154,10 @@ public class VideoListTask extends AsyncTask<Object, Void, Boolean> {
 							str = str.substring(end, str.length());
 						}
 					}
-				} else if (StartReadCategory) {
+				} else if (startReadCategory) {
 					ksStringBuilder.append(lineString);
 					if (lineString.contains("</form>")) {
-						StartReadCategory = false;
+						startReadCategory = false;
 						
 						String str = ksStringBuilder.toString();
 						if (str.contains("selected")) {

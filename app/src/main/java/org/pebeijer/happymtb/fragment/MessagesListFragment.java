@@ -6,7 +6,7 @@ import java.util.List;
 import org.pebeijer.happymtb.MessageActivity;
 import org.pebeijer.happymtb.R;
 import org.pebeijer.happymtb.adapter.ListMessagesAdapter;
-import org.pebeijer.happymtb.helpers.Utilities;
+import org.pebeijer.happymtb.helpers.HappyUtils;
 import org.pebeijer.happymtb.item.Message;
 import org.pebeijer.happymtb.item.MessageData;
 import org.pebeijer.happymtb.listener.MessageListListener;
@@ -143,7 +143,7 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 			alert.setPositiveButton("Hoppa", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Do something with value!
-					if (Utilities.isInteger(input.getText().toString())) {
+					if (HappyUtils.isInteger(input.getText().toString())) {
 						mMessageData.setCurrentPage(Integer.parseInt(input.getText().toString()));
 						FetchData();
 					}					

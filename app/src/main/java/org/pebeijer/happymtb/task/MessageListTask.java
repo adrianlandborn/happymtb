@@ -13,7 +13,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.cookie.BasicClientCookie;
 
-import org.pebeijer.happymtb.helpers.Utilities;
+import org.pebeijer.happymtb.helpers.HappyUtils;
 import org.pebeijer.happymtb.item.Message;
 import org.pebeijer.happymtb.listener.MessageListListener;
 
@@ -55,36 +55,36 @@ public class MessageListTask extends AsyncTask<Object, Void, Boolean>
     		End = Str.indexOf("</strong>", Start);      	      	
       	}
       		
-		String Title = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		String Title = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;
 	
 		Start = Str.indexOf("<strong>", Start) + 8;
 		End = Str.indexOf("</strong>", Start);        	
-      	String By = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+      	String By = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
       	Start = End;
 
 /*      	
       	if (By.contains("<a href=")) {
       		int SubStart = By.indexOf("\">", 0) + 2;
       		int SubEnd = By.indexOf("</a>", 0);
-      		By = Utilities.ReplaceHTMLChars(By.substring(SubStart, SubEnd).trim());
+      		By = Utilities.replaceHTMLChars(By.substring(SubStart, SubEnd).trim());
       	}         	      	
 */
 		Start = Str.indexOf("Datum: ", Start) + 7;
 		End = Str.indexOf("</div>", Start);        	
-      	String Date = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+      	String Date = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
       	Start = End;
       	
 		Start = Str.indexOf("PhorumReadBodyText\">", Start) + 20;
 		End = Str.indexOf("</div>", Start);        	
-      	String Text = Utilities.ReplaceHTMLChars(Str.substring(Start, End));  
+      	String Text = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 	/*	      	
 		Spanned spanned = Html.fromHtml(Text);			
 		SpannableStringBuilder htmlSpannable = (SpannableStringBuilder) spanned;
 		File extStore = Environment.getExternalStorageDirectory();
 		
 		for (ImageSpan img : htmlSpannable.getSpans(0, htmlSpannable.length(), ImageSpan.class)) {		
-			String filename = Utilities.GetFilename(img.getSource());			
+			String filename = Utilities.getFilename(img.getSource());
 			File bitmapFile = new File(extStore.getAbsolutePath() + mBitmapFolder, filename + ".png");	
 			if (!bitmapFile.exists()) {
 				Bitmap bitmap = downloadBitmap(img.getSource());

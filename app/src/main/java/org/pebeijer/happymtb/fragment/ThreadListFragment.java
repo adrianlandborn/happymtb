@@ -5,11 +5,11 @@ import java.util.List;
 import org.pebeijer.happymtb.MainActivity;
 import org.pebeijer.happymtb.MessageActivity;
 import org.pebeijer.happymtb.R;
+import org.pebeijer.happymtb.helpers.HappyUtils;
 import org.pebeijer.happymtb.listener.LoginListener;
 import org.pebeijer.happymtb.listener.MarkAsReadListener;
 import org.pebeijer.happymtb.listener.ThreadListListener;
 import org.pebeijer.happymtb.adapter.ListThreadsAdapter;
-import org.pebeijer.happymtb.helpers.Utilities;
 import org.pebeijer.happymtb.item.Thread;
 import org.pebeijer.happymtb.item.ThreadData;
 import org.pebeijer.happymtb.task.LoginTask;
@@ -201,7 +201,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 			alert.setPositiveButton("Hoppa", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Do something with value!
-					if (Utilities.isInteger(input.getText().toString())) {
+					if (HappyUtils.isInteger(input.getText().toString())) {
 						mThreadData.setCurrentPage(Integer.parseInt(input.getText().toString()));
 						FetchData();
 					}					

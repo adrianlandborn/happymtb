@@ -12,7 +12,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 
 import android.os.AsyncTask;
-import org.pebeijer.happymtb.helpers.Utilities;
+
+import org.pebeijer.happymtb.helpers.HappyUtils;
 import org.pebeijer.happymtb.item.CalendarItem;
 import org.pebeijer.happymtb.listener.CalendarListListener;
 
@@ -45,36 +46,36 @@ public class CalendarListTask extends AsyncTask<Object, Void, Boolean> {
 		
 		Start = Str.indexOf("<a href=\"./", Start) + 11;
 		End = Str.indexOf("/\">", Start);
-		Id = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		Id = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;			
 		
 		Start = Str.indexOf("<h2>", Start) + 4;
 		End = Str.indexOf("</h2>", Start);
-		Title = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		Title = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;		
 		
 		if (Title.contains("<i class=\"icon-map-marker\"></i>")) {
-			Title = Utilities.ReplaceHTMLChars(Title.substring(0, Title.length() - 31));
+			Title = HappyUtils.replaceHTMLChars(Title.substring(0, Title.length() - 31));
 		}
 		
 		Start = Str.indexOf("fc-event-title\">", Start) + 16;
 		End = Str.indexOf("</span>", Start);
-		Category = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		Category = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;		
 
 		Start = Str.indexOf("</span></span></span> ", Start) + 22;
 		End = Str.indexOf("<br />", Start);
-		Description = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		Description = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;		
 
 		Start = Str.indexOf("</i> ", Start) + 5;
 		End = Str.indexOf("  <i class", Start);
-		Time = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		Time = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;		
 		
 		Start = Str.indexOf("</i> ", Start) + 5;
 		End = Str.indexOf("<br />", Start);
-		SelectedRegion = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		SelectedRegion = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;			
 		
 		return new CalendarItem(Title, Description, Category, SelectedRegion, Time, Id);

@@ -63,7 +63,7 @@ public class VideoRowView extends LinearLayout {
 	public void setObjectImage(Drawable ObjectImage) {
 		if (mObjectImage != null) {
 			if (ObjectImage == null) {
-				int imageResource = R.drawable.picture;
+				int imageResource = R.drawable.no_photo;
 				Drawable d = getResources().getDrawable(imageResource);						
 				ObjectImage = d;
 			}			

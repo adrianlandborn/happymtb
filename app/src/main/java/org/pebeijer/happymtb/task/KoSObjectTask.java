@@ -10,7 +10,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
-import org.pebeijer.happymtb.helpers.Utilities;
+
+import org.pebeijer.happymtb.helpers.HappyUtils;
 import org.pebeijer.happymtb.item.KoSObjectItem;
 import org.pebeijer.happymtb.listener.KoSObjectListener;
 
@@ -35,7 +36,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 		
 		int Start = Str.indexOf("\"header\">", 0) + 9;
 		int End = Str.indexOf("</span>", Start);
-		String Area = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		String Area = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;
 		
 		Start = Str.indexOf("\"header\">", Start) + 9;
@@ -44,7 +45,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 		
 		Start = Str.indexOf("\"header\">", Start) + 9;
 		End = Str.indexOf("</span>", Start);		
-		String Type = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		String Type = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;
 		
 		Start = Str.indexOf("\"header\">", Start) + 9;
@@ -53,22 +54,22 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 		
 		Start = Str.indexOf("\"header\">", Start) + 9;
 		End = Str.indexOf("</span>", Start);		
-		String Title = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		String Title = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;		
 		
 		Start = Str.indexOf("\"bold\">", Start) + 7;
 		End = Str.indexOf("</span>", Start);		
-		String Person = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		String Person = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;		
 		
 		Start = Str.indexOf("<strong>", Start) + 8;
 		End = Str.indexOf("</strong>", Start);		
-		String Phone = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		String Phone = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;			
 			
 		Start = Str.indexOf("\"bold\">", Start) + 7;
 		End = Str.indexOf("</span>", Start);		
-		String Date = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		String Date = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;	
 		
 		if (Str.contains("<img")) {
@@ -80,7 +81,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 			
 		Start = Str.indexOf("\"plain\">", Start) + 8;
 		End = Str.indexOf("</span>", Start);		
-		String Text = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		String Text = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;			
 		
 		String Price = "";		
@@ -89,7 +90,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 		} else {
 			Start = Str.indexOf("\"bold\">", Start) + 7;
 			End = Str.indexOf("</span>", Start);		
-			Price = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+			Price = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		}
 
 		return new KoSObjectItem(Area, Type, Title, Person, Phone, Date, ImgLink, Text, Price);

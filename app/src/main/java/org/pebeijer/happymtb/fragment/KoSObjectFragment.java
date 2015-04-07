@@ -23,6 +23,7 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,7 +33,8 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	private ProgressDialog mProgressDialog = null;
 	private KoSObjectTask mKoSObjectTask;
 	private KoSObjectItem mKoSObjectItem;
-	private SharedPreferences mPreferences;	
+	private SharedPreferences mPreferences;
+    View mObjectView;
 	TextView mTitle;
 	TextView mPerson;		
 	TextView mDate;
@@ -51,8 +53,9 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(mKoSObjectActivity);
 		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
-		int mTextSize = Integer.parseInt(TextSizeArray[mPreferences.getInt("textsize", 0)]);	
-		
+		int mTextSize = Integer.parseInt(TextSizeArray[mPreferences.getInt("textsize", 0)]);
+
+        mObjectView = mKoSObjectActivity.findViewById(R.id.kos_object);
 		mTitle = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_title);
 		mPerson = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_person);		
 		mDate = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_date);
@@ -131,7 +134,9 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		} else {
 			int identifier = getResources().getIdentifier("rowshape_red", "drawable","org.pebeijer.happymtb");
 			mBackgroundColor.setBackgroundResource(identifier);
-		}		
+		}
+
+        mObjectView.setVisibility(View.VISIBLE);
 	}	
 	
 	protected Dialog onCreateDialog(int id) {		

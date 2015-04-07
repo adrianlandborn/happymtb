@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.pebeijer.happymtb.R;
 import org.pebeijer.happymtb.adapter.ListVideoAdapter;
-import org.pebeijer.happymtb.helpers.Utilities;
+import org.pebeijer.happymtb.helpers.HappyUtils;
 import org.pebeijer.happymtb.item.VideoData;
 import org.pebeijer.happymtb.item.VideoItem;
 import org.pebeijer.happymtb.listener.VideoListListener;
@@ -132,7 +132,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 			mAlertDialog.setPositiveButton("Hoppa", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Do something with value!
-					if (Utilities.isInteger(PageNumber.getText().toString())) {
+					if (HappyUtils.isInteger(PageNumber.getText().toString())) {
 						mVideoData.setCurrentPage(Integer.parseInt(PageNumber.getText().toString()));
 						FetchData();
 					}					

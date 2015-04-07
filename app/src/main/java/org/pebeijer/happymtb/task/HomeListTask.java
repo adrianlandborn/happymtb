@@ -11,7 +11,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
-import org.pebeijer.happymtb.helpers.Utilities;
+
+import org.pebeijer.happymtb.helpers.HappyUtils;
 import org.pebeijer.happymtb.item.Home;
 import org.pebeijer.happymtb.listener.HomeListListener;
 
@@ -34,12 +35,12 @@ public class HomeListTask extends AsyncTask<Object, Void, Boolean> {
 	public Home ExtractHomeRow(String Str) {
 		int Start = Str.indexOf("<title>", 0) + 7;
 		int End = Str.indexOf("</title>", Start);
-		String Title = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		String Title = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;
 		
 		Start = Str.indexOf("<description><![CDATA[", Start) + 22;
 		End = Str.indexOf("]]></description>", Start);
-		String Text = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		String Text = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;
 		
 		Start = Str.indexOf("<link>", Start) + 6;

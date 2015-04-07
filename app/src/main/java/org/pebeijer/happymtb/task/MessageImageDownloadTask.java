@@ -16,7 +16,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 
 import org.pebeijer.happymtb.adapter.ListMessagesAdapter;
-import org.pebeijer.happymtb.helpers.Utilities;
+import org.pebeijer.happymtb.helpers.HappyUtils;
 import org.pebeijer.happymtb.item.Message;
 
 import android.content.Context;
@@ -49,7 +49,7 @@ public class MessageImageDownloadTask extends AsyncTask<Object, Void, Void> {
 			File extStore = Environment.getExternalStorageDirectory();	
 			
 			for (ImageSpan img : htmlSpannable.getSpans(0, htmlSpannable.length(), ImageSpan.class)) {		
-				String filename = Utilities.GetFilename(img.getSource());			
+				String filename = HappyUtils.getFilename(img.getSource());
 				File bitmapFile = new File(extStore.getAbsolutePath() + mBitmapFolder, filename + ".png");	
 				if (!bitmapFile.exists()) {					
 					Bitmap bitmap = downloadBitmap(img.getSource());					

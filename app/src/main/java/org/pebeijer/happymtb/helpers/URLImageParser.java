@@ -32,7 +32,7 @@ public class URLImageParser implements ImageGetter {
 		Bitmap mDefaultImageBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.icon);			
 		FastBitmapDrawable defaultImage = new FastBitmapDrawable(mDefaultImageBitmap);
 			
-		String filename = Utilities.GetFilename(source);
+		String filename = HappyUtils.getFilename(source);
 		Drawable d = getCachedBitmap(defaultImage, PATH, filename, Metrics);	
 		// next we do some scaling
 		int width, height;

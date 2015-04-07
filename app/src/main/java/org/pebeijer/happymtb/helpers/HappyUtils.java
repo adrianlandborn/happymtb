@@ -1,11 +1,7 @@
 package org.pebeijer.happymtb.helpers;
 
-public class Utilities {
+public class HappyUtils {
 
-	private Utilities() {
-    }
-
-	
 	public static boolean isInteger(String str) {
 		if (str == null) {
 			return false;
@@ -30,14 +26,14 @@ public class Utilities {
 		return true;
 	}	
 	
-	public static String GetFilename(String url) {	
+	public static String getFilename(String url) {
 		String fileName = url.substring( url.lastIndexOf('/')+1, url.length() );
 		String fileNameWithoutExtn = fileName.substring(0, fileName.lastIndexOf('.'));		
 		fileNameWithoutExtn = fileNameWithoutExtn.replace('.', '_');		
 		return fileNameWithoutExtn;
 	}
 	
-	public static String ReplaceHTMLChars(String HTMLCode)
+	public static String replaceHTMLChars(String HTMLCode)
 	{
 		HTMLCode=HTMLCode.replaceAll("&aring;", "å").
 		replaceAll("&auml;", "ä").

@@ -12,7 +12,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
 
-import org.pebeijer.happymtb.helpers.Utilities;
+import org.pebeijer.happymtb.helpers.HappyUtils;
 import org.pebeijer.happymtb.item.Item;
 import org.pebeijer.happymtb.listener.ItemListListener;
 
@@ -36,7 +36,7 @@ public class ShopsListTask extends AsyncTask<Object, Void, Boolean> {
 	public Item ExtractItemRow(String ShopStr) {
 		int Start = ShopStr.indexOf("<b>", 0) + 3;
 		int End = ShopStr.indexOf("</b>", Start);
-		String Title = Utilities.ReplaceHTMLChars(ShopStr.substring(Start, End));
+		String Title = HappyUtils.replaceHTMLChars(ShopStr.substring(Start, End));
 		Start = End;
 
 		Start = ShopStr.indexOf("<a href='", Start) + 9;
@@ -46,7 +46,7 @@ public class ShopsListTask extends AsyncTask<Object, Void, Boolean> {
 
 		Start = ShopStr.indexOf("PhorumSmallFont'>", Start) + 17;
 		End = ShopStr.indexOf("</span>", Start);
-		String Description = Utilities.ReplaceHTMLChars(ShopStr.substring(Start, End));
+		String Description = HappyUtils.replaceHTMLChars(ShopStr.substring(Start, End));
 
 		return new Item(Title, Link, Description, mGroup, false);
 	}
@@ -79,9 +79,9 @@ public class ShopsListTask extends AsyncTask<Object, Void, Boolean> {
 					ksStringBuilder = new StringBuilder();
 					ksStringBuilder.append(lineString);
 				} else if (lineString.contains("Header' nowrap='nowrap' w")) {				
-					mGroup = Utilities.ReplaceHTMLChars(lineString.substring(
-							lineString.indexOf("=0'>", 0) + 4,
-							lineString.indexOf("</", 0)));	
+					mGroup = HappyUtils.replaceHTMLChars(lineString.substring(
+                            lineString.indexOf("=0'>", 0) + 4,
+                            lineString.indexOf("</", 0)));
 
 					shopItem = new Item(mGroup, false);
 					mShopItems.add(shopItem);					

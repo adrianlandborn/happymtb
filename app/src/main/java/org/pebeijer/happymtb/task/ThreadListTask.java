@@ -12,7 +12,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.cookie.BasicClientCookie;
 
-import org.pebeijer.happymtb.helpers.Utilities;
+import org.pebeijer.happymtb.helpers.HappyUtils;
 import org.pebeijer.happymtb.item.Thread;
 import org.pebeijer.happymtb.listener.ThreadListListener;
 
@@ -51,7 +51,7 @@ public class ThreadListTask extends AsyncTask<Object, Void, Boolean>
 
 		int Start = Str.indexOf("<a onmouseover=\"return escape('", 0) + 31;
 		int End = Str.indexOf("')\" href=\"", Start);
-		String MessageText = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		String MessageText = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;
 		
 		Start = Str.indexOf("href=\"http://happymtb.org/forum/read.php/1/", Start) + 43;
@@ -61,7 +61,7 @@ public class ThreadListTask extends AsyncTask<Object, Void, Boolean>
 		
 		Start = Str.indexOf("\">", Start) + 2;
 		End = Str.indexOf("</a>", Start);        	
-      	String Title = Utilities.ReplaceHTMLChars(Str.substring(Start, End));  
+      	String Title = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;
 		
 		int NumberOfPages = 1;
@@ -79,13 +79,13 @@ public class ThreadListTask extends AsyncTask<Object, Void, Boolean>
 		
 		Start = Str.indexOf("\"nowrap\">", Start) + 9;
       	End = Str.indexOf("&nbsp;</td>", Start);  
-		String StartedBy = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		String StartedBy = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;
 		
       	if (StartedBy.contains("<a href="))	{
       		int SubStart = StartedBy.indexOf("\">", 0) + 2;
       		int SubEnd = StartedBy.indexOf("</a>", 0);
-          	StartedBy = Utilities.ReplaceHTMLChars(StartedBy.substring(SubStart, SubEnd));
+          	StartedBy = HappyUtils.replaceHTMLChars(StartedBy.substring(SubStart, SubEnd));
       	}   				      	
       	
 		Start = Str.indexOf("\"nowrap\">", Start) + 9;
@@ -95,12 +95,12 @@ public class ThreadListTask extends AsyncTask<Object, Void, Boolean>
       			
       	if (LastMessageTime.contains("<a href=")) {
       		int SubStart = LastMessageTime.indexOf("\">", 0) + 2;
-          	LastMessageTime = Utilities.ReplaceHTMLChars(LastMessageTime.substring(SubStart, LastMessageTime.length()));
+          	LastMessageTime = HappyUtils.replaceHTMLChars(LastMessageTime.substring(SubStart, LastMessageTime.length()));
       	} 
 
 		Start = Str.indexOf("\">", Start) + 2;
       	End = Str.indexOf("</td>", Start);  
-      	String LastMessageFrom = Utilities.ReplaceHTMLChars(Str.substring(Start, End).trim());
+      	String LastMessageFrom = HappyUtils.replaceHTMLChars(Str.substring(Start, End).trim());
       	
       	return new Thread(ThreadId, Title, NumberOfMessages, StartedBy, LastMessageTime, LastMessageFrom, MessageText, NumberOfPages, NewMsg, 1);	
 	}

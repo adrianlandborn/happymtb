@@ -6,14 +6,13 @@ import org.pebeijer.happymtb.KoSObjectActivity;
 import org.pebeijer.happymtb.MainActivity;
 import org.pebeijer.happymtb.R;
 import org.pebeijer.happymtb.adapter.ListKoSAdapter;
-import org.pebeijer.happymtb.helpers.Utilities;
+import org.pebeijer.happymtb.helpers.HappyUtils;
 import org.pebeijer.happymtb.item.KoSData;
 import org.pebeijer.happymtb.item.KoSItem;
 import org.pebeijer.happymtb.listener.KoSListListener;
 import org.pebeijer.happymtb.task.KoSImageDownloadTask;
 import org.pebeijer.happymtb.task.KoSListTask;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -25,7 +24,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.util.TypedValue;
@@ -150,7 +148,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 			alert.setPositiveButton("Hoppa", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Do something with value!
-					if (Utilities.isInteger(input.getText().toString()))
+					if (HappyUtils.isInteger(input.getText().toString()))
 					{
 						mKoSData.setCurrentPage(Integer.parseInt(input.getText().toString()));
 						FetchData();
@@ -373,7 +371,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 	    }
 	}			
 	
-	public class KoSSearchDialogFragment extends DialogFragment {	
+	public class KoSSearchDialogFragment extends DialogFragment {
 		public DialogFragment newInstace() {
 			DialogFragment dialogFragment = new KoSSearchDialogFragment();
 			return dialogFragment;

@@ -20,28 +20,28 @@
 		<LinearLayout
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			>	    		
+			android:orientation="vertical" >
+
 			<LinearLayout 
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
+                android:id="@+id/kos_object"
 				android:orientation="vertical"	    
 		        android:layout_marginLeft="5dp"
 		        android:layout_marginRight="5dp"
 		        android:layout_marginTop="2dp"
 		        android:layout_marginBottom="3dp"
 		        android:paddingBottom="1dp"
-		        android:background="@drawable/rowshape_kos"
-				> 
+                android:visibility="invisible"
+		        android:background="@drawable/rowshape_kos" >
 		        
 				<LinearLayout 
 				    android:id="@+id/kos_object_color"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:orientation="vertical"
-					android:padding="1dp"	    
-			        android:background="@drawable/rowshape_green"
-					>   	  
+					android:padding="1dp"
+			        android:background="@drawable/rowshape_green" >
 					  	    					    
 				    <TextView
 				    	android:id="@+id/kos_object_title"

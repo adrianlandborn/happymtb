@@ -11,7 +11,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
-import org.pebeijer.happymtb.helpers.Utilities;
+
+import org.pebeijer.happymtb.helpers.HappyUtils;
 import org.pebeijer.happymtb.item.KoSItem;
 import org.pebeijer.happymtb.listener.KoSListListener;
 
@@ -48,7 +49,7 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 
 		Start = KoSStr.indexOf("<span class=\"resultline\">", Start) + 25;
 		End = KoSStr.indexOf("</span><br />", Start);
-		Time = Utilities.ReplaceHTMLChars(KoSStr.substring(Start, End));
+		Time = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
 		Start = End;		
 		
 		if (KoSStr.contains("table")) {
@@ -67,22 +68,22 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 		
 		Start = KoSStr.indexOf("class=\"resultline_large\">", Start) + 25;
 		End = KoSStr.indexOf("</span></a>", Start);
-		Title = Utilities.ReplaceHTMLChars(KoSStr.substring(Start, End));
+		Title = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
 		Start = End;
 		
 		Start = KoSStr.indexOf("<span class=\"resultline\">", Start) + 25;
 		End = KoSStr.indexOf("</span><br />", Start);
-		Area = Utilities.ReplaceHTMLChars(KoSStr.substring(Start, End));
+		Area = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
 		Start = End;
 		
 		Start = KoSStr.indexOf("<span class=\"resultline\">", Start) + 25;
 		End = KoSStr.indexOf("</span><br />", Start);
-		Category = Utilities.ReplaceHTMLChars(KoSStr.substring(Start, End));
+		Category = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
 		Start = End;
 		
 		Start = KoSStr.indexOf("<span class=\"resultline\">", Start) + 25;
 		End = KoSStr.indexOf("</span><br />", Start);
-		Price = Utilities.ReplaceHTMLChars(KoSStr.substring(Start, End));
+		Price = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
 		
 		return new KoSItem(Time, Title, Area, Link, ImgLink, Category, Price, 0, mSelectedCategory, mSelectedRegion);
 	}

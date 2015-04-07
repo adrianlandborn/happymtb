@@ -11,7 +11,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
-import org.pebeijer.happymtb.helpers.Utilities;
+
+import org.pebeijer.happymtb.helpers.HappyUtils;
 import org.pebeijer.happymtb.item.Item;
 import org.pebeijer.happymtb.listener.ItemListListener;
 
@@ -45,7 +46,7 @@ public class ArticlesListTask extends AsyncTask<Object, Void, Boolean> {
 
 		Start = Str.indexOf("&quot;'>", Start) + 8;
 		End = Str.indexOf("</a></li>", Start);
-		String Title = Utilities.ReplaceHTMLChars(Str.substring(Start, End));
+		String Title = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 
 		return new Item(Title, Link, Description, mGroup, false);
 	}
@@ -71,9 +72,9 @@ public class ArticlesListTask extends AsyncTask<Object, Void, Boolean> {
 			
 			while((lineString = lineNumberReader.readLine()) != null) {
 				if (lineString.contains("monthtitle")) {
-					mGroup = Utilities.ReplaceHTMLChars(lineString.substring(
-							lineString.indexOf("<strong>", 0) + 8,
-							lineString.indexOf("</strong>", 0)));	
+					mGroup = HappyUtils.replaceHTMLChars(lineString.substring(
+                            lineString.indexOf("<strong>", 0) + 8,
+                            lineString.indexOf("</strong>", 0)));
 					item = new Item(mGroup, false);
 					mItems.add(item);					
 				}
