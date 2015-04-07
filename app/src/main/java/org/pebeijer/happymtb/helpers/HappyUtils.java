@@ -33,9 +33,8 @@ public class HappyUtils {
 		return fileNameWithoutExtn;
 	}
 	
-	public static String replaceHTMLChars(String HTMLCode)
-	{
-		HTMLCode=HTMLCode.replaceAll("&aring;", "å").
+	public static String replaceHTMLChars(String htmlCode) {
+		htmlCode = htmlCode.replaceAll("&aring;", "å").
 		replaceAll("&auml;", "ä").
 		replaceAll("&ouml;", "ö").
 		replaceAll("&Aring;", "Å").
@@ -59,8 +58,9 @@ public class HappyUtils {
 		replaceAll("&#8221;", "�").
 		replaceAll("&#038;", "&").
 		replaceAll("&amp;", "&").
+		replaceAll("&amp;", "&").
 		replaceAll("&#8230;", "...");
 //		QuickHTMLConvertionTimesRun++;
-		return HTMLCode;
+		return htmlCode;
 	}  	
 }
