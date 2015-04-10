@@ -256,7 +256,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		String url = mVideoData.getVideoItems().get(position).getLink();		
-		url = url.replaceAll("video", "video/i");	
+		url = url.replaceAll("video", "video/i");
 		Uri uri = Uri.parse(url);
 		Intent i = new Intent("android.intent.action.VIEW", uri);
 		startActivity(i);				

@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item 
         android:id="@+id/kos_left" 
-        android:icon="@drawable/back" 
+        android:icon="@drawable/ic_action_previous"
         android:showAsAction="always" 
         android:title="Föregående sida"
         android:visible="true">        
@@ -10,50 +10,50 @@
        
     <item 
         android:id="@+id/kos_right" 
-        android:icon="@drawable/forward" 
+        android:icon="@drawable/ic_action_next"
         android:showAsAction="always"
         android:title="Nästa sida" 
         android:visible="true">        
     </item>       
 
     <item android:id="@+id/kos_submenu"
-        android:icon="@drawable/submenu" 
+        android:icon="@drawable/ic_action_submenu"
     	android:title="Submenu &gt;"
         android:showAsAction="always">
         <menu>
     		<item 
         		android:id="@+id/kos_refresh" 
-        		android:icon="@drawable/refresh"  
+        		android:icon="@drawable/ic_action_refresh"
         		android:title="Ladda om sidan"/>        
                 
 			<item
             	android:id="@+id/kos_go_to_page"
-            	android:icon="@drawable/jump"
+            	android:icon="@drawable/ic_action_go_to"
                 android:title="Gå till sidan..." />    	            
 
 			<item
             	android:id="@+id/kos_picture_row"
-            	android:icon="@drawable/pictureview"
+            	android:icon="@drawable/ic_action_pictureview"
                 android:title="Bildvy" />    	 
                 
 			<item
             	android:id="@+id/kos_text_row"
-            	android:icon="@drawable/textview"
+            	android:icon="@drawable/ic_action_textview"
                 android:title="Textvy" />    	 
 			
     		<item
             	android:id="@+id/kos_search"
-            	android:icon="@drawable/search"
+            	android:icon="@drawable/ic_action_search"
                 android:title="Sök" />
     		
     		<item
             	android:id="@+id/kos_sort"
-            	android:icon="@drawable/sort"
+            	android:icon="@drawable/ic_action_sort"
                 android:title="Sortering" />    		    			
     				
 			<item
             	android:id="@+id/kos_new_item"
-            	android:icon="@drawable/write"
+            	android:icon="@drawable/ic_action_write"
                 android:title="Lägg till annons" />    		
 		</menu>            
 	</item>	    

@@ -44,7 +44,7 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 	TextView mPageText;
 	TextView mCurrentPage;		
 	TextView mByText;
-	TextView mMaxPages;	
+	TextView mMaxPages;
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -68,13 +68,13 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 				
 		if (mMessageData.getLogined()) {
 			ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.message_login_status_image);
-			LoginStatusImage.setImageResource(R.drawable.online);
+			LoginStatusImage.setImageResource(R.drawable.ic_online);
 
 			TextView LoginStatus = (TextView) mActivity.findViewById(R.id.message_login_status);
 			LoginStatus.setText("Inloggad som " + mUsername);
 		} else {
 			ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.message_login_status_image);
-			LoginStatusImage.setImageResource(R.drawable.offline);
+			LoginStatusImage.setImageResource(R.drawable.ic_offline);
 
 			TextView LoginStatus = (TextView) mActivity.findViewById(R.id.message_login_status);
 			LoginStatus.setText("Ej inloggad");

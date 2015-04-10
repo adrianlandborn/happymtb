@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >  
     <item 
         android:id="@+id/message_left" 
-        android:icon="@drawable/back" 
+        android:icon="@drawable/ic_action_previous"
         android:showAsAction="always" 
         android:title="Föregående sida"
         android:visible="true">        
@@ -10,30 +10,30 @@
    
     <item 
         android:id="@+id/message_right" 
-        android:icon="@drawable/forward" 
+        android:icon="@drawable/ic_action_next"
         android:showAsAction="always"
         android:title="Nästa sida" 
         android:visible="true">        
     </item>        
     
     <item android:id="@+id/message_submenu"
-        android:icon="@drawable/submenu" 
+        android:icon="@drawable/ic_action_submenu"
     	android:title="Submenu &gt;"
         android:showAsAction="always">
         <menu>
     		<item 
         		android:id="@+id/message_refresh" 
-        		android:icon="@drawable/refresh"  
+        		android:icon="@drawable/ic_action_refresh"
         		android:title="Ladda om sidan"/>                        
             
 			<item
             	android:id="@+id/message_go_to_page"
-            	android:icon="@drawable/jump"
+            	android:icon="@drawable/ic_action_go_to"
                 android:title="Gå till sidan..." />            
             
 <!--     		<item -->
 <!--             	android:id="@+id/thread_search" -->
-<!--             	android:icon="@drawable/search" -->
+<!--             	android:icon="@drawable/ic_action_search" -->
 <!--                 android:title="Sök" /> -->
 		</menu>            
 	</item>	    

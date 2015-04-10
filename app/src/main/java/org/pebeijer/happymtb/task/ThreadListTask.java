@@ -117,7 +117,7 @@ public class ThreadListTask extends AsyncTask<Object, Void, Boolean>
     		cookie.setDomain("happymtb.org");
     		cookieStore.addCookie(cookie);
 
-    		String urlStr = "http://happymtb.org/forum/list.php/1/page=" + Integer.toString((Integer)param[0]);    		
+    		String urlStr = "http://happymtb.org/forum/list.php/1/page=" + Integer.toString((Integer)param[0]);
     		
             HttpGet httpget = new HttpGet(urlStr);
 

@@ -2,23 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item android:id="@+id/shops_submenu"
-        android:icon="@drawable/submenu" 
+        android:icon="@drawable/ic_action_submenu"
     	android:title="Submenu &gt;"
         android:showAsAction="always">
         <menu>   		
     		<item 
         		android:id="@+id/shops_expand_all" 
-        		android:icon="@drawable/expand"  
+        		android:icon="@drawable/ic_action_expand"
         		android:title="Expandera alla"/>
     		       		
     		<item 
         		android:id="@+id/shops_hide_all" 
-        		android:icon="@drawable/collapse"  
+        		android:icon="@drawable/ic_action_collapse"
         		android:title="Dölj alla"/>       		
     		
     		<item 
         		android:id="@+id/shops_add" 
-        		android:icon="@drawable/write"  
+        		android:icon="@drawable/ic_action_write"
         		android:title="Lägg till butik"/>    						
 		</menu>            
 	</item>	    

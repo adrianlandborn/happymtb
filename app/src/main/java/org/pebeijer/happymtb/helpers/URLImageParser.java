@@ -29,7 +29,7 @@ public class URLImageParser implements ImageGetter {
 		
 		String PATH = "/happymtb/";
 		
-		Bitmap mDefaultImageBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.icon);			
+		Bitmap mDefaultImageBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.no_photo);
 		FastBitmapDrawable defaultImage = new FastBitmapDrawable(mDefaultImageBitmap);
 			
 		String filename = HappyUtils.getFilename(source);

@@ -82,7 +82,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 						mActivity.SetThreadLogined(true);
 					
 						ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
-						LoginStatusImage.setImageResource(R.drawable.online);
+						LoginStatusImage.setImageResource(R.drawable.ic_online);
 	
 						TextView LoginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
 						LoginStatus.setText("Inloggad som " + mUsername);
@@ -96,7 +96,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 						mActivity.SetThreadLogined(false);
 						
 						ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
-						LoginStatusImage.setImageResource(R.drawable.offline);
+						LoginStatusImage.setImageResource(R.drawable.ic_offline);
 	
 						TextView LoginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
 						LoginStatus.setText("Ej inloggad");
@@ -124,7 +124,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 			mActivity.SetThreadLogined(true);
 			
 			ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
-			LoginStatusImage.setImageResource(R.drawable.online);
+			LoginStatusImage.setImageResource(R.drawable.ic_online);
 
 			TextView LoginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
 			LoginStatus.setText("Inloggad som " + mUsername);		
