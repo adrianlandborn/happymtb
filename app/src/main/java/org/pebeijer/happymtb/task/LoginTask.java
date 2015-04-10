@@ -61,13 +61,11 @@ public class LoginTask extends AsyncTask<Object, Void, Boolean> {
 					if (cookie.toString().contains("phorum_tmp_cookie")) {						
 						return false;
 					} else if (cookie.toString().contains("phorum_session_v5")) { 
-						SharedPreferences settings;
-						settings = PreferenceManager
-								.getDefaultSharedPreferences((Context) param[0]);
+						SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences((Context) param[0]);
 						SharedPreferences.Editor editor = settings.edit();
 						editor.putString("cookiename", cookie.getName());
 						editor.putString("cookievalue", cookie.getValue());
-						editor.commit();
+						editor.apply();
 						return true;
 					}
 				}

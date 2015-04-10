@@ -87,7 +87,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 	public void setPictureList(Boolean Value) {
 		Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
 	    editor.putBoolean("videopicturelist", Value);              
-	    editor.commit();
+	    editor.apply();
 	}
 	
 	@Override

@@ -104,7 +104,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 						SharedPreferences.Editor editor = mPreferences.edit();
 						editor.putString("cookiename", "");
 						editor.putString("cookievalue", "");
-						editor.commit();
+						editor.apply();
 						
 						setHasOptionsMenu(true);
 						
@@ -117,7 +117,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 			SharedPreferences.Editor editor = mPreferences.edit();
 			editor.putString("cookiename", "");
 			editor.putString("cookievalue", "");
-			editor.commit();
+			editor.apply();
 			
 			setHasOptionsMenu(true);
 			

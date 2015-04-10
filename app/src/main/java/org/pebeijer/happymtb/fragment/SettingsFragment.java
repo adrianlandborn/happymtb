@@ -38,25 +38,19 @@ public class SettingsFragment extends Fragment {
 		SaveButton.setOnClickListener(new View.OnClickListener(){
         	public void onClick(View v)
         	{  
-        		EditText UserName = (EditText) getActivity().findViewById(R.id.Settings_Username);
+        		EditText userName = (EditText) getActivity().findViewById(R.id.Settings_Username);
         		Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-                editor.putString("username", UserName.getText().toString());              
-                editor.commit();
-                
-                EditText Password = (EditText) getActivity().findViewById(R.id.Settings_Password);
-        		editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-                editor.putString("password", Password.getText().toString());              
-                editor.commit();         
-                
-                Spinner TextSize = (Spinner) getActivity().findViewById(R.id.Settings_TextSize);
-        		editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-                editor.putInt("textsize", TextSize.getSelectedItemPosition());              
-                editor.commit();                                         
+                editor.putString("username", userName.getText().toString());
 
-                Spinner StartPage = (Spinner) getActivity().findViewById(R.id.Settings_StartPage);
-        		editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-                editor.putInt("startpage", StartPage.getSelectedItemPosition());              
-                editor.commit();                
+                EditText password = (EditText) getActivity().findViewById(R.id.Settings_Password);
+                editor.putString("password", password.getText().toString());
+
+                Spinner textSize = (Spinner) getActivity().findViewById(R.id.Settings_TextSize);
+                editor.putInt("textsize", textSize.getSelectedItemPosition());
+
+                Spinner startPage = (Spinner) getActivity().findViewById(R.id.Settings_StartPage);
+                editor.putInt("startpage", startPage.getSelectedItemPosition());
+                editor.apply();
                 
                 Toast.makeText(getActivity(), "Användarnamn och lösenord sparade", Toast.LENGTH_SHORT).show();
         	}	

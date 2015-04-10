@@ -98,7 +98,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 	public void setPictureList(Boolean Value) {
 		Editor editor = PreferenceManager.getDefaultSharedPreferences(mActivity).edit();
 	    editor.putBoolean("kospicturelist", Value);              
-	    editor.commit();
+	    editor.apply();
 	}
 	
 	@Override
