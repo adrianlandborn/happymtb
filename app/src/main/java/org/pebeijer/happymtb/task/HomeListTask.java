@@ -32,38 +32,38 @@ public class HomeListTask extends AsyncTask<Object, Void, Boolean> {
 		mHomeListListenerList.remove(l);
 	}
 
-	public Home ExtractHomeRow(String Str) {
-		int Start = Str.indexOf("<title>", 0) + 7;
-		int End = Str.indexOf("</title>", Start);
-		String Title = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
-		Start = End;
+	public Home ExtractHomeRow(String str) {
+		int start = str.indexOf("<title>", 0) + 7;
+		int end = str.indexOf("</title>", start);
+		String title = HappyUtils.replaceHTMLChars(str.substring(start, end));
+		start = end;
 		
-		Start = Str.indexOf("<description><![CDATA[", Start) + 22;
-		End = Str.indexOf("]]></description>", Start);
-		String Text = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
-		Start = End;
+		start = str.indexOf("<description><![CDATA[", start) + 22;
+		end = str.indexOf("]]></description>", start);
+		String text = HappyUtils.replaceHTMLChars(str.substring(start, end));
+		start = end;
 		
-		Start = Str.indexOf("<link>", Start) + 6;
-		End = Str.indexOf("</link>", Start);
-		String Link = Str.substring(Start, End);
+		start = str.indexOf("<link>", start) + 6;
+		end = str.indexOf("</link>", start);
+		String link = str.substring(start, end);
 		
-		Start = Link.indexOf("org/", 0) + 4;
-		End = Link.indexOf("/", Start);
-		String Year = Link.substring(Start, End);
-		Start = End;
+		start = link.indexOf("org/", 0) + 4;
+		end = link.indexOf("/", start);
+		String year = link.substring(start, end);
+		start = end;
 		
-		Start = Link.indexOf("/", Start) + 1;
-		End = Link.indexOf("/", Start);
-		String Month = Link.substring(Start, End);
-		Start = End;
+		start = link.indexOf("/", start) + 1;
+		end = link.indexOf("/", start);
+		String month = link.substring(start, end);
+		start = end;
 
-		Start = Link.indexOf("/", Start) + 1;
-		End = Link.indexOf("/", Start);
-		String Day = Link.substring(Start, End);
+		start = link.indexOf("/", start) + 1;
+		end = link.indexOf("/", start);
+		String day = link.substring(start, end);
 				
-		String Date = Year + "-" + Month + "-" + Day;
+		String date = year + "-" + month + "-" + day;
 		
-		return new Home(Title, Link, Text, Date);
+		return new Home(title, link, text, date);
 	}
 	
 	@Override
@@ -117,9 +117,9 @@ public class HomeListTask extends AsyncTask<Object, Void, Boolean> {
 	protected void onPostExecute(Boolean result) {
 		for (HomeListListener l : mHomeListListenerList) {
 			if (result) {
-				l.Success(mHomes);
+				l.success(mHomes);
 			} else {
-				l.Fail();
+				l.fail();
 			}
 		}
 	}

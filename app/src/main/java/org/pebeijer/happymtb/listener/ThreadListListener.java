@@ -6,6 +6,6 @@ import org.pebeijer.happymtb.item.Thread;
 
 public interface ThreadListListener 
 {
-	public void Success(List<Thread> threads);	
-	public void Fail();
+	public void success(List<Thread> threads);
+	public void fail();
 }

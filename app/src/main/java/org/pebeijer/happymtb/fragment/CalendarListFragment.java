@@ -63,7 +63,7 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 		mRegionView = (TextView) mActivity.findViewById(R.id.calendar_region);
 		mSearchView = (TextView) mActivity.findViewById(R.id.calendar_search);		
 		
-		FetchData();
+		fetchData();
 		
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
@@ -91,7 +91,7 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 		}		
 	}		
 	
-	private void FetchData() {
+	private void fetchData() {
 		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
 			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
 			mProgressDialog.setContentView(R.layout.progress_layout);
@@ -100,27 +100,26 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 		
 		mGetCalendar = new CalendarListTask();
 		mGetCalendar.addCalendarListListener(new CalendarListListener() {
-			public void Success(List<CalendarItem> CalendarItems) {
-				mCalendarItems = CalendarItems;										
-				FillList();			
-				mProgressDialog.dismiss();
+			public void success(List<CalendarItem> CalendarItems) {
+				if (getActivity() != null) {
+                    mCalendarItems = CalendarItems;
+                    fillList();
+                    mProgressDialog.dismiss();
+                }
 			}
 
-			public void Fail() {
-				Toast mToast;
-				mToast = Toast.makeText(mActivity, "", Toast.LENGTH_LONG);
-				mToast.setText("Inga objekt hittades");
-				mToast.show();
-			
-				mCalendarItems = new ArrayList<CalendarItem>();
-				
-				mProgressDialog.dismiss();
+			public void fail() {
+                if (getActivity() != null) {
+                    Toast.makeText(mActivity, "Inga objekt hittades", Toast.LENGTH_LONG).show();
+                    mCalendarItems = new ArrayList<CalendarItem>();
+                    mProgressDialog.dismiss();
+                }
 			}
 		});
 		mGetCalendar.execute(mSearch, mRegionPosition, mCategoryPosition);		
 	}
-	
-	private void FillList() {
+
+	private void fillList() {
 		mCalendarAdapter = new ListCalendarAdapter(mActivity, mCalendarItems);
 		setListAdapter(mCalendarAdapter);
 		
@@ -146,7 +145,7 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 	public void RefreshPage() {
 //		mKoSData.setListPosition(0);
 //		mActivity.SetKoSDataItems(null);
-		FetchData();
+		fetchData();
 	}
 	
 	@Override
@@ -231,7 +230,7 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 					mRegionPosition = RegionArrayPosition[position];					
 					mRegion = RegionArray[position];
 
-					FetchData();    
+					fetchData();
 				}
 			});
 			builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {

@@ -4,6 +4,6 @@ import java.util.List;
 import org.pebeijer.happymtb.item.KoSItem;
 
 public interface KoSListListener {
-	public void Success(List<KoSItem> ksitem);	
-	public void Fail();
+	public void success(List<KoSItem> ksitem);
+	public void fail();
 }

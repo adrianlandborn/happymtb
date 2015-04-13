@@ -61,23 +61,23 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 		CookieSyncManager.getInstance().startSync();	
 		
 		mMessageData = mActivity.GetMessageData();
-		FetchData();
+		fetchData();
 		
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		mUsername = mPreferences.getString("username", "");
 				
 		if (mMessageData.getLogined()) {
-			ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.message_login_status_image);
-			LoginStatusImage.setImageResource(R.drawable.ic_online);
+			ImageView loginStatusImage = (ImageView) mActivity.findViewById(R.id.message_login_status_image);
+			loginStatusImage.setImageResource(R.drawable.ic_online);
 
-			TextView LoginStatus = (TextView) mActivity.findViewById(R.id.message_login_status);
-			LoginStatus.setText("Inloggad som " + mUsername);
+			TextView loginStatus = (TextView) mActivity.findViewById(R.id.message_login_status);
+			loginStatus.setText("Inloggad som " + mUsername);
 		} else {
-			ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.message_login_status_image);
-			LoginStatusImage.setImageResource(R.drawable.ic_offline);
+			ImageView loginStatusImage = (ImageView) mActivity.findViewById(R.id.message_login_status_image);
+			loginStatusImage.setImageResource(R.drawable.ic_offline);
 
-			TextView LoginStatus = (TextView) mActivity.findViewById(R.id.message_login_status);
-			LoginStatus.setText("Ej inloggad");
+			TextView loginStatus = (TextView) mActivity.findViewById(R.id.message_login_status);
+			loginStatus.setText("Ej inloggad");
 		}
 
 		ClearBitmapDir();
@@ -122,13 +122,13 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 		case R.id.message_submenu:
 			return true;
 		case R.id.message_left:
-			PreviousPage();
+			previousPage();
 			return true;
 		case R.id.message_refresh:
-			RefreshPage();
+			refreshPage();
 			return true;
 		case R.id.message_right:
-			NextPage();
+			nextPage();
 			return true;								
 		case R.id.message_go_to_page:			
 			AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
@@ -145,7 +145,7 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 					// Do something with value!
 					if (HappyUtils.isInteger(input.getText().toString())) {
 						mMessageData.setCurrentPage(Integer.parseInt(input.getText().toString()));
-						FetchData();
+						fetchData();
 					}					
 				}
 			});
@@ -180,31 +180,31 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 		CookieSyncManager.getInstance().sync();
 	}
 
-	public void RefreshPage() {
+	public void refreshPage() {
 		mMessageData.setListPosition(0);
 		mActivity.SetMessageDataItems(null);		
-		FetchData();
+		fetchData();
 	}
 
-	public void NextPage() {
+	public void nextPage() {
 		if (mMessageData.getCurrentPage() < mMessageData.getMaxPages()) {
 			mMessageData.setListPosition(0);
 			mActivity.SetMessageDataItems(null);
 			mMessageData.setCurrentPage(mMessageData.getCurrentPage() + 1);
-			FetchData();
+			fetchData();
 		}
 	}
 
-	public void PreviousPage() {
+	public void previousPage() {
     	if (mMessageData.getCurrentPage() > 1) {
 			mMessageData.setListPosition(0);
 			mActivity.SetMessageDataItems(null);    	
     		mMessageData.setCurrentPage(mMessageData.getCurrentPage() - 1);
-    		FetchData();
+    		fetchData();
     	}
 	}
 	
-	private void FetchData() {
+	private void fetchData() {
 		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
 			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
 			mProgressDialog.setContentView(R.layout.progress_layout);
@@ -213,18 +213,18 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 		
 		mMessageData = mActivity.GetMessageData();
 		if ((mMessageData.getMessages() != null) && (mMessageData.getMessages().size() > 0)) {
-			FillList();	
+			fillList();
 			mProgressDialog.dismiss();
 		} else {				
 			mMessageListTask = new MessageListTask();
 			mMessageListTask.addMessageListListener(new MessageListListener() {
-				public void Success(List<Message> messages) {
+				public void success(List<Message> messages) {
 					mMessageData.setMessages(messages);
-					FillList();					
+					fillList();
 					mProgressDialog.dismiss();
 				}
 	
-				public void Fail() {
+				public void fail() {
 					mProgressDialog.dismiss();
 	//				showDialog(DIALOG_FETCH_MESSAGES_ERROR);
 				}
@@ -233,7 +233,7 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 		}
 	}
 
-	private void FillList() {	
+	private void fillList() {
 		mMessageAdapter = new ListMessagesAdapter(mActivity, mMessageData.getMessages());
 		setListAdapter(mMessageAdapter);
 		

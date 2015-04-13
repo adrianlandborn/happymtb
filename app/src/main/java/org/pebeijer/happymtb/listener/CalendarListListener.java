@@ -4,6 +4,6 @@ import java.util.List;
 import org.pebeijer.happymtb.item.CalendarItem;
 
 public interface CalendarListListener {
-	public void Success(List<CalendarItem> calendaritem);	
-	public void Fail();
+	public void success(List<CalendarItem> calendaritem);
+	public void fail();
 }

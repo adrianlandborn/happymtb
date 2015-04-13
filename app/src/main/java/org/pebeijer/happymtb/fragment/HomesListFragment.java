@@ -8,6 +8,7 @@ import org.pebeijer.happymtb.adapter.ListHomeAdapter;
 import org.pebeijer.happymtb.item.Home;
 import org.pebeijer.happymtb.listener.HomeListListener;
 import org.pebeijer.happymtb.task.HomeListTask;
+
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,7 +34,7 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 		
 		setListShownNoAnimation(true);
 		setHasOptionsMenu(true);
-		FetchData();
+		fetchData();
 		
 		getListView().setDivider(null);
 		getListView().setDividerHeight(0);		
@@ -67,7 +68,7 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 		super.onResume();
 	}
 	
-	private void FetchData() {
+	private void fetchData() {
 		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
 			mProgressDialog = ProgressDialog.show(getActivity(), "", "", true, true);
 			mProgressDialog.setContentView(R.layout.progress_layout);
@@ -76,32 +77,33 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 		
 		getHome = new HomeListTask();
 		getHome.addHomeListListener(new HomeListListener() {
-			public void Success(List<Home> Homes) {
+			public void success(List<Home> Homes) {
 				mHomes = Homes;										
-				FillList();			
+				fillList();
 				mProgressDialog.dismiss();
 			}
 
-			public void Fail() {
-				Toast mToast;
-				mToast = Toast.makeText( getActivity()  , "" , Toast.LENGTH_LONG );
-				mToast.setText("Inga objekt hittades");
-				mToast.show();
-							
-				mProgressDialog.dismiss();
+			public void fail() {
+                if (getActivity() != null) {
+                    Toast.makeText(getActivity(), "Inga objekt hittades", Toast.LENGTH_LONG).show();
+
+                    mProgressDialog.dismiss();
 //				showDialog(DIALOG_FETCH_KOS_ERROR);
+                }
 			}
 		});
 		getHome.execute();
 	}
 	
-	protected void FillList() {	
-		if (mHomeAdapter == null) {
-			mHomeAdapter = new ListHomeAdapter(getActivity(), mHomes);
-			setListAdapter(mHomeAdapter);
-		} else {
-			mHomeAdapter.notifyDataSetChanged();
-		}		
+	protected void fillList() {
+        if (getActivity() != null) {
+            if (mHomeAdapter == null) {
+                mHomeAdapter = new ListHomeAdapter(getActivity(), mHomes);
+                setListAdapter(mHomeAdapter);
+            } else {
+                mHomeAdapter.notifyDataSetChanged();
+            }
+        }
 	}	
 			
 	@Override
@@ -111,9 +113,7 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 	}	
 	
 	@Override
-	public void onCancel(DialogInterface dialog) {
-		//getActivity().finish();
-	}
+	public void onCancel(DialogInterface dialog) {}
 
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,

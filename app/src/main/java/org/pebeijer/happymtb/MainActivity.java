@@ -20,7 +20,6 @@ import android.app.ActionBar;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -189,40 +188,40 @@ public class MainActivity extends FragmentActivity implements
 	    }
 	}	    
     
-	public void SetActiveObjectLink(String ActiveKoSObjectLink) {
-		mActiveKoSObjectLink = ActiveKoSObjectLink;
+	public void setActiveObjectLink(String activeKoSObjectLink) {
+		mActiveKoSObjectLink = activeKoSObjectLink;
 	}
 	
 	public String GetActiveObjectLink() {		 
 		return mActiveKoSObjectLink;
 	}	
 
-	public void SetKoSData(KoSData KoSData) {		
-		mKoSData = KoSData;
+	public void SetKoSData(KoSData koSData) {
+		mKoSData = koSData;
 	}	
 
-	public void SetKoSDataItems(List<KoSItem> KoSItems) {
-		mKoSData.setKoSItems(KoSItems);
+	public void SetKoSDataItems(List<KoSItem> koSItems) {
+		mKoSData.setKoSItems(koSItems);
 	}		
 	
 	public KoSData GetKoSData() {
 		return mKoSData;
 	}	
 	
-	public void SetThreadData(ThreadData ThreadData) {		
-		mThreadData = ThreadData;
+	public void SetThreadData(ThreadData threadData) {
+		mThreadData = threadData;
 	}
 
-	public void SetThreadLogined(Boolean Logined) {		
-		mThreadData.setLogined(Logined);
+	public void SetThreadLogined(Boolean loggedIn) {
+		mThreadData.setLoggedIn(loggedIn);
 	}
 
-	public boolean GetThreadLogined() {		
-		return mThreadData.getLogined();
+	public boolean GetThreadLoggedIn() {
+		return mThreadData.getLoggedIn();
 	}	
 	
-	public void SetThreadDataItems(List<Thread> Threads) {
-		mThreadData.setThreads(Threads);
+	public void SetThreadDataItems(List<Thread> threads) {
+		mThreadData.setThreads(threads);
 	}		
 	
 	public ThreadData GetThreadData() {

@@ -70,7 +70,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		mUsername = mPreferences.getString("username", "");
 		
-		if (!mActivity.GetThreadLogined()) {
+		if (!mActivity.GetThreadLoggedIn()) {
 			if (mUsername.length() > 0) {
 				mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
 				mProgressDialog.setContentView(R.layout.progress_layout);
@@ -78,28 +78,28 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	
 				LoginTask login = new LoginTask();
 				login.addLoginListener(new LoginListener() {
-					public void Success() {
+					public void success() {
 						mActivity.SetThreadLogined(true);
 					
-						ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
-						LoginStatusImage.setImageResource(R.drawable.ic_online);
+						ImageView loginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
+						loginStatusImage.setImageResource(R.drawable.ic_online);
 	
-						TextView LoginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
-						LoginStatus.setText("Inloggad som " + mUsername);
+						TextView loginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
+						loginStatus.setText("Inloggad som " + mUsername);
 						
 						setHasOptionsMenu(true);
 						
-						FetchData();		
+						fetchData();
 					}
 	
-					public void Fail() {
+					public void fail() {
 						mActivity.SetThreadLogined(false);
 						
 						ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
 						LoginStatusImage.setImageResource(R.drawable.ic_offline);
 	
-						TextView LoginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
-						LoginStatus.setText("Ej inloggad");
+						TextView loginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
+						loginStatus.setText("Ej inloggad");
 	
 						SharedPreferences.Editor editor = mPreferences.edit();
 						editor.putString("cookiename", "");
@@ -108,7 +108,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 						
 						setHasOptionsMenu(true);
 						
-						FetchData();		
+						fetchData();
 					}
 				});
 				login.execute(mActivity);
@@ -129,7 +129,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 			TextView LoginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
 			LoginStatus.setText("Inloggad som " + mUsername);		
 			
-			FetchData();		
+			fetchData();
 		}
 
 /*		
@@ -163,7 +163,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
-		if (mActivity.GetThreadLogined() == false) {
+		if (mActivity.GetThreadLoggedIn() == false) {
 			inflater.inflate(R.menu.thread_menu, menu);
 		} else {
 			inflater.inflate(R.menu.thread_logged_in_menu, menu);
@@ -203,7 +203,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 					// Do something with value!
 					if (HappyUtils.isInteger(input.getText().toString())) {
 						mThreadData.setCurrentPage(Integer.parseInt(input.getText().toString()));
-						FetchData();
+						fetchData();
 					}					
 				}
 			});
@@ -227,7 +227,9 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	
 	@Override
 	public void onDestroy() {
-		mProgressDialog.dismiss();
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
 		super.onDestroy();
 	}	
 	
@@ -252,11 +254,11 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 
 		mMarkAsRead = new MarkAsReadTask();
 		mMarkAsRead.addMarkAsReadListener(new MarkAsReadListener() {
-            public void Success() {
-                FetchData();
+            public void success() {
+                fetchData();
             }
 
-            public void Fail() {
+            public void fail() {
                 mProgressDialog.dismiss();
 //				showDialog(DIALOG_MARK_AS_READ_ERROR);
             }
@@ -267,7 +269,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	public void RefreshPage() {
 		mThreadData.setListPosition(0);
 		mActivity.SetThreadDataItems(null);
-		FetchData();
+		fetchData();
 	}
 
 	public void NextPage() {
@@ -275,7 +277,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 			mThreadData.setListPosition(0);
 			mActivity.SetThreadDataItems(null);
 			mThreadData.setCurrentPage(mThreadData.getCurrentPage() + 1);
-			FetchData();
+			fetchData();
 		}
 	}
 
@@ -284,11 +286,11 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
     		mThreadData.setListPosition(0);
     		mActivity.SetThreadDataItems(null);
     		mThreadData.setCurrentPage(mThreadData.getCurrentPage() - 1);
-			FetchData();
+			fetchData();
     	}
 	}
 	
-	public void FetchData() {
+	public void fetchData() {
 		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
 			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
 			mProgressDialog.setContentView(R.layout.progress_layout);
@@ -297,13 +299,13 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		
 		mThreadsTask = new ThreadListTask();
 		mThreadsTask.addThreadListListener(new ThreadListListener() {
-            public void Success(List<Thread> threads) {
+            public void success(List<Thread> threads) {
                 mThreadData.setThreads(threads);
-                FillList();
+                fillList();
                 mProgressDialog.dismiss();
             }
 
-            public void Fail() {
+            public void fail() {
                 mProgressDialog.dismiss();
 //				showDialog(DIALOG_MARK_AS_READ_ERROR);
             }
@@ -311,7 +313,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		mThreadsTask.execute(mThreadData.getCurrentPage(), mActivity);
 	}
 
-	private void FillList() {
+	private void fillList() {
 		ListThreadsAdapter adapter = new ListThreadsAdapter(mActivity, mThreadData.getThreads());
 		setListAdapter(adapter);
 		
@@ -330,7 +332,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	public void OpenThread (int position) {
 		Intent Message = new Intent(mActivity, MessageActivity.class);
 		Message.putExtra("ThreadId", mThreadData.getThreads().get(position).getThreadId());
-		Message.putExtra("Logined", mActivity.GetThreadLogined());
+		Message.putExtra("Logined", mActivity.GetThreadLoggedIn());
 		Message.putExtra("New", false);
 		startActivity(Message);				
 	}

@@ -17,7 +17,7 @@ public class ThreadData implements Serializable {
 		setCurrentPage(CurrentPage);
 		setMaxPages(MaxPages);
 		setListPosition(ListPosition);
-		setLogined(Logined);
+		setLoggedIn(Logined);
 	}
 
 	public List<Thread> getThreads() {
@@ -52,11 +52,11 @@ public class ThreadData implements Serializable {
 		this.mListPosition = ListPosition;
 	}
 
-	public Boolean getLogined() {
+	public Boolean getLoggedIn() {
 		return mLogined;
 	}
 
-	public void setLogined(Boolean Logined) {
+	public void setLoggedIn(Boolean Logined) {
 		this.mLogined = Logined;
 	}
 

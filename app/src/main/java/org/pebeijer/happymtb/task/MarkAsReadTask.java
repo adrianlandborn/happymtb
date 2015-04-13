@@ -57,9 +57,9 @@ public class MarkAsReadTask extends AsyncTask<Object, Void, Boolean>
 	protected void onPostExecute(Boolean result) {
 		for (MarkAsReadListener l : mMarkAsReadListenerList) {
 			if (result)	{
-				l.Success();
+				l.success();
 			} else {
-				l.Fail();						
+				l.fail();
 			}					
 		}			
     }  	

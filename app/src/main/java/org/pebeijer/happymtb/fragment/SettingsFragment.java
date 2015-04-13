@@ -1,6 +1,8 @@
 package org.pebeijer.happymtb.fragment;
 
 import org.pebeijer.happymtb.R;
+
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -22,37 +24,39 @@ public class SettingsFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		
 		setHasOptionsMenu(true);
+
+        final Activity activity = getActivity();
 		
-		EditText UserName = (EditText) getActivity().findViewById(R.id.Settings_Username);
-		EditText Password = (EditText) getActivity().findViewById(R.id.Settings_Password);
-		Spinner TextSize = (Spinner) getActivity().findViewById(R.id.Settings_TextSize);
-		Spinner StartPage = (Spinner) getActivity().findViewById(R.id.Settings_StartPage);
+		EditText UserName = (EditText) activity.findViewById(R.id.Settings_Username);
+		EditText Password = (EditText) activity.findViewById(R.id.Settings_Password);
+		Spinner TextSize = (Spinner) activity.findViewById(R.id.Settings_TextSize);
+		Spinner StartPage = (Spinner) activity.findViewById(R.id.Settings_StartPage);
 		
-		mPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		mPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 		UserName.setText(mPreferences.getString("username", ""));
 		Password.setText(mPreferences.getString("password", ""));
 		TextSize.setSelection(mPreferences.getInt("textsize", 0));
 		StartPage.setSelection(mPreferences.getInt("startpage", 0));
 		
-		Button SaveButton = (Button) getActivity().findViewById(R.id.Settings_Save);
+		Button SaveButton = (Button) activity.findViewById(R.id.Settings_Save);
 		SaveButton.setOnClickListener(new View.OnClickListener(){
         	public void onClick(View v)
         	{  
-        		EditText userName = (EditText) getActivity().findViewById(R.id.Settings_Username);
-        		Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+        		EditText userName = (EditText) activity.findViewById(R.id.Settings_Username);
+        		Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
                 editor.putString("username", userName.getText().toString());
 
-                EditText password = (EditText) getActivity().findViewById(R.id.Settings_Password);
+                EditText password = (EditText) activity.findViewById(R.id.Settings_Password);
                 editor.putString("password", password.getText().toString());
 
-                Spinner textSize = (Spinner) getActivity().findViewById(R.id.Settings_TextSize);
+                Spinner textSize = (Spinner) activity.findViewById(R.id.Settings_TextSize);
                 editor.putInt("textsize", textSize.getSelectedItemPosition());
 
-                Spinner startPage = (Spinner) getActivity().findViewById(R.id.Settings_StartPage);
+                Spinner startPage = (Spinner) activity.findViewById(R.id.Settings_StartPage);
                 editor.putInt("startpage", startPage.getSelectedItemPosition());
                 editor.apply();
                 
-                Toast.makeText(getActivity(), "Användarnamn och lösenord sparade", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "Användarnamn och lösenord sparade", Toast.LENGTH_SHORT).show();
         	}	
         }); 		
 	}

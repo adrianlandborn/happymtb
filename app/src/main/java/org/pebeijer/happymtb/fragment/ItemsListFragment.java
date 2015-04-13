@@ -26,7 +26,7 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 		super.onActivityCreated(savedInstanceState);
 		setListShownNoAnimation(true);
 		setHasOptionsMenu(true);
-		FetchItems();		
+		fetchItems();
 		
 		getListView().setDivider(null);
 		getListView().setDividerHeight(0);
@@ -48,11 +48,11 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 		super.onStart();
 	}
 	
-	protected void FetchItems() {
+	protected void fetchItems() {
 	}	
-	
-	protected void FillList() {
-		PopulateList();
+
+	protected void fillList() {
+		populateList();
 		if (mItemsAdapter == null) {
 			mItemsAdapter = new ListItemsAdapter(getActivity(), mItems);
 			setListAdapter(mItemsAdapter);
@@ -61,7 +61,7 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 		}		
 	}	
 	
-	protected void PopulateList() {
+	protected void populateList() {
 		mItems.clear();
 		for(int i=0; i < mAllItems.size(); i++)	{
 			if ((mAllItems.get(i).getVisible() == true) || (mAllItems.get(i).getTitle() == ""))	{
@@ -74,14 +74,14 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 		for (int j = 0; j < mAllItems.size(); j++) {
 			mAllItems.get(j).setVisible(true);
 		}								
-		FillList();	
+		fillList();
 	}
 	
 	protected void CollapseAll() {
 		for (int j = 0; j < mAllItems.size(); j++) {
 			mAllItems.get(j).setVisible(false);
 		}								
-		FillList();	
+		fillList();
 	}	
 	
 	@Override
@@ -103,7 +103,7 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 				}
 			}	
 			
-			FillList();	
+			fillList();
 		} else {
 			final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(mItems.get(position).getLink()));
 			startActivity(intent);

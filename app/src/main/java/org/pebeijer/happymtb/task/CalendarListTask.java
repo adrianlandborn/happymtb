@@ -101,23 +101,23 @@ public class CalendarListTask extends AsyncTask<Object, Void, Boolean> {
 			InputStreamReader is = new InputStreamReader(entity.getContent()); 				
 			LineNumberReader lineNumberReader = new LineNumberReader(is);
 			
-			StringBuilder CalendarStringBuilder = new StringBuilder();
+			StringBuilder calendarStringBuilder = new StringBuilder();
 			CalendarItem item;			
-			boolean StartReadMessage = false;
+			boolean startReadMessage = false;
 			String lineString = "";		
 			
 			while((lineString = lineNumberReader.readLine()) != null) {
 				if (lineString.contains("<div style=\"overflow: hidden;\">")) {
-					StartReadMessage = true;
-					CalendarStringBuilder = new StringBuilder();
-					CalendarStringBuilder.append(lineString);
+					startReadMessage = true;
+					calendarStringBuilder = new StringBuilder();
+					calendarStringBuilder.append(lineString);
 				}
-				else if (StartReadMessage) {
-					CalendarStringBuilder.append(lineString);
+				else if (startReadMessage) {
+					calendarStringBuilder.append(lineString);
 					if (lineString.contains("<hr>")) {
-						StartReadMessage = false;
+						startReadMessage = false;
 					
-						item = ExtractCalendarRow(CalendarStringBuilder.toString());
+						item = ExtractCalendarRow(calendarStringBuilder.toString());
 						if (item != null) {
 							mCalendarItems.add(item);
 						}
@@ -139,9 +139,9 @@ public class CalendarListTask extends AsyncTask<Object, Void, Boolean> {
 	protected void onPostExecute(Boolean result) {
 		for (CalendarListListener l : mCalendarListListenerList) {
 			if (result) {
-				l.Success(mCalendarItems);
+				l.success(mCalendarItems);
 			} else {
-				l.Fail();
+				l.fail();
 			}
 		}
 	}

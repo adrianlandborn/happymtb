@@ -17,7 +17,7 @@ public class ArticlesListFragment extends ItemsListFragment implements DialogInt
 	private ArticlesListTask mGetItems;
 	
 	@Override
-	protected void FetchItems() {
+	protected void fetchItems() {
 		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
 			mProgressDialog = ProgressDialog.show(getActivity(), "", "", true, true);
 			mProgressDialog.setContentView(R.layout.progress_layout);
@@ -26,13 +26,13 @@ public class ArticlesListFragment extends ItemsListFragment implements DialogInt
 
 		mGetItems = new ArticlesListTask();
 		mGetItems.addItemListListener(new ItemListListener() {
-            public void Success(List<Item> Items) {
+            public void success(List<Item> Items) {
                 mAllItems = Items;
-                FillList();
+                fillList();
                 mProgressDialog.dismiss();
             }
 
-            public void Fail() {
+            public void fail() {
                 mProgressDialog.dismiss();
             }
         });

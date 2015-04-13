@@ -2,6 +2,7 @@ package org.pebeijer.happymtb.fragment;
 
 import java.util.List;
 
+import org.pebeijer.happymtb.MainActivity;
 import org.pebeijer.happymtb.R;
 import org.pebeijer.happymtb.adapter.ListVideoAdapter;
 import org.pebeijer.happymtb.helpers.HappyUtils;
@@ -10,6 +11,8 @@ import org.pebeijer.happymtb.item.VideoItem;
 import org.pebeijer.happymtb.listener.VideoListListener;
 import org.pebeijer.happymtb.task.VideoImageDownloadTask;
 import org.pebeijer.happymtb.task.VideoListTask;
+
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -45,6 +48,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 	private Boolean mPictureList;
 	private int mTextSize;
 	private SharedPreferences preferences;
+    private MainActivity mActivity;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -52,22 +56,23 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 		super.onActivityCreated(savedInstanceState);
 		setListShownNoAnimation(true);	
 		setHasOptionsMenu(true);		
-		FetchData();
+		fetchData();
 		
 		getListView().setDivider(null);
 		getListView().setDividerHeight(0);	
-		
-		preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        mActivity = (MainActivity) getActivity();
+		preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
 		mTextSize = Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 0)]);
 		mPictureList = preferences.getBoolean("videopicturelist", true);
 		
-		TextView Category = (TextView) getActivity().findViewById(R.id.video_category);
-		TextView Search = (TextView) getActivity().findViewById(R.id.video_search);		
-		TextView PageText = (TextView) getActivity().findViewById(R.id.video_page_text);
-		TextView CurrentPage = (TextView) getActivity().findViewById(R.id.video_current_page);
-		TextView ByText = (TextView) getActivity().findViewById(R.id.video_by_text);
-		TextView MaxPages = (TextView) getActivity().findViewById(R.id.video_no_of_pages);
+		TextView Category = (TextView) mActivity.findViewById(R.id.video_category);
+		TextView Search = (TextView) mActivity.findViewById(R.id.video_search);
+		TextView PageText = (TextView) mActivity.findViewById(R.id.video_page_text);
+		TextView CurrentPage = (TextView) mActivity.findViewById(R.id.video_current_page);
+		TextView ByText = (TextView) mActivity.findViewById(R.id.video_by_text);
+		TextView MaxPages = (TextView) mActivity.findViewById(R.id.video_no_of_pages);
 		
 		Category.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
 		Search.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
@@ -85,7 +90,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 	}			
 
 	public void setPictureList(Boolean Value) {
-		Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+		Editor editor = PreferenceManager.getDefaultSharedPreferences(mActivity).edit();
 	    editor.putBoolean("videopicturelist", Value);              
 	    editor.apply();
 	}
@@ -115,18 +120,18 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 			RefreshPage();
 			return true;				
 		case R.id.video_search:
-	        FragmentManager fm = getActivity().getSupportFragmentManager();
+	        FragmentManager fm = mActivity.getSupportFragmentManager();
 	        VideoSearchDialogFragment videoSearchDialog = new VideoSearchDialogFragment();
 	        videoSearchDialog.show(fm, "fragment_edit_name");
 			return true;			
 		case R.id.video_go_to_page:			
-			mAlertDialog = new AlertDialog.Builder(getActivity());
+			mAlertDialog = new AlertDialog.Builder(mActivity);
 
 			mAlertDialog.setTitle("Gå till sidan...");
 			mAlertDialog.setMessage("Skriv in sidnummer som du vill hoppa till (1 - " + mVideoData.getMaxPages() + ")");
 
 			// Set an EditText view to get user input 
-			final EditText PageNumber = new EditText(getActivity());
+			final EditText PageNumber = new EditText(mActivity);
 			mAlertDialog.setView(PageNumber);
 
 			mAlertDialog.setPositiveButton("Hoppa", new DialogInterface.OnClickListener() {
@@ -134,7 +139,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 					// Do something with value!
 					if (HappyUtils.isInteger(PageNumber.getText().toString())) {
 						mVideoData.setCurrentPage(Integer.parseInt(PageNumber.getText().toString()));
-						FetchData();
+						fetchData();
 					}					
 				}
 			});
@@ -172,18 +177,18 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 		super.onStart();
 	}
 
-	private void FetchData() {
+	private void fetchData() {
 		if ((progDialog == null) || (!progDialog.isShowing())) {
-			progDialog = ProgressDialog.show(getActivity(), "", "", true, true);
+			progDialog = ProgressDialog.show(mActivity, "", "", true, true);
 			progDialog.setContentView(R.layout.progress_layout);
 			progDialog.setOnCancelListener(this);		
 		}
 		
 		getVideo = new VideoListTask();
 		getVideo.addVideoListListener(new VideoListListener() {
-			public void Success(List<VideoItem> VideoItems) {
+			public void success(List<VideoItem> VideoItems) {
 				mVideoData.setVideoItems(VideoItems);
-				FillList();	
+				fillList();
 				if (mPictureList) {
 					VideoImageDownloadTask getVideoImages = new VideoImageDownloadTask();
 					getVideoImages.execute(mVideoData.getVideoItems(), mVideoAdapter);
@@ -191,9 +196,9 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 				progDialog.dismiss();
 			}
 
-			public void Fail() {				
+			public void fail() {
 				Toast mToast;
-				mToast = Toast.makeText( getActivity()  , "" , Toast.LENGTH_LONG );
+				mToast = Toast.makeText(mActivity, "" , Toast.LENGTH_LONG );
 				mToast.setText("Inga objekt hittades");
 				mToast.show();				
 				
@@ -205,23 +210,23 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 		getVideo.execute(mVideoData.getCurrentPage(), mVideoData.getCategory(), mVideoData.getSearch());	
 	}
 
-	private void FillList() {
-		mVideoAdapter = new ListVideoAdapter(getActivity(), mVideoData.getVideoItems());
+	private void fillList() {
+		mVideoAdapter = new ListVideoAdapter(mActivity, mVideoData.getVideoItems());
 		setListAdapter(mVideoAdapter);
 
 		getListView().setSelection(mVideoData.getListPosition());
 		
-		TextView CurrentPage = (TextView) getActivity().findViewById(R.id.video_current_page);
+		TextView CurrentPage = (TextView) mActivity.findViewById(R.id.video_current_page);
 		CurrentPage.setText(Integer.toString(mVideoData.getCurrentPage()));		
 		
-		TextView MaxPages = (TextView) getActivity().findViewById(R.id.video_no_of_pages);
+		TextView MaxPages = (TextView) mActivity.findViewById(R.id.video_no_of_pages);
 		MaxPages.setText(Integer.toString(mVideoData.getVideoItems().get(0).getNumberOfVideoPages()));
 		mVideoData.setMaxPages(mVideoData.getVideoItems().get(0).getNumberOfVideoPages());			
 		
-		TextView Category = (TextView) getActivity().findViewById(R.id.video_category);
+		TextView Category = (TextView) mActivity.findViewById(R.id.video_category);
 		Category.setText("Kategori: " + mVideoData.getVideoItems().get(0).getSelectedCategory());
 
-		TextView Search = (TextView) getActivity().findViewById(R.id.video_search);
+		TextView Search = (TextView) mActivity.findViewById(R.id.video_search);
 		
 		String mSearch = mVideoData.getSearch();
 		
@@ -234,14 +239,14 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 
 	public void RefreshPage() {
 		mVideoData.setListPosition(0);
-		FetchData();
+		fetchData();
 	}
 
 	public void NextPage() {
 		if (mVideoData.getCurrentPage() < mVideoData.getMaxPages()) {
 			mVideoData.setListPosition(0);
 			mVideoData.setCurrentPage(mVideoData.getCurrentPage() + 1);		
-			FetchData();
+			fetchData();
 		}
 	}
 
@@ -249,7 +254,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
     	if (mVideoData.getCurrentPage() > 1) {
     		mVideoData.setListPosition(0);
     		mVideoData.setCurrentPage(mVideoData.getCurrentPage() - 1);	
-			FetchData();
+			fetchData();
     	}
 	}
 	
@@ -267,7 +272,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 		AlertDialog.Builder builder;
 		switch (id) {
 		case DIALOG_FETCH_KOS_ERROR:
-			builder = new AlertDialog.Builder(getActivity());
+			builder = new AlertDialog.Builder(mActivity);
 			builder.setTitle("Felmeddelande");
 			builder.setMessage(
 					"Det blev något fel vid hämtning av köp och sälj")
@@ -276,7 +281,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 								public void onClick(DialogInterface dialog,
 										int id) {
 									dialog.cancel();
-									getActivity().finish();
+									mActivity.finish();
 								}
 							});
 			dialog = builder.create();
@@ -298,8 +303,8 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 		
 		@Override
 	    public Dialog onCreateDialog(Bundle savedInstanceState) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-	        LayoutInflater inflater = getActivity().getLayoutInflater();
+			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+	        LayoutInflater inflater = mActivity.getLayoutInflater();
 	        final View view = inflater.inflate(R.layout.video_search, null);
 	        builder.setView(view);
 	        builder.setPositiveButton("Sök", new DialogInterface.OnClickListener() {
@@ -314,7 +319,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
                	   mVideoData.setCategory(Integer.parseInt(CategoryArrayPosition[position]));
                	   
                	   mVideoData.setCurrentPage(1);
-               	   FetchData();	                	   
+               	   fetchData();
                }
 	        });
 	        builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {

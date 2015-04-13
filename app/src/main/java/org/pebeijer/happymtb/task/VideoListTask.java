@@ -188,9 +188,9 @@ public class VideoListTask extends AsyncTask<Object, Void, Boolean> {
 	protected void onPostExecute(Boolean result) {
 		for (VideoListListener l : mVideoListListenerList) {
 			if (result) {
-				l.Success(mVideoItems);
+				l.success(mVideoItems);
 			} else {
-				l.Fail();
+				l.fail();
 			}
 		}
 	}

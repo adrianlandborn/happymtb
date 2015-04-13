@@ -109,9 +109,9 @@ public class ShopsListTask extends AsyncTask<Object, Void, Boolean> {
 	protected void onPostExecute(Boolean result) {
 		for (ItemListListener l : mItemListListenerList) {
 			if (result) {
-				l.Success(mShopItems);
+				l.success(mShopItems);
 			} else {
-				l.Fail();
+				l.fail();
 			}
 		}
 	}

@@ -11,18 +11,18 @@ public class Item implements Serializable {
 	private String mGroup;
 	private Boolean mVisible;
 	
-	public Item(String Title, String Link, String Description, String Group, Boolean Visible) {
-		mTitle = Title;
-		mLink = Link;
-		mDescription = Description;
-		mGroup = Group;
-		mVisible = Visible;	
+	public Item(String title, String link, String description, String group, Boolean visible) {
+		mTitle = title;
+		mLink = link;
+		mDescription = description;
+		mGroup = group;
+		mVisible = visible;
 	}
 	
-	public Item(String Group, Boolean Visible) {
+	public Item(String group, Boolean visible) {
 		mTitle = "";
-		mGroup = Group;
-		mVisible = Visible;
+		mGroup = group;
+		mVisible = visible;
 	}	
 	
 	public String getGroup() {
@@ -37,20 +37,20 @@ public class Item implements Serializable {
 		return mVisible;
 	}	
 	
-	public void setTitle(String Title) {
-		mTitle = Title;
+	public void setTitle(String title) {
+		mTitle = title;
 	}	
 
-	public void setVisible(Boolean Visible) {
-		mVisible = Visible;
+	public void setVisible(Boolean visible) {
+		mVisible = visible;
 	}		
 	
 	public String getDescription() {
 		return mDescription;
 	}
 
-	public void setDescription(String Description) {
-		mDescription = Description;
+	public void setDescription(String description) {
+		mDescription = description;
 	}
 	
 	public String getLink() {

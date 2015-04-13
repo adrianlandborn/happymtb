@@ -197,9 +197,9 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 	protected void onPostExecute(Boolean result) {
 		for (KoSListListener l : mKoSListListenerList) {
 			if (result) {
-				l.Success(mKoSItems);
+				l.success(mKoSItems);
 			} else {
-				l.Fail();
+				l.fail();
 			}
 		}
 	}

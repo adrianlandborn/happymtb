@@ -20,7 +20,7 @@ public class ShopsListFragment extends ItemsListFragment implements DialogInterf
 	private ShopsListTask mShopsTask;
 	
 	@Override
-	protected void FetchItems() {
+	protected void fetchItems() {
 		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
 			mProgressDialog = ProgressDialog.show(getActivity(), "", "", true, true);
 			mProgressDialog.setContentView(R.layout.progress_layout);
@@ -29,13 +29,13 @@ public class ShopsListFragment extends ItemsListFragment implements DialogInterf
 		
 		mShopsTask = new ShopsListTask();
 		mShopsTask.addItemListListener(new ItemListListener() {
-            public void Success(List<Item> Items) {
+            public void success(List<Item> Items) {
                 mAllItems = Items;
-                FillList();
+                fillList();
                 mProgressDialog.dismiss();
             }
 
-            public void Fail() {
+            public void fail() {
                 mProgressDialog.dismiss();
             }
         });

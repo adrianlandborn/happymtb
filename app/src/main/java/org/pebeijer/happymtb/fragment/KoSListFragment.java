@@ -59,7 +59,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		
 		mActivity = (MainActivity) getActivity();
 		
-		FetchData();
+		fetchData();
 		
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
@@ -151,7 +151,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 					if (HappyUtils.isInteger(input.getText().toString()))
 					{
 						mKoSData.setCurrentPage(Integer.parseInt(input.getText().toString()));
-						FetchData();
+						fetchData();
 					}					
 				}
 			});
@@ -189,7 +189,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		super.onStart();
 	}
 
-	private void FetchData() {
+	private void fetchData() {
 		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
 			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
 			mProgressDialog.setContentView(R.layout.progress_layout);
@@ -198,17 +198,19 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		
 		mKoSTask = new KoSListTask();
 		mKoSTask.addKoSListListener(new KoSListListener() {
-            public void Success(List<KoSItem> KoSItems) {
-                mKoSData.setKoSItems(KoSItems);
-                FillList();
-                if (mPictureList) {
-                    KoSImageDownloadTask getKoSImages = new KoSImageDownloadTask();
-                    getKoSImages.execute(mKoSData.getKoSItems(), mKoSAdapter);
+            public void success(List<KoSItem> KoSItems) {
+                if (getActivity() != null) {
+                    mKoSData.setKoSItems(KoSItems);
+                    fillList();
+                    if (mPictureList) {
+                        KoSImageDownloadTask getKoSImages = new KoSImageDownloadTask();
+                        getKoSImages.execute(mKoSData.getKoSItems(), mKoSAdapter);
+                    }
                 }
                 mProgressDialog.dismiss();
             }
 
-            public void Fail() {
+            public void fail() {
                 Toast mToast;
                 mToast = Toast.makeText(mActivity, "", Toast.LENGTH_LONG);
                 mToast.setText(mActivity.getString(R.string.no_items_found));
@@ -224,7 +226,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
                 mKoSData.getSearch(), mKoSData.getSortAttribute(), mKoSData.getSortOrder());
 	}
 
-	private void FillList() {
+	private void fillList() {
 		mKoSAdapter = new ListKoSAdapter(mActivity, mKoSData.getKoSItems());
 		setListAdapter(mKoSAdapter);
 		
@@ -261,7 +263,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 	public void RefreshPage() {
 		mKoSData.setListPosition(0);
 		mActivity.SetKoSDataItems(null);
-		FetchData();
+		fetchData();
 	}
 
 	public void NextPage() {		
@@ -270,7 +272,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 			mKoSData.setListPosition(0);
 			mActivity.SetKoSDataItems(null);
 			mKoSData.setCurrentPage(mKoSData.getCurrentPage() + 1);
-			FetchData();
+			fetchData();
 		}
 	}
 
@@ -280,7 +282,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
     		mKoSData.setListPosition(0);
     		mActivity.SetKoSDataItems(null);
     		mKoSData.setCurrentPage(mKoSData.getCurrentPage() - 1);	
-    		FetchData();
+    		fetchData();
     	}
 	}
 
@@ -358,7 +360,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 					mKoSData.setSortOrderPosition(position);
 
 					mKoSData.setCurrentPage(1);
-					FetchData();                	   
+					fetchData();
 				}
 			});
 			builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
@@ -394,7 +396,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 					Spinner mSearchRegion = (Spinner) view.findViewById(R.id.kos_dialog_search_region);
 					Spinner mSearchType = (Spinner) view.findViewById(R.id.kos_dialog_search_type);
    
-					mKoSData.setSearch(mSearchString.getText().toString());
+					mKoSData.setSearch(mSearchString.getText().toString().trim());
 					
 					int position = mSearchCategory.getSelectedItemPosition();
 					String CategoryArrayPosition [] =  getResources().getStringArray(R.array.kos_dialog_search_category_position);
@@ -413,7 +415,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 					mKoSData.setType(Integer.parseInt(TypeArrayPosition[position]));					
 
 					mKoSData.setCurrentPage(1);
-					FetchData();                	   
+					fetchData();
 				}
 			});
 			builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {

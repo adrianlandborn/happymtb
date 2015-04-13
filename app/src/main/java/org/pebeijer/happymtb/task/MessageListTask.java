@@ -173,9 +173,9 @@ public class MessageListTask extends AsyncTask<Object, Void, Boolean>
 	protected void onPostExecute(Boolean result) {
 		for (MessageListListener l : mMessageListListenerList) {
 			if (result) {
-				l.Success(mMessages);
+				l.success(mMessages);
 			} else {
-				l.Fail();						
+				l.fail();
 			}					
 		}
     }

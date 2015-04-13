@@ -33,22 +33,22 @@ public class ArticlesListTask extends AsyncTask<Object, Void, Boolean> {
 		mItemListListenerList.remove(l);
 	}
 
-	public Item ExtractArticleRow(String Str) {	
-		int Start = Str.indexOf("<li>", 0) + 4;
-		int End = Str.indexOf(":&nbsp", Start);
-		String Description = "Postad den " + Str.substring(Start, End) + " " + mGroup;
-		Start = End;
+	public Item ExtractArticleRow(String str) {
+		int start = str.indexOf("<li>", 0) + 4;
+		int end = str.indexOf(":&nbsp", start);
+		String description = "Postad den " + str.substring(start, end) + " " + mGroup;
+		start = end;
 		
-		Start = Str.indexOf(":&nbsp;<a href='", Start) + 16;
-		End = Str.indexOf("' title='", Start);
-		String Link = Str.substring(Start, End);
-		Start = End;
+		start = str.indexOf(":&nbsp;<a href='", start) + 16;
+		end = str.indexOf("' title='", start);
+		String link = str.substring(start, end);
+		start = end;
 
-		Start = Str.indexOf("&quot;'>", Start) + 8;
-		End = Str.indexOf("</a></li>", Start);
-		String Title = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
+		start = str.indexOf("&quot;'>", start) + 8;
+		end = str.indexOf("</a></li>", start);
+		String title = HappyUtils.replaceHTMLChars(str.substring(start, end));
 
-		return new Item(Title, Link, Description, mGroup, false);
+		return new Item(title, link, description, mGroup, false);
 	}
 	
 	@Override
@@ -97,9 +97,9 @@ public class ArticlesListTask extends AsyncTask<Object, Void, Boolean> {
 	protected void onPostExecute(Boolean result) {
 		for (ItemListListener l : mItemListListenerList) {
 			if (result) {
-				l.Success(mItems);
+				l.success(mItems);
 			} else {
-				l.Fail();
+				l.fail();
 			}
 		}
 	}

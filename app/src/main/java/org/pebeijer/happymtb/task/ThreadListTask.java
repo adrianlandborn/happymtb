@@ -174,9 +174,9 @@ public class ThreadListTask extends AsyncTask<Object, Void, Boolean>
 	protected void onPostExecute(Boolean result) {
 		for (ThreadListListener l : mThreadListListenerList) {
 			if (result) {
-				l.Success(mThreads);
+				l.success(mThreads);
 			} else {
-				l.Fail();						
+				l.fail();
 			}					
 		}
     }  	
