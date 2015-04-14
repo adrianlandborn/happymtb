@@ -78,9 +78,11 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 		getHome = new HomeListTask();
 		getHome.addHomeListListener(new HomeListListener() {
 			public void success(List<Home> Homes) {
-				mHomes = Homes;										
-				fillList();
-				mProgressDialog.dismiss();
+                if (getActivity() != null) {
+                    mHomes = Homes;
+                    fillList();
+                    mProgressDialog.dismiss();
+                }
 			}
 
 			public void fail() {

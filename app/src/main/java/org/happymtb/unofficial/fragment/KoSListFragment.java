@@ -211,15 +211,13 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
             }
 
             public void fail() {
-                Toast mToast;
-                mToast = Toast.makeText(mActivity, "", Toast.LENGTH_LONG);
-                mToast.setText(mActivity.getString(R.string.no_items_found));
-                mToast.show();
+                if (getActivity() != null) {
+                    Toast.makeText(mActivity, mActivity.getString(R.string.no_items_found), Toast.LENGTH_LONG).show();
 
-                mKoSData = new KoSData(1, 1, 3, 0, "Hela Sverige", 0, "Alla Kategorier", "", null, 0, "creationdate", "Tid", 0, "ASC", "Stigande", 0);
+                    mKoSData = new KoSData(1, 1, 3, 0, "Hela Sverige", 0, "Alla Kategorier", "", null, 0, "creationdate", "Tid", 0, "ASC", "Stigande", 0);
 
-                mProgressDialog.dismiss();
-//				showDialog(DIALOG_FETCH_KOS_ERROR);
+                    mProgressDialog.dismiss();
+                }
             }
         });
 		mKoSTask.execute(mKoSData.getCurrentPage() - 1, mKoSData.getType(), mKoSData.getRegion(), mKoSData.getCategory(),

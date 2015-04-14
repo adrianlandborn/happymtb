@@ -52,15 +52,14 @@ public class HappyUtils {
 		replaceAll("&lt;","<").
 		replaceAll("&#39;","'").
 		replaceAll("&#33;", "!").
-		replaceAll("&#8217;", "�").	
+		replaceAll("&#8217;", "�").
 		replaceAll("&#8211;", "-").
 		replaceAll("&#160;", " ").
 		replaceAll("&#8221;", "�").
 		replaceAll("&#038;", "&").
 		replaceAll("&amp;", "&").
-		replaceAll("&amp;", "&").
 		replaceAll("&#8230;", "...");
-//		QuickHTMLConvertionTimesRun++;
+
 		return htmlCode;
 	}  	
 }

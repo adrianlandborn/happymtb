@@ -79,36 +79,42 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 				LoginTask login = new LoginTask();
 				login.addLoginListener(new LoginListener() {
 					public void success() {
-						mActivity.SetThreadLogined(true);
-					
-						ImageView loginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
-						loginStatusImage.setImageResource(R.drawable.ic_online);
-	
-						TextView loginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
-						loginStatus.setText("Inloggad som " + mUsername);
-						
-						setHasOptionsMenu(true);
-						
-						fetchData();
+                        if (getActivity() != null) {
+
+                            mActivity.SetThreadLogined(true);
+
+                            ImageView loginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
+                            loginStatusImage.setImageResource(R.drawable.ic_online);
+
+                            TextView loginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
+                            loginStatus.setText("Inloggad som " + mUsername);
+
+                            setHasOptionsMenu(true);
+
+                            fetchData();
+                        }
 					}
 	
 					public void fail() {
-						mActivity.SetThreadLogined(false);
-						
-						ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
-						LoginStatusImage.setImageResource(R.drawable.ic_offline);
-	
-						TextView loginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
-						loginStatus.setText("Ej inloggad");
-	
-						SharedPreferences.Editor editor = mPreferences.edit();
-						editor.putString("cookiename", "");
-						editor.putString("cookievalue", "");
-						editor.apply();
-						
-						setHasOptionsMenu(true);
-						
-						fetchData();
+                        if (getActivity() != null) {
+
+                            mActivity.SetThreadLogined(false);
+
+                            ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
+                            LoginStatusImage.setImageResource(R.drawable.ic_offline);
+
+                            TextView loginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
+                            loginStatus.setText("Ej inloggad");
+
+                            SharedPreferences.Editor editor = mPreferences.edit();
+                            editor.putString("cookiename", "");
+                            editor.putString("cookievalue", "");
+                            editor.apply();
+
+                            setHasOptionsMenu(true);
+
+                            fetchData();
+                        }
 					}
 				});
 				login.execute(mActivity);
@@ -255,12 +261,15 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		mMarkAsRead = new MarkAsReadTask();
 		mMarkAsRead.addMarkAsReadListener(new MarkAsReadListener() {
             public void success() {
-                fetchData();
+                if (getActivity() != null) {
+                    fetchData();
+                }
             }
 
             public void fail() {
-                mProgressDialog.dismiss();
-//				showDialog(DIALOG_MARK_AS_READ_ERROR);
+                if (getActivity() != null) {
+                    mProgressDialog.dismiss();
+                }
             }
         });
 		mMarkAsRead.execute(mActivity);
@@ -300,14 +309,17 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		mThreadsTask = new ThreadListTask();
 		mThreadsTask.addThreadListListener(new ThreadListListener() {
             public void success(List<Thread> threads) {
-                mThreadData.setThreads(threads);
-                fillList();
-                mProgressDialog.dismiss();
+                if (getActivity() != null) {
+                    mThreadData.setThreads(threads);
+                    fillList();
+                    mProgressDialog.dismiss();
+                }
             }
 
             public void fail() {
-                mProgressDialog.dismiss();
-//				showDialog(DIALOG_MARK_AS_READ_ERROR);
+                if (getActivity() != null) {
+                    mProgressDialog.dismiss();
+                }
             }
         });
 		mThreadsTask.execute(mThreadData.getCurrentPage(), mActivity);

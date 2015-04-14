@@ -27,13 +27,17 @@ public class ArticlesListFragment extends ItemsListFragment implements DialogInt
 		mGetItems = new ArticlesListTask();
 		mGetItems.addItemListListener(new ItemListListener() {
             public void success(List<Item> Items) {
-                mAllItems = Items;
-                fillList();
-                mProgressDialog.dismiss();
+                if (getActivity() != null) {
+                    mAllItems = Items;
+                    fillList();
+                    mProgressDialog.dismiss();
+                }
             }
 
             public void fail() {
-                mProgressDialog.dismiss();
+                if (getActivity() != null) {
+                    mProgressDialog.dismiss();
+                }
             }
         });
 

@@ -219,14 +219,17 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 			mMessageListTask = new MessageListTask();
 			mMessageListTask.addMessageListListener(new MessageListListener() {
 				public void success(List<Message> messages) {
-					mMessageData.setMessages(messages);
-					fillList();
-					mProgressDialog.dismiss();
+                    if (getActivity() != null) {
+                        mMessageData.setMessages(messages);
+                        fillList();
+                        mProgressDialog.dismiss();
+                    }
 				}
 	
 				public void fail() {
-					mProgressDialog.dismiss();
-	//				showDialog(DIALOG_FETCH_MESSAGES_ERROR);
+                    if (getActivity() != null) {
+                        mProgressDialog.dismiss();
+                    }
 				}
 			});
 			mMessageListTask.execute(mActivity, mMessageData.getThreadId(), Integer.toString(mMessageData.getCurrentPage()));

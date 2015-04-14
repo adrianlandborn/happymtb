@@ -90,21 +90,16 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mKoSObjectTask = new KoSObjectTask();
 		mKoSObjectTask.addKoSObjectListener(new KoSObjectListener() {
             public void success(KoSObjectItem koSObjectItem) {
-                try {
-                    mKoSObjectItem = koSObjectItem;
-                    if (getActivity() != null && mKoSObjectItem != null) {
-                        fillList();
-                    }
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                if (getActivity() != null && mKoSObjectItem != null) {
+                    fillList();
+                    mProgressDialog.dismiss();
                 }
-                mProgressDialog.dismiss();
             }
 
             public void fail() {
-                mProgressDialog.dismiss();
-//				showDialog(DIALOG_FETCH_KOS_ERROR);
+                if (getActivity() != null) {
+                    mProgressDialog.dismiss();
+                }
             }
         });
 
@@ -112,7 +107,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 
 	}	
 	
-	private void fillList() throws IOException {
+	private void fillList() {
 		mTitle.setText(mKoSObjectItem.getArea() + " - " + mKoSObjectItem.getType() + " - " + mKoSObjectItem.getTitle());		
 		mPerson.setText("Annonsör: " + mKoSObjectItem.getPerson() + "(Telefon: " + mKoSObjectItem.getPhone() + ")");
 		mDate.setText("Datum: " + mKoSObjectItem.getDate());		

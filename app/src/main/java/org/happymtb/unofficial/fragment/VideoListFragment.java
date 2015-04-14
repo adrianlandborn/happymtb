@@ -177,7 +177,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 	}
 
 	private void fetchData() {
-		if ((progDialog == null) || (!progDialog.isShowing())) {
+		if (mActivity != null && (progDialog == null || !progDialog.isShowing())) {
 			progDialog = ProgressDialog.show(mActivity, "", "", true, true);
 			progDialog.setContentView(R.layout.progress_layout);
 			progDialog.setOnCancelListener(this);		
@@ -186,24 +186,24 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 		getVideo = new VideoListTask();
 		getVideo.addVideoListListener(new VideoListListener() {
 			public void success(List<VideoItem> VideoItems) {
-				mVideoData.setVideoItems(VideoItems);
-				fillList();
-				if (mPictureList) {
-					VideoImageDownloadTask getVideoImages = new VideoImageDownloadTask();
-					getVideoImages.execute(mVideoData.getVideoItems(), mVideoAdapter);
-				}
-				progDialog.dismiss();
+                if (getActivity() != null) {
+
+                    mVideoData.setVideoItems(VideoItems);
+                    fillList();
+                    if (mPictureList) {
+                        VideoImageDownloadTask getVideoImages = new VideoImageDownloadTask();
+                        getVideoImages.execute(mVideoData.getVideoItems(), mVideoAdapter);
+                    }
+                    progDialog.dismiss();
+                }
 			}
 
 			public void fail() {
-				Toast mToast;
-				mToast = Toast.makeText(mActivity, "" , Toast.LENGTH_LONG );
-				mToast.setText("Inga objekt hittades");
-				mToast.show();				
-				
-				mVideoData = new VideoData(1, 1, "", 0, null, 0);
-				
-				progDialog.dismiss();
+                if (getActivity() != null) {
+                    Toast.makeText(mActivity, "Inga objekt hittades", Toast.LENGTH_LONG).show();
+                    mVideoData = new VideoData(1, 1, "", 0, null, 0);
+                    progDialog.dismiss();
+                }
 			}			
 		});
 		getVideo.execute(mVideoData.getCurrentPage(), mVideoData.getCategory(), mVideoData.getSearch());	
