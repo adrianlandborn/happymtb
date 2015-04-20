@@ -1,6 +1,8 @@
 package org.happymtb.unofficial.view;
 
 import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.helpers.HappyUtils;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -24,15 +26,14 @@ public class KoSRowView extends LinearLayout {
 	private int mTextSize = 11;
 	private Boolean mPictureList;
 	private SharedPreferences preferences;
-	
+
 	public KoSRowView(Context context) {
 		super(context);
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
-		mTextSize = Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 0)]);		
+        mTextSize = HappyUtils.getTextSize(context);
 		mPictureList = preferences.getBoolean("kospicturelist", true);
 	
 		if (mPictureList) {

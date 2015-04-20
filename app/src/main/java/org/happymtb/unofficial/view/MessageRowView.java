@@ -1,6 +1,7 @@
 package org.happymtb.unofficial.view;
 
 import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.helpers.URLImageParser;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,16 +24,13 @@ public class MessageRowView extends LinearLayout {
 	LinearLayout compoundView;
 	int mTextSize = 11;
 	Context mContext;
-	private SharedPreferences preferences;
 
 	public MessageRowView(Context context) {
 		super(context);
 		mContext = context;
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-		preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
-		mTextSize = Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 0)]);		
+        mTextSize = HappyUtils.getTextSize(context);
 		
 		compoundView = (LinearLayout)inflater.inflate(R.layout.message_row, this);
 		

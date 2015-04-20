@@ -62,9 +62,8 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		fetchData();
 		
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
-		mTextSize = Integer.parseInt(TextSizeArray[mPreferences.getInt("textsize", 0)]);
-		mPictureList = mPreferences.getBoolean("kospicturelist", true);
+        mTextSize = HappyUtils.getTextSize(mActivity);
+        mPictureList = mPreferences.getBoolean("kospicturelist", true);
 	    
 		TextView Category = (TextView) mActivity.findViewById(R.id.kos_category);
 		TextView Region = (TextView) mActivity.findViewById(R.id.kos_region);

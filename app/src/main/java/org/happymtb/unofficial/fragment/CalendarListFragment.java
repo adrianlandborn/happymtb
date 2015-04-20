@@ -6,6 +6,7 @@ import java.util.List;
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.adapter.ListCalendarAdapter;
+import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.task.CalendarListTask;
 import org.happymtb.unofficial.item.CalendarItem;
 import org.happymtb.unofficial.listener.CalendarListListener;
@@ -39,7 +40,6 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 	private CalendarListTask mGetCalendar;
 	private ListCalendarAdapter mCalendarAdapter;
 	private List<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
-	private SharedPreferences mPreferences;
 	private int mTextSize;
 	MainActivity mActivity;
 	TextView mCategoryView;
@@ -64,10 +64,8 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 		mSearchView = (TextView) mActivity.findViewById(R.id.calendar_search);		
 		
 		fetchData();
-		
-		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
-		mTextSize = Integer.parseInt(TextSizeArray[mPreferences.getInt("textsize", 0)]);			
+
+        mTextSize = HappyUtils.getTextSize(mActivity);
 	    				
 		mCategoryView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
 		mRegionView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);

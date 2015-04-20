@@ -1,6 +1,8 @@
 package org.happymtb.unofficial.view;
 
 import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.helpers.HappyUtils;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -22,16 +24,15 @@ public class VideoRowView extends LinearLayout {
 	private int mTextSize = 11;
 	private Boolean mPictureList;
 	private SharedPreferences preferences;
-	
+
 	public VideoRowView(Context context) {
 		super(context);
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
-		mTextSize = Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 0)]);		
-		mPictureList = preferences.getBoolean("videopicturelist", true);		
+        mTextSize = HappyUtils.getTextSize(context);
+        mPictureList = preferences.getBoolean("videopicturelist", true);
 		
 		if (mPictureList) {		
 			compoundView = (LinearLayout) inflater.inflate(R.layout.video_picture_row, this);

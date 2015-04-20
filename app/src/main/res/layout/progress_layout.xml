@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/body"
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:baselineAligned="false"
         android:paddingLeft="8dip"
         android:paddingTop="10dip"
         android:paddingRight="8dip"
-        android:paddingBottom="10dip">
+        android:paddingBottom="10dip"
+        android:layout_gravity="center">
 
         <ProgressBar
             android:id="@android:id/progress"

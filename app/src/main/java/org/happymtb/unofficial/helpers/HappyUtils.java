@@ -1,5 +1,12 @@
 package org.happymtb.unofficial.helpers;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import org.happymtb.unofficial.R;
+
 public class HappyUtils {
 
 	public static boolean isInteger(String str) {
@@ -32,7 +39,12 @@ public class HappyUtils {
 		fileNameWithoutExtn = fileNameWithoutExtn.replace('.', '_');		
 		return fileNameWithoutExtn;
 	}
-	
+
+    public static int getTextSize(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String TextSizeArray [] =  context.getResources().getStringArray(R.array.settings_textsize);
+        return Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 2)]);
+    }
 	public static String replaceHTMLChars(String htmlCode) {
 		htmlCode = htmlCode.replaceAll("&aring;", "å").
 		replaceAll("&auml;", "ä").

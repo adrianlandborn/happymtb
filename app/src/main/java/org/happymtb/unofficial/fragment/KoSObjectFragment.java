@@ -2,6 +2,7 @@ package org.happymtb.unofficial.fragment;
 
 import java.io.IOException;
 
+import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSObjectItem;
 import org.happymtb.unofficial.listener.KoSObjectListener;
 import org.happymtb.unofficial.task.KoSObjectImageTask;
@@ -33,7 +34,6 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	private ProgressDialog mProgressDialog = null;
 	private KoSObjectTask mKoSObjectTask;
 	private KoSObjectItem mKoSObjectItem;
-	private SharedPreferences mPreferences;
     View mObjectView;
 	TextView mTitle;
 	TextView mPerson;		
@@ -51,9 +51,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		
 		setHasOptionsMenu(true);
 		
-		mPreferences = PreferenceManager.getDefaultSharedPreferences(mKoSObjectActivity);
-		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
-		int mTextSize = Integer.parseInt(TextSizeArray[mPreferences.getInt("textsize", 0)]);
+        int textSize = HappyUtils.getTextSize(mKoSObjectActivity);
 
         mObjectView = mKoSObjectActivity.findViewById(R.id.kos_object);
 		mTitle = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_title);
@@ -64,11 +62,11 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mBackgroundColor = (LinearLayout) mKoSObjectActivity.findViewById(R.id.kos_object_color);
 		mObjectImageView = (ImageView) mKoSObjectActivity.findViewById(R.id.kos_object_image);
 
-		mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize + 2);
-		mPerson.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
-		mDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);		
-		mText.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
-		mPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);		
+		mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize + 2);
+		mPerson.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+		mDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize - 2);
+		mText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+		mPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
 		
 		FetchKoSObject(mKoSObjectActivity.GetObjectLink());
 	}
@@ -90,10 +88,11 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mKoSObjectTask = new KoSObjectTask();
 		mKoSObjectTask.addKoSObjectListener(new KoSObjectListener() {
             public void success(KoSObjectItem koSObjectItem) {
+                mKoSObjectItem = koSObjectItem;
                 if (getActivity() != null && mKoSObjectItem != null) {
                     fillList();
-                    mProgressDialog.dismiss();
                 }
+                mProgressDialog.dismiss();
             }
 
             public void fail() {

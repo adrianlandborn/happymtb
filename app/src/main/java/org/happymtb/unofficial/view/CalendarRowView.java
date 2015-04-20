@@ -1,6 +1,8 @@
 package org.happymtb.unofficial.view;
 
 import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.helpers.HappyUtils;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -18,18 +20,15 @@ public class CalendarRowView extends LinearLayout {
 	LinearLayout compoundView;
 	LinearLayout mRowColor;
 	private int mTextSize = 11;
-	private SharedPreferences preferences;
-	
+
 	public CalendarRowView(Context context) {
 		super(context);
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
-		mTextSize = Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 0)]);		
-	
-		compoundView = (LinearLayout) inflater.inflate(R.layout.calendar_row, this);
+        mTextSize = HappyUtils.getTextSize(context);
+
+        compoundView = (LinearLayout) inflater.inflate(R.layout.calendar_row, this);
 			
 		mRowColor = (LinearLayout) compoundView.findViewById(R.id.calendar_row_color);	
 		mTitle = (TextView) compoundView.findViewById(R.id.calendar_row_title);

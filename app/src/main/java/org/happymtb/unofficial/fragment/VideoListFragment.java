@@ -53,18 +53,18 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		setListShownNoAnimation(true);	
+        mActivity = (MainActivity) getActivity();
+        setListShownNoAnimation(true);
 		setHasOptionsMenu(true);		
 		fetchData();
 		
 		getListView().setDivider(null);
 		getListView().setDividerHeight(0);	
 
-        mActivity = (MainActivity) getActivity();
 		preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
-		mTextSize = Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 0)]);
-		mPictureList = preferences.getBoolean("videopicturelist", true);
+        mTextSize = HappyUtils.getTextSize(mActivity);
+
+        mPictureList = preferences.getBoolean("videopicturelist", true);
 		
 		TextView Category = (TextView) mActivity.findViewById(R.id.video_category);
 		TextView Search = (TextView) mActivity.findViewById(R.id.video_search);
@@ -162,7 +162,9 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 	
 	@Override
 	public void onDestroy() {
-		progDialog.dismiss();
+        if (progDialog != null) {
+            progDialog.dismiss();
+        }
 		super.onDestroy();
 	}
 
@@ -177,7 +179,10 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 	}
 
 	private void fetchData() {
-		if (mActivity != null && (progDialog == null || !progDialog.isShowing())) {
+        if (mActivity == null) {
+            return;
+        }
+		if (progDialog == null || !progDialog.isShowing()) {
 			progDialog = ProgressDialog.show(mActivity, "", "", true, true);
 			progDialog.setContentView(R.layout.progress_layout);
 			progDialog.setOnCancelListener(this);		
@@ -194,13 +199,15 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
                         VideoImageDownloadTask getVideoImages = new VideoImageDownloadTask();
                         getVideoImages.execute(mVideoData.getVideoItems(), mVideoAdapter);
                     }
-                    progDialog.dismiss();
+                    if (progDialog != null) {
+                        progDialog.dismiss();
+                    }
                 }
 			}
 
 			public void fail() {
                 if (getActivity() != null) {
-                    Toast.makeText(mActivity, "Inga objekt hittades", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Inga objekt hittades", Toast.LENGTH_LONG).show();
                     mVideoData = new VideoData(1, 1, "", 0, null, 0);
                     progDialog.dismiss();
                 }

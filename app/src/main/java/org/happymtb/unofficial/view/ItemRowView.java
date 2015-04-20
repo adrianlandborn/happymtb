@@ -1,6 +1,8 @@
 package org.happymtb.unofficial.view;
 
 import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.helpers.HappyUtils;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -20,16 +22,13 @@ public class ItemRowView extends LinearLayout {
 	ImageView mHeaderCollapse;
 	ImageView mHeaderExpand;
 	int mTextSize = 11;
-	private SharedPreferences preferences;
-	
+
 	protected void Init(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
-		mTextSize = Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 0)]);
-		
+        mTextSize = HappyUtils.getTextSize(context);
+
 		compoundView = (LinearLayout) inflater.inflate(R.layout.item_row, this);
 
 		mTitle = (TextView) compoundView.findViewById(R.id.item_title);

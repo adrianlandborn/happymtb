@@ -27,32 +27,33 @@ public class SettingsFragment extends Fragment {
 
         final Activity activity = getActivity();
 		
-		EditText UserName = (EditText) activity.findViewById(R.id.Settings_Username);
-		EditText Password = (EditText) activity.findViewById(R.id.Settings_Password);
-		Spinner TextSize = (Spinner) activity.findViewById(R.id.Settings_TextSize);
-		Spinner StartPage = (Spinner) activity.findViewById(R.id.Settings_StartPage);
+		EditText userNameText = (EditText) activity.findViewById(R.id.settings_username);
+		EditText passwordText = (EditText) activity.findViewById(R.id.Settings_Password);
+//		Spinner textSizeSpinner = (Spinner) activity.findViewById(R.id.settings_textsize);
+		Spinner startPageSpinner = (Spinner) activity.findViewById(R.id.settings_startpage);
 		
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		UserName.setText(mPreferences.getString("username", ""));
-		Password.setText(mPreferences.getString("password", ""));
-		TextSize.setSelection(mPreferences.getInt("textsize", 0));
-		StartPage.setSelection(mPreferences.getInt("startpage", 0));
+		userNameText.setText(mPreferences.getString("username", ""));
+		passwordText.setText(mPreferences.getString("password", ""));
+
+//		textSizeSpinner.setSelection(mPreferences.getInt("textsize", 2));
+		startPageSpinner.setSelection(mPreferences.getInt("startpage", 0));
 		
-		Button SaveButton = (Button) activity.findViewById(R.id.Settings_Save);
+		Button SaveButton = (Button) activity.findViewById(R.id.settings_save);
 		SaveButton.setOnClickListener(new View.OnClickListener(){
         	public void onClick(View v)
         	{  
-        		EditText userName = (EditText) activity.findViewById(R.id.Settings_Username);
+        		EditText userName = (EditText) activity.findViewById(R.id.settings_username);
         		Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
                 editor.putString("username", userName.getText().toString());
 
                 EditText password = (EditText) activity.findViewById(R.id.Settings_Password);
                 editor.putString("password", password.getText().toString());
 
-                Spinner textSize = (Spinner) activity.findViewById(R.id.Settings_TextSize);
-                editor.putInt("textsize", textSize.getSelectedItemPosition());
+//                Spinner textSize = (Spinner) activity.findViewById(R.id.settings_textsize);
+//                editor.putInt("textsize", textSize.getSelectedItemPosition());
 
-                Spinner startPage = (Spinner) activity.findViewById(R.id.Settings_StartPage);
+                Spinner startPage = (Spinner) activity.findViewById(R.id.settings_startpage);
                 editor.putInt("startpage", startPage.getSelectedItemPosition());
                 editor.apply();
                 
