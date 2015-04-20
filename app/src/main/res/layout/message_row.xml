@@ -43,7 +43,7 @@
 			android:layout_height="wrap_content"
 			android:textSize="11sp"
 			android:textColor="@color/title_2_text"
-			android:paddingBottom="5dip"/>				
+			android:paddingBottom="5dp"/>
 		
 		<TextView
 			android:id="@+id/message_text"

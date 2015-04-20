@@ -19,14 +19,11 @@ public class CalendarRowView extends LinearLayout {
 	
 	LinearLayout compoundView;
 	LinearLayout mRowColor;
-	private int mTextSize = 11;
 
 	public CalendarRowView(Context context) {
 		super(context);
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        mTextSize = HappyUtils.getTextSize(context);
 
         compoundView = (LinearLayout) inflater.inflate(R.layout.calendar_row, this);
 			
@@ -36,12 +33,6 @@ public class CalendarRowView extends LinearLayout {
 		mCategory = (TextView) compoundView.findViewById(R.id.calendar_row_category);
 	
 		mTime = (TextView) compoundView.findViewById(R.id.calendar_row_time);
-		
-		mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize + 2);		
-		mDescription.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);	
-		mCategory.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
-		mTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-
 	}
 
 	public void setBackgroundColor(int color) {

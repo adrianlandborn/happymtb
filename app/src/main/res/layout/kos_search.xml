@@ -7,7 +7,7 @@
 	<TextView		 	
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:textSize="13dip" 
+	    android:textSize="13sp"
 	    android:textStyle="bold"
 	    android:textColor="@color/title_1_text"
 	    android:text="Text att söka efter"/>	
@@ -21,7 +21,7 @@
 	<TextView		 	
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:textSize="13dip"
+	    android:textSize="13sp"
 	    android:textStyle="bold"
 	    android:textColor="@color/title_1_text"
 	    android:text="Kategori"/>	
@@ -37,7 +37,7 @@
     <TextView		 	
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:textSize="13dip"
+	    android:textSize="13sp"
 	    android:textStyle="bold"
 	    android:textColor="@color/title_1_text"
 	    android:text="Region"/>	
@@ -53,7 +53,7 @@
 	<TextView		 	
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:textSize="13dip"
+	    android:textSize="13sp"
 	    android:textStyle="bold"
 	    android:textColor="@color/title_1_text"
 	    android:text="Typ"/>	

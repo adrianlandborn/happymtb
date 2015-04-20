@@ -81,21 +81,13 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 		}
 
 		ClearBitmapDir();
-		
-		String TextSizeArray [] =  getResources().getStringArray(R.array.settings_textsize);
-		int mTextSize = Integer.parseInt(TextSizeArray[mPreferences.getInt("textsize", 0)]);
-	    
+
 		mLoginStatus = (TextView) mActivity.findViewById(R.id.message_login_status);
 		mPageText = (TextView) mActivity.findViewById(R.id.message_page_text);
 		mCurrentPage = (TextView) mActivity.findViewById(R.id.message_current_page);		
 		mByText = (TextView) mActivity.findViewById(R.id.message_by_text);
 		mMaxPages = (TextView) mActivity.findViewById(R.id.message_no_of_pages);
 		
-		mLoginStatus.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		mPageText.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		mCurrentPage.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		mByText.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		mMaxPages.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);		
 	}
 	
 	public void ClearBitmapDir() {

@@ -21,13 +21,10 @@ public class ItemRowView extends LinearLayout {
 	LinearLayout mHeader;
 	ImageView mHeaderCollapse;
 	ImageView mHeaderExpand;
-	int mTextSize = 11;
 
 	protected void Init(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        mTextSize = HappyUtils.getTextSize(context);
 
 		compoundView = (LinearLayout) inflater.inflate(R.layout.item_row, this);
 
@@ -35,10 +32,6 @@ public class ItemRowView extends LinearLayout {
 		mHeaderTitle = (TextView) compoundView.findViewById(R.id.item_header_title);
 		mDescription = (TextView) compoundView.findViewById(R.id.item_description);
 		
-		mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize + 2);
-		mHeaderTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize + 2);
-		mDescription.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);	
-					
 		mHeaderExpand = (ImageView) compoundView.findViewById(R.id.item_header_expand);
 		mHeaderCollapse = (ImageView) compoundView.findViewById(R.id.item_header_collapse);		
 		

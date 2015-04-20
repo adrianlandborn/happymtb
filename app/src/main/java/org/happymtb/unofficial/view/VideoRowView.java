@@ -21,7 +21,6 @@ public class VideoRowView extends LinearLayout {
 	TextView mDate;
 	ImageView mObjectImage;
 	LinearLayout compoundView;
-	private int mTextSize = 11;
 	private Boolean mPictureList;
 	private SharedPreferences preferences;
 
@@ -31,7 +30,6 @@ public class VideoRowView extends LinearLayout {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        mTextSize = HappyUtils.getTextSize(context);
         mPictureList = preferences.getBoolean("videopicturelist", true);
 		
 		if (mPictureList) {		
@@ -53,12 +51,6 @@ public class VideoRowView extends LinearLayout {
 			mLength = (TextView) compoundView.findViewById(R.id.video_row_length);
 								
 		}
-		
-		mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize + 2);
-		mDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);						
-		mUploader.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
-		mCategory.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);	
-		mLength.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);					
 	}
 
 	public void setObjectImage(Drawable ObjectImage) {

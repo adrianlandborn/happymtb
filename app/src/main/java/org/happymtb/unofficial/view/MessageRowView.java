@@ -22,7 +22,6 @@ public class MessageRowView extends LinearLayout {
 	TextView mDate;	
 	LinearLayout mRow;
 	LinearLayout compoundView;
-	int mTextSize = 11;
 	Context mContext;
 
 	public MessageRowView(Context context) {
@@ -30,19 +29,12 @@ public class MessageRowView extends LinearLayout {
 		mContext = context;
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-        mTextSize = HappyUtils.getTextSize(context);
-		
 		compoundView = (LinearLayout)inflater.inflate(R.layout.message_row, this);
 		
 		mTitle = (TextView) compoundView.findViewById(R.id.message_title);
 		mText = (TextView) compoundView.findViewById(R.id.message_text);
 		mWrittenBy = (TextView) compoundView.findViewById(R.id.message_written_by);
 		mDate = (TextView) compoundView.findViewById(R.id.message_date);
-		
-		mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize + 2);
-		mText.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
-		mWrittenBy.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);	
-		mDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);					
 	}
 		
 	public void setTitle(String Title) {

@@ -23,7 +23,6 @@ public class KoSRowView extends LinearLayout {
 	ImageView mObjectImage;
 	LinearLayout compoundView;
 	LinearLayout mRowColor;
-	private int mTextSize = 11;
 	private Boolean mPictureList;
 	private SharedPreferences preferences;
 
@@ -33,7 +32,6 @@ public class KoSRowView extends LinearLayout {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        mTextSize = HappyUtils.getTextSize(context);
 		mPictureList = preferences.getBoolean("kospicturelist", true);
 	
 		if (mPictureList) {
@@ -56,13 +54,6 @@ public class KoSRowView extends LinearLayout {
 			mCategory = (TextView) compoundView.findViewById(R.id.kos_row_category);
 			mPrice = (TextView) compoundView.findViewById(R.id.kos_row_price);		
 		}		
-		
-		mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize + 2);
-		mTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		mArea.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);	
-		mCategory.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
-		mPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);			
-
 	}
 
 	public void setBackgroundColor(int color) {

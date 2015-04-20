@@ -40,11 +40,6 @@ public class HappyUtils {
 		return fileNameWithoutExtn;
 	}
 
-    public static int getTextSize(Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String TextSizeArray [] =  context.getResources().getStringArray(R.array.settings_textsize);
-        return Integer.parseInt(TextSizeArray[preferences.getInt("textsize", 2)]);
-    }
 	public static String replaceHTMLChars(String htmlCode) {
 		htmlCode = htmlCode.replaceAll("&aring;", "å").
 		replaceAll("&auml;", "ä").
@@ -56,18 +51,19 @@ public class HappyUtils {
 		replaceAll("&#229;", "⊛").
 		replaceAll("&#246;", "ö").
 		replaceAll("&#196;", "Ä").
-		replaceAll("&#197;", "�").
-		replaceAll("&#214;", "�").
+		replaceAll("&#197;", "┼").
+		replaceAll("&#214;", "Í").
 		replaceAll("'", "&#39;").
 		replaceAll("&quot;", "\"").
+        replaceAll("&#8243;","\"").
 		replaceAll("&gt;", ">").
 		replaceAll("&lt;","<").
 		replaceAll("&#39;","'").
 		replaceAll("&#33;", "!").
-		replaceAll("&#8217;", "�").
+		replaceAll("&#8217;", "’").
 		replaceAll("&#8211;", "-").
 		replaceAll("&#160;", " ").
-		replaceAll("&#8221;", "�").
+		replaceAll("&#8221;", "\"").
 		replaceAll("&#038;", "&").
 		replaceAll("&amp;", "&").
 		replaceAll("&#8230;", "...");

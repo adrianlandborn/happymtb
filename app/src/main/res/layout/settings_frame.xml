@@ -30,7 +30,7 @@
 	<TextView		 	
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:textSize="13dip" 
+	    android:textSize="13sp"
 	    android:textColor="@color/title_1_text"
 	   	android:textStyle="bold"
 	    android:text="Lösenord"	   
@@ -43,27 +43,10 @@
 	    android:id="@+id/Settings_Password"
     />	
 
-	<!--<TextView		 	-->
-	    <!--android:layout_width="fill_parent"-->
-	    <!--android:layout_height="wrap_content"-->
-	    <!--android:textSize="13dip" -->
-	    <!--android:textColor="@color/title_1_text"-->
-	   	<!--android:textStyle="bold"-->
-	    <!--android:text="Textstorlek"	   -->
-	<!--/>	    		-->
-	<!---->
-    <!--<Spinner -->
-        <!--android:id="@+id/settings_textsize"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:drawSelectorOnTop="true"-->
-        <!--android:entries="@array/settings_textsize"-->
-    <!--/>-->
-
-	<TextView		 	
+	<TextView
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:textSize="13dip" 
+	    android:textSize="13sp"
 	    android:textColor="@color/title_1_text"
 	   	android:textStyle="bold"
 	    android:text="Starta med denna sidan"	   

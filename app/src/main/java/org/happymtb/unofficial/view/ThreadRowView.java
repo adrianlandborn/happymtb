@@ -22,13 +22,11 @@ public class ThreadRowView extends LinearLayout {
 	TextView mPage4;
 	TextView mfooter;
 	LinearLayout compoundView;
-	int mTextSize = 11;
 
 	public ThreadRowView(Context context) {
 		super(context);
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        mTextSize = HappyUtils.getTextSize(context);
 		compoundView = (LinearLayout) inflater.inflate(R.layout.thread_row, this);
 
 		mTitle = (TextView) compoundView.findViewById(R.id.thread_title);
@@ -40,15 +38,6 @@ public class ThreadRowView extends LinearLayout {
 		mPage2 = (TextView) compoundView.findViewById(R.id.thread_page_button_2);
 		mPage3 = (TextView) compoundView.findViewById(R.id.thread_page_button_3);
 		mPage4 = (TextView) compoundView.findViewById(R.id.thread_page_button_4);
-		
-		mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize + 2);	
-		mfooter.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);			
-		mNew.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize + 2);
-		mPage.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize + 2);
-		mPage1.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize + 2);
-		mPage2.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize + 2);
-		mPage3.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize + 2);
-		mPage4.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize + 2);
 	}
 
 	public void setBackgroundColor(int color) {

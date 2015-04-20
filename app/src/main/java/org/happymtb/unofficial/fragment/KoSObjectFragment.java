@@ -50,8 +50,6 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mKoSObjectActivity = (KoSObjectActivity) getActivity();
 		
 		setHasOptionsMenu(true);
-		
-        int textSize = HappyUtils.getTextSize(mKoSObjectActivity);
 
         mObjectView = mKoSObjectActivity.findViewById(R.id.kos_object);
 		mTitle = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_title);
@@ -62,12 +60,6 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mBackgroundColor = (LinearLayout) mKoSObjectActivity.findViewById(R.id.kos_object_color);
 		mObjectImageView = (ImageView) mKoSObjectActivity.findViewById(R.id.kos_object_image);
 
-		mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize + 2);
-		mPerson.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
-		mDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize - 2);
-		mText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
-		mPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
-		
 		FetchKoSObject(mKoSObjectActivity.GetObjectLink());
 	}
 	

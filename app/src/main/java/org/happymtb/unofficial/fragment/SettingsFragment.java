@@ -29,14 +29,12 @@ public class SettingsFragment extends Fragment {
 		
 		EditText userNameText = (EditText) activity.findViewById(R.id.settings_username);
 		EditText passwordText = (EditText) activity.findViewById(R.id.Settings_Password);
-//		Spinner textSizeSpinner = (Spinner) activity.findViewById(R.id.settings_textsize);
 		Spinner startPageSpinner = (Spinner) activity.findViewById(R.id.settings_startpage);
 		
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 		userNameText.setText(mPreferences.getString("username", ""));
 		passwordText.setText(mPreferences.getString("password", ""));
 
-//		textSizeSpinner.setSelection(mPreferences.getInt("textsize", 2));
 		startPageSpinner.setSelection(mPreferences.getInt("startpage", 0));
 		
 		Button SaveButton = (Button) activity.findViewById(R.id.settings_save);
@@ -49,9 +47,6 @@ public class SettingsFragment extends Fragment {
 
                 EditText password = (EditText) activity.findViewById(R.id.Settings_Password);
                 editor.putString("password", password.getText().toString());
-
-//                Spinner textSize = (Spinner) activity.findViewById(R.id.settings_textsize);
-//                editor.putInt("textsize", textSize.getSelectedItemPosition());
 
                 Spinner startPage = (Spinner) activity.findViewById(R.id.settings_startpage);
                 editor.putInt("startpage", startPage.getSelectedItemPosition());

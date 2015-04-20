@@ -65,12 +65,6 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 		
 		fetchData();
 
-        mTextSize = HappyUtils.getTextSize(mActivity);
-	    				
-		mCategoryView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		mRegionView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		mSearchView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		
 		getListView().setDivider(null);
 		getListView().setDividerHeight(0);
 	}

@@ -62,23 +62,8 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 		getListView().setDividerHeight(0);	
 
 		preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        mTextSize = HappyUtils.getTextSize(mActivity);
-
         mPictureList = preferences.getBoolean("videopicturelist", true);
 		
-		TextView Category = (TextView) mActivity.findViewById(R.id.video_category);
-		TextView Search = (TextView) mActivity.findViewById(R.id.video_search);
-		TextView PageText = (TextView) mActivity.findViewById(R.id.video_page_text);
-		TextView CurrentPage = (TextView) mActivity.findViewById(R.id.video_current_page);
-		TextView ByText = (TextView) mActivity.findViewById(R.id.video_by_text);
-		TextView MaxPages = (TextView) mActivity.findViewById(R.id.video_no_of_pages);
-		
-		Category.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		Search.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		PageText.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		CurrentPage.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);		
-		ByText.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		MaxPages.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);		
 	}
 	
 	@Override

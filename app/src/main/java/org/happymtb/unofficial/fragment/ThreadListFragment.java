@@ -150,20 +150,13 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 			}
 	    });		
 */
-        int textSize = HappyUtils.getTextSize(mActivity);
-	    
+
 		mLoginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
 		mPageText = (TextView) mActivity.findViewById(R.id.thread_page_text);
 		mCurrentPage = (TextView) mActivity.findViewById(R.id.thread_current_page);		
 		mByText = (TextView) mActivity.findViewById(R.id.thread_by_text);
 		mMaxPages = (TextView) mActivity.findViewById(R.id.thread_no_of_pages);
-		
-		mLoginStatus.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize - 2);
-		mPageText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize - 2);
-		mCurrentPage.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize - 2);
-		mByText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize - 2);
-		mMaxPages.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize - 2);
-	}		
+	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

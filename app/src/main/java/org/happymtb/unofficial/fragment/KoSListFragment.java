@@ -26,7 +26,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,7 +45,6 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 	private KoSData mKoSData = new KoSData(1, 1, 3, 0, "Hela Sverige", 0, "Alla Kategorier", "", null, 0, "creationdate", "Tid", 0, "DESC", "Fallande", 0);
 	private SharedPreferences mPreferences;
 	private Boolean mPictureList;
-	private int mTextSize;
 	MainActivity mActivity;
 	FragmentManager mFragmentManager;
 	
@@ -56,35 +54,16 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		super.onActivityCreated(savedInstanceState);			
 		setListShownNoAnimation(true);
 		setHasOptionsMenu(true);
-		
+
+        getListView().setDivider(null);
+        getListView().setDividerHeight(0);
+
 		mActivity = (MainActivity) getActivity();
 		
 		fetchData();
 		
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        mTextSize = HappyUtils.getTextSize(mActivity);
         mPictureList = mPreferences.getBoolean("kospicturelist", true);
-	    
-		TextView Category = (TextView) mActivity.findViewById(R.id.kos_category);
-		TextView Region = (TextView) mActivity.findViewById(R.id.kos_region);
-		TextView Search = (TextView) mActivity.findViewById(R.id.kos_search);
-		TextView Sort = (TextView) mActivity.findViewById(R.id.kos_sort);
-		TextView PageText = (TextView) mActivity.findViewById(R.id.kos_page_text);
-		TextView CurrentPage = (TextView) mActivity.findViewById(R.id.kos_current_page);
-		TextView ByText = (TextView) mActivity.findViewById(R.id.kos_by_text);
-		TextView MaxPages = (TextView) mActivity.findViewById(R.id.kos_no_of_pages);
-		
-		Category.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		Region.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		Search.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		Sort.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		PageText.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		CurrentPage.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);		
-		ByText.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
-		MaxPages.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);		
-		
-		getListView().setDivider(null);
-		getListView().setDividerHeight(0);
 	}
 
 	@Override

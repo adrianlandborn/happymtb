@@ -16,14 +16,11 @@ public class HomeRowView extends LinearLayout {
 	TextView mText;
 	TextView mDate;
 	LinearLayout compoundView;
-	private int mTextSize = 11;
 
 	public HomeRowView(Context context) {
 		super(context);
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        mTextSize = HappyUtils.getTextSize(context);
 
         compoundView = (LinearLayout) inflater.inflate(R.layout.home_row, this);
 		
@@ -31,9 +28,6 @@ public class HomeRowView extends LinearLayout {
 		mText = (TextView) compoundView.findViewById(R.id.home_row_text);
 		mDate = (TextView) compoundView.findViewById(R.id.home_row_date);
 
-		mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize + 2);
-		mText.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
-		mDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize - 2);
 	}
 
 	public void setBackgroundColor(int color) {

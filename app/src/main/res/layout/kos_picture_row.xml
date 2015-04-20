@@ -86,7 +86,7 @@
                     android:layout_alignBaseline="@id/kos_picture_row_category"
                     android:layout_alignParentRight="true"
                     android:textColor="@color/black"
-                    android:textSize="17sp"
+                    android:textSize="13sp"
                     android:textStyle="bold"/>
 
             </RelativeLayout>

@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:baselineAligned="false"
-        android:paddingLeft="8dip"
-        android:paddingTop="10dip"
-        android:paddingRight="8dip"
-        android:paddingBottom="10dip"
+        android:paddingLeft="8dp"
+        android:paddingTop="10dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="10dp"
         android:layout_gravity="center">
 
         <ProgressBar
