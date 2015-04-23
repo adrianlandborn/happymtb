@@ -1,6 +1,7 @@
 package org.happymtb.unofficial.view;
 
 import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.fragment.KoSListFragment;
 import org.happymtb.unofficial.helpers.HappyUtils;
 
 import android.content.Context;
@@ -32,7 +33,7 @@ public class KoSRowView extends LinearLayout {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		mPictureList = preferences.getBoolean("kospicturelist", true);
+		mPictureList = preferences.getBoolean(KoSListFragment.SHOW_IMAGES, true);
 	
 		if (mPictureList) {
 			compoundView = (LinearLayout) inflater.inflate(R.layout.kos_picture_row, this);

@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -37,12 +38,22 @@ public class SettingsFragment extends Fragment {
 
 		startPageSpinner.setSelection(mPreferences.getInt("startpage", 0));
 		
-		Button SaveButton = (Button) activity.findViewById(R.id.settings_save);
-		SaveButton.setOnClickListener(new View.OnClickListener(){
-        	public void onClick(View v)
-        	{  
-        		EditText userName = (EditText) activity.findViewById(R.id.settings_username);
-        		Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
+		startPageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(activity, "item selected", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(activity, "item NOT selected", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Button saveButton = (Button) activity.findViewById(R.id.settings_save);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                EditText userName = (EditText) activity.findViewById(R.id.settings_username);
+                Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
                 editor.putString("username", userName.getText().toString());
 
                 EditText password = (EditText) activity.findViewById(R.id.Settings_Password);
@@ -51,9 +62,9 @@ public class SettingsFragment extends Fragment {
                 Spinner startPage = (Spinner) activity.findViewById(R.id.settings_startpage);
                 editor.putInt("startpage", startPage.getSelectedItemPosition());
                 editor.apply();
-                
+
                 Toast.makeText(activity, "Användarnamn och lösenord sparade", Toast.LENGTH_SHORT).show();
-        	}	
+            }
         }); 		
 	}
 	

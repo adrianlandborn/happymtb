@@ -39,12 +39,13 @@ import android.widget.Toast;
 
 public class KoSListFragment extends ListFragment implements DialogInterface.OnCancelListener {
 	private final static int DIALOG_FETCH_KOS_ERROR = 0;
+	public final static String SHOW_IMAGES = "kospicturelist";
 	private ProgressDialog mProgressDialog = null;
 	private KoSListTask mKoSTask;
 	private ListKoSAdapter mKoSAdapter;
 	private KoSData mKoSData = new KoSData(1, 1, 3, 0, "Hela Sverige", 0, "Alla Kategorier", "", null, 0, "creationdate", "Tid", 0, "DESC", "Fallande", 0);
 	private SharedPreferences mPreferences;
-	private Boolean mPictureList;
+	private boolean mPictureList;
 	MainActivity mActivity;
 	FragmentManager mFragmentManager;
 	
@@ -63,19 +64,25 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		fetchData();
 		
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        mPictureList = mPreferences.getBoolean("kospicturelist", true);
+        mPictureList = mPreferences.getBoolean(SHOW_IMAGES, true);
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
 		inflater.inflate(R.menu.kos_menu, menu);
+
+		MenuItem pictureRowItem = menu.findItem(R.id.kos_picture_row);
+		pictureRowItem.setVisible(!mPreferences.getBoolean(SHOW_IMAGES, true));
+		MenuItem textRowItem = menu.findItem(R.id.kos_text_row);
+		textRowItem.setVisible(mPreferences.getBoolean(SHOW_IMAGES, true));
 		super.onCreateOptionsMenu(menu, inflater);
 	}		
 
-	public void setPictureList(Boolean Value) {
-		Editor editor = PreferenceManager.getDefaultSharedPreferences(mActivity).edit();
-	    editor.putBoolean("kospicturelist", Value);              
+	public void setPictureList(boolean showImages) {
+		mPictureList = showImages;
+		Editor editor = mPreferences.edit();
+	    editor.putBoolean(SHOW_IMAGES, showImages);
 	    editor.apply();
 	}
 	
@@ -95,13 +102,13 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 			return true;
 		case R.id.kos_picture_row:		    		
 			setPictureList(true);              
-			mPictureList = true;
 			RefreshPage();
+			mActivity.invalidateOptionsMenu();
 			return true;
 		case R.id.kos_text_row:
 			setPictureList(false);
-			mPictureList = false;
 			RefreshPage();
+			mActivity.invalidateOptionsMenu();
 			return true;
 		case R.id.kos_sort:			
 			mFragmentManager = mActivity.getSupportFragmentManager();
