@@ -33,7 +33,7 @@
             
             <item
             	android:id="@+id/thread_markasread"
-            	android:icon="@drawable/ic_action_mark"
+            	android:icon="@drawable/ic_action_navigation_check"
                 android:title="Markera alla trådar som lästa" />
                     	        	
 <!--     		<item -->

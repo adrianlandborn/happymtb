@@ -41,12 +41,12 @@ public class SettingsFragment extends Fragment {
 		startPageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(activity, "item selected", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(activity, "item selected", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(activity, "item NOT selected", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(activity, "item NOT selected", Toast.LENGTH_SHORT).show();
             }
         });
         Button saveButton = (Button) activity.findViewById(R.id.settings_save);

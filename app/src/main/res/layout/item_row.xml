@@ -39,7 +39,7 @@
             android:id="@+id/item_header_collapse"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_action_collapse"
+            android:src="@drawable/ic_action_collapse_light"
             android:visibility="gone"
             android:layout_gravity="right|center_vertical"
             android:contentDescription="@string/collapse"/>
@@ -48,7 +48,7 @@
             android:id="@+id/item_header_expand"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_action_expand"
+            android:src="@drawable/ic_action_expand_light"
             android:visibility="gone"
             android:layout_gravity="right|center_vertical"
             android:contentDescription="@string/expand"/>		        		
