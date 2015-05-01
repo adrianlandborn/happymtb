@@ -12,52 +12,52 @@ public class ThreadData implements Serializable {
 	private int mListPosition;
 	private Boolean mLogined;
 	
-	public ThreadData(int CurrentPage, int MaxPages, List<Thread> Threads, int ListPosition, Boolean Logined) {
-		setThreads(Threads);
-		setCurrentPage(CurrentPage);
-		setMaxPages(MaxPages);
-		setListPosition(ListPosition);
-		setLoggedIn(Logined);
+	public ThreadData(int currentPage, int maxPages, List<Thread> threads, int listPosition, Boolean loggedIn) {
+		setThreads(threads);
+		setCurrentPage(currentPage);
+		setMaxPages(maxPages);
+		setListPosition(listPosition);
+		setLoggedIn(loggedIn);
 	}
 
 	public List<Thread> getThreads() {
 		return mThreads;
 	}
 
-	public void setThreads(List<Thread> Threads) {
-		this.mThreads = Threads;
+	public void setThreads(List<Thread> threads) {
+		this.mThreads = threads;
 	}
 
 	public int getCurrentPage() {
 		return mCurrentPage;
 	}
 
-	public void setCurrentPage(int CurrentPage) {
-		this.mCurrentPage = CurrentPage;
+	public void setCurrentPage(int currentPage) {
+		this.mCurrentPage = currentPage;
 	}
 
 	public int getMaxPages() {
 		return mMaxPages;
 	}
 
-	public void setMaxPages(int MaxPages) {
-		this.mMaxPages = MaxPages;
+	public void setMaxPages(int maxPages) {
+		this.mMaxPages = maxPages;
 	}
 
 	public int getListPosition() {
 		return mListPosition;
 	}
 
-	public void setListPosition(int ListPosition) {
-		this.mListPosition = ListPosition;
+	public void setListPosition(int listPosition) {
+		this.mListPosition = listPosition;
 	}
 
 	public Boolean getLoggedIn() {
 		return mLogined;
 	}
 
-	public void setLoggedIn(Boolean Logined) {
-		this.mLogined = Logined;
+	public void setLoggedIn(Boolean loggedIn) {
+		this.mLogined = loggedIn;
 	}
 
 }

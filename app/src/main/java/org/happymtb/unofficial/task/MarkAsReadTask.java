@@ -7,6 +7,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.cookie.BasicClientCookie;
 
+import org.happymtb.unofficial.fragment.ThreadListFragment;
 import org.happymtb.unofficial.listener.MarkAsReadListener;
 
 import android.content.Context;
@@ -37,7 +38,7 @@ public class MarkAsReadTask extends AsyncTask<Object, Void, Boolean>
         
 		try	{	
     		CookieStore cookieStore = httpclient.getCookieStore();
-    		BasicClientCookie cookie = new BasicClientCookie(preferences.getString("cookiename", ""), preferences.getString("cookievalue", ""));
+    		BasicClientCookie cookie = new BasicClientCookie(preferences.getString(ThreadListFragment.COOKIE_NAME, ""), preferences.getString(ThreadListFragment.COOKIE_VALUE, ""));
     		cookie.setPath("/");
     		cookie.setDomain("happymtb.org");
     		cookieStore.addCookie(cookie);   		

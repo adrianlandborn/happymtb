@@ -26,7 +26,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,6 +40,8 @@ import android.widget.Toast;
 public class ThreadListFragment extends ListFragment implements DialogInterface.OnCancelListener {
 	private final static int DIALOG_FETCH_THREADS_ERROR = 0;
 	private final static int DIALOG_MARK_AS_READ_ERROR = 1;	
+	public final static String COOKIE_NAME = "cookiename";
+	public final static String COOKIE_VALUE = "cookivalue";
 
 	private ProgressDialog mProgressDialog = null;
 	private ThreadListTask mThreadsTask;
@@ -69,65 +70,68 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		mUsername = mPreferences.getString("username", "");
-		
-		if (!mActivity.GetThreadLoggedIn()) {
-			if (mUsername.length() > 0) {
+//		String password = mPreferences.getString("password", "");
+		Toast.makeText(mActivity, "Username: " + mUsername, Toast.LENGTH_LONG).show();
+		if (!mActivity.getThreadLoggedIn()) {
+			if (mUsername.length() >= 0) { // Always show forum
 				mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
 				mProgressDialog.setContentView(R.layout.progress_layout);
 				mProgressDialog.setOnCancelListener(this);
 	
-				LoginTask login = new LoginTask();
-				login.addLoginListener(new LoginListener() {
+				LoginTask loginTask = new LoginTask();
+				loginTask.addLoginListener(new LoginListener() {
 					public void success() {
-                        if (getActivity() != null) {
+						if (getActivity() != null) {
 
-                            mActivity.SetThreadLogined(true);
+							mActivity.setThreadLoggedIn(true);
 
-                            ImageView loginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
-                            loginStatusImage.setImageResource(R.drawable.ic_online);
+							ImageView loginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
+							loginStatusImage.setImageResource(R.drawable.ic_online);
 
-                            TextView loginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
-                            loginStatus.setText("Inloggad som " + mUsername);
+							TextView loginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
+							loginStatus.setText("Inloggad som " + mUsername);
 
-                            setHasOptionsMenu(true);
+							setHasOptionsMenu(true);
 
-                            fetchData();
-                        }
+							fetchData();
+						}
 					}
-	
+
 					public void fail() {
-                        if (getActivity() != null) {
+						if (getActivity() != null) {
 
-                            mActivity.SetThreadLogined(false);
+							mActivity.setThreadLoggedIn(false);
 
-                            ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
-                            LoginStatusImage.setImageResource(R.drawable.ic_offline);
+							ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
+							LoginStatusImage.setImageResource(R.drawable.ic_offline);
 
-                            TextView loginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
-                            loginStatus.setText("Ej inloggad");
+							TextView loginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
+							loginStatus.setText("Ej inloggad");
 
-                            SharedPreferences.Editor editor = mPreferences.edit();
-                            editor.putString("cookiename", "");
-                            editor.putString("cookievalue", "");
-                            editor.apply();
+							SharedPreferences.Editor editor = mPreferences.edit();
+							editor.putString(COOKIE_NAME, "");
+							editor.putString(COOKIE_VALUE, "");
+							editor.apply();
 
-                            setHasOptionsMenu(true);
+							setHasOptionsMenu(true);
 
-                            fetchData();
-                        }
+							fetchData();
+						}
 					}
 				});
-				login.execute(mActivity);
+				loginTask.execute(mActivity);
+			} else {
+				// Empty username
 			}
 		} else {
 			SharedPreferences.Editor editor = mPreferences.edit();
-			editor.putString("cookiename", "");
-			editor.putString("cookievalue", "");
+			editor.putString(COOKIE_NAME, "");
+			editor.putString(COOKIE_VALUE, "");
 			editor.apply();
 			
 			setHasOptionsMenu(true);
 			
-			mActivity.SetThreadLogined(true);
+			mActivity.setThreadLoggedIn(true);
 			
 			ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
 			LoginStatusImage.setImageResource(R.drawable.ic_online);
@@ -161,7 +165,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
-		if (mActivity.GetThreadLoggedIn() == false) {
+		if (mActivity.getThreadLoggedIn() == false) {
 			inflater.inflate(R.menu.thread_menu, menu);
 		} else {
 			inflater.inflate(R.menu.thread_logged_in_menu, menu);
@@ -269,14 +273,14 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	
 	public void RefreshPage() {
 		mThreadData.setListPosition(0);
-		mActivity.SetThreadDataItems(null);
+		mActivity.setThreadDataItems(null);
 		fetchData();
 	}
 
 	public void NextPage() {
 		if (mThreadData.getCurrentPage() < mThreadData.getMaxPages()) {
 			mThreadData.setListPosition(0);
-			mActivity.SetThreadDataItems(null);
+			mActivity.setThreadDataItems(null);
 			mThreadData.setCurrentPage(mThreadData.getCurrentPage() + 1);
 			fetchData();
 		}
@@ -285,7 +289,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	public void PreviousPage() {
     	if (mThreadData.getCurrentPage() > 1) {
     		mThreadData.setListPosition(0);
-    		mActivity.SetThreadDataItems(null);
+    		mActivity.setThreadDataItems(null);
     		mThreadData.setCurrentPage(mThreadData.getCurrentPage() - 1);
 			fetchData();
     	}
@@ -330,13 +334,13 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		OpenThread(position);			
+		openThread(position);
 	}
 
-	public void OpenThread (int position) {
+	public void openThread(int position) {
 		Intent Message = new Intent(mActivity, MessageActivity.class);
 		Message.putExtra("ThreadId", mThreadData.getThreads().get(position).getThreadId());
-		Message.putExtra("Logined", mActivity.GetThreadLoggedIn());
+		Message.putExtra("Logined", mActivity.getThreadLoggedIn());
 		Message.putExtra("New", false);
 		startActivity(Message);				
 	}

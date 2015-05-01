@@ -245,7 +245,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 
 	public void RefreshPage() {
 		mKoSData.setListPosition(0);
-		mActivity.SetKoSDataItems(null);
+		mActivity.setKoSDataItems(null);
 		fetchData();
 	}
 
@@ -253,7 +253,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		if (mKoSData.getCurrentPage() < mKoSData.getMaxPages())
 		{			
 			mKoSData.setListPosition(0);
-			mActivity.SetKoSDataItems(null);
+			mActivity.setKoSDataItems(null);
 			mKoSData.setCurrentPage(mKoSData.getCurrentPage() + 1);
 			fetchData();
 		}
@@ -263,7 +263,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
     	if (mKoSData.getCurrentPage() > 1)
     	{
     		mKoSData.setListPosition(0);
-    		mActivity.SetKoSDataItems(null);
+    		mActivity.setKoSDataItems(null);
     		mKoSData.setCurrentPage(mKoSData.getCurrentPage() - 1);	
     		fetchData();
     	}
@@ -323,7 +323,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
 					mKoSData.setListPosition(0);
-                    activity.SetKoSDataItems(null);
+                    activity.setKoSDataItems(null);
 					
 					Spinner SortAttribute = (Spinner) view.findViewById(R.id.kos_dialog_sort_attribute);
 					Spinner SortOrder = (Spinner) view.findViewById(R.id.kos_dialog_sort_order);
@@ -372,7 +372,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
 					mKoSData.setListPosition(0);
-					mActivity.SetKoSDataItems(null);
+					mActivity.setKoSDataItems(null);
 					
 					EditText mSearchString = (EditText) view.findViewById(R.id.kos_dialog_search_text);
 					Spinner mSearchCategory = (Spinner) view.findViewById(R.id.kos_dialog_search_category);

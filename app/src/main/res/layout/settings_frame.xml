@@ -1,70 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-	android:orientation="vertical"
-	android:background="@color/white">
-	
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    	android:id="@+id/settingsframe"
-    	android:layout_width="fill_parent"
-    	android:layout_height="0dp" />
-    
-	<TextView		 	
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:textSize="13dp"
-	    android:textColor="@color/title_1_text"
-	   	android:textStyle="bold"
-	    android:text="Användarnamn"	/>
-	
-	<EditText 
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:id="@+id/settings_username"
-    />	
-    
-	<TextView		 	
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:textSize="13sp"
-	    android:textColor="@color/title_1_text"
-	   	android:textStyle="bold"
-	    android:text="Lösenord"	   
-	/>	    	
-	
-	<EditText 
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:password="true"
-	    android:id="@+id/Settings_Password"
-    />	
+    android:orientation="vertical"
+    android:background="@color/white">
 
-	<TextView
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:textSize="13sp"
-	    android:textColor="@color/title_1_text"
-	   	android:textStyle="bold"
-	    android:text="Starta med denna sidan"	   
-	/>	    		
-        
-    <Spinner 
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/settingsframe"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13dp"
+        android:textColor="@color/title_1_text"
+        android:textStyle="bold"
+        android:text="Användarnamn" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/settings_username" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/title_1_text"
+        android:textStyle="bold"
+        android:text="Lösenord" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:password="true"
+        android:id="@+id/settings_password" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/title_1_text"
+        android:textStyle="bold"
+        android:text="Starta med denna sidan" />
+
+    <Spinner
         android:id="@+id/settings_startpage"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:drawSelectorOnTop="true"
-        android:entries="@array/settings_startpage"
-    />    
-      
-	<Button 
-    	android:id="@+id/settings_save"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:text="Spara"
-    	android:onClick="SaveSettings"    	
-    />
-</LinearLayout>	
+        android:entries="@array/settings_startpage" />
+
+</LinearLayout>

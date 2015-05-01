@@ -13,6 +13,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.cookie.BasicClientCookie;
 
+import org.happymtb.unofficial.fragment.ThreadListFragment;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.Message;
 import org.happymtb.unofficial.listener.MessageListListener;
@@ -112,7 +113,8 @@ public class MessageListTask extends AsyncTask<Object, Void, Boolean>
 		DefaultHttpClient httpclient = new DefaultHttpClient();
     	try	{
     		CookieStore cookieStore = httpclient.getCookieStore();
-    		BasicClientCookie cookie = new BasicClientCookie(preferences.getString("cookiename", ""), preferences.getString("cookievalue", ""));
+    		BasicClientCookie cookie = new BasicClientCookie(preferences.getString(ThreadListFragment.COOKIE_NAME, ""),
+					preferences.getString(ThreadListFragment.COOKIE_VALUE, ""));
     		cookie.setPath("/");
     		cookie.setDomain("happymtb.org");
     		cookieStore.addCookie(cookie);

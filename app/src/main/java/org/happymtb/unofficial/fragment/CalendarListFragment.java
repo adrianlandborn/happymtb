@@ -136,7 +136,7 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 	
 	public void RefreshPage() {
 //		mKoSData.setListPosition(0);
-//		mActivity.SetKoSDataItems(null);
+//		mActivity.setKoSDataItems(null);
 		fetchData();
 	}
 	
@@ -202,7 +202,7 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 				public void onClick(DialogInterface dialog, int id) {
 
 //					mKoSData.setListPosition(0);
-//					mActivity.SetKoSDataItems(null);
+//					mActivity.setKoSDataItems(null);
 					
 					EditText SearchString = (EditText) view.findViewById(R.id.calendar_dialog_search_text);
 					Spinner SearchCategory = (Spinner) view.findViewById(R.id.calendar_dialog_search_category);

@@ -205,31 +205,31 @@ public class MainActivity extends FragmentActivity implements
         return mActiveKoSObjectLink;
     }
 
-    public void SetKoSData(KoSData koSData) {
+    public void setKoSData(KoSData koSData) {
         mKoSData = koSData;
     }
 
-    public void SetKoSDataItems(List<KoSItem> koSItems) {
+    public void setKoSDataItems(List<KoSItem> koSItems) {
         mKoSData.setKoSItems(koSItems);
     }
 
-    public KoSData GetKoSData() {
+    public KoSData getKoSData() {
         return mKoSData;
     }
 
-    public void SetThreadData(ThreadData threadData) {
+    public void setThreadData(ThreadData threadData) {
         mThreadData = threadData;
     }
 
-    public void SetThreadLogined(Boolean loggedIn) {
+    public void setThreadLoggedIn(Boolean loggedIn) {
         mThreadData.setLoggedIn(loggedIn);
     }
 
-    public boolean GetThreadLoggedIn() {
+    public boolean getThreadLoggedIn() {
         return mThreadData.getLoggedIn();
     }
 
-    public void SetThreadDataItems(List<Thread> threads) {
+    public void setThreadDataItems(List<Thread> threads) {
         mThreadData.setThreads(threads);
     }
 
