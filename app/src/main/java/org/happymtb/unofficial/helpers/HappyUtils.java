@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
 import org.happymtb.unofficial.R;
 
@@ -34,9 +35,13 @@ public class HappyUtils {
 	}	
 	
 	public static String getFilename(String url) {
+		String fileNameWithoutExtn = "";
 		String fileName = url.substring( url.lastIndexOf('/')+1, url.length() );
-		String fileNameWithoutExtn = fileName.substring(0, fileName.lastIndexOf('.'));		
-		fileNameWithoutExtn = fileNameWithoutExtn.replace('.', '_');		
+		System.out.println("HappyUtils: " + fileName);
+		if (!TextUtils.isEmpty(fileName) && fileName.contains(".")) {
+			fileNameWithoutExtn = fileName.substring(0, fileName.lastIndexOf("."));
+			fileNameWithoutExtn = fileNameWithoutExtn.replace(".", "_");
+		}
 		return fileNameWithoutExtn;
 	}
 
