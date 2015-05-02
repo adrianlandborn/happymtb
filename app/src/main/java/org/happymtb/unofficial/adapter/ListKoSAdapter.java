@@ -3,6 +3,7 @@ package org.happymtb.unofficial.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.view.KoSRowView;
 import org.happymtb.unofficial.item.KoSItem;
 
@@ -37,30 +38,28 @@ public class ListKoSAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		KoSRowView KSRowV = null;
+		KoSRowView kosRowView = null;
 
 		if (convertView == null) {
-			KSRowV = new KoSRowView(mContext);
+			kosRowView = new KoSRowView(mContext);
 		} else {
-			KSRowV = (KoSRowView) convertView;
+			kosRowView = (KoSRowView) convertView;
 		}
 			
-		KSRowV.setTitle(mKoSItems.get(position).getTitle());
-		KSRowV.setTime(mKoSItems.get(position).getTime());
-		KSRowV.setArea(mKoSItems.get(position).getArea());
-		KSRowV.setCategory(mKoSItems.get(position).getCategory());
-		KSRowV.setPrice(mKoSItems.get(position).getPrice());
-		KSRowV.setObjectImage(mKoSItems.get(position).getObjectImage());
+		kosRowView.setTitle(mKoSItems.get(position).getTitle());
+		kosRowView.setTime(mKoSItems.get(position).getTime());
+		kosRowView.setArea(mKoSItems.get(position).getArea());
+		kosRowView.setCategory(mKoSItems.get(position).getCategory());
+		kosRowView.setPrice(mKoSItems.get(position).getPrice());
+		kosRowView.setObjectImage(mKoSItems.get(position).getObjectImage());
 
 		if (mKoSItems.get(position).getTitle().charAt(0) == 'S'){
-			int identifier = mContext.getResources().getIdentifier("rowshape_green", "drawable","org.pebeijer.happymtb");
-			KSRowV.setRowBackgroundColor(identifier);
+			kosRowView.setRowBackgroundColor(R.drawable.rowshape_green);
 		} else {
-			int identifier = mContext.getResources().getIdentifier("rowshape_red", "drawable","org.pebeijer.happymtb");
-			KSRowV.setRowBackgroundColor(identifier);
+			kosRowView.setRowBackgroundColor(R.drawable.rowshape_red);
 		}		
 		
-		return KSRowV;
+		return kosRowView;
 	}
 
 }

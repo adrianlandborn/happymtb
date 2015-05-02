@@ -3,6 +3,7 @@ package org.happymtb.unofficial.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.view.CalendarRowView;
 import org.happymtb.unofficial.item.CalendarItem;
 
@@ -38,37 +39,37 @@ public class ListCalendarAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		CalendarRowView CalendarRowV = null;
+		CalendarRowView calendarRowView = null;
 
 		if (convertView == null) {
-			CalendarRowV = new CalendarRowView(mContext);
+			calendarRowView = new CalendarRowView(mContext);
 		} else {
-			CalendarRowV = (CalendarRowView) convertView;
+			calendarRowView = (CalendarRowView) convertView;
 		}
 		
-		CalendarRowV.setTitle(mCalendarItems.get(position).getTitle());
-		CalendarRowV.setDescription(mCalendarItems.get(position).getDescription());
-		CalendarRowV.setCategory(mCalendarItems.get(position).getCategory());
-		CalendarRowV.setTime(mCalendarItems.get(position).getTime() + ", " + mCalendarItems.get(position).getSelectedRegion());
+		calendarRowView.setTitle(mCalendarItems.get(position).getTitle());
+		calendarRowView.setDescription(mCalendarItems.get(position).getDescription());
+		calendarRowView.setCategory(mCalendarItems.get(position).getCategory());
+		calendarRowView.setTime(mCalendarItems.get(position).getTime() + ", " + mCalendarItems.get(position).getSelectedRegion());
 		
 		int identifier;
 		
 		Log.d("test", mCalendarItems.get(position).getCategory());
 		
-		if (mCalendarItems.get(position).getCategory().contains("Event/M�ssa")) {
-			identifier = mContext.getResources().getIdentifier("rowshape_event", "drawable","org.happymtb.unofficial");
+		if (mCalendarItems.get(position).getCategory().contains("Event/Mässa")) {
+			identifier = R.drawable.rowshape_event;
 		} else if (mCalendarItems.get(position).getCategory().contains("Happyride")) {
-			identifier = mContext.getResources().getIdentifier("rowshape_happyride", "drawable","org.happymtb.unofficial");
-		} else if (mCalendarItems.get(position).getCategory().contains("Motionslopp/T�vling")) {
-			identifier = mContext.getResources().getIdentifier("rowshape_motion", "drawable","org.happymtb.unofficial");
+			identifier = R.drawable.rowshape_happyride;
+		} else if (mCalendarItems.get(position).getCategory().contains("Motionslopp/Tävling")) {
+			identifier = R.drawable.rowshape_motion;
 		} else if (mCalendarItems.get(position).getCategory().contains("Svartrejs")) {
-			identifier = mContext.getResources().getIdentifier("rowshape_svart_rejs", "drawable","org.happymtb.unofficial");
+			identifier = R.drawable.rowshape_svart_rejs;
 		} else {
-			identifier = mContext.getResources().getIdentifier("rowshape_ovrigt", "drawable","org.happymtb.unofficial");
+			identifier = R.drawable.rowshape_ovrigt;
 		}
 		
-		CalendarRowV.setRowBackgroundColor(identifier);		
-		return CalendarRowV;
+		calendarRowView.setRowBackgroundColor(identifier);
+		return calendarRowView;
 	}
 
 }
