@@ -129,7 +129,6 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 			// Set an EditText view to get user input 
 			final EditText input = new EditText(mActivity);
 			alert.setView(input);
-
 			alert.setPositiveButton("Hoppa", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Do something with value!
@@ -307,7 +306,9 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 	}
 	
 	private class KoSSortDialogFragment extends DialogFragment {
-		public DialogFragment newInstace() {
+
+
+        public DialogFragment newInstace() {
 			DialogFragment dialogFragment = new KoSSortDialogFragment();
 			return dialogFragment;
 		}

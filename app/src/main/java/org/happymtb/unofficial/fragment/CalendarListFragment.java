@@ -6,10 +6,10 @@ import java.util.List;
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.adapter.ListCalendarAdapter;
-import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.task.CalendarListTask;
 import org.happymtb.unofficial.item.CalendarItem;
 import org.happymtb.unofficial.listener.CalendarListListener;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -22,7 +22,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,10 +36,9 @@ import android.widget.Toast;
 public class CalendarListFragment extends ListFragment implements DialogInterface.OnCancelListener {
   	private final static int DIALOG_FETCH_CALENDAR_ERROR = 0;
 	private ProgressDialog mProgressDialog = null;
-	private CalendarListTask mGetCalendar;
+	private CalendarListTask mGetCalendarTask;
 	private ListCalendarAdapter mCalendarAdapter;
 	private List<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
-	private int mTextSize;
 	MainActivity mActivity;
 	TextView mCategoryView;
 	TextView mRegionView;
@@ -73,13 +71,14 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
 		inflater.inflate(R.menu.calendar_menu, menu);
+		menu.findItem(R.id.calendar_search).setVisible(false);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
 	@Override
 	public void onCancel(DialogInterface dialog) {
-		if (mGetCalendar != null) {
-			mGetCalendar.cancel(true);
+		if (mGetCalendarTask != null) {
+			mGetCalendarTask.cancel(true);
 		}		
 	}		
 	
@@ -90,25 +89,25 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 			mProgressDialog.setOnCancelListener(this);
 		}
 		
-		mGetCalendar = new CalendarListTask();
-		mGetCalendar.addCalendarListListener(new CalendarListListener() {
+		mGetCalendarTask = new CalendarListTask();
+		mGetCalendarTask.addCalendarListListener(new CalendarListListener() {
 			public void success(List<CalendarItem> CalendarItems) {
 				if (getActivity() != null) {
-                    mCalendarItems = CalendarItems;
-                    fillList();
-                    mProgressDialog.dismiss();
-                }
+					mCalendarItems = CalendarItems;
+					fillList();
+					mProgressDialog.dismiss();
+				}
 			}
 
 			public void fail() {
-                if (getActivity() != null) {
-                    Toast.makeText(mActivity, "Inga objekt hittades", Toast.LENGTH_LONG).show();
-                    mCalendarItems = new ArrayList<CalendarItem>();
-                    mProgressDialog.dismiss();
-                }
+				if (getActivity() != null) {
+					Toast.makeText(mActivity, getResources().getString(R.string.no_items_found), Toast.LENGTH_LONG).show();
+					mCalendarItems = new ArrayList<CalendarItem>();
+					mProgressDialog.dismiss();
+				}
 			}
 		});
-		mGetCalendar.execute(mSearch, mRegionPosition, mCategoryPosition);		
+		mGetCalendarTask.execute(mSearch, mRegionPosition, mCategoryPosition);		
 	}
 
 	private void fillList() {
@@ -130,7 +129,7 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		String url = "http://happymtb.org/kalender/" + mCalendarItems.get(position).getId();
-		Intent browserIntent = new Intent("android.intent.action.VIEW", Uri.parse(url));
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 		startActivity(browserIntent);			
 	}
 	
@@ -148,14 +147,15 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 		case R.id.calendar_refresh:
 			RefreshPage();
 			return true;
-		case R.id.calendar_search:			
-	        FragmentManager fm = mActivity.getSupportFragmentManager();
-	        CalendarSearchDialogFragment CalendarSearchDialog = new CalendarSearchDialogFragment();
-	        CalendarSearchDialog.show(fm, "fragment_edit_name");
-			return true;			
+		//TODO Reactivate and fix lifecycle and shared prefs
+//		case R.id.calendar_search:
+//	        FragmentManager fm = mActivity.getSupportFragmentManager();
+//	        CalendarSearchDialogFragment CalendarSearchDialog = new CalendarSearchDialogFragment();
+//	        CalendarSearchDialog.show(fm, "fragment_edit_name");
+//			return true;
 		case R.id.calendar_new_item:
 			String url = "http://happymtb.org/kalender/add.php";
-			Intent browserIntent = new Intent("android.intent.action.VIEW", Uri.parse(url));
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			startActivity(browserIntent);							
 			return true;			
 		}
@@ -185,44 +185,52 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 		return dialog;
 	}	
 		
-	public class CalendarSearchDialogFragment extends DialogFragment {	
+	public static class CalendarSearchDialogFragment extends DialogFragment {
 		public DialogFragment newInstace() {
 			DialogFragment dialogFragment = new CalendarSearchDialogFragment();
 			return dialogFragment;
 		}		
 		
 		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-			LayoutInflater inflater = mActivity.getLayoutInflater();
+		public Dialog onCreateDialog(Bundle savedInstanceState)
+		{
+			final MainActivity activity = (MainActivity) getActivity();
+			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+			LayoutInflater inflater = activity.getLayoutInflater();
 			final View view = inflater.inflate(R.layout.calendar_search, null);
 			builder.setView(view);
 			builder.setPositiveButton("Sök", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
 
-//					mKoSData.setListPosition(0);
-//					mActivity.setKoSDataItems(null);
-					
-					EditText SearchString = (EditText) view.findViewById(R.id.calendar_dialog_search_text);
-					Spinner SearchCategory = (Spinner) view.findViewById(R.id.calendar_dialog_search_category);
-					Spinner SearchRegion = (Spinner) view.findViewById(R.id.calendar_dialog_search_region);
+					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+					EditText searchEditText = (EditText) view.findViewById(R.id.calendar_dialog_search_text);
+					Spinner searchCategory = (Spinner) view.findViewById(R.id.calendar_dialog_search_category);
+					Spinner searchRegion = (Spinner) view.findViewById(R.id.calendar_dialog_search_region);
 
-					mSearch = SearchString.getText().toString();
+					String search = searchEditText.getText().toString();
 					
-					int position = SearchCategory.getSelectedItemPosition();
+					int position = searchCategory.getSelectedItemPosition();
 					String CategoryArrayPosition [] =  getResources().getStringArray(R.array.calendar_dialog_search_category_position);
 					String CategoryArray [] =  getResources().getStringArray(R.array.calendar_dialog_search_category);
-					mCategoryPosition = CategoryArrayPosition[position];
-					mCategory = CategoryArray[position];
+					String categoryPosition = CategoryArrayPosition[position];
+					String category = CategoryArray[position];
 
-					position = SearchRegion.getSelectedItemPosition();
+					position = searchRegion.getSelectedItemPosition();
 					String RegionArrayPosition [] =  getResources().getStringArray(R.array.calendar_dialog_search_region_position);
 					String RegionArray [] =  getResources().getStringArray(R.array.calendar_dialog_search_region);
-					mRegionPosition = RegionArrayPosition[position];					
-					mRegion = RegionArray[position];
+					String regionPosition = RegionArrayPosition[position];
+					String region = RegionArray[position];
 
-					fetchData();
+					SharedPreferences.Editor editor = prefs.edit();
+					editor.putString("calendar_search_text", search);
+					editor.putString("calendar_search_category", category);
+					editor.putString("calendar_search_region", region);
+//					editor.putString("calendar_search_category_position", categoryPosition);
+//					editor.putString("calendar_search_region_position", regionPosition);
+					editor.apply();
+
+
 				}
 			});
 			builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {

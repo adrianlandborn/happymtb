@@ -115,11 +115,9 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mPrice.setText("Pris: " + mKoSObjectItem.getPrice());
 		
 		if (mKoSObjectItem.getType().contains("Säljes")){
-			int identifier = getResources().getIdentifier("rowshape_green", "drawable","org.pebeijer.happymtb");
-			mBackgroundColor.setBackgroundResource(identifier);
+			mBackgroundColor.setBackgroundResource(R.drawable.rowshape_green);
 		} else {
-			int identifier = getResources().getIdentifier("rowshape_red", "drawable","org.pebeijer.happymtb");
-			mBackgroundColor.setBackgroundResource(identifier);
+			mBackgroundColor.setBackgroundResource(R.drawable.rowshape_red);
 		}
 
         mObjectView.setVisibility(View.VISIBLE);
@@ -134,7 +132,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 			builder.setTitle("Felmeddelande");
 			builder.setMessage(
 					"Det blev något fel vid hämtning av köp och sälj")
-					.setPositiveButton("Ok",
+					.setPositiveButton(mKoSObjectActivity.getString(R.string.OK),
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
