@@ -213,23 +213,23 @@
 
     <string-array name="kos_dialog_sort_attribute">
 		<item>Tid</item>
-		<item>Rubrik</item>		
+		<item>Rubrik</item>
 		<item>Område</item>
 		<item>Kategori</item>
 		<item>Pris</item>
-	</string-array>    
+	</string-array>
     	
     <string-array name="kos_dialog_sort_attribute_position">
 		<item>creationdate</item>
-		<item>headline</item>		
+		<item>headline</item>
 		<item>region</item>
 		<item>category</item>
 		<item>price</item>
-	</string-array>    
+	</string-array>
     
     <string-array name="kos_dialog_sort_order">
 		<item>Stigande</item>
-		<item>Fallande</item>		
+		<item>Fallande</item>
 	</string-array>    
     	
     <string-array name="kos_dialog_sort_order_position">

@@ -13,6 +13,7 @@ import org.happymtb.unofficial.listener.KoSListListener;
 import org.happymtb.unofficial.task.KoSImageDownloadTask;
 import org.happymtb.unofficial.task.KoSListTask;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -37,13 +38,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class KoSListFragment extends ListFragment implements DialogInterface.OnCancelListener {
-	private final static int DIALOG_FETCH_KOS_ERROR = 0;
+public class KoSListFragment extends ListFragment implements DialogInterface.OnCancelListener, MainActivity.SortListener {
 	public final static String SHOW_IMAGES = "kospicturelist";
+	public final static String SORT_ORDER_POS = "sort_order_pos";
+	public final static String SORT_ORDER = "sort_order";
+	public final static String SORT_ATTRIBUTE_POS = "sort_attribute_pos";
+	public final static String SORT_ATTRIBUTE = "sort_attribute";
+	public final static String CURRENT_PAGE = "current_page";
 	private ProgressDialog mProgressDialog = null;
 	private KoSListTask mKoSTask;
 	private ListKoSAdapter mKoSAdapter;
-	private KoSData mKoSData = new KoSData(1, 1, 3, 0, "Hela Sverige", 0, "Alla Kategorier", "", null, 0, "creationdate", "Tid", 0, "DESC", "Fallande", 0);
+	private KoSData mKoSData;
 	private SharedPreferences mPreferences;
 	private boolean mPictureList;
 	MainActivity mActivity;
@@ -52,20 +57,64 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 	/** Called when the activity is first created. */
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);			
-		setListShownNoAnimation(true);
-		setHasOptionsMenu(true);
+		super.onActivityCreated(savedInstanceState);
+        setListShownNoAnimation(true);
+        setHasOptionsMenu(true);
 
         getListView().setDivider(null);
         getListView().setDividerHeight(0);
 
-		mActivity = (MainActivity) getActivity();
-		
-		fetchData();
-		
-		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        mActivity = (MainActivity) getActivity();
+
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         mPictureList = mPreferences.getBoolean(SHOW_IMAGES, true);
+
+        mKoSData = new KoSData(
+                mPreferences.getString(SORT_ATTRIBUTE, "creationdate"), mPreferences.getInt(SORT_ATTRIBUTE_POS, 0),
+                mPreferences.getString(SORT_ORDER, "DESC"), mPreferences.getInt(SORT_ORDER_POS, 0));
+
+        if (savedInstanceState != null) {
+            // Restore Current page.
+            mKoSData.setCurrentPage(savedInstanceState.getInt(CURRENT_PAGE, 1));
+
+            Toast.makeText(mActivity, "setCurrentPage: " + savedInstanceState.getInt(CURRENT_PAGE, 1), Toast.LENGTH_LONG).show();
+        }
+
+        fetchData();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(CURRENT_PAGE, mKoSData.getCurrentPage());
+        super.onSaveInstanceState(outState);
+    }
+
+//    @Override
+//    public void onRestoreInstanceState(Bundle savedInstanceState){
+//         Call at the start
+//        super.onRestoreInstanceState(savedInstanceState);
+//
+//         Retrieve variables
+//        isGameFinished = savedInstanceState.getBoolean("isGameFinished");
+//    }
+
+    @Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+        ((MainActivity) getActivity()).addSortListener(this);
 	}
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        ((MainActivity) getActivity()).removeSortListener(this);
+    }
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -117,7 +166,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 			return true;						
 		case R.id.kos_search:			
 			mFragmentManager = mActivity.getSupportFragmentManager();
-	        KoSSearchDialogFragment KoSSearchDialog = new KoSSearchDialogFragment();
+			KoSSearchDialogFragment KoSSearchDialog = new KoSSearchDialogFragment();
 	        KoSSearchDialog.show(mFragmentManager, "fragment_edit_name");
 			return true;			
 		case R.id.kos_go_to_page:			
@@ -198,7 +247,8 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
                 if (getActivity() != null) {
                     Toast.makeText(mActivity, mActivity.getString(R.string.no_items_found), Toast.LENGTH_LONG).show();
 
-                    mKoSData = new KoSData(1, 1, 3, 0, "Hela Sverige", 0, "Alla Kategorier", "", null, 0, "creationdate", "Tid", 0, "ASC", "Stigande", 0);
+                    mKoSData = new KoSData(mPreferences.getString(SORT_ATTRIBUTE, "creationdate"), mPreferences.getInt(SORT_ATTRIBUTE_POS, 0),
+                            mPreferences.getString(SORT_ORDER, "DESC"), mPreferences.getInt(SORT_ORDER_POS, 0));
 
                     mProgressDialog.dismiss();
                 }
@@ -239,12 +289,14 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		
 		TextView Sort = (TextView) mActivity.findViewById(R.id.kos_sort);
 		
-		Sort.setText(" (Sortering: " + mKoSData.getSortAttributeStr() + ", " + mKoSData.getSortOrderStr() + ")");			
+		Sort.setText(" (Sortering: "
+                + HappyUtils.getSortAttrNameLocal(mActivity, mKoSData.getSortAttributePosition()) + ", "
+                + HappyUtils.getSortOrderNameLocal(mActivity, mKoSData.getSortOrderPosition()) + ")");
 	}
 
 	public void RefreshPage() {
 		mKoSData.setListPosition(0);
-		mActivity.setKoSDataItems(null);
+//		mActivity.setKoSDataItems(null);
 		fetchData();
 	}
 
@@ -252,7 +304,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		if (mKoSData.getCurrentPage() < mKoSData.getMaxPages())
 		{			
 			mKoSData.setListPosition(0);
-			mActivity.setKoSDataItems(null);
+//			mActivity.setKoSDataItems(null);
 			mKoSData.setCurrentPage(mKoSData.getCurrentPage() + 1);
 			fetchData();
 		}
@@ -262,7 +314,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
     	if (mKoSData.getCurrentPage() > 1)
     	{
     		mKoSData.setListPosition(0);
-    		mActivity.setKoSDataItems(null);
+//    		mActivity.setKoSDataItems(null);
     		mKoSData.setCurrentPage(mKoSData.getCurrentPage() - 1);	
     		fetchData();
     	}
@@ -275,88 +327,38 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		startActivity(KoSObject);
 	}
 
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog = null;
-		AlertDialog.Builder builder;
-		switch (id) {
-		case DIALOG_FETCH_KOS_ERROR:
-			builder = new AlertDialog.Builder(mActivity);
-			builder.setTitle("Felmeddelande");
-			builder.setMessage(
-					"Det blev något fel vid hämtning av köp och sälj")
-					.setPositiveButton("Ok",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int id) {
-									dialog.cancel();
-									mActivity.finish();
-								}
-							});
-			dialog = builder.create();
-			break;
-		}
-		return dialog;
-	}
-
 	@Override
 	public void onCancel(DialogInterface dialog) {
 		if (mKoSTask != null) {
 			mKoSTask.cancel(true);
-		}
-	}
-	
-	private class KoSSortDialogFragment extends DialogFragment {
+        }
+    }
 
+    @Override
+    public void onSortParamChanged(int sortAttributePos, int sortOrderPos) {
 
-        public DialogFragment newInstace() {
-			DialogFragment dialogFragment = new KoSSortDialogFragment();
-			return dialogFragment;
-		}
+        String sortAttrNameServer = HappyUtils.getSortAttrNameServer(getActivity(), sortAttributePos);
+        String sortOrderNameServer = HappyUtils.getSortOrderNameServer(getActivity(), sortOrderPos);
 
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final MainActivity activity = (MainActivity) getActivity();
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			LayoutInflater inflater = activity.getLayoutInflater();
-			final View view = inflater.inflate(R.layout.kos_sort, null);
-			builder.setView(view);
-			builder.setPositiveButton("Sortera", new DialogInterface.OnClickListener() {	            	   
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-					mKoSData.setListPosition(0);
-                    activity.setKoSDataItems(null);
-					
-					Spinner SortAttribute = (Spinner) view.findViewById(R.id.kos_dialog_sort_attribute);
-					Spinner SortOrder = (Spinner) view.findViewById(R.id.kos_dialog_sort_order);
-   
-					int position = SortAttribute.getSelectedItemPosition();
-					String AttributeArrayPosition [] =  getResources().getStringArray(R.array.kos_dialog_sort_attribute_position);
-					String AttributeArray [] =  getResources().getStringArray(R.array.kos_dialog_sort_attribute);
-					mKoSData.setSortAttribute(AttributeArrayPosition[position]);
-					mKoSData.setSortAttributeStr(AttributeArray[position]);
-					mKoSData.setSortAttributePosition(position);
+        Editor edit = mPreferences.edit();
+        edit.putInt(SORT_ATTRIBUTE_POS, sortAttributePos);
+        edit.putString(SORT_ATTRIBUTE, sortAttrNameServer);
+        edit.putInt(SORT_ORDER_POS, sortOrderPos);
+        edit.putString(SORT_ORDER, sortOrderNameServer);
+        edit.apply();
 
-					position = SortOrder.getSelectedItemPosition();
-					String OrderArrayPosition [] =  getResources().getStringArray(R.array.kos_dialog_sort_order_position);
-					String OrderArray [] =  getResources().getStringArray(R.array.kos_dialog_sort_order);
-					mKoSData.setSortOrder(OrderArrayPosition[position]);
-					mKoSData.setSortOrderStr(OrderArray[position]);
-					mKoSData.setSortOrderPosition(position);
+        mKoSData.setSortAttributePosition(sortAttributePos);
+        mKoSData.setSortOrderPosition(sortOrderPos);
 
-					mKoSData.setCurrentPage(1);
-					fetchData();
-				}
-			});
-			builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					KoSSortDialogFragment.this.getDialog().cancel();
-				}
-			});
-			Dialog dialog = builder.create();	        
-			return dialog;
-	    }
-	}			
-	
+        mKoSData.setSortAttribute(sortAttrNameServer);
+        mKoSData.setSortOrder(sortOrderNameServer);
+
+        mKoSData.setCurrentPage(1);
+        mKoSData.setListPosition(0);
+
+        fetchData();
+    }
+
 	public class KoSSearchDialogFragment extends DialogFragment {
 		public DialogFragment newInstace() {
 			DialogFragment dialogFragment = new KoSSearchDialogFragment();
@@ -369,12 +371,11 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 			LayoutInflater inflater = mActivity.getLayoutInflater();
 			final View view = inflater.inflate(R.layout.kos_search, null);
 			builder.setView(view);
-			builder.setPositiveButton("Sök", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("Sök", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
 					mKoSData.setListPosition(0);
-					mActivity.setKoSDataItems(null);
-					
+
 					EditText mSearchString = (EditText) view.findViewById(R.id.kos_dialog_search_text);
 					Spinner mSearchCategory = (Spinner) view.findViewById(R.id.kos_dialog_search_category);
 					Spinner mSearchRegion = (Spinner) view.findViewById(R.id.kos_dialog_search_region);

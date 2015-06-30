@@ -63,7 +63,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		mActivity = (MainActivity) getActivity();
 		
 		setListShownNoAnimation(true);
-		mToast = Toast.makeText(mActivity , "" , Toast.LENGTH_LONG );
+		mToast = Toast.makeText(mActivity, "", Toast.LENGTH_LONG);
 		
 		CookieSyncManager.createInstance(mActivity);
 		CookieSyncManager.getInstance().startSync();		
@@ -71,7 +71,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		mUsername = mPreferences.getString("username", "");
 //		String password = mPreferences.getString("password", "");
-		Toast.makeText(mActivity, "Username: " + mUsername, Toast.LENGTH_LONG).show();
+//		Toast.makeText(mActivity, "Username: " + mUsername, Toast.LENGTH_LONG).show();
 		if (!mActivity.getThreadLoggedIn()) {
 			if (mUsername.length() >= 0) { // Always show forum
 				mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);

@@ -1,7 +1,9 @@
 package org.happymtb.unofficial;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.happymtb.unofficial.fragment.KoSSortDialogFragment;
 import org.happymtb.unofficial.item.KoSData;
 import org.happymtb.unofficial.item.ThreadData;
 import org.happymtb.unofficial.item.KoSItem;
@@ -28,7 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements
-        ActionBar.OnNavigationListener {
+        ActionBar.OnNavigationListener, KoSSortDialogFragment.SortDialogDataListener{
 
     private static final int HOME = 1;
     private static final int FORUM = 2;
@@ -38,8 +40,7 @@ public class MainActivity extends FragmentActivity implements
     private static final int SHOPS = 6;
     private static final int CALENDAR = 7;
     private static final int SETTINGS = 8;
-    public static String mActiveKoSObjectLink = "";
-    public static KoSData mKoSData = new KoSData(1, 1, 3, 0, "Hela Sverige", 0, "Alla Kategorier", "", null, 0, "creationdate", "Tid", 0, "ASC", "Stigande", 0);
+    private static final String CONTENT = "mContent";
     public static ThreadData mThreadData = new ThreadData(1, 1, null, 0, false);
     Fragment mFragment = new HomesListFragment();
     int mFrameId = R.id.homeframe;
@@ -47,16 +48,30 @@ public class MainActivity extends FragmentActivity implements
     private ActionBar mActionBar;
     ArrayAdapter<String> mActionbaradapter;
     private SharedPreferences mPreferences;
+
+    private List<SortListener> mSortListeners;
     /**
      * The serialization (saved instance state) Bundle key representing the
      * current dropdown position.
      */
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
     private Toast mBackToast;
+    private Fragment mContent; //Used to store eg. Rotation changes
+
+    public interface SortListener {
+        void onSortParamChanged(int attPos, int orderPos);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Save fragments
+        if (savedInstanceState != null) {
+            //Restore the fragment's instance
+            mContent = getSupportFragmentManager().getFragment(
+                    savedInstanceState, CONTENT);
+        }
 
         // Set up the action bar to show a dropdown list.
         mActionBar = getActionBar();
@@ -83,6 +98,8 @@ public class MainActivity extends FragmentActivity implements
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mActionBar.setSelectedNavigationItem(mPreferences.getInt("startpage", 0));
+
+        mSortListeners = new ArrayList<SortListener>();
     }
 
     @Override
@@ -97,8 +114,12 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void onSaveInstanceState(Bundle outState) {
         // Serialize the current dropdown position.
-        outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar()
-                .getSelectedNavigationIndex());
+        outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar().getSelectedNavigationIndex());
+
+        //Save the fragment's instance
+        // TODO testa lösningen nedan Nullpointger
+        //getSupportFragmentManager().putFragment(outState, CONTENT, mContent);
+
     }
 
     @Override
@@ -197,30 +218,6 @@ public class MainActivity extends FragmentActivity implements
         }
     }
 
-    public void setActiveObjectLink(String activeKoSObjectLink) {
-        mActiveKoSObjectLink = activeKoSObjectLink;
-    }
-
-    public String GetActiveObjectLink() {
-        return mActiveKoSObjectLink;
-    }
-
-    public void setKoSData(KoSData koSData) {
-        mKoSData = koSData;
-    }
-
-    public void setKoSDataItems(List<KoSItem> koSItems) {
-        mKoSData.setKoSItems(koSItems);
-    }
-
-    public KoSData getKoSData() {
-        return mKoSData;
-    }
-
-    public void setThreadData(ThreadData threadData) {
-        mThreadData = threadData;
-    }
-
     public void setThreadLoggedIn(Boolean loggedIn) {
         mThreadData.setLoggedIn(loggedIn);
     }
@@ -231,10 +228,6 @@ public class MainActivity extends FragmentActivity implements
 
     public void setThreadDataItems(List<Thread> threads) {
         mThreadData.setThreads(threads);
-    }
-
-    public ThreadData GetThreadData() {
-        return mThreadData;
     }
 
     @Override
@@ -251,5 +244,21 @@ public class MainActivity extends FragmentActivity implements
             }
         }
         return false;
+    }
+
+    public void addSortListener(SortListener l) {
+        mSortListeners.add(l);
+    }
+
+    public void removeSortListener(SortListener l) {
+        mSortListeners.remove(l);
+    }
+
+    @Override
+    public void onSortData(int attrPos, int orderPos) {
+        for (SortListener l : mSortListeners) {
+            l.onSortParamChanged(attrPos, orderPos);
+        }
+
     }
 }

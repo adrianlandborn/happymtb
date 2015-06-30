@@ -74,5 +74,25 @@ public class HappyUtils {
 		replaceAll("&#8230;", "...");
 
 		return htmlCode;
-	}  	
+	}
+
+    public static String getSortAttrNameServer(Context ctx, int pos) {
+        String AttributeArrayServer[] = ctx.getResources().getStringArray(R.array.kos_dialog_sort_attribute_position);
+        return AttributeArrayServer[pos];
+    }
+
+    public static String getSortAttrNameLocal(Context ctx, int pos) {
+        String AttributeArray[] = ctx.getResources().getStringArray(R.array.kos_dialog_sort_attribute);
+        return AttributeArray[pos];
+    }
+
+    public static String getSortOrderNameServer(Context ctx, int pos) {
+        String OrderArrayServer[] = ctx.getResources().getStringArray(R.array.kos_dialog_sort_order_position);
+        return OrderArrayServer[pos];
+    }
+
+    public static String getSortOrderNameLocal(Context ctx, int pos) {
+        String OrderArray[] = ctx.getResources().getStringArray(R.array.kos_dialog_sort_order);
+        return OrderArray[pos];
+    }
 }

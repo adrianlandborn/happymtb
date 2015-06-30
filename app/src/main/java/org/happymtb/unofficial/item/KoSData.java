@@ -1,5 +1,7 @@
 package org.happymtb.unofficial.item;
 
+import org.happymtb.unofficial.helpers.HappyUtils;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,32 +19,26 @@ public class KoSData implements Serializable {
 	private List<KoSItem> mKoSItems;
 	private int mListPosition;
 	private String mSortAttribute;
-	private String mSortAttributeStr;
 	private int mSortAttributePosition;
 	private String mSortOrder;
-	private String mSortOrderStr;
 	private int mSortOrderPosition;
 	
 	
-	public KoSData(int CurrentPage,	int MaxPages, int Type, int Region, String RegionStr, int Category,
-		String CategoryStr, String Search, List<KoSItem> KoSItems, int ListPosition, String SortAttribute, String SortAttributeStr,
-		int SortAttributePosition, String SortOrder, String SortOrderStr, int SortOrderPosition) {
-		setCurrentPage(CurrentPage);
-		setMaxPages(MaxPages);
-		setType(Type);
-		setRegion(Region);
-		setRegionStr(RegionStr);
-		setCategory(Category);
-		setCategoryStr(CategoryStr);
-		setSearch(Search);
-		setKoSItems(KoSItems);
-		setListPosition(ListPosition);			
-		setSortAttribute(SortAttribute);
-		setSortAttributeStr(SortAttributeStr);
-		setSortAttributePosition(SortAttributePosition);
-		setSortOrder(SortOrder);
-		setSortOrderStr(SortOrderStr);
-		setSortOrderPosition(SortOrderPosition);
+	public KoSData(String sortAttribute, int sortAttributePosition, String sortOrder, int sortOrderPosition) {
+		mCurrentPage = 1;
+		mMaxPages = 1;
+		mType = 3;
+		mRegion = 0;
+		mRegionStr = "Hela Sverige";
+		mCategory = 0;
+		mCategoryStr = "Alla Kategorier";
+		mSearch = "";
+		mKoSItems = null;
+        mListPosition = 0;
+        mSortAttribute = sortAttribute;
+        mSortAttributePosition = sortAttributePosition;
+        mSortOrder = sortOrder;
+		mSortOrderPosition = sortOrderPosition;
 	}
 
 	public int getCurrentPage() {
@@ -133,13 +129,13 @@ public class KoSData implements Serializable {
 		this.mSortAttribute = mSortAttribute;
 	}
 
-	public String getSortAttributeStr() {
-		return mSortAttributeStr;
-	}
+//	public String getSortAttributeStr() {
+//		return HappyUtils.getSortAttrNameLocal(getActivity(), sortAttributePos)SortAttributeStr;
+//	}
 
-	public void setSortAttributeStr(String mSortAttributeStr) {
-		this.mSortAttributeStr = mSortAttributeStr;
-	}
+//	public void setSortAttributeStr(String mSortAttributeStr) {
+//		this.mSortAttributeStr = mSortAttributeStr;
+//	}
 
 	public String getSortOrder() {
 		return mSortOrder;
@@ -149,13 +145,13 @@ public class KoSData implements Serializable {
 		this.mSortOrder = mSortOrder;
 	}
 
-	public String getSortOrderStr() {
-		return mSortOrderStr;
-	}
-
-	public void setSortOrderStr(String mSortOrderStr) {
-		this.mSortOrderStr = mSortOrderStr;
-	}
+//	public String getSortOrderStr() {
+//		return mSortOrderStr;
+//	}
+//
+//	public void setSortOrderStr(String mSortOrderStr) {
+//		this.mSortOrderStr = mSortOrderStr;
+//	}
 
 	public int getSortOrderPosition() {
 		return mSortOrderPosition;
