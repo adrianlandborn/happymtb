@@ -31,7 +31,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:drawSelectorOnTop="true"
-        android:entries="@array/kos_dialog_search_category"
+        android:entries="@array/kos_dialog_search_category_name"
     />
 
     <TextView		 	
@@ -47,7 +47,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:drawSelectorOnTop="true"
-        android:entries="@array/kos_dialog_search_region"
+        android:entries="@array/kos_dialog_search_region_name"
     />
     
 	<TextView		 	

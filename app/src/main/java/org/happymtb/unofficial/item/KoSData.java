@@ -24,15 +24,19 @@ public class KoSData implements Serializable {
 	private int mSortOrderPosition;
 	
 	
-	public KoSData(String sortAttribute, int sortAttributePosition, String sortOrder, int sortOrderPosition) {
+	public KoSData(String sortAttribute, int sortAttributePosition, String sortOrder, int sortOrderPosition,
+				   int searchType,
+				   int searchRegion, String searchRegionString,
+				   int searchCategory, String searchCategoryString,
+				   String searchText) {
 		mCurrentPage = 1;
 		mMaxPages = 1;
-		mType = 3;
-		mRegion = 0;
-		mRegionStr = "Hela Sverige";
-		mCategory = 0;
-		mCategoryStr = "Alla Kategorier";
-		mSearch = "";
+		mType = searchType; // 3;
+		mRegion = searchRegion; //0;
+		mRegionStr = searchRegionString; //"Hela Sverige";
+		mCategory = searchCategory; //0;
+		mCategoryStr = searchCategoryString; //"Alla Kategorier";
+		mSearch = searchText;
 		mKoSItems = null;
         mListPosition = 0;
         mSortAttribute = sortAttribute;
@@ -61,7 +65,7 @@ public class KoSData implements Serializable {
 		return mType;
 	}
 
-	public void setType(int mType) {
+	public void setTypePosServer(int mType) {
 		this.mType = mType;
 	}
 
@@ -69,7 +73,7 @@ public class KoSData implements Serializable {
 		return mRegion;
 	}
 
-	public void setRegion(int mRegion) {
+	public void setRegionPos(int mRegion) {
 		this.mRegion = mRegion;
 	}
 
@@ -77,7 +81,7 @@ public class KoSData implements Serializable {
 		return mRegionStr;
 	}
 
-	public void setRegionStr(String mRegionStr) {
+	public void setRegionName(String mRegionStr) {
 		this.mRegionStr = mRegionStr;
 	}
 
@@ -85,7 +89,7 @@ public class KoSData implements Serializable {
 		return mCategory;
 	}
 
-	public void setCategory(int mCategory) {
+	public void setCategoryPos(int mCategory) {
 		this.mCategory = mCategory;
 	}
 
@@ -93,7 +97,7 @@ public class KoSData implements Serializable {
 		return mCategoryStr;
 	}
 
-	public void setCategoryStr(String mCategoryStr) {
+	public void setCategoryName(String mCategoryStr) {
 		this.mCategoryStr = mCategoryStr;
 	}
 
@@ -121,11 +125,11 @@ public class KoSData implements Serializable {
 		this.mListPosition = mListPosition;
 	}
 
-	public String getSortAttribute() {
+	public String getSortAttributeServer() {
 		return mSortAttribute;
 	}
 
-	public void setSortAttribute(String mSortAttribute) {
+	public void setSortAttributeServer(String mSortAttribute) {
 		this.mSortAttribute = mSortAttribute;
 	}
 
@@ -137,11 +141,11 @@ public class KoSData implements Serializable {
 //		this.mSortAttributeStr = mSortAttributeStr;
 //	}
 
-	public String getSortOrder() {
+	public String getSortOrderServer() {
 		return mSortOrder;
 	}
 
-	public void setSortOrder(String mSortOrder) {
+	public void setSortOrderServer(String mSortOrder) {
 		this.mSortOrder = mSortOrder;
 	}
 

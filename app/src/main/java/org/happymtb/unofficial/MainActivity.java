@@ -3,10 +3,9 @@ package org.happymtb.unofficial;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.happymtb.unofficial.fragment.KoSSearchDialogFragment;
 import org.happymtb.unofficial.fragment.KoSSortDialogFragment;
-import org.happymtb.unofficial.item.KoSData;
 import org.happymtb.unofficial.item.ThreadData;
-import org.happymtb.unofficial.item.KoSItem;
 import org.happymtb.unofficial.item.Thread;
 import org.happymtb.unofficial.fragment.ArticlesListFragment;
 import org.happymtb.unofficial.fragment.CalendarListFragment;
@@ -30,7 +29,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements
-        ActionBar.OnNavigationListener, KoSSortDialogFragment.SortDialogDataListener{
+        ActionBar.OnNavigationListener, KoSSortDialogFragment.SortDialogDataListener,
+        KoSSearchDialogFragment.SearchDialogDataListener {
 
     private static final int HOME = 1;
     private static final int FORUM = 2;
@@ -50,6 +50,7 @@ public class MainActivity extends FragmentActivity implements
     private SharedPreferences mPreferences;
 
     private List<SortListener> mSortListeners;
+    private List<SearchListener> mSearchListeners;
     /**
      * The serialization (saved instance state) Bundle key representing the
      * current dropdown position.
@@ -60,6 +61,10 @@ public class MainActivity extends FragmentActivity implements
 
     public interface SortListener {
         void onSortParamChanged(int attPos, int orderPos);
+    }
+
+    public interface SearchListener {
+        void onSearchParamChanged(String text, int category, int region, int type);
     }
 
     @Override
@@ -77,7 +82,7 @@ public class MainActivity extends FragmentActivity implements
         mActionBar = getActionBar();
         mActionBar.setDisplayShowTitleEnabled(false);
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        mActionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar.setDisplayHomeAsUpEnabled(false);
 
         // Set up the dropdown list navigation in the action bar.
 
@@ -100,6 +105,7 @@ public class MainActivity extends FragmentActivity implements
         mActionBar.setSelectedNavigationItem(mPreferences.getInt("startpage", 0));
 
         mSortListeners = new ArrayList<SortListener>();
+        mSearchListeners = new ArrayList<SearchListener>();
     }
 
     @Override
@@ -254,11 +260,26 @@ public class MainActivity extends FragmentActivity implements
         mSortListeners.remove(l);
     }
 
+    public void addSearchListener(SearchListener l) {
+        mSearchListeners.add(l);
+    }
+
+    public void removeSearchListener(SearchListener l) {
+        mSearchListeners.remove(l);
+    }
+
     @Override
     public void onSortData(int attrPos, int orderPos) {
         for (SortListener l : mSortListeners) {
             l.onSortParamChanged(attrPos, orderPos);
         }
 
+    }
+
+    @Override
+    public void onSearchData(String text, int category, int region, int type) {
+        for (SearchListener l : mSearchListeners) {
+            l.onSearchParamChanged(text, category, region, type);
+        }
     }
 }

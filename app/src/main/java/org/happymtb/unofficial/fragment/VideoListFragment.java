@@ -103,11 +103,11 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 			mPictureList = false;
 			RefreshPage();
 			return true;				
-		case R.id.video_search:
-	        FragmentManager fm = mActivity.getSupportFragmentManager();
-	        VideoSearchDialogFragment videoSearchDialog = new VideoSearchDialogFragment();
-	        videoSearchDialog.show(fm, "fragment_edit_name");
-			return true;			
+//		case R.id.video_search:
+//	        FragmentManager fm = mActivity.getSupportFragmentManager();
+//	        VideoSearchDialogFragment videoSearchDialog = new VideoSearchDialogFragment();
+//	        videoSearchDialog.show(fm, "fragment_edit_name");
+//			return true;
 		case R.id.video_go_to_page:			
 			mAlertDialog = new AlertDialog.Builder(mActivity);
 
@@ -217,15 +217,15 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 		TextView Category = (TextView) mActivity.findViewById(R.id.video_category);
 		Category.setText("Kategori: " + mVideoData.getVideoItems().get(0).getSelectedCategory());
 
-		TextView Search = (TextView) mActivity.findViewById(R.id.video_search);
-		
-		String mSearch = mVideoData.getSearch();
-		
-		if (mSearch.length() > 0) {
-			Search.setText(" (Sökord: " + mSearch + ")");
-		} else {
-			Search.setText("");
-		}
+//		TextView searchView = (TextView) mActivity.findViewById(R.id.video_search);
+//
+//		String mSearch = mVideoData.getSearch();
+//
+//		if (mSearch.length() > 0) {
+//			searchView.setText(" (Sökord: " + mSearch + ")");
+//		} else {
+//			searchView.setText("");
+//		}
 	}
 
 	public void RefreshPage() {
@@ -285,41 +285,42 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 	public void onCancel(DialogInterface dialog) {
 		//getActivity().finish();
 	}
-	
-	public class VideoSearchDialogFragment extends DialogFragment {	
-		 public DialogFragment newInstace() {
-			 DialogFragment dialogFragment = new VideoSearchDialogFragment();
-			 return dialogFragment;
-		 }		
-		
-		@Override
-	    public Dialog onCreateDialog(Bundle savedInstanceState) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-	        LayoutInflater inflater = mActivity.getLayoutInflater();
-	        final View view = inflater.inflate(R.layout.video_search, null);
-	        builder.setView(view);
-	        builder.setPositiveButton("Sök", new DialogInterface.OnClickListener() {
-               @Override
-               public void onClick(DialogInterface dialog, int id) {
-            	   EditText mSearchString = (EditText) view.findViewById(R.id.video_dialog_search_text);
-            	   Spinner mSearchCategory = (Spinner) view.findViewById(R.id.video_dialog_search_category);
-            	   
-            	   mVideoData.setSearch(mSearchString.getText().toString());
-               	   int position = mSearchCategory.getSelectedItemPosition();
-               	   String CategoryArrayPosition [] =  getResources().getStringArray(R.array.video_dialog_search_category_position);
-               	   mVideoData.setCategory(Integer.parseInt(CategoryArrayPosition[position]));
-               	   
-               	   mVideoData.setCurrentPage(1);
-               	   fetchData();
-               }
-	        });
-	        builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
-	        	public void onClick(DialogInterface dialog, int id) {
-	    		   VideoSearchDialogFragment.this.getDialog().cancel();
-	        	}
-	        });
-	        Dialog dialog = builder.create();	        
-	        return dialog;
-	    }
-	}	
+
+	// TODO Samma lösning som de andra dialogerna
+//	public class VideoSearchDialogFragment extends DialogFragment {
+//		 public DialogFragment newInstace() {
+//			 DialogFragment dialogFragment = new VideoSearchDialogFragment();
+//			 return dialogFragment;
+//		 }
+//
+//		@Override
+//	    public Dialog onCreateDialog(Bundle savedInstanceState) {
+//			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+//	        LayoutInflater inflater = mActivity.getLayoutInflater();
+//	        final View view = inflater.inflate(R.layout.video_search, null);
+//	        builder.setView(view);
+//	        builder.setPositiveButton("Sök", new DialogInterface.OnClickListener() {
+//               @Override
+//               public void onClick(DialogInterface dialog, int id) {
+//            	   EditText mSearchString = (EditText) view.findViewById(R.id.video_dialog_search_text);
+//            	   Spinner mSearchCategory = (Spinner) view.findViewById(R.id.video_dialog_search_category);
+//
+//            	   mVideoData.setSearch(mSearchString.getText().toString());
+//               	   int position = mSearchCategory.getSelectedItemPosition();
+//               	   String CategoryArrayPosition [] =  getResources().getStringArray(R.array.video_dialog_search_category_position);
+//               	   mVideoData.setCategoryPos(Integer.parseInt(CategoryArrayPosition[position]));
+//
+//               	   mVideoData.setCurrentPage(1);
+//               	   fetchData();
+//               }
+//	        });
+//	        builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+//	        	public void onClick(DialogInterface dialog, int id) {
+//	    		   VideoSearchDialogFragment.this.getDialog().cancel();
+//	        	}
+//	        });
+//	        Dialog dialog = builder.create();
+//	        return dialog;
+//	    }
+//	}
 }

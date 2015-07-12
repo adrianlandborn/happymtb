@@ -30,7 +30,7 @@ public class KoSSortDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 		final MainActivity activity = (MainActivity) getActivity();
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
         final View view = inflater.inflate(R.layout.kos_sort, null);
 

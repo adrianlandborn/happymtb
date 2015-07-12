@@ -15,7 +15,6 @@ import org.happymtb.unofficial.task.KoSListTask;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,27 +23,38 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class KoSListFragment extends ListFragment implements DialogInterface.OnCancelListener, MainActivity.SortListener {
+public class KoSListFragment extends ListFragment implements DialogInterface.OnCancelListener,
+		MainActivity.SortListener, MainActivity.SearchListener {
 	public final static String SHOW_IMAGES = "kospicturelist";
+
 	public final static String SORT_ORDER_POS = "sort_order_pos";
-	public final static String SORT_ORDER = "sort_order";
+	public final static String SORT_ORDER_SERVER = "sort_order";
 	public final static String SORT_ATTRIBUTE_POS = "sort_attribute_pos";
-	public final static String SORT_ATTRIBUTE = "sort_attribute";
-	public final static String CURRENT_PAGE = "current_page";
+	public final static String SORT_ATTRIBUTE_SERVER = "sort_attribute";
+
+    public final static String SEARCH_TEXT = "search_text";
+    public final static String SEARCH_CATEGORY = "search_category";
+    public final static String SEARCH_CATEGORY_POS = "search_category_pos";
+    public final static String SEARCH_REGION = "search_region";
+    public final static String SEARCH_REGION_POS = "search_region_pos";
+    public final static String SEARCH_TYPE_POS = "search_type";
+
+    public final static String SEARCH_TYPE_SPINNER = "search_type_spinner";
+    public final static String SEARCH_REGION_SPINNER = "search_region_spinner";
+    public final static String SEARCH_CATEGORY_SPINNER = "search_category_spinner";
+
+    public final static String CURRENT_PAGE = "current_page";
 	private ProgressDialog mProgressDialog = null;
 	private KoSListTask mKoSTask;
 	private ListKoSAdapter mKoSAdapter;
@@ -70,8 +80,12 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
         mPictureList = mPreferences.getBoolean(SHOW_IMAGES, true);
 
         mKoSData = new KoSData(
-                mPreferences.getString(SORT_ATTRIBUTE, "creationdate"), mPreferences.getInt(SORT_ATTRIBUTE_POS, 0),
-                mPreferences.getString(SORT_ORDER, "DESC"), mPreferences.getInt(SORT_ORDER_POS, 0));
+                mPreferences.getString(SORT_ATTRIBUTE_SERVER, "creationdate"), mPreferences.getInt(SORT_ATTRIBUTE_POS, 0),
+                mPreferences.getString(SORT_ORDER_SERVER, "DESC"), mPreferences.getInt(SORT_ORDER_POS, 0),
+				mPreferences.getInt(SEARCH_TYPE_POS, 3),
+				mPreferences.getInt(SEARCH_REGION_POS, 0), mPreferences.getString(SEARCH_REGION, "Hela Sverige"),
+				mPreferences.getInt(SEARCH_CATEGORY_POS, 0), mPreferences.getString(SEARCH_CATEGORY, "Alla Kategorier"),
+				mPreferences.getString(SEARCH_TEXT, ""));
 
         if (savedInstanceState != null) {
             // Restore Current page.
@@ -107,6 +121,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
         ((MainActivity) getActivity()).addSortListener(this);
+        ((MainActivity) getActivity()).addSearchListener(this);
 	}
 
 
@@ -114,6 +129,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
     public void onDetach() {
         super.onDetach();
         ((MainActivity) getActivity()).removeSortListener(this);
+        ((MainActivity) getActivity()).removeSearchListener(this);
     }
 
 	@Override
@@ -247,15 +263,19 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
                 if (getActivity() != null) {
                     Toast.makeText(mActivity, mActivity.getString(R.string.no_items_found), Toast.LENGTH_LONG).show();
 
-                    mKoSData = new KoSData(mPreferences.getString(SORT_ATTRIBUTE, "creationdate"), mPreferences.getInt(SORT_ATTRIBUTE_POS, 0),
-                            mPreferences.getString(SORT_ORDER, "DESC"), mPreferences.getInt(SORT_ORDER_POS, 0));
+                    mKoSData = new KoSData(mPreferences.getString(SORT_ATTRIBUTE_SERVER, "creationdate"), mPreferences.getInt(SORT_ATTRIBUTE_POS, 0),
+                            mPreferences.getString(SORT_ORDER_SERVER, "DESC"), mPreferences.getInt(SORT_ORDER_POS, 0),
+							mPreferences.getInt(SEARCH_TYPE_POS, 3),
+							mPreferences.getInt(SEARCH_REGION_POS, 0), mPreferences.getString(SEARCH_REGION, "Hela Sverige"),
+							mPreferences.getInt(SEARCH_CATEGORY_POS, 0), mPreferences.getString(SEARCH_CATEGORY, "Alla Kategorier"),
+							mPreferences.getString(SEARCH_TEXT, ""));
 
                     mProgressDialog.dismiss();
                 }
             }
         });
 		mKoSTask.execute(mKoSData.getCurrentPage() - 1, mKoSData.getType(), mKoSData.getRegion(), mKoSData.getCategory(),
-                mKoSData.getSearch(), mKoSData.getSortAttribute(), mKoSData.getSortOrder());
+                mKoSData.getSearch(), mKoSData.getSortAttributeServer(), mKoSData.getSortOrderServer());
 	}
 
 	private void fillList() {
@@ -342,16 +362,16 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 
         Editor edit = mPreferences.edit();
         edit.putInt(SORT_ATTRIBUTE_POS, sortAttributePos);
-        edit.putString(SORT_ATTRIBUTE, sortAttrNameServer);
+        edit.putString(SORT_ATTRIBUTE_SERVER, sortAttrNameServer);
         edit.putInt(SORT_ORDER_POS, sortOrderPos);
-        edit.putString(SORT_ORDER, sortOrderNameServer);
+        edit.putString(SORT_ORDER_SERVER, sortOrderNameServer);
         edit.apply();
 
         mKoSData.setSortAttributePosition(sortAttributePos);
         mKoSData.setSortOrderPosition(sortOrderPos);
 
-        mKoSData.setSortAttribute(sortAttrNameServer);
-        mKoSData.setSortOrder(sortOrderNameServer);
+        mKoSData.setSortAttributeServer(sortAttrNameServer);
+        mKoSData.setSortOrderServer(sortOrderNameServer);
 
         mKoSData.setCurrentPage(1);
         mKoSData.setListPosition(0);
@@ -359,57 +379,48 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
         fetchData();
     }
 
-	public class KoSSearchDialogFragment extends DialogFragment {
-		public DialogFragment newInstace() {
-			DialogFragment dialogFragment = new KoSSearchDialogFragment();
-			return dialogFragment;
-		}		
-		
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-			LayoutInflater inflater = mActivity.getLayoutInflater();
-			final View view = inflater.inflate(R.layout.kos_search, null);
-			builder.setView(view);
-            builder.setPositiveButton("Sök", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-					mKoSData.setListPosition(0);
+	@Override
+	public void onSearchParamChanged(String text, int categoryPos, int regionPos, int typePos) {
 
-					EditText mSearchString = (EditText) view.findViewById(R.id.kos_dialog_search_text);
-					Spinner mSearchCategory = (Spinner) view.findViewById(R.id.kos_dialog_search_category);
-					Spinner mSearchRegion = (Spinner) view.findViewById(R.id.kos_dialog_search_region);
-					Spinner mSearchType = (Spinner) view.findViewById(R.id.kos_dialog_search_type);
-   
-					mKoSData.setSearch(mSearchString.getText().toString().trim());
-					
-					int position = mSearchCategory.getSelectedItemPosition();
-					String CategoryArrayPosition [] =  getResources().getStringArray(R.array.kos_dialog_search_category_position);
-					String CategoryArray [] =  getResources().getStringArray(R.array.kos_dialog_search_category);
-					mKoSData.setCategory(Integer.parseInt(CategoryArrayPosition[position]));
-					mKoSData.setCategoryStr(CategoryArray[position]);
+		// Sökord
+		mKoSData.setSearch(text);
 
-					position = mSearchRegion.getSelectedItemPosition();
-					String RegionArrayPosition [] =  getResources().getStringArray(R.array.kos_dialog_search_region_position);
-					String RegionArray [] =  getResources().getStringArray(R.array.kos_dialog_search_region);
-					mKoSData.setRegion(Integer.parseInt(RegionArrayPosition[position]));
-					mKoSData.setRegionStr(RegionArray[position]);
+		// Cyklar, Ramar, Komponenter...
+		String categoryArrayPosition[] = getResources().getStringArray(R.array.kos_dialog_search_category_position);
+		String categoryArrayName[] = getResources().getStringArray(R.array.kos_dialog_search_category_name);
+		mKoSData.setCategoryPos(Integer.parseInt(categoryArrayPosition[categoryPos]));
+		mKoSData.setCategoryName(categoryArrayName[categoryPos]);
 
-					position = mSearchType.getSelectedItemPosition();
-					String TypeArrayPosition [] =  getResources().getStringArray(R.array.kos_dialog_search_type_position);
-					mKoSData.setType(Integer.parseInt(TypeArrayPosition[position]));					
+		// Skåne, Blekinge, Halland...
+		String regionArrayPosition[] = getResources().getStringArray(R.array.kos_dialog_search_region_position);
+		String regionArrayName[] = getResources().getStringArray(R.array.kos_dialog_search_region_name);
+		mKoSData.setRegionPos(Integer.parseInt(regionArrayPosition[regionPos]));
+		mKoSData.setRegionName(regionArrayName[regionPos]);
 
-					mKoSData.setCurrentPage(1);
-					fetchData();
-				}
-			});
-			builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					KoSSearchDialogFragment.this.getDialog().cancel();
-				}
-			});
-			Dialog dialog = builder.create();	        
-			return dialog;
-	    }
-	}		
+		// Alla, Säljes, Köpes
+		String typeArrayPosition[] = getResources().getStringArray(R.array.kos_dialog_search_type_position);
+		mKoSData.setTypePosServer(Integer.parseInt(typeArrayPosition[typePos]));
+
+		Editor edit = mPreferences.edit();
+		edit.putString(SEARCH_TEXT, text);
+
+		edit.putInt(SEARCH_CATEGORY_POS, Integer.parseInt(categoryArrayPosition[categoryPos]));
+		edit.putString(SEARCH_CATEGORY, categoryArrayName[categoryPos]);
+
+		edit.putInt(SEARCH_REGION_POS, Integer.parseInt(regionArrayPosition[regionPos]));
+		edit.putString(SEARCH_REGION, regionArrayName[regionPos]);
+
+		edit.putInt(SEARCH_TYPE_POS, Integer.parseInt(typeArrayPosition[typePos]));
+
+        // Dialog Spinner selection
+        edit.putInt(SEARCH_TYPE_SPINNER, typePos);
+        edit.putInt(SEARCH_REGION_SPINNER, regionPos);
+        edit.putInt(SEARCH_CATEGORY_SPINNER, categoryPos);
+
+        edit.apply();
+
+		mKoSData.setCurrentPage(1);
+		mKoSData.setListPosition(0);
+		fetchData();
+	}
 }

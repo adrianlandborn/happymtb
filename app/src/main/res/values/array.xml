@@ -37,7 +37,7 @@
 		<item>60</item>												
 	</string-array>    
 	
-    <string-array name="kos_dialog_search_category">
+    <string-array name="kos_dialog_search_category_name">
 		<item>Alla Kategorier</item>
 		<item>Kompletta Cyklar</item>		
 		<item>Ramar</item>
@@ -53,7 +53,7 @@
 		<item>4</item>
 	</string-array>    
     
-    <string-array name="kos_dialog_search_region">
+    <string-array name="kos_dialog_search_region_name">
 		<item>Hela Sverige</item>
 		<item>Blekinge</item>
 		<item>Dalarna</item>
