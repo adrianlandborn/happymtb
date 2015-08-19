@@ -74,10 +74,12 @@
 					
 						<ImageView
 							android:id="@+id/kos_object_image"
-							android:layout_width="wrap_content"
+							android:layout_width="match_parent"
 							android:layout_height="wrap_content"	
 							android:paddingTop="11dp"
-							android:visibility="gone"/>
+							android:visibility="gone"
+							android:scaleType="fitCenter"
+							android:adjustViewBounds="true" />
 							    
 					    <TextView
 					    	android:id="@+id/kos_object_text"

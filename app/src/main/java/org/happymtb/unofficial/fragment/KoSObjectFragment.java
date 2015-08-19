@@ -150,7 +150,6 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	
 	@Override
 	public void onCancel(DialogInterface dialog) {
-		// TODO Auto-generated method stub
 		if (mKoSObjectTask != null) {
 			mKoSObjectTask.cancel(true);
 		}		
