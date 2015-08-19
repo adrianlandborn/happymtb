@@ -8,6 +8,7 @@ import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.listener.LoginListener;
 import org.happymtb.unofficial.listener.MarkAsReadListener;
+import org.happymtb.unofficial.listener.PageTextWatcher;
 import org.happymtb.unofficial.listener.ThreadListListener;
 import org.happymtb.unofficial.adapter.ListThreadsAdapter;
 import org.happymtb.unofficial.item.Thread;
@@ -190,11 +191,12 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		case R.id.thread_markasread:
 			MarkAsRead();
 			return true;			
-		case R.id.thread_go_to_page:			
+		case R.id.thread_go_to_page:
 			AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
 
 			alert.setTitle("Gå till sidan...");
 			alert.setMessage("Skriv in sidnummer som du vill hoppa till (1 - " + mThreadData.getMaxPages() + ")");
+
 
 			// Set an EditText view to get user input 
 			final EditText input = new EditText(mActivity);
@@ -206,17 +208,21 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 					if (HappyUtils.isInteger(input.getText().toString())) {
 						mThreadData.setCurrentPage(Integer.parseInt(input.getText().toString()));
 						fetchData();
-					}					
+					}
 				}
 			});
 
 			alert.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-			    // Canceled.
+					// Canceled.
 				}
 			});
 
-			alert.show();	
+			final AlertDialog dialog = alert.create();
+
+			input.addTextChangedListener(new PageTextWatcher(dialog, mThreadData.getMaxPages()));
+
+			dialog.show();
 			return true;
 		case R.id.thread_new_thread:
 			String url = "http://happymtb.org/forum/posting.php/1";
@@ -225,8 +231,8 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}	
-	
+	}
+
 	@Override
 	public void onDestroy() {
         if (mProgressDialog != null) {

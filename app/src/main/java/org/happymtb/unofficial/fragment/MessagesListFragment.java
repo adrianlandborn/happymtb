@@ -10,6 +10,7 @@ import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.Message;
 import org.happymtb.unofficial.item.MessageData;
 import org.happymtb.unofficial.listener.MessageListListener;
+import org.happymtb.unofficial.listener.PageTextWatcher;
 import org.happymtb.unofficial.task.MessageImageDownloadTask;
 import org.happymtb.unofficial.task.MessageListTask;
 
@@ -144,11 +145,20 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 
 			alert.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-			    // Canceled.
+					// Canceled.
 				}
 			});
 
-			alert.show();
+			alert.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					// Canceled.
+				}
+			});
+			final AlertDialog dialog = alert.create();
+
+			input.addTextChangedListener(new PageTextWatcher(dialog, mMessageData.getMaxPages()));
+
+			dialog.show();
 			return true;	
 		}
 		return super.onOptionsItemSelected(item);

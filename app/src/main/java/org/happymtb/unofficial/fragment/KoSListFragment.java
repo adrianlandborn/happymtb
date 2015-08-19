@@ -10,6 +10,7 @@ import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSData;
 import org.happymtb.unofficial.item.KoSItem;
 import org.happymtb.unofficial.listener.KoSListListener;
+import org.happymtb.unofficial.listener.PageTextWatcher;
 import org.happymtb.unofficial.task.KoSImageDownloadTask;
 import org.happymtb.unofficial.task.KoSListTask;
 
@@ -197,21 +198,23 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 			alert.setPositiveButton("Hoppa", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Do something with value!
-					if (HappyUtils.isInteger(input.getText().toString()))
-					{
+					if (HappyUtils.isInteger(input.getText().toString())) {
 						mKoSData.setCurrentPage(Integer.parseInt(input.getText().toString()));
 						fetchData();
-					}					
+					}
 				}
 			});
 
 			alert.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
-			  public void onClick(DialogInterface dialog, int whichButton) {
-			    // Canceled.
-			  }
+				public void onClick(DialogInterface dialog, int whichButton) {
+					// Canceled.
+				}
 			});
+			final AlertDialog dialog = alert.create();
 
-			alert.show();	
+			input.addTextChangedListener(new PageTextWatcher(dialog, mKoSData.getMaxPages()));
+
+			dialog.show();
 			return true;	
 		case R.id.kos_new_item:
 			String url = "http://happymtb.org/annonser/index.php?page=add";

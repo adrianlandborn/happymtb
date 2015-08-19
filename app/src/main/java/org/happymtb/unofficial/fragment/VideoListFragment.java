@@ -8,6 +8,7 @@ import org.happymtb.unofficial.adapter.ListVideoAdapter;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.VideoData;
 import org.happymtb.unofficial.item.VideoItem;
+import org.happymtb.unofficial.listener.PageTextWatcher;
 import org.happymtb.unofficial.listener.VideoListListener;
 import org.happymtb.unofficial.task.VideoImageDownloadTask;
 import org.happymtb.unofficial.task.VideoListTask;
@@ -115,26 +116,30 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 			mAlertDialog.setMessage("Skriv in sidnummer som du vill hoppa till (1 - " + mVideoData.getMaxPages() + ")");
 
 			// Set an EditText view to get user input 
-			final EditText PageNumber = new EditText(mActivity);
-			mAlertDialog.setView(PageNumber);
+			final EditText input = new EditText(mActivity);
+			mAlertDialog.setView(input);
 
 			mAlertDialog.setPositiveButton("Hoppa", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Do something with value!
-					if (HappyUtils.isInteger(PageNumber.getText().toString())) {
-						mVideoData.setCurrentPage(Integer.parseInt(PageNumber.getText().toString()));
+					if (HappyUtils.isInteger(input.getText().toString())) {
+						mVideoData.setCurrentPage(Integer.parseInt(input.getText().toString()));
 						fetchData();
-					}					
+					}
 				}
 			});
 
 			mAlertDialog.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
-			  public void onClick(DialogInterface dialog, int whichButton) {
-			    // Canceled.
-			  }
+				public void onClick(DialogInterface dialog, int whichButton) {
+					// Canceled.
+				}
 			});
 
-			mAlertDialog.show();	
+			final AlertDialog dialog = mAlertDialog.create();
+
+			input.addTextChangedListener(new PageTextWatcher(dialog, mVideoData.getMaxPages()));
+
+			dialog.show();
 			return true;	
 		case R.id.video_new_item:
 			String url = "http://happymtb.org/video/upload.php";

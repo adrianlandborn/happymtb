@@ -81,10 +81,12 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mKoSObjectTask.addKoSObjectListener(new KoSObjectListener() {
             public void success(KoSObjectItem koSObjectItem) {
                 mKoSObjectItem = koSObjectItem;
-                if (getActivity() != null && mKoSObjectItem != null) {
-                    fillList();
+                if (getActivity() != null) {
+					if (mKoSObjectItem != null) {
+						fillList();
+					}
+					mProgressDialog.dismiss();
                 }
-                mProgressDialog.dismiss();
             }
 
             public void fail() {
@@ -153,8 +155,14 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 			mKoSObjectTask.cancel(true);
 		}		
 	}
-	
-	@Override
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mProgressDialog.dismiss();
+    }
+
+    @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 			case R.id.kos_object_mail:
