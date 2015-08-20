@@ -24,7 +24,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="Region"
-			android:textSize="13sp"
+			android:textSize="15sp"
 			android:textColor="@color/white"/>		
 			
 		<TextView
@@ -32,7 +32,7 @@
 		   	android:layout_width="wrap_content"
 		   	android:layout_height="wrap_content"
 		   	android:text=""			    
-		   	android:textSize="13sp" 
+		   	android:textSize="15sp"
 			android:textColor="@color/white"/>		    
 	</LinearLayout>	
 	
@@ -57,7 +57,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="Kategori"
-				android:textSize="13sp"
+				android:textSize="15sp"
 				android:textColor="@color/white"/>
 			
 			<TextView
@@ -65,7 +65,7 @@
 		    	android:layout_width="wrap_content"
 		    	android:layout_height="wrap_content"
 		    	android:text=""			    
-		    	android:textSize="13sp" 
+		    	android:textSize="15sp"
 				android:textColor="@color/white"/>		
 		</LinearLayout>
 						
@@ -81,7 +81,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/kos_page"
-				android:textSize="13sp"
+				android:textSize="15sp"
 				android:textColor="@color/white"
 				android:layout_gravity="center_vertical"/>
 				
@@ -90,7 +90,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/kos_one"
-				android:textSize="13sp"
+				android:textSize="15sp"
 				android:textColor="@color/white"
 				android:layout_gravity="center_vertical"/>				
 	
@@ -99,7 +99,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/kos_by"
-				android:textSize="13sp"
+				android:textSize="15sp"
 				android:textColor="@color/white"
 				android:layout_gravity="center_vertical"/>	
 				
@@ -108,7 +108,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/kos_one"					
-				android:textSize="13sp"
+				android:textSize="15sp"
 				android:textColor="@color/white"
 				android:layout_gravity="center_vertical"/>
 		</LinearLayout>	

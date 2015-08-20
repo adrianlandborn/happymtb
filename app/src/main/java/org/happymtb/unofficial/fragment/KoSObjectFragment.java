@@ -9,6 +9,8 @@ import org.happymtb.unofficial.task.KoSObjectImageTask;
 import org.happymtb.unofficial.task.KoSObjectTask;
 import org.happymtb.unofficial.KoSObjectActivity;
 import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.ui.ScaleImageView;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -20,6 +22,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,7 +44,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	TextView mText;
 	TextView mPrice;
 	LinearLayout mBackgroundColor;
-	ImageView mObjectImageView;
+	ScaleImageView mObjectImageView;
 	KoSObjectActivity mKoSObjectActivity;	
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -58,7 +61,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mText = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_text);
 		mPrice = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_price);
 		mBackgroundColor = (LinearLayout) mKoSObjectActivity.findViewById(R.id.kos_object_color);
-		mObjectImageView = (ImageView) mKoSObjectActivity.findViewById(R.id.kos_object_image);
+		mObjectImageView = (ScaleImageView) mKoSObjectActivity.findViewById(R.id.kos_object_image);
 
 		FetchKoSObject(mKoSObjectActivity.GetObjectLink());
 	}
@@ -79,22 +82,22 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		
 		mKoSObjectTask = new KoSObjectTask();
 		mKoSObjectTask.addKoSObjectListener(new KoSObjectListener() {
-            public void success(KoSObjectItem koSObjectItem) {
-                mKoSObjectItem = koSObjectItem;
-                if (getActivity() != null) {
+			public void success(KoSObjectItem koSObjectItem) {
+				mKoSObjectItem = koSObjectItem;
+				if (getActivity() != null) {
 					if (mKoSObjectItem != null) {
 						fillList();
 					}
 					mProgressDialog.dismiss();
-                }
-            }
+				}
+			}
 
-            public void fail() {
-                if (getActivity() != null) {
-                    mProgressDialog.dismiss();
-                }
-            }
-        });
+			public void fail() {
+				if (getActivity() != null) {
+					mProgressDialog.dismiss();
+				}
+			}
+		});
 
 		mKoSObjectTask.execute(objectLink);
 
@@ -103,9 +106,10 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	private void fillList() {
 		mTitle.setText(mKoSObjectItem.getArea() + " - " + mKoSObjectItem.getType() + " - " + mKoSObjectItem.getTitle());		
 		mPerson.setText("Annonsör: " + mKoSObjectItem.getPerson() + "(Telefon: " + mKoSObjectItem.getPhone() + ")");
-		mDate.setText("Datum: " + mKoSObjectItem.getDate());		
-	
-		if (mKoSObjectItem.getImgLink() != "")
+		mDate.setText("Datum: " + mKoSObjectItem.getDate());
+
+		System.out.println("scaleimage: " + mKoSObjectItem.getImgLink());
+		if (!TextUtils.isEmpty(mKoSObjectItem.getImgLink()))
 		{				
 			String URL = mKoSObjectItem.getImgLink();
 

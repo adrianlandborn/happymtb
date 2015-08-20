@@ -48,7 +48,7 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:textStyle="bold"				
-						android:textSize="13sp"
+						android:textSize="15sp"
 						android:textColor="@color/title_1_text"
                         android:textIsSelectable="true" />
 					
@@ -61,32 +61,30 @@
 					    	android:id="@+id/kos_object_date"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:textSize="11sp"
+							android:textSize="13sp"
 							android:textColor="@color/title_2_text"/>    		     
 					    					    					    
 					    <TextView
 					    	android:id="@+id/kos_object_person"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:textSize="11sp"
+							android:textSize="13sp"
                             android:textIsSelectable="true"
                             android:textColor="@color/black"/>
 					
-						<ImageView
+						<org.happymtb.unofficial.ui.ScaleImageView
 							android:id="@+id/kos_object_image"
 							android:layout_width="match_parent"
-							android:layout_height="wrap_content"	
+							android:layout_height="wrap_content"
 							android:paddingTop="11dp"
-							android:visibility="gone"
-							android:scaleType="fitCenter"
-							android:adjustViewBounds="true" />
+							android:visibility="gone" />
 							    
 					    <TextView
 					    	android:id="@+id/kos_object_text"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:paddingTop="11dp"
-							android:textSize="11sp"
+							android:textSize="13sp"
                             android:autoLink="web"
                             android:textIsSelectable="true"
 							android:textColor="@color/black"/>      
@@ -95,7 +93,7 @@
 					    	android:id="@+id/kos_object_price"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:textSize="11sp"
+							android:textSize="15sp"
 							android:textColor="@color/black"/>		
 					</LinearLayout>
 				</LinearLayout>	

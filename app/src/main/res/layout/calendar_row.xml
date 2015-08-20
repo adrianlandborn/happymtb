@@ -34,7 +34,7 @@
 			    android:id="@+id/calendar_row_title"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
-			    android:textSize="13sp" 
+			    android:textSize="15sp"
 			    android:textColor="@color/title_1_text"
 			   	android:textStyle="bold"
 			    android:text=""	   
@@ -44,7 +44,7 @@
 			    android:id="@+id/calendar_row_time"
 		    	android:layout_width="wrap_content"
 		    	android:layout_height="wrap_content"
-		    	android:textSize="11sp" 
+		    	android:textSize="13sp"
 		    	android:textColor="@color/title_2_text"		    
 		   		android:text=""	 	
 	 		/>			
@@ -53,7 +53,7 @@
 			    android:id="@+id/calendar_row_description"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
-			    android:textSize="11sp" 
+			    android:textSize="13sp"
 			    android:textColor="@color/black"
 			    android:text=""	         	     	    	    		    	    	   
 		   	/>
@@ -62,7 +62,7 @@
 			    android:id="@+id/calendar_row_category"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
-			    android:textSize="11sp" 
+			    android:textSize="13sp"
 			    android:textColor="@color/black"
 			    android:text=""	         	     	    	    		    	    	   
 		   	/>															

@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="13dp"
+        android:textSize="15dp"
         android:textColor="@color/title_1_text"
         android:textStyle="bold"
         android:text="Användarnamn" />
@@ -28,7 +28,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
+        android:textSize="15sp"
         android:textColor="@color/title_1_text"
         android:textStyle="bold"
         android:text="Lösenord" />
@@ -42,7 +42,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
+        android:textSize="15sp"
         android:textColor="@color/title_1_text"
         android:textStyle="bold"
         android:text="Starta med denna sidan" />

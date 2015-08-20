@@ -26,7 +26,7 @@
 			android:id="@+id/message_title"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textSize="13sp"
+			android:textSize="15sp"
 			android:textStyle="bold"
 			android:textColor="@color/title_1_text"/>
 			
@@ -34,14 +34,14 @@
 			android:id="@+id/message_written_by"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textSize="11sp"
+			android:textSize="13sp"
 			android:textColor="@color/title_2_text"/>			
 	
 		<TextView
 			android:id="@+id/message_date"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textSize="11sp"
+			android:textSize="13sp"
 			android:textColor="@color/title_2_text"
 			android:paddingBottom="5dp"/>
 		
@@ -49,7 +49,7 @@
 			android:id="@+id/message_text"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textSize="11sp"
+			android:textSize="13sp"
 			android:textColor="@color/black"/>	
 
 	</LinearLayout>

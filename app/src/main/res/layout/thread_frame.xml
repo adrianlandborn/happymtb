@@ -37,7 +37,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/thread_not_logged_in"
-				android:textSize="13sp"
+				android:textSize="15sp"
 				android:textColor="@color/white"
 				android:layout_gravity="center_vertical"/>
 		</LinearLayout>
@@ -52,7 +52,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/thread_page"
-				android:textSize="13sp"
+				android:textSize="15sp"
 				android:textColor="@color/white"
 				android:layout_gravity="center_vertical"/>
 				
@@ -61,7 +61,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/thread_one"
-				android:textSize="13sp"
+				android:textSize="15sp"
 				android:textColor="@color/white"
 				android:layout_gravity="center_vertical"/>				
 		
@@ -70,7 +70,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/thread_by"
-				android:textSize="13sp"
+				android:textSize="15sp"
 				android:textColor="@color/white"
 				android:layout_gravity="center_vertical"/>	
 				
@@ -79,7 +79,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/thread_one"					
-				android:textSize="13sp"
+				android:textSize="15sp"
 				android:textColor="@color/white"
 				android:layout_gravity="center_vertical"/>
 		</LinearLayout>
