@@ -2,6 +2,8 @@ package org.happymtb.unofficial;
 
 import org.happymtb.unofficial.fragment.KoSObjectFragment;
 import android.app.ActionBar;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -34,11 +36,18 @@ public class KoSObjectActivity extends FragmentActivity {
 	}
 	
 	public String GetObjectLink() {
-		String ObjectLink;
-		Bundle bundle = getIntent().getExtras();
-		ObjectLink = bundle.getString("KoSObjectLink");
+		String objectLink = "";
+		Intent intent = getIntent();
+		String action = intent.getAction();
+		if (action != null) {
+			Uri data = intent.getData();
+			objectLink = data.toString();
 
-		return ObjectLink;
+		} else {
+			objectLink = intent.getExtras().getString("KoSObjectLink");
+		}
+
+		return objectLink;
 	}
 		
 	@Override

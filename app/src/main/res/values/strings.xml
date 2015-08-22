@@ -4,9 +4,9 @@
     <string name="title_section2">Section 2</string>
     <string name="title_section1">Section 1</string>
     <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>    
+    <string name="menu_settings">Inställningar</string>
     
-    <string name="app_name">happymtb</string>
+    <string name="app_name">HappyMTB</string>
     
     <string name="title_bar_home">Förstasidan</string>
     <string name="title_bar_forum">Forum</string>
@@ -32,7 +32,7 @@
     <string name="video_by">&#160;av&#160;</string>
     <string name="video_one">1</string>    
     
-    <string name="main_happymtb">happymtb</string>
+    <string name="main_happymtb">HappMTB</string>
     <string name="main_home">Förstasidan</string>
     <string name="main_forum">Forum</string>
     <string name="main_articles">Artiklar</string>
@@ -42,8 +42,8 @@
     <string name="main_calendar">Kalender</string>
     <string name="main_settings">Inställningar</string>
     
-    <string name="collapse">Collapse</string>
-    <string name="expand">Expand</string>
+    <string name="collapse">Dra ihop</string>
+    <string name="expand">Expandera</string>
     <string name="no_items_found">Inga objekt hittades</string>
     <string name="OK">Ok</string>
 </resources>

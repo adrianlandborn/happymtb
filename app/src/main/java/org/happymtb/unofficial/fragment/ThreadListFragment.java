@@ -17,6 +17,7 @@ import org.happymtb.unofficial.task.LoginTask;
 import org.happymtb.unofficial.task.MarkAsReadTask;
 import org.happymtb.unofficial.task.ThreadListTask;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -82,14 +83,14 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 				LoginTask loginTask = new LoginTask();
 				loginTask.addLoginListener(new LoginListener() {
 					public void success() {
-						if (getActivity() != null) {
+						MainActivity activity = (MainActivity) getActivity();
+						if (activity != null) {
+							activity.setThreadLoggedIn(true);
 
-							mActivity.setThreadLoggedIn(true);
-
-							ImageView loginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
+							ImageView loginStatusImage = (ImageView) activity.findViewById(R.id.thread_login_status_image);
 							loginStatusImage.setImageResource(R.drawable.ic_online);
 
-							TextView loginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
+							TextView loginStatus = (TextView) activity.findViewById(R.id.thread_login_status);
 							loginStatus.setText("Inloggad som " + mUsername);
 
 							setHasOptionsMenu(true);
@@ -99,14 +100,14 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 					}
 
 					public void fail() {
+						MainActivity activity = (MainActivity) getActivity();
 						if (getActivity() != null) {
+							activity.setThreadLoggedIn(false);
 
-							mActivity.setThreadLoggedIn(false);
-
-							ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
+							ImageView LoginStatusImage = (ImageView) activity.findViewById(R.id.thread_login_status_image);
 							LoginStatusImage.setImageResource(R.drawable.ic_offline);
 
-							TextView loginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
+							TextView loginStatus = (TextView) activity.findViewById(R.id.thread_login_status);
 							loginStatus.setText("Ej inloggad");
 
 							SharedPreferences.Editor editor = mPreferences.edit();
