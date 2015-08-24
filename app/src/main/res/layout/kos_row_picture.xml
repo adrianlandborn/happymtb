@@ -6,16 +6,7 @@
     android:background="@color/grey"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="2dp"
-        android:background="@drawable/rowshape_kos"
-        android:orientation="vertical"
-        android:paddingBottom="1dp">
+    <LinearLayout style="@style/RowBase">
 
         <LinearLayout
             android:id="@+id/kos_picture_row_color"

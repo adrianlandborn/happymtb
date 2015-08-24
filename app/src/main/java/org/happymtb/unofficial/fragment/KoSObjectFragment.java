@@ -2,6 +2,7 @@ package org.happymtb.unofficial.fragment;
 
 import java.io.IOException;
 
+import org.happymtb.unofficial.WebViewActivity;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSObjectItem;
 import org.happymtb.unofficial.listener.KoSObjectListener;
@@ -82,22 +83,22 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		
 		mKoSObjectTask = new KoSObjectTask();
 		mKoSObjectTask.addKoSObjectListener(new KoSObjectListener() {
-			public void success(KoSObjectItem koSObjectItem) {
-				mKoSObjectItem = koSObjectItem;
-				if (getActivity() != null) {
-					if (mKoSObjectItem != null) {
-						fillList();
-					}
-					mProgressDialog.dismiss();
-				}
-			}
+            public void success(KoSObjectItem koSObjectItem) {
+                mKoSObjectItem = koSObjectItem;
+                if (getActivity() != null) {
+                    if (mKoSObjectItem != null) {
+                        fillList();
+                    }
+                    mProgressDialog.dismiss();
+                }
+            }
 
-			public void fail() {
-				if (getActivity() != null) {
-					mProgressDialog.dismiss();
-				}
-			}
-		});
+            public void fail() {
+                if (getActivity() != null) {
+                    mProgressDialog.dismiss();
+                }
+            }
+        });
 
 		mKoSObjectTask.execute(objectLink);
 
@@ -169,14 +170,13 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 			case R.id.kos_object_mail:
-				Intent browserIntent = new Intent("android.intent.action.VIEW", Uri.parse(mKoSObjectActivity.GetObjectLink() + "&pm"));
-				startActivity(browserIntent);
+				openInBrowser(true);
 				return true;
             case R.id.kos_object_share:
                 shareObject();
                 return true;
             case R.id.kos_object_browser:
-                openInBrowser();
+                openInBrowser(false);
                 return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -191,9 +191,14 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
         startActivity(Intent.createChooser(intent, "Dela annons..."));
     }
 
-    private void openInBrowser() {
+    private void openInBrowser(boolean isMessage) {
 
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mKoSObjectActivity.GetObjectLink()));
+        Intent browserIntent = new Intent(getActivity(), WebViewActivity.class);
+        if (isMessage) {
+            browserIntent.putExtra("url", mKoSObjectActivity.GetObjectLink() + "&pm");
+        } else {
+            browserIntent.putExtra("url", mKoSObjectActivity.GetObjectLink());
+        }
         startActivity(browserIntent);
 
     }

@@ -2,13 +2,11 @@ package org.happymtb.unofficial.view;
 
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.fragment.KoSListFragment;
-import org.happymtb.unofficial.helpers.HappyUtils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,7 +19,7 @@ public class KoSRowView extends LinearLayout {
 	TextView mImgLink;
 	TextView mCategory;
 	TextView mPrice;
-	ImageView mObjectImage;
+	ImageView mObjectImageView;
 	LinearLayout compoundView;
 	LinearLayout mRowColor;
 	private Boolean mPictureList;
@@ -36,7 +34,7 @@ public class KoSRowView extends LinearLayout {
 		mPictureList = preferences.getBoolean(KoSListFragment.SHOW_IMAGES, true);
 	
 		if (mPictureList) {
-			compoundView = (LinearLayout) inflater.inflate(R.layout.kos_picture_row, this);
+			compoundView = (LinearLayout) inflater.inflate(R.layout.kos_row_picture, this);
 			
 			mRowColor = (LinearLayout) compoundView.findViewById(R.id.kos_picture_row_color);
 			mTitle = (TextView) compoundView.findViewById(R.id.kos_picture_row_title);
@@ -44,7 +42,7 @@ public class KoSRowView extends LinearLayout {
 			mArea = (TextView) compoundView.findViewById(R.id.kos_picture_row_area);
 			mCategory = (TextView) compoundView.findViewById(R.id.kos_picture_row_category);
 			mPrice = (TextView) compoundView.findViewById(R.id.kos_picture_row_price);						
-			mObjectImage = (ImageView) compoundView.findViewById(R.id.kos_picture_row_image);
+			mObjectImageView = (ImageView) compoundView.findViewById(R.id.kos_picture_row_image);
 		} else {
 			compoundView = (LinearLayout) inflater.inflate(R.layout.kos_row, this);
 			
@@ -63,14 +61,14 @@ public class KoSRowView extends LinearLayout {
 		mRow.setBackgroundResource(color);
 	}
 
-	public void setObjectImage(Drawable ObjectImage) {
-		if (mObjectImage != null) {
-			if (ObjectImage == null) {
+	public void setObjectImage(Drawable image) {
+		if (mObjectImageView != null) {
+			if (image == null) {
 				int imageResource = R.drawable.no_photo;
 				Drawable d = getResources().getDrawable(imageResource);						
-				ObjectImage = d;
+				image = d;
 			}
-			mObjectImage.setImageDrawable(ObjectImage);
+			mObjectImageView.setImageDrawable(image);
 		}
 	}
 
@@ -80,39 +78,39 @@ public class KoSRowView extends LinearLayout {
 		}
 	}	
 	
-	public void setTitle(String Title) {
+	public void setTitle(String title) {
 		if (mTitle != null) {
-			mTitle.setText(Title);
+			mTitle.setText(title);
 		}
 	}
 
-	public void setTime(String Time) {
+	public void setTime(String time) {
 		if (mTime != null) {
-			mTime.setText(Time);
+			mTime.setText(time);
 		}
 	}
 
-	public void setArea(String Area) {
+	public void setArea(String area) {
 		if (mArea != null) {
-			mArea.setText(Area);
+			mArea.setText(area);
 		}
 	}
 
-	public void setImgLink(String ImgLink) {
+	public void setImgLink(String imgLink) {
 		if (mImgLink != null) {
-			mImgLink.setText(ImgLink);
+			mImgLink.setText(imgLink);
 		}
 	}
 
-	public void setCategory(String Category) {
+	public void setCategory(String category) {
 		if (mCategory != null) {
-			mCategory.setText(Category);
+			mCategory.setText(category);
 		}
 	}
 
-	public void setPrice(String Price) {
+	public void setPrice(String price) {
 		if (mPrice != null) {
-			mPrice.setText(Price);
+			mPrice.setText(price);
 		}
 	}
 
