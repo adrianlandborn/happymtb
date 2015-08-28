@@ -1,0 +1,46 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        releaseConfig
+    }
+    compileSdkVersion 17
+    buildToolsVersion "21.1.1"
+    defaultConfig {
+        applicationId "org.happymtb.unofficial"
+        minSdkVersion 16
+        targetSdkVersion 17
+        signingConfig signingConfigs.releaseConfig
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:21.0.+'
+}
+
+def Properties props = new Properties()
+def propFile = file('../signing.properties')
+if (propFile.canRead()){
+    props.load(new FileInputStream(propFile))
+
+    if (props!=null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
+            props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+
+        android.signingConfigs.releaseConfig.storeFile = file(props['STORE_FILE'])
+        android.signingConfigs.releaseConfig.storePassword = props['STORE_PASSWORD']
+        android.signingConfigs.releaseConfig.keyAlias = props['KEY_ALIAS']
+        android.signingConfigs.releaseConfig.keyPassword = props['KEY_PASSWORD']
+    } else {
+        android.buildTypes.releaseConfig.signingConfig = null
+    }
+}else {
+    android.buildTypes.release.signingConfig = null
+}
