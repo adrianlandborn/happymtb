@@ -15,7 +15,13 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+
+        <!--<item name="android:actionBarStyle">@style/MyActionBar</item>-->
     </style>
+
+    <!--<style name="MyActionBar" parent="@android:style/Widget.Holo.ActionBar">-->
+        <!--<item name="android:background">#827717</item>-->
+    <!--</style>-->
 
     <style name="RowBase">
         <item name="android:layout_width">fill_parent</item>
@@ -24,7 +30,7 @@
         <item name="android:layout_marginLeft">5dp</item>
         <item name="android:layout_marginRight">5dp</item>
         <item name="android:layout_marginTop">2dp</item>
-        <item name="android:background">@drawable/rowshape_kos</item>
+        <item name="android:background">@null</item>
         <item name="android:orientation">vertical</item>
         <item name="android:paddingBottom">1dp</item>
     </style>

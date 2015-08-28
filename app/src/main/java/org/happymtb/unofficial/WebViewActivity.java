@@ -2,6 +2,7 @@ package org.happymtb.unofficial;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.webkit.WebView;
 
 /**
@@ -22,6 +23,17 @@ public class WebViewActivity extends Activity {
         webView.getSettings().setBuiltInZoomControls(true);
         webView.loadUrl(url);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

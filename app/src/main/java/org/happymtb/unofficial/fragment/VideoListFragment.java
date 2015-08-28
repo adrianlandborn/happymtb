@@ -40,7 +40,7 @@ import android.widget.Toast;
 
 public class VideoListFragment extends ListFragment implements DialogInterface.OnCancelListener {
 	private final static int DIALOG_FETCH_KOS_ERROR = 0;
-	private ProgressDialog progDialog = null;
+//	private ProgressDialog progDialog = null;
 	private VideoListTask getVideo;
 	private ListVideoAdapter mVideoAdapter;
 	private VideoData mVideoData = new VideoData(1, 1, "", 0, null, 0);
@@ -55,13 +55,10 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
         mActivity = (MainActivity) getActivity();
-        setListShownNoAnimation(true);
+//        setListShownNoAnimation(false);
 		setHasOptionsMenu(true);		
 		fetchData();
 		
-		getListView().setDivider(null);
-		getListView().setDividerHeight(0);	
-
 		preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         mPictureList = preferences.getBoolean("videopicturelist", true);
 		
@@ -152,9 +149,9 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 	
 	@Override
 	public void onDestroy() {
-        if (progDialog != null) {
-            progDialog.dismiss();
-        }
+//        if (progDialog != null) {
+//            progDialog.dismiss();
+//        }
 		super.onDestroy();
 	}
 
@@ -172,11 +169,11 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
         if (mActivity == null) {
             return;
         }
-		if (progDialog == null || !progDialog.isShowing()) {
-			progDialog = ProgressDialog.show(mActivity, "", "", true, true);
-			progDialog.setContentView(R.layout.progress_layout);
-			progDialog.setOnCancelListener(this);		
-		}
+//		if (progDialog == null || !progDialog.isShowing()) {
+//			progDialog = ProgressDialog.show(mActivity, "", "", true, true);
+//			progDialog.setContentView(R.layout.progress_layout);
+//			progDialog.setOnCancelListener(this);
+//		}
 		
 		getVideo = new VideoListTask();
 		getVideo.addVideoListListener(new VideoListListener() {
@@ -189,9 +186,9 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
                         VideoImageDownloadTask getVideoImages = new VideoImageDownloadTask();
                         getVideoImages.execute(mVideoData.getVideoItems(), mVideoAdapter);
                     }
-                    if (progDialog != null) {
-                        progDialog.dismiss();
-                    }
+//                    if (progDialog != null) {
+//                        progDialog.dismiss();
+//                    }
                 }
 			}
 
@@ -199,7 +196,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
                 if (getActivity() != null) {
                     Toast.makeText(getActivity(), "Inga objekt hittades", Toast.LENGTH_LONG).show();
                     mVideoData = new VideoData(1, 1, "", 0, null, 0);
-                    progDialog.dismiss();
+//                    progDialog.dismiss();
                 }
 			}			
 		});

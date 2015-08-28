@@ -54,9 +54,9 @@ public class ListKoSAdapter extends BaseAdapter {
 		kosRowView.setObjectImage(mKoSItems.get(position).getObjectImage());
 
 		if (mKoSItems.get(position).getTitle().charAt(0) == 'S'){
-			kosRowView.setRowBackgroundColor(R.drawable.rowshape_green);
+			kosRowView.setRowBackgroundColor(R.drawable.rowshape_green2);
 		} else {
-			kosRowView.setRowBackgroundColor(R.drawable.rowshape_red);
+			kosRowView.setRowBackgroundColor(R.drawable.rowshape_red2);
 		}		
 		
 		return kosRowView;

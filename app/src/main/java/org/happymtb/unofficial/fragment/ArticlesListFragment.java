@@ -18,11 +18,11 @@ public class ArticlesListFragment extends ItemsListFragment implements DialogInt
 	
 	@Override
 	protected void fetchItems() {
-		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
-			mProgressDialog = ProgressDialog.show(getActivity(), "", "", true, true);
-			mProgressDialog.setContentView(R.layout.progress_layout);
-			mProgressDialog.setOnCancelListener(this);
-		}
+//		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+//			mProgressDialog = ProgressDialog.show(getActivity(), "", "", true, true);
+//			mProgressDialog.setContentView(R.layout.progress_layout);
+//			mProgressDialog.setOnCancelListener(this);
+//		}
 
 		mGetItems = new ArticlesListTask();
 		mGetItems.addItemListListener(new ItemListListener() {
@@ -30,13 +30,13 @@ public class ArticlesListFragment extends ItemsListFragment implements DialogInt
                 if (getActivity() != null) {
                     mAllItems = Items;
                     fillList();
-                    mProgressDialog.dismiss();
+//                    mProgressDialog.dismiss();
                 }
             }
 
             public void fail() {
                 if (getActivity() != null) {
-                    mProgressDialog.dismiss();
+//                    mProgressDialog.dismiss();
                 }
             }
         });

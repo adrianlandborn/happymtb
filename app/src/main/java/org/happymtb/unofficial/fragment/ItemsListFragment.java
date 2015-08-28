@@ -17,14 +17,13 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 
 public class ItemsListFragment extends ListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
-	protected ProgressDialog mProgressDialog = null;
+//	protected ProgressDialog mProgressDialog = null;
 	protected ListItemsAdapter mItemsAdapter;
 	protected List<Item> mAllItems = new ArrayList<Item>();
 	protected List<Item> mItems = new ArrayList<Item>();
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		setListShownNoAnimation(true);
 		setHasOptionsMenu(true);
 		fetchItems();
 		
@@ -32,11 +31,11 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 		getListView().setDividerHeight(0);
 	}
 	
-	@Override
-	public void onDestroy() {
-		mProgressDialog.dismiss();
-		super.onDestroy();
-	}
+//	@Override
+//	public void onDestroy() {
+//		mProgressDialog.dismiss();
+//		super.onDestroy();
+//	}
 
 	@Override
 	public void onStop() {

@@ -3,7 +3,8 @@
 	<color name="black">#ff000000</color>
 	<color name="white">#ffffffff</color>
 	<color name="red">#ffCC0000</color>
-	<color name="grey">#ffdbd9da</color>
+	<color name="grey">#ffd9d9d9</color>
+	<color name="grey_light">#ffededed</color>
 	<color name="grey_dark">#ffbdbcbc</color>
 	
 	<color name="calender_event">#ffcd0707</color>

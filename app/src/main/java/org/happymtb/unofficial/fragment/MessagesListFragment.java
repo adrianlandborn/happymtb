@@ -34,7 +34,7 @@ import android.widget.TextView;
 public class MessagesListFragment extends ListFragment implements DialogInterface.OnCancelListener{
 	private final static int DIALOG_FETCH_MESSAGES_ERROR = 0;
 	
-	private ProgressDialog mProgressDialog = null;
+//	private ProgressDialog mProgressDialog = null;
 	private MessageListTask mMessageListTask;
 	private MessageData mMessageData;
 	private ListMessagesAdapter mMessageAdapter;
@@ -52,7 +52,7 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 		
 		mActivity = ((MessageActivity) getActivity());
 		
-		setListShownNoAnimation(true);
+//		setListShownNoAnimation(true);
 		setHasOptionsMenu(true);
 		
 		getListView().setDivider(null);
@@ -164,11 +164,11 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 		return super.onOptionsItemSelected(item);
 	}			
 	
-	@Override
-	public void onDestroy() {
-		mProgressDialog.dismiss();
-		super.onDestroy();
-	}
+//	@Override
+//	public void onDestroy() {
+//		mProgressDialog.dismiss();
+//		super.onDestroy();
+//	}
 
 	@Override
 	public void onStop() {
@@ -207,16 +207,16 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 	}
 	
 	private void fetchData() {
-		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
-			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
-			mProgressDialog.setContentView(R.layout.progress_layout);
-			mProgressDialog.setOnCancelListener(this);
-		}
+//		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+//			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
+//			mProgressDialog.setContentView(R.layout.progress_layout);
+//			mProgressDialog.setOnCancelListener(this);
+//		}
 		
 		mMessageData = mActivity.GetMessageData();
 		if ((mMessageData.getMessages() != null) && (mMessageData.getMessages().size() > 0)) {
 			fillList();
-			mProgressDialog.dismiss();
+//			mProgressDialog.dismiss();
 		} else {				
 			mMessageListTask = new MessageListTask();
 			mMessageListTask.addMessageListListener(new MessageListListener() {
@@ -224,14 +224,14 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
                     if (getActivity() != null) {
                         mMessageData.setMessages(messages);
                         fillList();
-                        mProgressDialog.dismiss();
+//                        mProgressDialog.dismiss();
                     }
 				}
 	
 				public void fail() {
-                    if (getActivity() != null) {
-                        mProgressDialog.dismiss();
-                    }
+//                    if (getActivity() != null) {
+//                        mProgressDialog.dismiss();
+//                    }
 				}
 			});
 			mMessageListTask.execute(mActivity, mMessageData.getThreadId(), Integer.toString(mMessageData.getCurrentPage()));

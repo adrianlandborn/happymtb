@@ -3,6 +3,7 @@ package org.happymtb.unofficial.fragment;
 import java.io.IOException;
 
 import org.happymtb.unofficial.WebViewActivity;
+import org.happymtb.unofficial.ZoomImageActivity;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSObjectItem;
 import org.happymtb.unofficial.listener.KoSObjectListener;
@@ -38,7 +39,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	private ProgressDialog mProgressDialog = null;
 	private KoSObjectTask mKoSObjectTask;
 	private KoSObjectItem mKoSObjectItem;
-    View mObjectView;
+//    View mObjectView;
 	TextView mTitle;
 	TextView mPerson;		
 	TextView mDate;
@@ -55,7 +56,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		
 		setHasOptionsMenu(true);
 
-        mObjectView = mKoSObjectActivity.findViewById(R.id.kos_object);
+//        mObjectView = mKoSObjectActivity.findViewById(R.id.kos_object);
 		mTitle = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_title);
 		mPerson = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_person);		
 		mDate = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_date);
@@ -83,22 +84,22 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		
 		mKoSObjectTask = new KoSObjectTask();
 		mKoSObjectTask.addKoSObjectListener(new KoSObjectListener() {
-            public void success(KoSObjectItem koSObjectItem) {
-                mKoSObjectItem = koSObjectItem;
-                if (getActivity() != null) {
-                    if (mKoSObjectItem != null) {
-                        fillList();
-                    }
-                    mProgressDialog.dismiss();
-                }
-            }
+			public void success(KoSObjectItem koSObjectItem) {
+				mKoSObjectItem = koSObjectItem;
+				if (getActivity() != null) {
+					if (mKoSObjectItem != null) {
+						fillList();
+					}
+					mProgressDialog.dismiss();
+				}
+			}
 
-            public void fail() {
-                if (getActivity() != null) {
-                    mProgressDialog.dismiss();
-                }
-            }
-        });
+			public void fail() {
+				if (getActivity() != null) {
+					mProgressDialog.dismiss();
+				}
+			}
+		});
 
 		mKoSObjectTask.execute(objectLink);
 
@@ -112,22 +113,31 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		System.out.println("scaleimage: " + mKoSObjectItem.getImgLink());
 		if (!TextUtils.isEmpty(mKoSObjectItem.getImgLink()))
 		{				
-			String URL = mKoSObjectItem.getImgLink();
+			final String url = mKoSObjectItem.getImgLink();
 
-			mObjectImageView.setTag(URL);
+			mObjectImageView.setTag(url);
 			new KoSObjectImageTask().execute(mObjectImageView);
+			mObjectImageView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent zoomImageIntent = new Intent(getActivity(), ZoomImageActivity.class);
+					zoomImageIntent.putExtra("title", mKoSObjectItem.getTitle());
+					zoomImageIntent.putExtra("url", url);
+					startActivity(zoomImageIntent);
+				}
+			});
 		}
 		
 		mText.setText(Html.fromHtml(mKoSObjectItem.getText()));		
 		mPrice.setText("Pris: " + mKoSObjectItem.getPrice());
 		
 		if (mKoSObjectItem.getType().contains("Säljes")){
-			mBackgroundColor.setBackgroundResource(R.drawable.rowshape_green);
+			mBackgroundColor.setBackgroundResource(R.drawable.rowshape_green2);
 		} else {
-			mBackgroundColor.setBackgroundResource(R.drawable.rowshape_red);
+			mBackgroundColor.setBackgroundResource(R.drawable.rowshape_red2);
 		}
 
-        mObjectView.setVisibility(View.VISIBLE);
+//        mObjectView.setVisibility(View.VISIBLE);
 	}	
 	
 	protected Dialog onCreateDialog(int id) {		

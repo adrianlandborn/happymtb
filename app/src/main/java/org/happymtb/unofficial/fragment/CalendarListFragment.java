@@ -35,7 +35,7 @@ import android.widget.Toast;
 
 public class CalendarListFragment extends ListFragment implements DialogInterface.OnCancelListener {
   	private final static int DIALOG_FETCH_CALENDAR_ERROR = 0;
-	private ProgressDialog mProgressDialog = null;
+//	private ProgressDialog mProgressDialog = null;
 	private CalendarListTask mGetCalendarTask;
 	private ListCalendarAdapter mCalendarAdapter;
 	private List<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
@@ -53,7 +53,7 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);			
-		setListShownNoAnimation(true);
+//		setListShownNoAnimation(true);
 		setHasOptionsMenu(true);
 		
 		mActivity = (MainActivity) getActivity();
@@ -83,11 +83,11 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 	}		
 	
 	private void fetchData() {
-		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
-			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
-			mProgressDialog.setContentView(R.layout.progress_layout);
-			mProgressDialog.setOnCancelListener(this);
-		}
+//		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+//			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
+//			mProgressDialog.setContentView(R.layout.progress_layout);
+//			mProgressDialog.setOnCancelListener(this);
+//		}
 		
 		mGetCalendarTask = new CalendarListTask();
 		mGetCalendarTask.addCalendarListListener(new CalendarListListener() {
@@ -95,7 +95,7 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 				if (getActivity() != null) {
 					mCalendarItems = CalendarItems;
 					fillList();
-					mProgressDialog.dismiss();
+//					mProgressDialog.dismiss();
 				}
 			}
 
@@ -103,7 +103,7 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 				if (getActivity() != null) {
 					Toast.makeText(mActivity, getResources().getString(R.string.no_items_found), Toast.LENGTH_LONG).show();
 					mCalendarItems = new ArrayList<CalendarItem>();
-					mProgressDialog.dismiss();
+//					mProgressDialog.dismiss();
 				}
 			}
 		});

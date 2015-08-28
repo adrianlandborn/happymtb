@@ -28,8 +28,8 @@ public class KoSObjectImageTask extends AsyncTask<ImageView, Void, Bitmap> {
 
 	private Bitmap download_Image(String url) {
 
-        Bitmap bmp =null;
-        try{
+        Bitmap bmp = null;
+        try {
             URL ulrn = new URL(url);
             HttpURLConnection con = (HttpURLConnection)ulrn.openConnection();
             InputStream is = con.getInputStream();
@@ -37,7 +37,7 @@ public class KoSObjectImageTask extends AsyncTask<ImageView, Void, Bitmap> {
             if (null != bmp)
                 return bmp;
 
-            }catch(Exception e){}
+            } catch (Exception e){}
         return bmp;		
 	}
 }	

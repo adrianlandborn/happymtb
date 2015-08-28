@@ -3,87 +3,71 @@
     android:id="@+id/video_picture_row"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@color/grey"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="2dp"
-        android:background="@drawable/rowshape"
-        android:orientation="vertical"
-        android:paddingBottom="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="5dp">
+        android:orientation="horizontal"
+        android:layout_marginRight="8dp">
+
+        <ImageView
+            android:id="@+id/video_picture_row_image"
+            android:layout_width="125dp"
+            android:layout_height="100dp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:scaleType="centerCrop"
+            android:background="@color/grey_light"
+            android:src="@drawable/no_video" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="horizontal">
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/video_picture_row_image"
-                android:layout_width="125dp"
-                android:layout_height="100dp"
-                android:gravity="center_vertical"
-                android:paddingBottom="5dp"
-                android:layout_marginRight="5dp"
-                android:paddingTop="5dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/no_photo" />
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/video_picture_row_title"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/title_1_text"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/video_picture_row_title"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="@color/title_1_text"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/video_picture_row_date"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/title_2_text"
+                android:textSize="13sp" />
 
-                <TextView
-                    android:id="@+id/video_picture_row_date"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="@color/title_2_text"
-                    android:textSize="13sp" />
+            <TextView
+                android:id="@+id/video_picture_row_uploader"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="13sp" />
 
-                <TextView
-                    android:id="@+id/video_picture_row_uploader"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
+            <TextView
+                android:id="@+id/video_picture_row_category"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="13sp" />
 
-                <TextView
-                    android:id="@+id/video_picture_row_category"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
+            <TextView
+                android:id="@+id/video_picture_row_length"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="13sp" />
 
-                <TextView
-                    android:id="@+id/video_picture_row_length"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
-
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>	
+</LinearLayout>

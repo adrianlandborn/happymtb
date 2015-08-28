@@ -24,7 +24,7 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 
 public class HomesListFragment extends ListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
-	private ProgressDialog mProgressDialog = null;
+//	private ProgressDialog mProgressDialog = null;
 	private ListHomeAdapter mHomeAdapter;
 	private List<Home> mHomes = new ArrayList<Home>();
 	private HomeListTask getHome;
@@ -32,7 +32,7 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		setListShownNoAnimation(true);
+//		setListShownNoAnimation(true);
 		setHasOptionsMenu(true);
 		fetchData();
 		
@@ -47,11 +47,11 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 		super.onCreateOptionsMenu(menu, inflater);
 	}		
 	
-	@Override
-	public void onDestroy() {
-		mProgressDialog.dismiss();
-		super.onDestroy();
-	}
+//	@Override
+//	public void onDestroy() {
+//		mProgressDialog.dismiss();
+//		super.onDestroy();
+//	}
 
 	@Override
 	public void onStop() {
@@ -69,11 +69,11 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 	}
 	
 	private void fetchData() {
-		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
-			mProgressDialog = ProgressDialog.show(getActivity(), "", "", true, true);
-			mProgressDialog.setContentView(R.layout.progress_layout);
-			mProgressDialog.setOnCancelListener(this);
-		}
+//		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+//			mProgressDialog = ProgressDialog.show(getActivity(), "", "", true, true);
+//			mProgressDialog.setContentView(R.layout.progress_layout);
+//			mProgressDialog.setOnCancelListener(this);
+//		}
 		
 		getHome = new HomeListTask();
 		getHome.addHomeListListener(new HomeListListener() {
@@ -81,7 +81,7 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
                 if (getActivity() != null) {
                     mHomes = Homes;
                     fillList();
-                    mProgressDialog.dismiss();
+//                    mProgressDialog.dismiss();
                 }
 			}
 
@@ -89,7 +89,7 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
                 if (getActivity() != null) {
                     Toast.makeText(getActivity(), "Inga objekt hittades", Toast.LENGTH_LONG).show();
 
-                    mProgressDialog.dismiss();
+//                    mProgressDialog.dismiss();
 //				showDialog(DIALOG_FETCH_KOS_ERROR);
                 }
 			}
@@ -120,7 +120,6 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
 			int groupPosition, int childPosition, long id) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

@@ -56,7 +56,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
     public final static String SEARCH_CATEGORY_SPINNER = "search_category_spinner";
 
     public final static String CURRENT_PAGE = "current_page";
-	private ProgressDialog mProgressDialog = null;
+//	private ProgressDialog mProgressDialog = null;
 	private KoSListTask mKoSTask;
 	private ListKoSAdapter mKoSAdapter;
 	private KoSData mKoSData;
@@ -69,11 +69,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-        setListShownNoAnimation(true);
         setHasOptionsMenu(true);
-
-        getListView().setDivider(null);
-        getListView().setDividerHeight(0);
 
         mActivity = (MainActivity) getActivity();
 
@@ -225,11 +221,11 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		return super.onOptionsItemSelected(item);
 	}	
 	
-	@Override
-	public void onDestroy() {
-		mProgressDialog.dismiss();
-		super.onDestroy();
-	}
+//	@Override
+//	public void onDestroy() {
+//		mProgressDialog.dismiss();
+//		super.onDestroy();
+//	}
 
 	@Override
 	public void onStop() {
@@ -242,11 +238,11 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 	}
 
 	private void fetchData() {
-		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
-			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
-			mProgressDialog.setContentView(R.layout.progress_layout);
-			mProgressDialog.setOnCancelListener(this);
-		}
+//		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+//			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
+//			mProgressDialog.setContentView(R.layout.progress_layout);
+//			mProgressDialog.setOnCancelListener(this);
+//		}
 		
 		mKoSTask = new KoSListTask();
 		mKoSTask.addKoSListListener(new KoSListListener() {
@@ -259,7 +255,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
                         getKoSImages.execute(mKoSData.getKoSItems(), mKoSAdapter);
                     }
                 }
-                mProgressDialog.dismiss();
+//                mProgressDialog.dismiss();
             }
 
             public void fail() {
@@ -273,7 +269,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 							mPreferences.getInt(SEARCH_CATEGORY_POS, 0), mPreferences.getString(SEARCH_CATEGORY, "Alla Kategorier"),
 							mPreferences.getString(SEARCH_TEXT, ""));
 
-                    mProgressDialog.dismiss();
+//                    mProgressDialog.dismiss();
                 }
             }
         });

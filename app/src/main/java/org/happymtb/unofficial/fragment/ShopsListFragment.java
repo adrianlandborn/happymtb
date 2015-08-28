@@ -21,11 +21,11 @@ public class ShopsListFragment extends ItemsListFragment implements DialogInterf
 	
 	@Override
 	protected void fetchItems() {
-		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
-			mProgressDialog = ProgressDialog.show(getActivity(), "", "", true, true);
-			mProgressDialog.setContentView(R.layout.progress_layout);
-			mProgressDialog.setOnCancelListener(this);
-		}
+//		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+//			mProgressDialog = ProgressDialog.show(getActivity(), "", "", true, true);
+//			mProgressDialog.setContentView(R.layout.progress_layout);
+//			mProgressDialog.setOnCancelListener(this);
+//		}
 		
 		mShopsTask = new ShopsListTask();
 		mShopsTask.addItemListListener(new ItemListListener() {
@@ -33,13 +33,13 @@ public class ShopsListFragment extends ItemsListFragment implements DialogInterf
                 if (getActivity() != null) {
                     mAllItems = Items;
                     fillList();
-                    mProgressDialog.dismiss();
+//                    mProgressDialog.dismiss();
                 }
             }
 
             public void fail() {
                 if (getActivity() != null) {
-                    mProgressDialog.dismiss();
+//                    mProgressDialog.dismiss();
                 }
             }
         });

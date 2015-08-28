@@ -45,7 +45,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	public final static String COOKIE_NAME = "cookiename";
 	public final static String COOKIE_VALUE = "cookivalue";
 
-	private ProgressDialog mProgressDialog = null;
+//	private ProgressDialog mProgressDialog = null;
 	private ThreadListTask mThreadsTask;
 	public static ThreadData mThreadData = new ThreadData(1, 1, null, 0, false);
 	private MarkAsReadTask mMarkAsRead;
@@ -64,7 +64,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		
 		mActivity = (MainActivity) getActivity();
 		
-		setListShownNoAnimation(true);
+//		setListShownNoAnimation(true);
 		mToast = Toast.makeText(mActivity, "", Toast.LENGTH_LONG);
 		
 		CookieSyncManager.createInstance(mActivity);
@@ -76,9 +76,9 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 //		Toast.makeText(mActivity, "Username: " + mUsername, Toast.LENGTH_LONG).show();
 		if (!mActivity.getThreadLoggedIn()) {
 			if (mUsername.length() >= 0) { // Always show forum
-				mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
-				mProgressDialog.setContentView(R.layout.progress_layout);
-				mProgressDialog.setOnCancelListener(this);
+//				mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
+//				mProgressDialog.setContentView(R.layout.progress_layout);
+//				mProgressDialog.setOnCancelListener(this);
 	
 				LoginTask loginTask = new LoginTask();
 				loginTask.addLoginListener(new LoginListener() {
@@ -236,9 +236,9 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 
 	@Override
 	public void onDestroy() {
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-        }
+//        if (mProgressDialog != null) {
+//            mProgressDialog.dismiss();
+//        }
 		super.onDestroy();
 	}	
 	
@@ -255,11 +255,11 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	}	
 
 	public void MarkAsRead() {	
-		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
-			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
-			mProgressDialog.setContentView(R.layout.progress_layout);
-			mProgressDialog.setOnCancelListener(this);
-		}
+//		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+//			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
+//			mProgressDialog.setContentView(R.layout.progress_layout);
+//			mProgressDialog.setOnCancelListener(this);
+//		}
 
 		mMarkAsRead = new MarkAsReadTask();
 		mMarkAsRead.addMarkAsReadListener(new MarkAsReadListener() {
@@ -271,7 +271,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 
             public void fail() {
                 if (getActivity() != null) {
-                    mProgressDialog.dismiss();
+//                    mProgressDialog.dismiss();
                 }
             }
         });
@@ -303,11 +303,11 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	}
 	
 	public void fetchData() {
-		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
-			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
-			mProgressDialog.setContentView(R.layout.progress_layout);
-			mProgressDialog.setOnCancelListener(this);
-		}
+//		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+//			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
+//			mProgressDialog.setContentView(R.layout.progress_layout);
+//			mProgressDialog.setOnCancelListener(this);
+//		}
 		
 		mThreadsTask = new ThreadListTask();
 		mThreadsTask.addThreadListListener(new ThreadListListener() {
@@ -315,13 +315,13 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
                 if (getActivity() != null) {
                     mThreadData.setThreads(threads);
                     fillList();
-                    mProgressDialog.dismiss();
+//                    mProgressDialog.dismiss();
                 }
             }
 
             public void fail() {
                 if (getActivity() != null) {
-                    mProgressDialog.dismiss();
+//                    mProgressDialog.dismiss();
                 }
             }
         });

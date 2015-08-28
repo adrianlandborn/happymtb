@@ -64,9 +64,7 @@ public class KoSRowView extends LinearLayout {
 	public void setObjectImage(Drawable image) {
 		if (mObjectImageView != null) {
 			if (image == null) {
-				int imageResource = R.drawable.no_photo;
-				Drawable d = getResources().getDrawable(imageResource);						
-				image = d;
+				image = getResources().getDrawable(R.drawable.no_photo);
 			}
 			mObjectImageView.setImageDrawable(image);
 		}
