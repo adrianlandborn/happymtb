@@ -6,6 +6,6 @@ public class ShopRowView extends ItemRowView {
 
 	public ShopRowView(Context context) {
 		super(context);
-		Init(context);
+		init(context);
 	}
 }

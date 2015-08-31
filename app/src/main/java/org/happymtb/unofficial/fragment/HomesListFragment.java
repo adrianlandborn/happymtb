@@ -36,8 +36,6 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 		setHasOptionsMenu(true);
 		fetchData();
 		
-		getListView().setDivider(null);
-		getListView().setDividerHeight(0);		
 	}
 	
 	@Override

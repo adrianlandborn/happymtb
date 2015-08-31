@@ -27,8 +27,8 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 		setHasOptionsMenu(true);
 		fetchItems();
 		
-		getListView().setDivider(null);
-		getListView().setDividerHeight(0);
+//		getListView().setDivider(null);
+//		getListView().setDividerHeight(0);
 	}
 	
 //	@Override
@@ -117,7 +117,6 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
 			int groupPosition, int childPosition, long id) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

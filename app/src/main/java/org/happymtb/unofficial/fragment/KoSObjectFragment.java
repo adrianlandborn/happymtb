@@ -36,9 +36,10 @@ import android.widget.TextView;
 
 public class KoSObjectFragment extends Fragment implements DialogInterface.OnCancelListener {
 	private final static int DIALOG_FETCH_KOS_ERROR = 0;
-	private ProgressDialog mProgressDialog = null;
+//	private ProgressDialog mProgressDialog = null;
 	private KoSObjectTask mKoSObjectTask;
 	private KoSObjectItem mKoSObjectItem;
+	private View mProgressView;
 //    View mObjectView;
 	TextView mTitle;
 	TextView mPerson;		
@@ -64,6 +65,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mPrice = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_price);
 		mBackgroundColor = (LinearLayout) mKoSObjectActivity.findViewById(R.id.kos_object_color);
 		mObjectImageView = (ScaleImageView) mKoSObjectActivity.findViewById(R.id.kos_object_image);
+		mProgressView = mKoSObjectActivity.findViewById(R.id.progress_container_id);
 
 		FetchKoSObject(mKoSObjectActivity.GetObjectLink());
 	}
@@ -76,11 +78,12 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	}		
 	
 	private void FetchKoSObject(String objectLink) {
-		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
-			mProgressDialog = ProgressDialog.show(mKoSObjectActivity, "", "", true, true);
-			mProgressDialog.setContentView(R.layout.progress_layout);
-			mProgressDialog.setOnCancelListener(this);
-		}
+		mProgressView.setVisibility(View.VISIBLE);
+//		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
+//			mProgressDialog = ProgressDialog.show(mKoSObjectActivity, "", "", true, true);
+//			mProgressDialog.setContentView(R.layout.progress_layout);
+//			mProgressDialog.setOnCancelListener(this);
+//		}
 		
 		mKoSObjectTask = new KoSObjectTask();
 		mKoSObjectTask.addKoSObjectListener(new KoSObjectListener() {
@@ -90,13 +93,15 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 					if (mKoSObjectItem != null) {
 						fillList();
 					}
-					mProgressDialog.dismiss();
+					mProgressView.setVisibility(View.INVISIBLE);
+//					mProgressDialog.dismiss();
 				}
 			}
 
 			public void fail() {
 				if (getActivity() != null) {
-					mProgressDialog.dismiss();
+					mProgressView.setVisibility(View.INVISIBLE);
+//					mProgressDialog.dismiss();
 				}
 			}
 		});
@@ -112,7 +117,8 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 
 		System.out.println("scaleimage: " + mKoSObjectItem.getImgLink());
 		if (!TextUtils.isEmpty(mKoSObjectItem.getImgLink()))
-		{				
+		{
+			mObjectImageView.setImageResource(R.drawable.no_photo);
 			final String url = mKoSObjectItem.getImgLink();
 
 			mObjectImageView.setTag(url);
@@ -172,8 +178,8 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        mProgressDialog.dismiss();
+		super.onDestroy();
+//        mProgressDialog.dismiss();
     }
 
     @Override

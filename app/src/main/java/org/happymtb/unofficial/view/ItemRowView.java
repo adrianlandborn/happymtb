@@ -1,12 +1,8 @@
 package org.happymtb.unofficial.view;
 
 import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.helpers.HappyUtils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +18,7 @@ public class ItemRowView extends LinearLayout {
 	ImageView mHeaderCollapse;
 	ImageView mHeaderExpand;
 
-	protected void Init(Context context) {
+	protected void init(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -41,12 +37,12 @@ public class ItemRowView extends LinearLayout {
 	
 	public ItemRowView(Context context) {
 		super(context);
-		Init(context);
+		init(context);
 	}
 
-	public void setCollapse(Boolean Collapse) {
+	public void setCollapse(boolean collapse) {
 		if ((mHeaderExpand != null) && (mHeaderCollapse != null))  {
-			if (Collapse == true) {
+			if (collapse == true) {
 				mHeaderExpand.setVisibility(GONE);
 				mHeaderCollapse.setVisibility(VISIBLE);
 			} else {
@@ -62,7 +58,7 @@ public class ItemRowView extends LinearLayout {
 		}
 	}
 
-	public void setHeaderVisible(Boolean Header) {
+	public void setHeaderVisible(boolean Header) {
 		if (mHeader != null) {
 			if (Header == true)	{
 				mHeader.setVisibility(VISIBLE);				

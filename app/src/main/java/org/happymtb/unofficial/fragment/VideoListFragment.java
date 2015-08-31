@@ -71,12 +71,6 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 		super.onCreateOptionsMenu(menu, inflater);
 	}			
 
-	public void setPictureList(Boolean Value) {
-		Editor editor = PreferenceManager.getDefaultSharedPreferences(mActivity).edit();
-	    editor.putBoolean("videopicturelist", Value);              
-	    editor.apply();
-	}
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -91,16 +85,6 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 		case R.id.video_right:
 			NextPage();
 			return true;
-		case R.id.video_picture_row:		    		
-			setPictureList(true);              
-			mPictureList = true;
-			RefreshPage();
-			return true;
-		case R.id.video_text_row:
-			setPictureList(false);
-			mPictureList = false;
-			RefreshPage();
-			return true;				
 //		case R.id.video_search:
 //	        FragmentManager fm = mActivity.getSupportFragmentManager();
 //	        VideoSearchDialogFragment videoSearchDialog = new VideoSearchDialogFragment();

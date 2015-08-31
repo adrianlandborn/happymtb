@@ -22,8 +22,10 @@ public class KoSObjectActivity extends FragmentActivity {
 		// Set up the action bar to show a dropdown list.
 		mActionBar = getActionBar();
 		mActionBar.setDisplayShowTitleEnabled(false);
-		mActionBar.setDisplayHomeAsUpEnabled(true);		
-				
+		mActionBar.setDisplayHomeAsUpEnabled(true);
+
+
+		// TODO behövs dessa 3, se ovan?
 		mFragment = new KoSObjectFragment();
 		mFrameId = R.id.kosobjectframe;
 		mFrameLayout = R.layout.kos_object_frame;

@@ -26,10 +26,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -57,13 +60,16 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 
     public final static String CURRENT_PAGE = "current_page";
 //	private ProgressDialog mProgressDialog = null;
+	private View mProgressView;
 	private KoSListTask mKoSTask;
 	private ListKoSAdapter mKoSAdapter;
 	private KoSData mKoSData;
 	private SharedPreferences mPreferences;
 	private boolean mPictureList;
+	private SwipeRefreshLayout mSwipeRefreshLayout;
 	MainActivity mActivity;
 	FragmentManager mFragmentManager;
+
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -72,6 +78,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
         setHasOptionsMenu(true);
 
         mActivity = (MainActivity) getActivity();
+
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         mPictureList = mPreferences.getBoolean(SHOW_IMAGES, true);
@@ -90,11 +97,27 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 
             Toast.makeText(mActivity, "setCurrentPage: " + savedInstanceState.getInt(CURRENT_PAGE, 1), Toast.LENGTH_LONG).show();
         }
+		mSwipeRefreshLayout = (SwipeRefreshLayout) mActivity.findViewById(R.id.activity_main_swipe_refresh_layout);
+		mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				fetchData();
+			}
+		});
 
-        fetchData();
-    }
+		mProgressView = mActivity.findViewById(R.id.progress_container_id);
 
-    @Override
+		fetchData();
+
+
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.list_loader, container, false);
+	}
+
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -133,21 +156,9 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
 		inflater.inflate(R.menu.kos_menu, menu);
-
-		MenuItem pictureRowItem = menu.findItem(R.id.kos_picture_row);
-		pictureRowItem.setVisible(!mPreferences.getBoolean(SHOW_IMAGES, true));
-		MenuItem textRowItem = menu.findItem(R.id.kos_text_row);
-		textRowItem.setVisible(mPreferences.getBoolean(SHOW_IMAGES, true));
 		super.onCreateOptionsMenu(menu, inflater);
 	}		
 
-	public void setPictureList(boolean showImages) {
-		mPictureList = showImages;
-		Editor editor = mPreferences.edit();
-	    editor.putBoolean(SHOW_IMAGES, showImages);
-	    editor.apply();
-	}
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -156,23 +167,10 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		case R.id.kos_left:
 			PreviousPage();
 			return true;
-		case R.id.kos_refresh:
-			RefreshPage();
-			return true;
 		case R.id.kos_right:
 			NextPage();
 			return true;
-		case R.id.kos_picture_row:		    		
-			setPictureList(true);              
-			RefreshPage();
-			mActivity.invalidateOptionsMenu();
-			return true;
-		case R.id.kos_text_row:
-			setPictureList(false);
-			RefreshPage();
-			mActivity.invalidateOptionsMenu();
-			return true;
-		case R.id.kos_sort:			
+		case R.id.kos_sort:
 			mFragmentManager = mActivity.getSupportFragmentManager();
 	        KoSSortDialogFragment KoSSortDialog = new KoSSortDialogFragment();
 	        KoSSortDialog.show(mFragmentManager, "fragment_edit_name");
@@ -243,7 +241,8 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 //			mProgressDialog.setContentView(R.layout.progress_layout);
 //			mProgressDialog.setOnCancelListener(this);
 //		}
-		
+
+		mProgressView.setVisibility(View.VISIBLE);
 		mKoSTask = new KoSListTask();
 		mKoSTask.addKoSListListener(new KoSListListener() {
             public void success(List<KoSItem> KoSItems) {
@@ -255,6 +254,8 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
                         getKoSImages.execute(mKoSData.getKoSItems(), mKoSAdapter);
                     }
                 }
+				mSwipeRefreshLayout.setRefreshing(false);
+				mProgressView.setVisibility(View.INVISIBLE);
 //                mProgressDialog.dismiss();
             }
 
@@ -269,6 +270,8 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 							mPreferences.getInt(SEARCH_CATEGORY_POS, 0), mPreferences.getString(SEARCH_CATEGORY, "Alla Kategorier"),
 							mPreferences.getString(SEARCH_TEXT, ""));
 
+					mSwipeRefreshLayout.setRefreshing(false);
+					mProgressView.setVisibility(View.INVISIBLE);
 //                    mProgressDialog.dismiss();
                 }
             }
@@ -283,27 +286,27 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		
 		getListView().setSelection(mKoSData.getListPosition());
 		
-		TextView CurrentPage = (TextView) mActivity.findViewById(R.id.kos_current_page);
-		CurrentPage.setText(Integer.toString(mKoSData.getCurrentPage()));		
+		TextView currentPage = (TextView) mActivity.findViewById(R.id.kos_current_page);
+		currentPage.setText(Integer.toString(mKoSData.getCurrentPage()));
 		
-		TextView MaxPages = (TextView) mActivity.findViewById(R.id.kos_no_of_pages);
-		MaxPages.setText(Integer.toString(mKoSData.getKoSItems().get(0).getNumberOfKoSPages()));
+		TextView maxPages = (TextView) mActivity.findViewById(R.id.kos_no_of_pages);
+		maxPages.setText(Integer.toString(mKoSData.getKoSItems().get(0).getNumberOfKoSPages()));
 		mKoSData.setMaxPages(mKoSData.getKoSItems().get(0).getNumberOfKoSPages());
 				
-		TextView Category = (TextView) mActivity.findViewById(R.id.kos_category);
-		Category.setText("Kategori: " + mKoSData.getKoSItems().get(0).getSelectedCategory());
+		TextView category = (TextView) mActivity.findViewById(R.id.kos_category);
+		category.setText("Kategori: " + mKoSData.getKoSItems().get(0).getSelectedCategory());
 
-		TextView Region = (TextView) mActivity.findViewById(R.id.kos_region);
-		Region.setText("Region: " + mKoSData.getKoSItems().get(0).getSelectedRegion());
+		TextView region = (TextView) mActivity.findViewById(R.id.kos_region);
+		region.setText("Region: " + mKoSData.getKoSItems().get(0).getSelectedRegion());
 		
-		TextView Search = (TextView) mActivity.findViewById(R.id.kos_search);
+		TextView search = (TextView) mActivity.findViewById(R.id.kos_search);
 		
 		String mSearch = mKoSData.getSearch();
 		
 		if (mSearch.length() > 0) {
-			Search.setText(" (Sökord: " + mSearch + ")");
+			search.setText(" (Sökord: " + mSearch + ")");
 		} else {
-			Search.setText("");
+			search.setText("");
 		}		
 		
 		TextView Sort = (TextView) mActivity.findViewById(R.id.kos_sort);
@@ -313,13 +316,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
                 + HappyUtils.getSortOrderNameLocal(mActivity, mKoSData.getSortOrderPosition()) + ")");
 	}
 
-	public void RefreshPage() {
-		mKoSData.setListPosition(0);
-//		mActivity.setKoSDataItems(null);
-		fetchData();
-	}
-
-	public void NextPage() {		
+	public void NextPage() {
 		if (mKoSData.getCurrentPage() < mKoSData.getMaxPages())
 		{			
 			mKoSData.setListPosition(0);

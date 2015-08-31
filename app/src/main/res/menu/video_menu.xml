@@ -31,16 +31,6 @@
             	android:icon="@drawable/ic_action_go_to"
                 android:title="Gå till sidan..." />    	            
             
-			<item
-            	android:id="@+id/video_picture_row"
-            	android:icon="@drawable/ic_action_pictureview"
-                android:title="Bildvy" />    	 
-                
-			<item
-            	android:id="@+id/video_text_row"
-            	android:icon="@drawable/ic_action_textview"
-                android:title="Textvy" />    				
-			
     		<item
             	android:id="@+id/video_search"
             	android:icon="@drawable/ic_action_search"

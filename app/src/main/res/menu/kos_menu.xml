@@ -21,26 +21,11 @@
     	android:title="Submenu &gt;"
         android:showAsAction="always">
         <menu>
-    		<item 
-        		android:id="@+id/kos_refresh" 
-        		android:icon="@drawable/ic_action_refresh"
-        		android:title="Ladda om sidan"/>        
-                
 			<item
             	android:id="@+id/kos_go_to_page"
             	android:icon="@drawable/ic_action_go_to"
                 android:title="Gå till sidan..." />    	            
 
-			<item
-            	android:id="@+id/kos_picture_row"
-            	android:icon="@drawable/ic_action_pictureview"
-                android:title="Bildvy" />    	 
-                
-			<item
-            	android:id="@+id/kos_text_row"
-            	android:icon="@drawable/ic_action_textview"
-                android:title="Textvy" />    	 
-			
     		<item
             	android:id="@+id/kos_search"
             	android:icon="@drawable/ic_action_search"

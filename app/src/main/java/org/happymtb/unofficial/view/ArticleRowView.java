@@ -6,6 +6,6 @@ public class ArticleRowView extends ItemRowView {
 
 	public ArticleRowView(Context context) {
 		super(context);
-		Init(context);
+		init(context);
 	}
 }
