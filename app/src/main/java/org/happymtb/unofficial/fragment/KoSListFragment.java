@@ -242,7 +242,9 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 //			mProgressDialog.setOnCancelListener(this);
 //		}
 
-		mProgressView.setVisibility(View.VISIBLE);
+        if (!mSwipeRefreshLayout.isRefreshing()) {
+            mProgressView.setVisibility(View.VISIBLE);
+        }
 		mKoSTask = new KoSListTask();
 		mKoSTask.addKoSListListener(new KoSListListener() {
             public void success(List<KoSItem> KoSItems) {
