@@ -16,7 +16,6 @@ import org.happymtb.unofficial.task.KoSListTask;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -108,13 +107,11 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		mProgressView = mActivity.findViewById(R.id.progress_container_id);
 
 		fetchData();
-
-
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.list_loader, container, false);
+		return inflater.inflate(R.layout.refresh_list_loader, container, false);
 	}
 
 	@Override

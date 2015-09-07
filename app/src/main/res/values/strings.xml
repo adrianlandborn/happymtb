@@ -32,7 +32,7 @@
     <string name="video_by">&#160;av&#160;</string>
     <string name="video_one">1</string>    
     
-    <string name="main_happymtb">HappMTB</string>
+    <string name="main_happymtb">HappyMTB</string>
     <string name="main_home">Förstasidan</string>
     <string name="main_forum">Forum</string>
     <string name="main_articles">Artiklar</string>
@@ -45,5 +45,6 @@
     <string name="collapse">Dra ihop</string>
     <string name="expand">Expandera</string>
     <string name="no_items_found">Inga objekt hittades</string>
+    <string name="messages_not_found">Kunde inte hämta meddelanden</string>
     <string name="OK">Ok</string>
 </resources>

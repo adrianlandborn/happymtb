@@ -16,20 +16,23 @@ import org.happymtb.unofficial.task.MessageListTask;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
-import android.util.TypedValue;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.CookieSyncManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MessagesListFragment extends ListFragment implements DialogInterface.OnCancelListener{
 	private final static int DIALOG_FETCH_MESSAGES_ERROR = 0;
@@ -40,7 +43,9 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 	private ListMessagesAdapter mMessageAdapter;
 	private SharedPreferences mPreferences;
 	private String mUsername = "";
-	MessageActivity mActivity;	
+	private SwipeRefreshLayout mSwipeRefreshLayout;
+	private View mProgressView;
+	MessageActivity mActivity;
 	TextView mLoginStatus;
 	TextView mPageText;
 	TextView mCurrentPage;		
@@ -59,36 +64,47 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 		getListView().setDividerHeight(0);		
 		
 		CookieSyncManager.createInstance(mActivity);
-		CookieSyncManager.getInstance().startSync();	
-		
+		CookieSyncManager.getInstance().startSync();
+
+		mSwipeRefreshLayout = (SwipeRefreshLayout) mActivity.findViewById(R.id.activity_main_swipe_refresh_layout);
+		mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshPage();
+            }
+        });
+
+		mProgressView = mActivity.findViewById(R.id.progress_container_id);
+
 		mMessageData = mActivity.GetMessageData();
 		fetchData();
 		
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		mUsername = mPreferences.getString("username", "");
+
+        mLoginStatus = (TextView) mActivity.findViewById(R.id.message_login_status);
+        mPageText = (TextView) mActivity.findViewById(R.id.message_page_text);
+        mCurrentPage = (TextView) mActivity.findViewById(R.id.message_current_page);
+        mByText = (TextView) mActivity.findViewById(R.id.message_by_text);
+        mMaxPages = (TextView) mActivity.findViewById(R.id.message_no_of_pages);
+
+        ImageView loginStatusImage = (ImageView) mActivity.findViewById(R.id.message_login_status_image);
 				
 		if (mMessageData.getLogined()) {
-			ImageView loginStatusImage = (ImageView) mActivity.findViewById(R.id.message_login_status_image);
 			loginStatusImage.setImageResource(R.drawable.ic_online);
-
-			TextView loginStatus = (TextView) mActivity.findViewById(R.id.message_login_status);
-			loginStatus.setText("Inloggad som " + mUsername);
+            mLoginStatus.setText("Inloggad som " + mUsername);
 		} else {
-			ImageView loginStatusImage = (ImageView) mActivity.findViewById(R.id.message_login_status_image);
 			loginStatusImage.setImageResource(R.drawable.ic_offline);
-
-			TextView loginStatus = (TextView) mActivity.findViewById(R.id.message_login_status);
-			loginStatus.setText("Ej inloggad");
+            mLoginStatus.setText("Ej inloggad");
 		}
 
 		ClearBitmapDir();
 
-		mLoginStatus = (TextView) mActivity.findViewById(R.id.message_login_status);
-		mPageText = (TextView) mActivity.findViewById(R.id.message_page_text);
-		mCurrentPage = (TextView) mActivity.findViewById(R.id.message_current_page);		
-		mByText = (TextView) mActivity.findViewById(R.id.message_by_text);
-		mMaxPages = (TextView) mActivity.findViewById(R.id.message_no_of_pages);
-		
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.refresh_list_loader, container, false);
 	}
 	
 	public void ClearBitmapDir() {
@@ -117,9 +133,6 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 		case R.id.message_left:
 			previousPage();
 			return true;
-		case R.id.message_refresh:
-			refreshPage();
-			return true;
 		case R.id.message_right:
 			nextPage();
 			return true;								
@@ -137,6 +150,8 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Do something with value!
 					if (HappyUtils.isInteger(input.getText().toString())) {
+						mMessageData.setListPosition(0);
+						mActivity.SetMessageDataItems(null);
 						mMessageData.setCurrentPage(Integer.parseInt(input.getText().toString()));
 						fetchData();
 					}					
@@ -193,6 +208,7 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 			mMessageData.setListPosition(0);
 			mActivity.SetMessageDataItems(null);
 			mMessageData.setCurrentPage(mMessageData.getCurrentPage() + 1);
+            mSwipeRefreshLayout.setRefreshing(false); // To not show multiple loading spinners
 			fetchData();
 		}
 	}
@@ -200,8 +216,9 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 	public void previousPage() {
     	if (mMessageData.getCurrentPage() > 1) {
 			mMessageData.setListPosition(0);
-			mActivity.SetMessageDataItems(null);    	
+            mActivity.SetMessageDataItems(null);
     		mMessageData.setCurrentPage(mMessageData.getCurrentPage() - 1);
+            mSwipeRefreshLayout.setRefreshing(false); // To not show multiple loading spinners
     		fetchData();
     	}
 	}
@@ -212,31 +229,48 @@ public class MessagesListFragment extends ListFragment implements DialogInterfac
 //			mProgressDialog.setContentView(R.layout.progress_layout);
 //			mProgressDialog.setOnCancelListener(this);
 //		}
+		if (!mSwipeRefreshLayout.isRefreshing()) {
+			mProgressView.setVisibility(View.VISIBLE);
+		}
 		
 		mMessageData = mActivity.GetMessageData();
 		if ((mMessageData.getMessages() != null) && (mMessageData.getMessages().size() > 0)) {
 			fillList();
+
+			mSwipeRefreshLayout.setRefreshing(false);
+			mProgressView.setVisibility(View.INVISIBLE);
 //			mProgressDialog.dismiss();
 		} else {				
 			mMessageListTask = new MessageListTask();
 			mMessageListTask.addMessageListListener(new MessageListListener() {
-				public void success(List<Message> messages) {
+                public void success(List<Message> messages) {
                     if (getActivity() != null) {
                         mMessageData.setMessages(messages);
                         fillList();
+
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        mProgressView.setVisibility(View.INVISIBLE);
 //                        mProgressDialog.dismiss();
                     }
-				}
-	
-				public void fail() {
+                }
+
+                public void fail() {
+
+                    if (getActivity() != null) {
+                        Toast.makeText(mActivity, mActivity.getString(R.string.messages_not_found), Toast.LENGTH_LONG).show();
+
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        mProgressView.setVisibility(View.INVISIBLE);
 //                    if (getActivity() != null) {
 //                        mProgressDialog.dismiss();
-//                    }
-				}
-			});
-			mMessageListTask.execute(mActivity, mMessageData.getThreadId(), Integer.toString(mMessageData.getCurrentPage()));
-		}
-	}
+                    }
+                    }
+                }
+
+                );
+                mMessageListTask.execute(mActivity, mMessageData.getThreadId(), Integer.toString(mMessageData.getCurrentPage()));
+            }
+        }
 
 	private void fillList() {
 		mMessageAdapter = new ListMessagesAdapter(mActivity, mMessageData.getMessages());

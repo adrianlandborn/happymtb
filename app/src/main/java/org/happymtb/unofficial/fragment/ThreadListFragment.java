@@ -17,10 +17,8 @@ import org.happymtb.unofficial.task.LoginTask;
 import org.happymtb.unofficial.task.MarkAsReadTask;
 import org.happymtb.unofficial.task.ThreadListTask;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,10 +26,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.CookieSyncManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,6 +53,8 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	private SharedPreferences mPreferences;
 	private String mUsername = "";
 	private static Toast mToast;
+	private SwipeRefreshLayout mSwipeRefreshLayout;
+	private View mProgressView;
 	MainActivity mActivity;
 	TextView mLoginStatus;
 	TextView mPageText;
@@ -74,6 +77,17 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		mUsername = mPreferences.getString("username", "");
 //		String password = mPreferences.getString("password", "");
 //		Toast.makeText(mActivity, "Username: " + mUsername, Toast.LENGTH_LONG).show();
+
+        mProgressView = mActivity.findViewById(R.id.progress_container_id);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) mActivity.findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshPage();
+            }
+        });
+
 		if (!mActivity.getThreadLoggedIn()) {
 			if (mUsername.length() >= 0) { // Always show forum
 //				mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
@@ -139,8 +153,8 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 			LoginStatusImage.setImageResource(R.drawable.ic_online);
 
 			TextView LoginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
-			LoginStatus.setText("Inloggad som " + mUsername);		
-			
+			LoginStatus.setText("Inloggad som " + mUsername);
+
 			fetchData();
 		}
 
@@ -165,6 +179,11 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 	}
 
 	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.refresh_list_loader, container, false);
+	}
+
+	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
 		if (mActivity.getThreadLoggedIn() == false) {
@@ -181,16 +200,16 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		case R.id.thread_submenu:
 			return true;
 		case R.id.thread_left:
-			PreviousPage();
+			previousPage();
 			return true;
 		case R.id.thread_refresh:
-			RefreshPage();
+			refreshPage();
 			return true;
 		case R.id.thread_right:
-			NextPage();
+			nextPage();
 			return true;	
 		case R.id.thread_markasread:
-			MarkAsRead();
+			markAsRead();
 			return true;			
 		case R.id.thread_go_to_page:
 			AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
@@ -254,7 +273,7 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		CookieSyncManager.getInstance().sync();
 	}	
 
-	public void MarkAsRead() {	
+	public void markAsRead() {
 //		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
 //			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
 //			mProgressDialog.setContentView(R.layout.progress_layout);
@@ -278,26 +297,30 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 		mMarkAsRead.execute(mActivity);
 	}
 	
-	public void RefreshPage() {
+	public void refreshPage() {
 		mThreadData.setListPosition(0);
 		mActivity.setThreadDataItems(null);
 		fetchData();
 	}
 
-	public void NextPage() {
+	public void nextPage() {
 		if (mThreadData.getCurrentPage() < mThreadData.getMaxPages()) {
 			mThreadData.setListPosition(0);
 			mActivity.setThreadDataItems(null);
 			mThreadData.setCurrentPage(mThreadData.getCurrentPage() + 1);
+            mSwipeRefreshLayout.setRefreshing(false); // To not show multiple loading spinners
+
 			fetchData();
 		}
 	}
 
-	public void PreviousPage() {
+	public void previousPage() {
     	if (mThreadData.getCurrentPage() > 1) {
     		mThreadData.setListPosition(0);
     		mActivity.setThreadDataItems(null);
     		mThreadData.setCurrentPage(mThreadData.getCurrentPage() - 1);
+
+            mSwipeRefreshLayout.setRefreshing(false); // To not show multiple loading spinners
 			fetchData();
     	}
 	}
@@ -308,6 +331,9 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
 //			mProgressDialog.setContentView(R.layout.progress_layout);
 //			mProgressDialog.setOnCancelListener(this);
 //		}
+        if (!mSwipeRefreshLayout.isRefreshing()) {
+            mProgressView.setVisibility(View.VISIBLE);
+        }
 		
 		mThreadsTask = new ThreadListTask();
 		mThreadsTask.addThreadListListener(new ThreadListListener() {
@@ -315,12 +341,17 @@ public class ThreadListFragment extends ListFragment implements DialogInterface.
                 if (getActivity() != null) {
                     mThreadData.setThreads(threads);
                     fillList();
+
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    mProgressView.setVisibility(View.INVISIBLE);
 //                    mProgressDialog.dismiss();
                 }
             }
 
             public void fail() {
                 if (getActivity() != null) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    mProgressView.setVisibility(View.INVISIBLE);
 //                    mProgressDialog.dismiss();
                 }
             }

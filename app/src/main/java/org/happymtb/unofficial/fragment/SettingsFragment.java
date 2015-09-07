@@ -5,6 +5,8 @@ import org.happymtb.unofficial.R;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SettingsFragment extends Fragment {
@@ -27,6 +30,7 @@ public class SettingsFragment extends Fragment {
     private Spinner mStartPageSpinner;
 	private EditText mUserNameText;
 	private EditText mPasswordText;
+	private TextView mVersion;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -39,7 +43,8 @@ public class SettingsFragment extends Fragment {
 		mUserNameText = (EditText) activity.findViewById(R.id.settings_username);
 		mPasswordText = (EditText) activity.findViewById(R.id.settings_password);
 		mStartPageSpinner = (Spinner) activity.findViewById(R.id.settings_startpage);
-		
+        mVersion = (TextView) activity.findViewById(R.id.version);
+
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 		mUserNameText.setText(mPreferences.getString(USERNAME, ""));
         mUserNameText.addTextChangedListener(new TextWatcher() {
@@ -95,6 +100,15 @@ public class SettingsFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+
+            mVersion.setText("Version: " + pInfo.versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	@Override
