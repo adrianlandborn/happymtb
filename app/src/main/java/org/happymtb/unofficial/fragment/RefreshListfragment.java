@@ -25,6 +25,7 @@ public abstract class RefreshListfragment extends ListFragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                mProgressView.setVisibility(View.INVISIBLE);
                 refreshPage();
             }
         });

@@ -38,6 +38,13 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/kos_object_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:visibility="gone"/>
+                    <TextView
                         android:id="@+id/kos_object_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

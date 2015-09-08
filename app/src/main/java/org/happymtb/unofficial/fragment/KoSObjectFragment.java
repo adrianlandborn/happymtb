@@ -43,6 +43,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 //    View mObjectView;
 	TextView mTitle;
 	TextView mPerson;		
+//	TextView mCategory;
 	TextView mDate;
 	TextView mText;
 	TextView mPrice;
@@ -59,7 +60,8 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 
 //        mObjectView = mKoSObjectActivity.findViewById(R.id.kos_object);
 		mTitle = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_title);
-		mPerson = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_person);		
+		mPerson = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_person);
+//		mCategory = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_category);
 		mDate = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_date);
 		mText = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_text);
 		mPrice = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_price);

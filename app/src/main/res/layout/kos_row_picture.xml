@@ -39,23 +39,13 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/kos_picture_row_time"
+                android:id="@+id/kos_picture_row_area"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/kos_picture_row_title"
                 android:layout_alignLeft="@id/kos_picture_row_title"
-                android:textColor="@color/title_2_text"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/kos_picture_row_area"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/kos_picture_row_time"
-                android:layout_alignLeft="@id/kos_picture_row_title"
                 android:textColor="@color/black"
                 android:textSize="13sp" />
-
 
             <TextView
                 android:id="@+id/kos_picture_row_category"
@@ -63,9 +53,19 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/kos_picture_row_area"
                 android:layout_alignLeft="@id/kos_picture_row_title"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+
+            <TextView
+                android:id="@+id/kos_picture_row_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@id/kos_picture_row_title"
                 android:layout_marginRight="5dp"
                 android:paddingBottom="8dp"
-                android:textColor="@color/black"
+                android:textColor="@color/title_2_text"
                 android:textSize="13sp" />
 
             <TextView
@@ -77,8 +77,7 @@
                 android:layout_alignParentBottom="true"
                 android:paddingBottom="8dp"
                 android:textColor="@color/black"
-                android:textSize="13sp"
-                android:textStyle="bold"/>
+                android:textSize="15sp" />
 
         </RelativeLayout>
     </LinearLayout>

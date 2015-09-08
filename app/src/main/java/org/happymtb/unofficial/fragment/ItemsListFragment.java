@@ -97,8 +97,6 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 			String group = mItems.get(position).getGroup();
 			boolean visible = mItems.get(position).getVisible();
 
-			System.out.println("group: " + group);
-			
 			if (visible == true) {
 				visible = false;
 			} else {
