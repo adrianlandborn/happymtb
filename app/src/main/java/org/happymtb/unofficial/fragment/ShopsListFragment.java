@@ -6,7 +6,7 @@ import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.item.Item;
 import org.happymtb.unofficial.listener.ItemListListener;
 import org.happymtb.unofficial.task.ShopsListTask;
-import android.app.ProgressDialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -53,10 +53,10 @@ public class ShopsListFragment extends ItemsListFragment implements DialogInterf
 			case R.id.shops_submenu:
 				return true;
 			case R.id.shops_expand_all:
-				ExpandeAll();
+				expandAll();
 				return true;	
 			case R.id.shops_hide_all:
-				CollapseAll();
+				collapseAll();
 				return true;					
 			case R.id.shops_add:
 				String url = "http://happymtb.org/forum/butiker/add.php?cat=4";

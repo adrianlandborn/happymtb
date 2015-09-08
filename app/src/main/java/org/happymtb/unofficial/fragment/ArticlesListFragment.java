@@ -6,7 +6,7 @@ import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.item.Item;
 import org.happymtb.unofficial.listener.ItemListListener;
 import org.happymtb.unofficial.task.ArticlesListTask;
-import android.app.ProgressDialog;
+
 import android.content.DialogInterface;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,26 +18,19 @@ public class ArticlesListFragment extends ItemsListFragment implements DialogInt
 	
 	@Override
 	protected void fetchItems() {
-//		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
-//			mProgressDialog = ProgressDialog.show(getActivity(), "", "", true, true);
-//			mProgressDialog.setContentView(R.layout.progress_layout);
-//			mProgressDialog.setOnCancelListener(this);
-//		}
-
 		mGetItems = new ArticlesListTask();
 		mGetItems.addItemListListener(new ItemListListener() {
-            public void success(List<Item> Items) {
+            public void success(List<Item> items) {
                 if (getActivity() != null) {
-                    mAllItems = Items;
+                    mAllItems = items;
+
+					expandGroup(items.get(0).getGroup());
                     fillList();
-//                    mProgressDialog.dismiss();
                 }
             }
 
             public void fail() {
-                if (getActivity() != null) {
-//                    mProgressDialog.dismiss();
-                }
+//                mProgressDialog.dismiss();
             }
         });
 
@@ -50,10 +43,10 @@ public class ArticlesListFragment extends ItemsListFragment implements DialogInt
 			case R.id.article_submenu:
 				return true;			
 			case R.id.article_expand_all:
-				ExpandeAll();
+				expandAll();
 				return true;	
 			case R.id.article_hide_all:
-				CollapseAll();
+				collapseAll();
 				return true;				
 		}
 		return super.onOptionsItemSelected(item);

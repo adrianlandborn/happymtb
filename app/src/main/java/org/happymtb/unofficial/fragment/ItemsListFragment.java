@@ -68,15 +68,22 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 			}			
 		}
 	}
-	
-	protected void ExpandeAll() {
+
+	protected void expandGroup(String group) {
+        for (int i = 0; i < mAllItems.size(); i++) {
+            if (mAllItems.get(i).getGroup() == group) {
+                mAllItems.get(i).setVisible(true);
+            }
+        }
+	}
+	protected void expandAll() {
 		for (int j = 0; j < mAllItems.size(); j++) {
 			mAllItems.get(j).setVisible(true);
 		}								
 		fillList();
 	}
 	
-	protected void CollapseAll() {
+	protected void collapseAll() {
 		for (int j = 0; j < mAllItems.size(); j++) {
 			mAllItems.get(j).setVisible(false);
 		}								
@@ -87,8 +94,10 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		if (mItems.get(position).getTitle() == "")
 		{
-			String Group = mItems.get(position).getGroup();
-			Boolean visible = mItems.get(position).getVisible();
+			String group = mItems.get(position).getGroup();
+			boolean visible = mItems.get(position).getVisible();
+
+			System.out.println("group: " + group);
 			
 			if (visible == true) {
 				visible = false;
@@ -97,7 +106,7 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 			}
 			
 			for (int i = 0; i < mAllItems.size(); i++) {
-				if (mAllItems.get(i).getGroup() == Group) {					
+				if (mAllItems.get(i).getGroup() == group) {
 					mAllItems.get(i).setVisible(visible);
 				}
 			}	

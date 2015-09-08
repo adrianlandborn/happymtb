@@ -21,11 +21,6 @@
     	android:title="Submenu &gt;"
         android:showAsAction="always">
         <menu>
-    		<item 
-        		android:id="@+id/video_refresh" 
-        		android:icon="@drawable/ic_action_refresh"
-        		android:title="Ladda om sidan"/>        
-                
 			<item
             	android:id="@+id/video_go_to_page"
             	android:icon="@drawable/ic_action_go_to"

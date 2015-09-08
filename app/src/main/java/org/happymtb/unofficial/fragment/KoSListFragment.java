@@ -24,8 +24,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ListFragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,7 +35,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class KoSListFragment extends ListFragment implements DialogInterface.OnCancelListener,
+public class KoSListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener,
 		MainActivity.SortListener, MainActivity.SearchListener {
 	public final static String SHOW_IMAGES = "kospicturelist";
 
@@ -58,14 +56,11 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
     public final static String SEARCH_CATEGORY_SPINNER = "search_category_spinner";
 
     public final static String CURRENT_PAGE = "current_page";
-//	private ProgressDialog mProgressDialog = null;
-	private View mProgressView;
 	private KoSListTask mKoSTask;
 	private ListKoSAdapter mKoSAdapter;
 	private KoSData mKoSData;
 	private SharedPreferences mPreferences;
 	private boolean mPictureList;
-	private SwipeRefreshLayout mSwipeRefreshLayout;
 	MainActivity mActivity;
 	FragmentManager mFragmentManager;
 
@@ -96,15 +91,6 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 
             Toast.makeText(mActivity, "setCurrentPage: " + savedInstanceState.getInt(CURRENT_PAGE, 1), Toast.LENGTH_LONG).show();
         }
-		mSwipeRefreshLayout = (SwipeRefreshLayout) mActivity.findViewById(R.id.activity_main_swipe_refresh_layout);
-		mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-			@Override
-			public void onRefresh() {
-				fetchData();
-			}
-		});
-
-		mProgressView = mActivity.findViewById(R.id.progress_container_id);
 
 		fetchData();
 	}
@@ -215,33 +201,13 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 		}
 		return super.onOptionsItemSelected(item);
 	}	
-	
-//	@Override
-//	public void onDestroy() {
-//		mProgressDialog.dismiss();
-//		super.onDestroy();
-//	}
 
-	@Override
-	public void onStop() {
-		super.onStop();
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
+	public void refreshPage() {
+		fetchData();
 	}
 
 	private void fetchData() {
-//		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
-//			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
-//			mProgressDialog.setContentView(R.layout.progress_layout);
-//			mProgressDialog.setOnCancelListener(this);
-//		}
-
-        if (!mSwipeRefreshLayout.isRefreshing()) {
-            mProgressView.setVisibility(View.VISIBLE);
-        }
+        showProgress(true);
 		mKoSTask = new KoSListTask();
 		mKoSTask.addKoSListListener(new KoSListListener() {
             public void success(List<KoSItem> KoSItems) {
@@ -253,9 +219,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
                         getKoSImages.execute(mKoSData.getKoSItems(), mKoSAdapter);
                     }
                 }
-				mSwipeRefreshLayout.setRefreshing(false);
-				mProgressView.setVisibility(View.INVISIBLE);
-//                mProgressDialog.dismiss();
+                showProgress(false);
             }
 
             public void fail() {
@@ -269,9 +233,7 @@ public class KoSListFragment extends ListFragment implements DialogInterface.OnC
 							mPreferences.getInt(SEARCH_CATEGORY_POS, 0), mPreferences.getString(SEARCH_CATEGORY, "Alla Kategorier"),
 							mPreferences.getString(SEARCH_TEXT, ""));
 
-					mSwipeRefreshLayout.setRefreshing(false);
-					mProgressView.setVisibility(View.INVISIBLE);
-//                    mProgressDialog.dismiss();
+                    showProgress(false);
                 }
             }
         });

@@ -15,38 +15,28 @@ import org.happymtb.unofficial.task.VideoListTask;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ListFragment;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class VideoListFragment extends ListFragment implements DialogInterface.OnCancelListener {
+public class VideoListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
 	private final static int DIALOG_FETCH_KOS_ERROR = 0;
-//	private ProgressDialog progDialog = null;
 	private VideoListTask getVideo;
 	private ListVideoAdapter mVideoAdapter;
 	private VideoData mVideoData = new VideoData(1, 1, "", 0, null, 0);
 	private AlertDialog.Builder mAlertDialog;
 	private Boolean mPictureList;
-	private int mTextSize;
 	private SharedPreferences preferences;
     private MainActivity mActivity;
 	
@@ -77,13 +67,10 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 		case R.id.video_submenu:
 			return true;	
 		case R.id.video_left:
-			PreviousPage();
-			return true;
-		case R.id.video_refresh:
-			RefreshPage();
+			previousPage();
 			return true;
 		case R.id.video_right:
-			NextPage();
+			nextPage();
 			return true;
 //		case R.id.video_search:
 //	        FragmentManager fm = mActivity.getSupportFragmentManager();
@@ -153,26 +140,20 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
         if (mActivity == null) {
             return;
         }
-//		if (progDialog == null || !progDialog.isShowing()) {
-//			progDialog = ProgressDialog.show(mActivity, "", "", true, true);
-//			progDialog.setContentView(R.layout.progress_layout);
-//			progDialog.setOnCancelListener(this);
-//		}
-		
+        showProgress(true);
+
 		getVideo = new VideoListTask();
 		getVideo.addVideoListListener(new VideoListListener() {
 			public void success(List<VideoItem> VideoItems) {
                 if (getActivity() != null) {
-
                     mVideoData.setVideoItems(VideoItems);
                     fillList();
                     if (mPictureList) {
                         VideoImageDownloadTask getVideoImages = new VideoImageDownloadTask();
                         getVideoImages.execute(mVideoData.getVideoItems(), mVideoAdapter);
                     }
-//                    if (progDialog != null) {
-//                        progDialog.dismiss();
-//                    }
+
+                    showProgress(false);
                 }
 			}
 
@@ -180,7 +161,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
                 if (getActivity() != null) {
                     Toast.makeText(getActivity(), "Inga objekt hittades", Toast.LENGTH_LONG).show();
                     mVideoData = new VideoData(1, 1, "", 0, null, 0);
-//                    progDialog.dismiss();
+                    showProgress(false);
                 }
 			}			
 		});
@@ -214,12 +195,12 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 //		}
 	}
 
-	public void RefreshPage() {
+	public void refreshPage() {
 		mVideoData.setListPosition(0);
 		fetchData();
 	}
 
-	public void NextPage() {
+	public void nextPage() {
 		if (mVideoData.getCurrentPage() < mVideoData.getMaxPages()) {
 			mVideoData.setListPosition(0);
 			mVideoData.setCurrentPage(mVideoData.getCurrentPage() + 1);		
@@ -227,7 +208,7 @@ public class VideoListFragment extends ListFragment implements DialogInterface.O
 		}
 	}
 
-	public void PreviousPage() {
+	public void previousPage() {
     	if (mVideoData.getCurrentPage() > 1) {
     		mVideoData.setListPosition(0);
     		mVideoData.setCurrentPage(mVideoData.getCurrentPage() - 1);	

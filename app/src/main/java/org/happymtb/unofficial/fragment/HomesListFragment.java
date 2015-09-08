@@ -23,8 +23,7 @@ import android.widget.Toast;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 
-public class HomesListFragment extends ListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
-//	private ProgressDialog mProgressDialog = null;
+public class HomesListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener, OnChildClickListener {
 	private ListHomeAdapter mHomeAdapter;
 	private List<Home> mHomes = new ArrayList<Home>();
 	private HomeListTask getHome;
@@ -32,7 +31,6 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-//		setListShownNoAnimation(true);
 		setHasOptionsMenu(true);
 		fetchData();
 		
@@ -45,41 +43,20 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
 		super.onCreateOptionsMenu(menu, inflater);
 	}		
 	
-//	@Override
-//	public void onDestroy() {
-//		mProgressDialog.dismiss();
-//		super.onDestroy();
-//	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
+	public void refreshPage() {
+		fetchData();
 	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-	
 	private void fetchData() {
-//		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
-//			mProgressDialog = ProgressDialog.show(getActivity(), "", "", true, true);
-//			mProgressDialog.setContentView(R.layout.progress_layout);
-//			mProgressDialog.setOnCancelListener(this);
-//		}
-		
+        showProgress(true);
+
 		getHome = new HomeListTask();
 		getHome.addHomeListListener(new HomeListListener() {
 			public void success(List<Home> Homes) {
                 if (getActivity() != null) {
                     mHomes = Homes;
                     fillList();
-//                    mProgressDialog.dismiss();
+
+                    showProgress(false);
                 }
 			}
 
@@ -87,8 +64,7 @@ public class HomesListFragment extends ListFragment implements DialogInterface.O
                 if (getActivity() != null) {
                     Toast.makeText(getActivity(), "Inga objekt hittades", Toast.LENGTH_LONG).show();
 
-//                    mProgressDialog.dismiss();
-//				showDialog(DIALOG_FETCH_KOS_ERROR);
+                    showProgress(false);
                 }
 			}
 		});

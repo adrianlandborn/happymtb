@@ -33,9 +33,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CalendarListFragment extends ListFragment implements DialogInterface.OnCancelListener {
+public class CalendarListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
   	private final static int DIALOG_FETCH_CALENDAR_ERROR = 0;
-//	private ProgressDialog mProgressDialog = null;
 	private CalendarListTask mGetCalendarTask;
 	private ListCalendarAdapter mCalendarAdapter;
 	private List<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
@@ -83,19 +82,16 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 	}		
 	
 	private void fetchData() {
-//		if ((mProgressDialog == null) || (!mProgressDialog.isShowing())) {
-//			mProgressDialog = ProgressDialog.show(mActivity, "", "", true, true);
-//			mProgressDialog.setContentView(R.layout.progress_layout);
-//			mProgressDialog.setOnCancelListener(this);
-//		}
-		
-		mGetCalendarTask = new CalendarListTask();
+
+        showProgress(true);
+
+        mGetCalendarTask = new CalendarListTask();
 		mGetCalendarTask.addCalendarListListener(new CalendarListListener() {
 			public void success(List<CalendarItem> CalendarItems) {
 				if (getActivity() != null) {
 					mCalendarItems = CalendarItems;
 					fillList();
-//					mProgressDialog.dismiss();
+                    showProgress(false);
 				}
 			}
 
@@ -103,14 +99,14 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 				if (getActivity() != null) {
 					Toast.makeText(mActivity, getResources().getString(R.string.no_items_found), Toast.LENGTH_LONG).show();
 					mCalendarItems = new ArrayList<CalendarItem>();
-//					mProgressDialog.dismiss();
+                    showProgress(false);
 				}
 			}
 		});
 		mGetCalendarTask.execute(mSearch, mRegionPosition, mCategoryPosition);		
 	}
 
-	private void fillList() {
+    private void fillList() {
 		mCalendarAdapter = new ListCalendarAdapter(mActivity, mCalendarItems);
 		setListAdapter(mCalendarAdapter);
 		
@@ -133,7 +129,7 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 		startActivity(browserIntent);			
 	}
 	
-	public void RefreshPage() {
+	public void refreshPage() {
 //		mKoSData.setListPosition(0);
 //		mActivity.setKoSDataItems(null);
 		fetchData();
@@ -144,9 +140,6 @@ public class CalendarListFragment extends ListFragment implements DialogInterfac
 		switch (item.getItemId()) {
 		case R.id.calendar_submenu:
 			return true;		
-		case R.id.calendar_refresh:
-			RefreshPage();
-			return true;
 		//TODO Reactivate and fix lifecycle and shared prefs
 //		case R.id.calendar_search:
 //	        FragmentManager fm = mActivity.getSupportFragmentManager();
