@@ -81,7 +81,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:textSize="13sp" />
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

@@ -20,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/kos_picture_row_image"
-                android:layout_width="120dip"
-                android:layout_height="90dip"
+                android:layout_width="135dip"
+                android:layout_height="105dip"
                 android:layout_alignParentLeft="true"
                 android:gravity="center_vertical"
                 android:scaleType="centerCrop"
