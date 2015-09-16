@@ -13,6 +13,8 @@
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:id="@+id/kos_object_scroll"
+            android:visibility="invisible"
             android:background="@color/grey">
 
             <LinearLayout
@@ -43,7 +45,8 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="13sp"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
+
                     <TextView
                         android:id="@+id/kos_object_date"
                         android:layout_width="wrap_content"
@@ -80,9 +83,9 @@
                         android:id="@+id/kos_object_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:paddingTop="16dp"
                         android:paddingBottom="16dp"
+                        android:paddingTop="16dp"
+                        android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
