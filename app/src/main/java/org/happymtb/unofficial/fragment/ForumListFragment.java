@@ -8,10 +8,12 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.CookieSyncManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,11 +38,12 @@ import org.happymtb.unofficial.task.ThreadListTask;
 
 import java.util.List;
 
-public class ThreadListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
+public class ForumListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
 	private final static int DIALOG_FETCH_THREADS_ERROR = 0;
 	private final static int DIALOG_MARK_AS_READ_ERROR = 1;	
 	public final static String COOKIE_NAME = "cookiename";
 	public final static String COOKIE_VALUE = "cookivalue";
+	public static String TAG = "forum_frag";
 
 	private ThreadListTask mThreadsTask;
 	public static ThreadData mThreadData = new ThreadData(1, 1, null, 0, false);
@@ -53,7 +56,12 @@ public class ThreadListFragment extends RefreshListfragment implements DialogInt
 	TextView mCurrentPage;		
 	TextView mByText;
 	TextView mMaxPages;
-	
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.thread_frame, container, false);
+	}
+
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
@@ -66,6 +74,13 @@ public class ThreadListFragment extends RefreshListfragment implements DialogInt
 		
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		mUsername = mPreferences.getString("username", "");
+
+		if (savedInstanceState != null) {
+			// Restore Current page.
+			mThreadData.setCurrentPage(savedInstanceState.getInt(CURRENT_PAGE, 1));
+
+			Toast.makeText(mActivity, "setCurrentPage: " + savedInstanceState.getInt(CURRENT_PAGE, 1), Toast.LENGTH_LONG).show();
+		}
 
 		if (!mActivity.getThreadLoggedIn()) {
 			if (mUsername.length() >= 0) { // Always show forum
@@ -149,74 +164,82 @@ public class ThreadListFragment extends RefreshListfragment implements DialogInt
 
 		mLoginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
 		mPageText = (TextView) mActivity.findViewById(R.id.thread_page_text);
-		mCurrentPage = (TextView) mActivity.findViewById(R.id.thread_current_page);		
+		mCurrentPage = (TextView) mActivity.findViewById(R.id.thread_current_page);
 		mByText = (TextView) mActivity.findViewById(R.id.thread_by_text);
 		mMaxPages = (TextView) mActivity.findViewById(R.id.thread_no_of_pages);
+
 	}
+
+
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putInt(CURRENT_PAGE, mThreadData.getCurrentPage());
+		super.onSaveInstanceState(outState);
+	}
+
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.clear();		
-		if (mActivity.getThreadLoggedIn() == false) {
-			inflater.inflate(R.menu.thread_menu, menu);
-		} else {
-			inflater.inflate(R.menu.thread_logged_in_menu, menu);
-		}
+		menu.clear();
+		inflater.inflate(R.menu.forum_menu, menu);
+        menu.findItem(R.id.thread_new_thread).setVisible(mActivity.getThreadLoggedIn());
+
 		super.onCreateOptionsMenu(menu, inflater);
 	}
-	
-	@Override
+
+    @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.thread_submenu:
-			return true;
-		case R.id.thread_left:
-			previousPage();
-			return true;
-		case R.id.thread_right:
-			nextPage();
-			return true;	
-		case R.id.thread_markasread:
-			markAsRead();
-			return true;			
-		case R.id.thread_go_to_page:
-			AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
+            case R.id.thread_submenu:
+                return true;
+            case R.id.thread_left:
+                previousPage();
+                return true;
+            case R.id.thread_right:
+                nextPage();
+                return true;
+            case R.id.thread_markasread:
+                markAsRead();
+                return true;
+            case R.id.thread_go_to_page:
+                AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
 
-			alert.setTitle("Gå till sidan...");
-			alert.setMessage("Skriv in sidnummer som du vill hoppa till (1 - " + mThreadData.getMaxPages() + ")");
+                alert.setTitle("Gå till sidan...");
+                alert.setMessage("Skriv in sidnummer som du vill hoppa till (1 - " + mThreadData.getMaxPages() + ")");
 
 
-			// Set an EditText view to get user input 
-			final EditText input = new EditText(mActivity);
-			alert.setView(input);
+                // Set an EditText view to get user input
+                final EditText input = new EditText(mActivity);
+                alert.setView(input);
 
-			alert.setPositiveButton("Hoppa", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					// Do something with value!
-					if (HappyUtils.isInteger(input.getText().toString())) {
-						mThreadData.setCurrentPage(Integer.parseInt(input.getText().toString()));
-						fetchData();
-					}
-				}
-			});
+                alert.setPositiveButton("Hoppa", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Do something with value!
+                        if (HappyUtils.isInteger(input.getText().toString())) {
+                            mThreadData.setCurrentPage(Integer.parseInt(input.getText().toString()));
+                            fetchData();
+                        }
+                    }
+                });
 
-			alert.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					// Canceled.
-				}
-			});
+                alert.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
 
-			final AlertDialog dialog = alert.create();
+                final AlertDialog dialog = alert.create();
 
-			input.addTextChangedListener(new PageTextWatcher(dialog, mThreadData.getMaxPages()));
+                input.addTextChangedListener(new PageTextWatcher(dialog, mThreadData.getMaxPages()));
 
-			dialog.show();
-			return true;
-		case R.id.thread_new_thread:
-			String url = "http://happymtb.org/forum/posting.php/1";
-			Intent browserIntent = new Intent("android.intent.action.VIEW", Uri.parse(url));
-			startActivity(browserIntent);							
-			return true;
+                dialog.show();
+                return true;
+            case R.id.thread_new_thread:
+                String url = "http://happymtb.org/forum/posting.php/1";
+                Intent browserIntent = new Intent("android.intent.action.VIEW", Uri.parse(url));
+                startActivity(browserIntent);
+                return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -252,8 +275,9 @@ public class ThreadListFragment extends RefreshListfragment implements DialogInt
 		mMarkAsRead.execute(mActivity);
 	}
 	
-	public void refreshPage() {
+	public void refreshList() {
 		mThreadData.setListPosition(0);
+		mThreadData.setCurrentPage(0);
 		mActivity.setThreadDataItems(null);
 		fetchData();
 	}
@@ -294,8 +318,11 @@ public class ThreadListFragment extends RefreshListfragment implements DialogInt
             }
 
             public void fail() {
-                showProgress(false);
-            }
+				if (getActivity() != null) {
+					Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+					showProgress(false);
+				}
+			}
         });
         mThreadsTask.execute(mThreadData.getCurrentPage(), mActivity);
 	}

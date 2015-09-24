@@ -14,6 +14,8 @@ import org.happymtb.unofficial.R;
  */
 public abstract class RefreshListfragment extends ListFragment {
 
+    public final static String CURRENT_PAGE = "current_page";
+
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected View mProgressView;
 
@@ -26,7 +28,7 @@ public abstract class RefreshListfragment extends ListFragment {
             @Override
             public void onRefresh() {
                 mProgressView.setVisibility(View.INVISIBLE);
-                refreshPage();
+                refreshList();
             }
         });
 
@@ -51,5 +53,5 @@ public abstract class RefreshListfragment extends ListFragment {
         }
     }
 
-    protected abstract void refreshPage();
+    protected abstract void refreshList();
 }

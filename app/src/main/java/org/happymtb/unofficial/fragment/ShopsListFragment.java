@@ -14,9 +14,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.Toast;
 
 public class ShopsListFragment extends ItemsListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
-	
+	public static String TAG = "shops_frag";
+
 	private ShopsListTask mShopsTask;
 	
 	@Override
@@ -38,9 +40,9 @@ public class ShopsListFragment extends ItemsListFragment implements DialogInterf
             }
 
             public void fail() {
-                if (getActivity() != null) {
-//                    mProgressDialog.dismiss();
-                }
+				if (getActivity() != null) {
+					Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+				}
             }
         });
 

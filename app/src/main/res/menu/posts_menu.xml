@@ -30,6 +30,10 @@
 <!--             	android:id="@+id/thread_search" -->
 <!--             	android:icon="@drawable/ic_action_search" -->
 <!--                 android:title="Sök" /> -->
+            <item
+                android:id="@+id/message_new_post"
+                android:icon="@drawable/ic_action_write"
+                android:title="Nytt inlägg" />
 		</menu>
 	</item>
 

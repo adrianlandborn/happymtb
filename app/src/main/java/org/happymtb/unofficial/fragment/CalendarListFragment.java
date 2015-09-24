@@ -27,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -35,6 +36,8 @@ import android.widget.Toast;
 
 public class CalendarListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
   	private final static int DIALOG_FETCH_CALENDAR_ERROR = 0;
+	public static String TAG = "calendar_frag";
+
 	private CalendarListTask mGetCalendarTask;
 	private ListCalendarAdapter mCalendarAdapter;
 	private List<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
@@ -52,7 +55,6 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);			
-//		setListShownNoAnimation(true);
 		setHasOptionsMenu(true);
 		
 		mActivity = (MainActivity) getActivity();
@@ -66,7 +68,13 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 		getListView().setDividerHeight(0);
 	}
 
-	@Override
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View frame = inflater.inflate(R.layout.calendar_frame, container, false);
+        return frame;
+    }
+
+    @Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
 		inflater.inflate(R.menu.calendar_menu, menu);
@@ -129,9 +137,8 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 		startActivity(browserIntent);			
 	}
 	
-	public void refreshPage() {
+	public void refreshList() {
 //		mKoSData.setListPosition(0);
-//		mActivity.setKoSDataItems(null);
 		fetchData();
 	}
 	

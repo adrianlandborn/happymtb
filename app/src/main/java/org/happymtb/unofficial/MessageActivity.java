@@ -2,7 +2,7 @@ package org.happymtb.unofficial;
 
 import java.util.List;
 
-import org.happymtb.unofficial.fragment.MessagesListFragment;
+import org.happymtb.unofficial.fragment.PostsListFragment;
 import org.happymtb.unofficial.item.Message;
 import org.happymtb.unofficial.item.MessageData;
 import android.app.ActionBar;
@@ -13,7 +13,7 @@ import android.view.MenuItem;
 
 public class MessageActivity extends FragmentActivity {
 	private ActionBar mActionBar;
-	Fragment mFragment = new MessagesListFragment();	
+	Fragment mFragment = new PostsListFragment();
 	int mFrameId = R.id.messageframe;
 	int mFrameLayout = R.layout.message_frame;
 	public static MessageData mMessageData = new MessageData(1, 1, false, "", null, 0);
@@ -24,8 +24,7 @@ public class MessageActivity extends FragmentActivity {
 		
 		// Set up the action bar to show a dropdown list.
 		mActionBar = getActionBar();
-		mActionBar.setDisplayShowTitleEnabled(false);
-		mActionBar.setDisplayHomeAsUpEnabled(true);		
+		mActionBar.setDisplayHomeAsUpEnabled(true);
 
 		String ThreadId;
 		Bundle bundle = getIntent().getExtras();
@@ -45,7 +44,7 @@ public class MessageActivity extends FragmentActivity {
 		
 		mMessageData = new MessageData(Page, 1, Logined, ThreadId, null, 0);
 		
-		mFragment = new MessagesListFragment();
+		mFragment = new PostsListFragment();
 		mFrameId = R.id.messageframe;
 		mFrameLayout = R.layout.message_frame;
 			

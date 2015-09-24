@@ -12,7 +12,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
-import org.happymtb.unofficial.fragment.ThreadListFragment;
+import org.happymtb.unofficial.fragment.ForumListFragment;
 import org.happymtb.unofficial.listener.LoginListener;
 
 import android.content.Context;
@@ -64,8 +64,8 @@ public class LoginTask extends AsyncTask<Object, Void, Boolean> {
 					} else if (cookie.toString().contains("phorum_session_v5")) { 
 						SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences((Context) param[0]);
 						SharedPreferences.Editor editor = settings.edit();
-						editor.putString(ThreadListFragment.COOKIE_NAME, cookie.getName());
-						editor.putString(ThreadListFragment.COOKIE_VALUE, cookie.getValue());
+						editor.putString(ForumListFragment.COOKIE_NAME, cookie.getName());
+						editor.putString(ForumListFragment.COOKIE_VALUE, cookie.getValue());
 						editor.apply();
 						return true;
 					}

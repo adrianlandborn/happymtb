@@ -70,7 +70,7 @@ public class CalendarListTask extends AsyncTask<Object, Void, Boolean> {
 
 		Start = Str.indexOf("</i> ", Start) + 5;
 		End = Str.indexOf("  <i class", Start);
-		Time = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
+		Time = HappyUtils.replaceHTMLChars(Str.substring(Start, End)).replace("<i class=\"icon-arrow-right\"></i>", "->");
 		Start = End;		
 		
 		Start = Str.indexOf("</i> ", Start) + 5;

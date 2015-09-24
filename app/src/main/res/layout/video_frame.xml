@@ -4,13 +4,52 @@
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:background="@color/grey">	
+	android:background="@color/grey">
 
-	<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    	android:id="@+id/videoframe"
-    	android:layout_width="fill_parent"
-    	android:layout_height="0dp"
-    	android:layout_weight="1" />		
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1">
+
+		<FrameLayout
+			android:id="@+id/list_container_id"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<TextView
+				android:id="@+id/empty_id"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:gravity="center" />
+
+			<android.support.v4.widget.SwipeRefreshLayout
+				android:id="@+id/activity_main_swipe_refresh_layout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+
+				<ListView
+					android:id="@android:id/list"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:drawSelectorOnTop="false" />
+
+			</android.support.v4.widget.SwipeRefreshLayout>
+		</FrameLayout>
+		<LinearLayout
+			android:id="@+id/progress_container_id"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:orientation="vertical"
+			android:visibility="visible">
+
+			<ProgressBar
+				style="?android:attr/progressBarStyleLarge"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
+		</LinearLayout>
+	</FrameLayout>
 
 	<LinearLayout
 		android:orientation="horizontal"
@@ -18,49 +57,49 @@
 		android:layout_height="wrap_content"
 		android:background="@color/black"
 		android:padding="3dp"
-		android:baselineAligned="false">		
-		
+		android:baselineAligned="false">
+
 		<LinearLayout
 			android:orientation="horizontal"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:gravity="left"
 			android:layout_weight="1">
-				    
-	    	<TextView
-			    android:id="@+id/video_category"
+
+			<TextView
+				android:id="@+id/video_category"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text=""
 				android:textSize="15sp"
-				android:textColor="@color/white"/>  
-				
-	    	<TextView
-	    	    android:id="@+id/video_search"
-	    	    android:layout_width="wrap_content"
-	    	    android:layout_height="wrap_content"
-	    	    android:text=""
-	    	    android:textColor="@color/white"
-	    	    android:textSize="15sp" />
-   
-	    </LinearLayout>	
-	    
+				android:textColor="@color/white"/>
+
+			<TextView
+				android:id="@+id/video_search"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text=""
+				android:textColor="@color/white"
+				android:textSize="15sp" />
+
+		</LinearLayout>
+
 		<LinearLayout
 			android:orientation="horizontal"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:gravity="right"
 			android:layout_weight="1">
-			
+
 			<TextView
-			    android:id="@+id/video_page_text"
+				android:id="@+id/video_page_text"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/video_page"
 				android:textSize="15sp"
 				android:textColor="@color/white"
 				android:layout_gravity="center_vertical"/>
-				
+
 			<TextView
 				android:id="@+id/video_current_page"
 				android:layout_width="wrap_content"
@@ -68,25 +107,25 @@
 				android:text="@string/video_one"
 				android:textSize="15sp"
 				android:textColor="@color/white"
-				android:layout_gravity="center_vertical"/>				
-	
+				android:layout_gravity="center_vertical"/>
+
 			<TextView
-			    android:id="@+id/video_by_text"
+				android:id="@+id/video_by_text"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/video_by"
 				android:textSize="15sp"
 				android:textColor="@color/white"
-				android:layout_gravity="center_vertical"/>	
-				
+				android:layout_gravity="center_vertical"/>
+
 			<TextView
 				android:id="@+id/video_no_of_pages"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@string/video_one"					
+				android:text="@string/video_one"
 				android:textSize="15sp"
 				android:textColor="@color/white"
 				android:layout_gravity="center_vertical"/>
-		</LinearLayout>	
+		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>

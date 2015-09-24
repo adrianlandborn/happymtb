@@ -37,6 +37,8 @@ import android.widget.Toast;
 
 public class KoSListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener,
 		MainActivity.SortListener, MainActivity.SearchListener {
+    public static String TAG = "kos_frag";
+
 	public final static String SHOW_IMAGES = "kospicturelist";
 
 	public final static String SORT_ORDER_POS = "sort_order_pos";
@@ -55,7 +57,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
     public final static String SEARCH_REGION_SPINNER = "search_region_spinner";
     public final static String SEARCH_CATEGORY_SPINNER = "search_category_spinner";
 
-    public final static String CURRENT_PAGE = "current_page";
 	private KoSListTask mKoSTask;
 	private ListKoSAdapter mKoSAdapter;
 	private KoSData mKoSData;
@@ -64,7 +65,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	MainActivity mActivity;
 	FragmentManager mFragmentManager;
 
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -72,7 +73,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         setHasOptionsMenu(true);
 
         mActivity = (MainActivity) getActivity();
-
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         mPictureList = mPreferences.getBoolean(SHOW_IMAGES, true);
@@ -86,39 +86,26 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 				mPreferences.getString(SEARCH_TEXT, ""));
 
         if (savedInstanceState != null) {
-            // Restore Current page.
-            mKoSData.setCurrentPage(savedInstanceState.getInt(CURRENT_PAGE, 1));
+			// Restore Current page.
+			mKoSData.setCurrentPage(savedInstanceState.getInt(CURRENT_PAGE, 1));
 
-            Toast.makeText(mActivity, "setCurrentPage: " + savedInstanceState.getInt(CURRENT_PAGE, 1), Toast.LENGTH_LONG).show();
-        }
-
+//			Toast.makeText(mActivity, "setCurrentPage: " + savedInstanceState.getInt(CURRENT_PAGE, 1), Toast.LENGTH_SHORT).show();
+		}
 		fetchData();
 	}
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.refresh_list_loader, container, false);
-	}
-
-	@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.kos_frame, container, false);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(CURRENT_PAGE, mKoSData.getCurrentPage());
         super.onSaveInstanceState(outState);
+        if (mKoSData != null) {
+            outState.putInt(CURRENT_PAGE, mKoSData.getCurrentPage());
+        }
     }
-
-//    @Override
-//    public void onRestoreInstanceState(Bundle savedInstanceState){
-//         Call at the start
-//        super.onRestoreInstanceState(savedInstanceState);
-//
-//         Retrieve variables
-//        isGameFinished = savedInstanceState.getBoolean("isGameFinished");
-//    }
 
     @Override
 	public void onAttach(Activity activity) {
@@ -202,7 +189,8 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		return super.onOptionsItemSelected(item);
 	}	
 
-	public void refreshPage() {
+	public void refreshList() {
+        mKoSData.setCurrentPage(0);
 		fetchData();
 	}
 
@@ -224,7 +212,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
             public void fail() {
                 if (getActivity() != null) {
-                    Toast.makeText(mActivity, mActivity.getString(R.string.no_items_found), Toast.LENGTH_LONG).show();
+                    Toast.makeText(mActivity, mActivity.getString(R.string.no_adds_found), Toast.LENGTH_LONG).show();
 
                     mKoSData = new KoSData(mPreferences.getString(SORT_ATTRIBUTE_SERVER, "creationdate"), mPreferences.getInt(SORT_ATTRIBUTE_POS, 0),
                             mPreferences.getString(SORT_ORDER_SERVER, "DESC"), mPreferences.getInt(SORT_ORDER_POS, 0),
@@ -244,7 +232,8 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	private void fillList() {
 		mKoSAdapter = new ListKoSAdapter(mActivity, mKoSData.getKoSItems());
 		setListAdapter(mKoSAdapter);
-		
+
+		// TODO IllegalStateException: Content view not yet created
 		getListView().setSelection(mKoSData.getListPosition());
 		
 		TextView currentPage = (TextView) mActivity.findViewById(R.id.kos_current_page);
@@ -281,7 +270,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		if (mKoSData.getCurrentPage() < mKoSData.getMaxPages())
 		{			
 			mKoSData.setListPosition(0);
-//			mActivity.setKoSDataItems(null);
 			mKoSData.setCurrentPage(mKoSData.getCurrentPage() + 1);
 			fetchData();
 		}
@@ -291,8 +279,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
     	if (mKoSData.getCurrentPage() > 1)
     	{
     		mKoSData.setListPosition(0);
-//    		mActivity.setKoSDataItems(null);
-    		mKoSData.setCurrentPage(mKoSData.getCurrentPage() - 1);	
+    		mKoSData.setCurrentPage(mKoSData.getCurrentPage() - 1);
     		fetchData();
     	}
 	}

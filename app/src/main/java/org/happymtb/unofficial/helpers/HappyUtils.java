@@ -52,6 +52,7 @@ public class HappyUtils {
 		replaceAll("&Aring;", "Å").
 		replaceAll("&Auml;", "Ä").
 		replaceAll("&Ouml;", "Ö").
+		replaceAll("&eacute;", "é").
 		replaceAll("&#228;", "ä").
 		replaceAll("&#229;", "⊛").
 		replaceAll("&#246;", "ö").
@@ -67,6 +68,7 @@ public class HappyUtils {
 		replaceAll("&#33;", "!").
 		replaceAll("&#8217;", "’").
 		replaceAll("&#8211;", "-").
+		replaceAll("&ndash;", "-").
 		replaceAll("&#160;", " ").
 		replaceAll("&#8221;", "\"").
 		replaceAll("&#038;", "&").

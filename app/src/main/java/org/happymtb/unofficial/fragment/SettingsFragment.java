@@ -12,17 +12,19 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class SettingsFragment extends Fragment {
+    public static String TAG = "settimgs_frag";
+
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
 
@@ -56,8 +58,8 @@ public class SettingsFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 SharedPreferences.Editor editor = mPreferences.edit();
                 editor.putString("username", s.toString().trim());
-                editor.putString(ThreadListFragment.COOKIE_NAME, "");
-                editor.putString(ThreadListFragment.COOKIE_VALUE, "");
+                editor.putString(ForumListFragment.COOKIE_NAME, "");
+                editor.putString(ForumListFragment.COOKIE_VALUE, "");
                 editor.apply();
             }
 
@@ -76,8 +78,8 @@ public class SettingsFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 SharedPreferences.Editor editor = mPreferences.edit();
                 editor.putString("password", s.toString().trim());
-                editor.putString(ThreadListFragment.COOKIE_NAME, "");
-                editor.putString(ThreadListFragment.COOKIE_VALUE, "");
+                editor.putString(ForumListFragment.COOKIE_NAME, "");
+                editor.putString(ForumListFragment.COOKIE_VALUE, "");
                 editor.apply();
             }
 
@@ -110,11 +112,17 @@ public class SettingsFragment extends Fragment {
             e.printStackTrace();
         }
 	}
-	
-	@Override
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.settings_frame, container, false);
+    }
+
+    @Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
 		inflater.inflate(R.menu.settings_menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
-	}			
+	}
+
 }

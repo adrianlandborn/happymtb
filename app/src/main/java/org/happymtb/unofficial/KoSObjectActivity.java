@@ -10,34 +10,28 @@ import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 
 public class KoSObjectActivity extends FragmentActivity {
-	private ActionBar mActionBar;
-	Fragment mFragment = new KoSObjectFragment();	
-	int mFrameId = R.id.kosobjectframe;
-	int mFrameLayout = R.layout.kos_object_frame;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
 		
 		// Set up the action bar to show a dropdown list.
-		mActionBar = getActionBar();
-		mActionBar.setDisplayShowTitleEnabled(false);
-		mActionBar.setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
+		setContentView(R.layout.kos_object_frame);
+        Fragment fragment;
 
-		// TODO behövs dessa 3, se ovan?
-		mFragment = new KoSObjectFragment();
-		mFrameId = R.id.kosobjectframe;
-		mFrameLayout = R.layout.kos_object_frame;
-			
-		setContentView(mFrameLayout);
-		getSupportFragmentManager()
-        .beginTransaction()
-        .replace(mFrameId, mFragment)
-        .commit();        
+		if (savedInstanceState == null) {
+			fragment = new KoSObjectFragment();
+			getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.kosobjectframe, fragment, "kos_object")
+					.commit();
+		}
 	}
 	
-	public String GetObjectLink() {
+	public String getObjectLink() {
 		String objectLink = "";
 		Intent intent = getIntent();
 		String action = intent.getAction();

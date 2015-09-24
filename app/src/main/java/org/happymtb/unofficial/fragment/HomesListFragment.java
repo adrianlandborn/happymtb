@@ -24,26 +24,39 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 
 public class HomesListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener, OnChildClickListener {
+	public static String TAG = "home_frag";
 	private ListHomeAdapter mHomeAdapter;
 	private List<Home> mHomes = new ArrayList<Home>();
 	private HomeListTask getHome;
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+
+        if (savedInstanceState != null) {
+            //TODO restore the fragment's state here
+//            String test = savedInstanceState.getString("test");
+//            System.out.println("FRAG RESTORE: " + test);
+
+        }
 		setHasOptionsMenu(true);
 		fetchData();
 		
 	}
-	
-	@Override
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("test", "asdklashslakkjlsadlkj");
+    }
+
+    @Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
 		inflater.inflate(R.menu.home_menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	}		
 	
-	public void refreshPage() {
+	public void refreshList() {
 		fetchData();
 	}
 	private void fetchData() {
@@ -62,7 +75,7 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 
 			public void fail() {
                 if (getActivity() != null) {
-                    Toast.makeText(getActivity(), "Inga objekt hittades", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.no_items_found, Toast.LENGTH_LONG).show();
 
                     showProgress(false);
                 }

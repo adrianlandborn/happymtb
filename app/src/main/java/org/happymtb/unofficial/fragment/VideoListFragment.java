@@ -31,6 +31,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class VideoListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
+	public static String TAG = "video_frag";
+
 	private final static int DIALOG_FETCH_KOS_ERROR = 0;
 	private VideoListTask getVideo;
 	private ListVideoAdapter mVideoAdapter;
@@ -195,8 +197,9 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 //		}
 	}
 
-	public void refreshPage() {
+	public void refreshList() {
 		mVideoData.setListPosition(0);
+		mVideoData.setCurrentPage(0);
 		fetchData();
 	}
 
@@ -221,7 +224,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 		String url = mVideoData.getVideoItems().get(position).getLink();		
 		url = url.replaceAll("video", "video/i");
 		Uri uri = Uri.parse(url);
-		Intent i = new Intent("android.intent.action.VIEW", uri);
+		Intent i = new Intent(Intent.ACTION_VIEW, uri);
 		startActivity(i);				
 	}
 

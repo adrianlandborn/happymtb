@@ -1,11 +1,13 @@
 package org.happymtb.unofficial.fragment;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,8 +32,9 @@ import org.happymtb.unofficial.task.MessageListTask;
 import java.io.File;
 import java.util.List;
 
-public class MessagesListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
+public class PostsListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
     private final static int DIALOG_FETCH_MESSAGES_ERROR = 0;
+    private final static String BASE_URL = "http://happymtb.org/forum/read.php/1/";
 
     private MessageListTask mMessageListTask;
     private MessageData mMessageData;
@@ -50,7 +53,6 @@ public class MessagesListFragment extends RefreshListfragment implements DialogI
 
         mActivity = ((MessageActivity) getActivity());
 
-//		setListShownNoAnimation(true);
         setHasOptionsMenu(true);
 
         getListView().setDivider(null);
@@ -100,7 +102,8 @@ public class MessagesListFragment extends RefreshListfragment implements DialogI
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
-        inflater.inflate(R.menu.message_menu, menu);
+        inflater.inflate(R.menu.posts_menu, menu);
+        menu.findItem(R.id.message_new_post).setVisible(mMessageData.getLogined());
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -154,8 +157,30 @@ public class MessagesListFragment extends RefreshListfragment implements DialogI
 
                 dialog.show();
                 return true;
+            case R.id.message_new_post:
+                String url = BASE_URL + mMessageData.getThreadId() + "/#REPLY";
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(browserIntent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        // TODO Setup options for "Citera"
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // TODO Handle options for "Citera"
+//        switch (item.getItemId()) {
+//            case R.id.message_submenu:
+//                return true;
+        return super.onContextItemSelected(item);
+
+
     }
 
     @Override
@@ -170,7 +195,7 @@ public class MessagesListFragment extends RefreshListfragment implements DialogI
         CookieSyncManager.getInstance().sync();
     }
 
-    public void refreshPage() {
+    public void refreshList() {
         mMessageData.setListPosition(0);
         mActivity.SetMessageDataItems(null);
         fetchData();

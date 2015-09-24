@@ -12,8 +12,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.Toast;
 
 public class ArticlesListFragment extends ItemsListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
+	public static String TAG = "articles_frag";
 	private ArticlesListTask mGetItems;
 	
 	@Override
@@ -30,8 +32,10 @@ public class ArticlesListFragment extends ItemsListFragment implements DialogInt
             }
 
             public void fail() {
-//                mProgressDialog.dismiss();
-            }
+				if (getActivity() != null) {
+					Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+				}
+			}
         });
 
 		mGetItems.execute();

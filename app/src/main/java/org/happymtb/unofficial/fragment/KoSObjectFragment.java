@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class KoSObjectFragment extends Fragment implements DialogInterface.OnCancelListener {
 	private final static int DIALOG_FETCH_KOS_ERROR = 0;
@@ -86,14 +87,13 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 						fillList();
 					}
 					mProgressView.setVisibility(View.INVISIBLE);
-//					mProgressDialog.dismiss();
 				}
 			}
 
 			public void fail() {
 				if (getActivity() != null) {
+					Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
 					mProgressView.setVisibility(View.INVISIBLE);
-//					mProgressDialog.dismiss();
 				}
 			}
 		});

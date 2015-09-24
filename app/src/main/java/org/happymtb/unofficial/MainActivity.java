@@ -13,7 +13,7 @@ import org.happymtb.unofficial.fragment.HomesListFragment;
 import org.happymtb.unofficial.fragment.KoSListFragment;
 import org.happymtb.unofficial.fragment.SettingsFragment;
 import org.happymtb.unofficial.fragment.ShopsListFragment;
-import org.happymtb.unofficial.fragment.ThreadListFragment;
+import org.happymtb.unofficial.fragment.ForumListFragment;
 import org.happymtb.unofficial.fragment.VideoListFragment;
 
 import android.os.Bundle;
@@ -32,32 +32,31 @@ public class MainActivity extends FragmentActivity implements
         ActionBar.OnNavigationListener, KoSSortDialogFragment.SortDialogDataListener,
         KoSSearchDialogFragment.SearchDialogDataListener {
 
-    private static final int HOME = 1;
-    private static final int FORUM = 2;
-    private static final int ARTICLES = 3;
-    private static final int KOP_OCH_SALJ = 4;
-    private static final int VIDEO = 5;
-    private static final int SHOPS = 6;
-    private static final int CALENDAR = 7;
-    private static final int SETTINGS = 8;
-    private static final String CONTENT = "mContent";
+    private static final int HOME = 0;
+    private static final int FORUM = 1;
+    private static final int ARTICLES = 2;
+    private static final int KOP_OCH_SALJ = 3;
+    private static final int VIDEO = 4;
+    private static final int SHOPS = 5;
+    private static final int CALENDAR = 6;
+    private static final int SETTINGS = 7;
     public static ThreadData mThreadData = new ThreadData(1, 1, null, 0, false);
-    Fragment mFragment = new HomesListFragment();
-    int mFrameId = R.id.homeframe;
-    int mFrameLayout = R.layout.home_frame;
+    Fragment mRestoredFragment;
     private ActionBar mActionBar;
-    ArrayAdapter<String> mActionbaradapter;
+    ArrayAdapter<String> mActionbarAdapter;
     private SharedPreferences mPreferences;
 
     private List<SortListener> mSortListeners;
     private List<SearchListener> mSearchListeners;
+
+    private String mCurrentFragmentTag = null;
     /**
      * The serialization (saved instance state) Bundle key representing the
      * current dropdown position.
      */
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
+    private static final String CURRENT_FRAGMENT_TAG = "current_fragment_tag";
     private Toast mBackToast;
-    private Fragment mContent; //Used to store eg. Rotation changes
 
     public interface SortListener {
         void onSortParamChanged(int attPos, int orderPos);
@@ -70,13 +69,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Save fragments
-        if (savedInstanceState != null) {
-            //Restore the fragment's instance
-            mContent = getSupportFragmentManager().getFragment(
-                    savedInstanceState, CONTENT);
-        }
+        setContentView(R.layout.activity_main);
 
         // Set up the action bar to show a dropdown list.
         mActionBar = getActionBar();
@@ -86,7 +79,7 @@ public class MainActivity extends FragmentActivity implements
 
         // Set up the dropdown list navigation in the action bar.
 
-        mActionbaradapter = new ArrayAdapter<String>(mActionBar.getThemedContext(),
+        mActionbarAdapter = new ArrayAdapter<String>(mActionBar.getThemedContext(),
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1, new String[]{
                 getString(R.string.title_bar_home),
@@ -98,14 +91,26 @@ public class MainActivity extends FragmentActivity implements
                 getString(R.string.title_bar_calendar),
                 getString(R.string.title_bar_settings),});
 
-        mActionBar.setListNavigationCallbacks(mActionbaradapter, this);
         // Specify a SpinnerAdapter to populate the dropdown list.
+        mActionBar.setListNavigationCallbacks(mActionbarAdapter, this);
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mActionBar.setSelectedNavigationItem(mPreferences.getInt("startpage", 0));
 
-        mSortListeners = new ArrayList<SortListener>();
-        mSearchListeners = new ArrayList<SearchListener>();
+        int startPage = mPreferences.getInt("startpage", HOME);
+
+        mActionBar.setSelectedNavigationItem(startPage);
+
+        // Restore fragments
+        if (savedInstanceState != null) {
+            //Restore the fragment's instance
+//            startPage =  savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM);
+
+            mCurrentFragmentTag = savedInstanceState.getString(CURRENT_FRAGMENT_TAG);
+            mRestoredFragment = getSupportFragmentManager().findFragmentByTag(mCurrentFragmentTag);
+        } else {
+            startPage = mPreferences.getInt("startpage", HOME);
+            mActionBar.setSelectedNavigationItem(startPage);
+        }
     }
 
     @Override
@@ -119,13 +124,10 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         // Serialize the current dropdown position.
         outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar().getSelectedNavigationIndex());
-
-        //Save the fragment's instance
-        // TODO testa lösningen nedan Nullpointger
-        //getSupportFragmentManager().putFragment(outState, CONTENT, mContent);
-
+        outState.putString(CURRENT_FRAGMENT_TAG, mCurrentFragmentTag);
     }
 
     @Override
@@ -145,52 +147,50 @@ public class MainActivity extends FragmentActivity implements
 
     private void switchContent(int position) {
 
-        switch (position + 1) {
+        if (mRestoredFragment != null) {
+            mRestoredFragment = null;
+
+            return;
+        }
+
+        Fragment frag = null;
+        switch (position) {
             case HOME:
-                mFragment = new HomesListFragment();
-                mFrameId = R.id.homeframe;
-                mFrameLayout = R.layout.home_frame;
+                frag = new HomesListFragment();
+                mCurrentFragmentTag = HomesListFragment.TAG;
                 break;
             case FORUM:
-                mFragment = new ThreadListFragment();
-                mFrameId = R.id.threadframe;
-                mFrameLayout = R.layout.thread_frame;
+                frag = new ForumListFragment();
+                mCurrentFragmentTag = ForumListFragment.TAG;
                 break;
             case ARTICLES:
-                mFragment = new ArticlesListFragment();
-                mFrameId = R.id.content_frame;
-                mFrameLayout = R.layout.content_frame;
+                frag = new ArticlesListFragment();
+                mCurrentFragmentTag = ArticlesListFragment.TAG;
                 break;
             case KOP_OCH_SALJ:
-                mFragment = new KoSListFragment();
-                mFrameId = R.id.kosframe;
-                mFrameLayout = R.layout.kos_frame;
+                frag = new KoSListFragment();
+                mCurrentFragmentTag = KoSListFragment.TAG;
                 break;
             case VIDEO:
-                mFragment = new VideoListFragment();
-                mFrameId = R.id.videoframe;
-                mFrameLayout = R.layout.video_frame;
+                frag = new VideoListFragment();
+                mCurrentFragmentTag = VideoListFragment.TAG;
                 break;
             case SHOPS:
-                mFragment = new ShopsListFragment();
-                mFrameId = R.id.content_frame;
-                mFrameLayout = R.layout.content_frame;
+                frag = new ShopsListFragment();
+                mCurrentFragmentTag = ShopsListFragment.TAG;
                 break;
             case CALENDAR:
-                mFragment = new CalendarListFragment();
-                mFrameId = R.id.calendarframe;
-                mFrameLayout = R.layout.calendar_frame;
+                frag = new CalendarListFragment();
+                mCurrentFragmentTag = CalendarListFragment.TAG;
                 break;
             case SETTINGS:
-                mFragment = new SettingsFragment();
-                mFrameId = R.id.settingsframe;
-                mFrameLayout = R.layout.settings_frame;
+                frag = new SettingsFragment();
+                mCurrentFragmentTag = SettingsFragment.TAG;
                 break;
         }
-        setContentView(mFrameLayout);
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(mFrameId, mFragment)
+                .replace(R.id.content_frame, frag, mCurrentFragmentTag)
                 .addToBackStack(null)
                 .commit();
     }
@@ -253,6 +253,9 @@ public class MainActivity extends FragmentActivity implements
     }
 
     public void addSortListener(SortListener l) {
+        if (mSortListeners == null ) {
+            mSortListeners = new ArrayList<SortListener>();
+        }
         mSortListeners.add(l);
     }
 
@@ -261,6 +264,9 @@ public class MainActivity extends FragmentActivity implements
     }
 
     public void addSearchListener(SearchListener l) {
+        if (mSearchListeners == null) {
+            mSearchListeners = new ArrayList<SearchListener>();
+        }
         mSearchListeners.add(l);
     }
 
@@ -273,7 +279,6 @@ public class MainActivity extends FragmentActivity implements
         for (SortListener l : mSortListeners) {
             l.onSortParamChanged(attrPos, orderPos);
         }
-
     }
 
     @Override

@@ -44,7 +44,9 @@
     
     <string name="collapse">Dra ihop</string>
     <string name="expand">Expandera</string>
+    <string name="error">Något gick fel</string>
     <string name="no_items_found">Inga objekt hittades</string>
+    <string name="no_adds_found">Inga annonser hittades</string>
     <string name="messages_not_found">Kunde inte hämta meddelanden</string>
     <string name="OK">Ok</string>
 </resources>

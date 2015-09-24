@@ -3,13 +3,52 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent">	
+	android:layout_height="fill_parent">
 
 	<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    	android:id="@+id/kosframe"
-    	android:layout_width="fill_parent"
-    	android:layout_height="0dp"
-    	android:layout_weight="1" />		
+		android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+		<FrameLayout
+			android:id="@+id/list_container_id"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<TextView
+				android:id="@+id/empty_id"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:gravity="center" />
+
+			<android.support.v4.widget.SwipeRefreshLayout
+				android:id="@+id/activity_main_swipe_refresh_layout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+
+				<ListView
+					android:id="@android:id/list"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:drawSelectorOnTop="false" />
+
+			</android.support.v4.widget.SwipeRefreshLayout>
+		</FrameLayout>
+		<LinearLayout
+			android:id="@+id/progress_container_id"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:orientation="vertical"
+			android:visibility="visible">
+
+			<ProgressBar
+				style="?android:attr/progressBarStyleLarge"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
+		</LinearLayout>
+	</FrameLayout>
 
 	<LinearLayout
 		android:orientation="horizontal"
