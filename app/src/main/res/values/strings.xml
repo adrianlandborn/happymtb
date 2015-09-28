@@ -1,38 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>   
-    <string name="title_section3">Section 3</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section1">Section 1</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Inställningar</string>
-    
     <string name="app_name">HappyMTB</string>
-    
+
     <string name="title_bar_home">Förstasidan</string>
     <string name="title_bar_forum">Forum</string>
     <string name="title_bar_kos">Köp &amp; Sälj</string>
     <string name="title_bar_shops">Butiker</string>
-    <string name="title_bar_video">Video</string>
+    <string name="title_bar_videos">Video</string>
     <string name="title_bar_articles">Artiklar</string>
     <string name="title_bar_calendar">Kalender</string>
 	<string name="title_bar_settings">Inställningar</string>
-    
+
     <string name="thread_not_logged_in">Ej inloggad</string>
     <string name="thread_page">Sida:&#160;</string>
     <string name="thread_by">&#160;av&#160;</string>
     <string name="thread_one">1</string>
     <string name="thread_offline">Offline</string>
-    <string name="thread_new">ny</string>
-    
+    <string name="thread_new">Ny</string>
+    <string name="thread_download_error">Det blev något fel vid hämtning av trådarna</string>
+    <string name="thread_error_mark_as_read">Det blev något fel när alla inläggen skulle markeras som lästa</string>
+
     <string name="kos_page">Sida:&#160;</string>
     <string name="kos_by">&#160;av&#160;</string>
     <string name="kos_one">1</string>
 
     <string name="video_page">Sida:&#160;</string>
     <string name="video_by">&#160;av&#160;</string>
-    <string name="video_one">1</string>    
-    
-    <string name="main_happymtb">HappyMTB</string>
+    <string name="video_one">1</string>
+
     <string name="main_home">Förstasidan</string>
     <string name="main_forum">Forum</string>
     <string name="main_articles">Artiklar</string>
@@ -46,7 +41,14 @@
     <string name="expand">Expandera</string>
     <string name="error">Något gick fel</string>
     <string name="no_items_found">Inga objekt hittades</string>
-    <string name="no_adds_found">Inga annonser hittades</string>
+    <string name="kos_no_items_found">Inga annonser hittades</string>
     <string name="messages_not_found">Kunde inte hämta meddelanden</string>
     <string name="OK">Ok</string>
+    <string name="jump">Hoppa</string>
+    <string name="search">Sök</string>
+    <string name="sort">Sortera</string>
+    <string name="cancel">Avbryt</string>
+    <string name="enter_page_number">Skriv in sidnummer som du vill hoppa till (1 - %1$d)</string>
+    <string name="goto_page">Gå till sidan...</string>
+    <string name="error_message">Felmeddelande</string>
 </resources>

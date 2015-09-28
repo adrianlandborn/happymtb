@@ -37,19 +37,19 @@ public class ListHomeAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		HomeRowView HomeRowV = null;
+		HomeRowView homeRowView;
 
 		if (convertView == null) {
-			HomeRowV = new HomeRowView(mContext);
+			homeRowView = new HomeRowView(mContext);
 		} else {
-			HomeRowV = (HomeRowView) convertView;
+			homeRowView = (HomeRowView) convertView;
 		}
 
-		HomeRowV.setTitle(mHomes.get(position).getTitle());
-		HomeRowV.setText(mHomes.get(position).getText());		
-		HomeRowV.setDate(mHomes.get(position).getDate());
+		homeRowView.setTitle(mHomes.get(position).getTitle());
+		homeRowView.setText(mHomes.get(position).getText());
+		homeRowView.setDate(mHomes.get(position).getDate());
 		
-		return HomeRowV;
+		return homeRowView;
 	}
 
 }

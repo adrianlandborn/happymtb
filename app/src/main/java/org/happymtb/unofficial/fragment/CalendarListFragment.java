@@ -42,6 +42,7 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 	private ListCalendarAdapter mCalendarAdapter;
 	private List<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
 	MainActivity mActivity;
+    private ListView mListView;
 	TextView mCategoryView;
 	TextView mRegionView;
 	TextView mSearchView;		
@@ -49,7 +50,8 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 	String mRegion = "";
 	String mSearch = "";		
 	String mCategoryPosition = "";	
-	String mRegionPosition = "";	
+	String mRegionPosition = "";
+    int mFirstVisiblePos = 0;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -60,7 +62,11 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 		mActivity = (MainActivity) getActivity();
 		mCategoryView = (TextView) mActivity.findViewById(R.id.calendar_category);
 		mRegionView = (TextView) mActivity.findViewById(R.id.calendar_region);
-		mSearchView = (TextView) mActivity.findViewById(R.id.calendar_search);		
+		mSearchView = (TextView) mActivity.findViewById(R.id.calendar_search);
+
+        if (savedInstanceState != null) {
+            mFirstVisiblePos = savedInstanceState.getInt(CURRENT_POSITION, 0);
+        }
 		
 		fetchData();
 
@@ -70,8 +76,15 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View frame = inflater.inflate(R.layout.calendar_frame, container, false);
-        return frame;
+        return inflater.inflate(R.layout.calendar_frame, container, false);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mListView != null) {
+            outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
+        }
     }
 
     @Override
@@ -90,7 +103,6 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 	}		
 	
 	private void fetchData() {
-
         showProgress(true);
 
         mGetCalendarTask = new CalendarListTask();
@@ -117,8 +129,9 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
     private void fillList() {
 		mCalendarAdapter = new ListCalendarAdapter(mActivity, mCalendarItems);
 		setListAdapter(mCalendarAdapter);
-		
-//		getListView().setSelection(mCalendarItems.getListPosition());
+
+        mListView = getListView();
+        mListView.setSelection(mFirstVisiblePos);
 		
 		mCategoryView.setText("Kategori: " + mCategory);
 		mRegionView.setText("Region: " + mRegion);	
@@ -138,7 +151,8 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 	}
 	
 	public void refreshList() {
-//		mKoSData.setListPosition(0);
+        mFirstVisiblePos = 0;
+
 		fetchData();
 	}
 	
@@ -171,7 +185,7 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 			builder.setTitle("Felmeddelande");
 			builder.setMessage(
 					"Det blev något fel vid hämtning av kalendern")
-					.setPositiveButton("Ok",
+					.setPositiveButton(R.string.OK,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
@@ -199,7 +213,7 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 			LayoutInflater inflater = activity.getLayoutInflater();
 			final View view = inflater.inflate(R.layout.calendar_search, null);
 			builder.setView(view);
-			builder.setPositiveButton("Sök", new DialogInterface.OnClickListener() {
+			builder.setPositiveButton(R.string.search, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
 
@@ -233,7 +247,7 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 
 				}
 			});
-			builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+			builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
 					CalendarSearchDialogFragment.this.getDialog().cancel();
 				}

@@ -37,21 +37,21 @@ public class ListVideoAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		VideoRowView VideoRowV = null;
+		VideoRowView videoRowView;
 
 		if (convertView == null) {
-			VideoRowV = new VideoRowView(mContext);
+			videoRowView = new VideoRowView(mContext);
 		} else {
-			VideoRowV = (VideoRowView) convertView;
+			videoRowView = (VideoRowView) convertView;
 		}
 
-		VideoRowV.setTitle(mVideoItems.get(position).getTitle());
-		VideoRowV.setDate(mVideoItems.get(position).getDate());
-		VideoRowV.setUploader(mVideoItems.get(position).getUploader());
-		VideoRowV.setCategory(mVideoItems.get(position).getCategory());
-		VideoRowV.setLength(mVideoItems.get(position).getLength());
-		VideoRowV.setObjectImage(mVideoItems.get(position).getObjectImage());
+		videoRowView.setTitle(mVideoItems.get(position).getTitle());
+		videoRowView.setDate(mVideoItems.get(position).getDate());
+		videoRowView.setUploader(mVideoItems.get(position).getUploader());
+		videoRowView.setCategory(mVideoItems.get(position).getCategory());
+		videoRowView.setLength(mVideoItems.get(position).getLength());
+		videoRowView.setObjectImage(mVideoItems.get(position).getObjectImage());
 
-		return VideoRowV;
+		return videoRowView;
 	}
 }

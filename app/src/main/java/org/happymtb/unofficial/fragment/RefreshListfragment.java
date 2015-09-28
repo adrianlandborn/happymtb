@@ -15,6 +15,7 @@ import org.happymtb.unofficial.R;
 public abstract class RefreshListfragment extends ListFragment {
 
     public final static String CURRENT_PAGE = "current_page";
+    public final static String CURRENT_POSITION = "current_position";
 
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected View mProgressView;

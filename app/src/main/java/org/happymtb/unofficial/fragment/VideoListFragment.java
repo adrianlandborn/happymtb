@@ -21,10 +21,12 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,21 +43,39 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 	private Boolean mPictureList;
 	private SharedPreferences preferences;
     private MainActivity mActivity;
-	
+	private ListView mListView;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
         mActivity = (MainActivity) getActivity();
-//        setListShownNoAnimation(false);
-		setHasOptionsMenu(true);		
+		setHasOptionsMenu(true);
+
+		if (savedInstanceState != null) {
+			mVideoData.setCurrentPage(savedInstanceState.getInt(CURRENT_PAGE, 1));
+			mVideoData.setListPosition(savedInstanceState.getInt(CURRENT_POSITION, 0));
+		}
 		fetchData();
 		
 		preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         mPictureList = preferences.getBoolean("videopicturelist", true);
-		
 	}
-	
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt(CURRENT_PAGE, mVideoData.getCurrentPage());
+		if (mListView != null) {
+			outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
+		}
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.video_frame, container, false);
+	}
+
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
@@ -82,14 +102,14 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 		case R.id.video_go_to_page:			
 			mAlertDialog = new AlertDialog.Builder(mActivity);
 
-			mAlertDialog.setTitle("Gå till sidan...");
-			mAlertDialog.setMessage("Skriv in sidnummer som du vill hoppa till (1 - " + mVideoData.getMaxPages() + ")");
+			mAlertDialog.setTitle(R.string.goto_page);
+			mAlertDialog.setMessage(getString(R.string.enter_page_number, mVideoData.getMaxPages()));
 
 			// Set an EditText view to get user input 
 			final EditText input = new EditText(mActivity);
 			mAlertDialog.setView(input);
 
-			mAlertDialog.setPositiveButton("Hoppa", new DialogInterface.OnClickListener() {
+			mAlertDialog.setPositiveButton(R.string.jump, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Do something with value!
 					if (HappyUtils.isInteger(input.getText().toString())) {
@@ -99,7 +119,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 				}
 			});
 
-			mAlertDialog.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+			mAlertDialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Canceled.
 				}
@@ -113,7 +133,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 			return true;	
 		case R.id.video_new_item:
 			String url = "http://happymtb.org/video/upload.php";
-			Intent browserIntent = new Intent("android.intent.action.VIEW", Uri.parse(url));
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			startActivity(browserIntent);							
 			return true;				
 		}				
@@ -161,7 +181,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 
 			public void fail() {
                 if (getActivity() != null) {
-                    Toast.makeText(getActivity(), "Inga objekt hittades", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.no_items_found, Toast.LENGTH_LONG).show();
                     mVideoData = new VideoData(1, 1, "", 0, null, 0);
                     showProgress(false);
                 }
@@ -174,7 +194,9 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 		mVideoAdapter = new ListVideoAdapter(mActivity, mVideoData.getVideoItems());
 		setListAdapter(mVideoAdapter);
 
-		getListView().setSelection(mVideoData.getListPosition());
+		mListView = getListView();
+
+		mListView.setSelection(mVideoData.getListPosition());
 		
 		TextView CurrentPage = (TextView) mActivity.findViewById(R.id.video_current_page);
 		CurrentPage.setText(Integer.toString(mVideoData.getCurrentPage()));		
@@ -199,7 +221,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 
 	public void refreshList() {
 		mVideoData.setListPosition(0);
-		mVideoData.setCurrentPage(0);
+		mVideoData.setCurrentPage(1);
 		fetchData();
 	}
 
@@ -234,10 +256,10 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 		switch (id) {
 		case DIALOG_FETCH_KOS_ERROR:
 			builder = new AlertDialog.Builder(mActivity);
-			builder.setTitle("Felmeddelande");
+			builder.setTitle(R.string.error_message);
 			builder.setMessage(
 					"Det blev något fel vid hämtning av köp och sälj")
-					.setPositiveButton("Ok",
+					.setPositiveButton(R.string.OK,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
@@ -284,7 +306,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 //               	   fetchData();
 //               }
 //	        });
-//	        builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+//	        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 //	        	public void onClick(DialogInterface dialog, int id) {
 //	    		   VideoSearchDialogFragment.this.getDialog().cancel();
 //	        	}

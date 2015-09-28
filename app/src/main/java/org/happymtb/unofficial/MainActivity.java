@@ -86,7 +86,7 @@ public class MainActivity extends FragmentActivity implements
                 getString(R.string.title_bar_forum),
                 getString(R.string.title_bar_articles),
                 getString(R.string.title_bar_kos),
-                getString(R.string.title_bar_video),
+                getString(R.string.title_bar_videos),
                 getString(R.string.title_bar_shops),
                 getString(R.string.title_bar_calendar),
                 getString(R.string.title_bar_settings),});
@@ -195,21 +195,13 @@ public class MainActivity extends FragmentActivity implements
                 .commit();
     }
 
-    private void back() {
+    @Override
+    public void onBackPressed() {
         if (mBackToast != null && mBackToast.getView().getWindowToken() != null) {
             finish();
         } else {
             mBackToast = Toast.makeText(this, "Tryck igen för att avsluta", Toast.LENGTH_SHORT);
             mBackToast.show();
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mActionBar.getSelectedNavigationIndex() == mPreferences.getInt("startpage", 0)) {
-            back();
-        } else {
-            mActionBar.setSelectedNavigationItem(mPreferences.getInt("startpage", 0));
         }
     }
 
@@ -241,10 +233,10 @@ public class MainActivity extends FragmentActivity implements
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
             switch (event.getAction()) {
                 case KeyEvent.ACTION_DOWN:
-                    if (mActionBar.getSelectedNavigationIndex() == mPreferences.getInt("startpage", 0)) {
-                        back();
-                    } else {
+                    if (mActionBar.getSelectedNavigationIndex() == SETTINGS) {
                         mActionBar.setSelectedNavigationItem(mPreferences.getInt("startpage", 0));
+                    } else {
+                        onBackPressed();
                     }
                     return true;
             }

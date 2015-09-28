@@ -38,7 +38,7 @@ public class ListKoSAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		KoSRowView kosRowView = null;
+		KoSRowView kosRowView;
 
 		if (convertView == null) {
 			kosRowView = new KoSRowView(mContext);

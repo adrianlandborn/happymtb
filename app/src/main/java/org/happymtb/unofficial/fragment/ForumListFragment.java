@@ -50,12 +50,13 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 	private MarkAsReadTask mMarkAsRead;
 	private SharedPreferences mPreferences;
 	private String mUsername = "";
-	MainActivity mActivity;
-	TextView mLoginStatus;
-	TextView mPageText;
-	TextView mCurrentPage;		
-	TextView mByText;
-	TextView mMaxPages;
+	private MainActivity mActivity;
+	private ListView mListView;
+	private TextView mLoginStatus;
+	private TextView mPageText;
+	private TextView mCurrentPage;
+	private TextView mByText;
+	private TextView mMaxPages;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,8 +79,7 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 		if (savedInstanceState != null) {
 			// Restore Current page.
 			mThreadData.setCurrentPage(savedInstanceState.getInt(CURRENT_PAGE, 1));
-
-			Toast.makeText(mActivity, "setCurrentPage: " + savedInstanceState.getInt(CURRENT_PAGE, 1), Toast.LENGTH_LONG).show();
+			mThreadData.setListPosition(savedInstanceState.getInt(CURRENT_POSITION, 0));
 		}
 
 		if (!mActivity.getThreadLoggedIn()) {
@@ -175,6 +175,7 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putInt(CURRENT_PAGE, mThreadData.getCurrentPage());
+		outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
 		super.onSaveInstanceState(outState);
 	}
 
@@ -205,15 +206,15 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
             case R.id.thread_go_to_page:
                 AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
 
-                alert.setTitle("Gå till sidan...");
-                alert.setMessage("Skriv in sidnummer som du vill hoppa till (1 - " + mThreadData.getMaxPages() + ")");
+                alert.setTitle(R.string.goto_page);
+                alert.setMessage(getString(R.string.enter_page_number, mThreadData.getMaxPages()));
 
 
                 // Set an EditText view to get user input
                 final EditText input = new EditText(mActivity);
                 alert.setView(input);
 
-                alert.setPositiveButton("Hoppa", new DialogInterface.OnClickListener() {
+                alert.setPositiveButton(R.string.jump, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // Do something with value!
                         if (HappyUtils.isInteger(input.getText().toString())) {
@@ -223,7 +224,7 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
                     }
                 });
 
-                alert.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+                alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // Canceled.
                     }
@@ -237,7 +238,7 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
                 return true;
             case R.id.thread_new_thread:
                 String url = "http://happymtb.org/forum/posting.php/1";
-                Intent browserIntent = new Intent("android.intent.action.VIEW", Uri.parse(url));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(browserIntent);
                 return true;
 		}
@@ -277,7 +278,7 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 	
 	public void refreshList() {
 		mThreadData.setListPosition(0);
-		mThreadData.setCurrentPage(0);
+		mThreadData.setCurrentPage(1);
 		mActivity.setThreadDataItems(null);
 		fetchData();
 	}
@@ -330,8 +331,10 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 	private void fillList() {
 		ListThreadsAdapter adapter = new ListThreadsAdapter(mActivity, mThreadData.getThreads());
 		setListAdapter(adapter);
+
+		mListView = getListView();
 		
-		getListView().setSelection(mThreadData.getListPosition());
+		mListView.setSelection(mThreadData.getListPosition());
 		
 		mCurrentPage.setText(Integer.toString(mThreadData.getCurrentPage()));					
 		mMaxPages.setText(Integer.toString(mThreadData.getThreads().get(0).getNumberOfThreadPages()));
@@ -358,9 +361,9 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 		switch (id) {
 		case DIALOG_FETCH_THREADS_ERROR:
 			builder = new AlertDialog.Builder(mActivity);
-			builder.setTitle("Felmeddelande");
-			builder.setMessage("Det blev något fel vid hämtning av trådarna")
-					.setPositiveButton("Ok",
+			builder.setTitle(R.string.error_message);
+			builder.setMessage(R.string.thread_download_error)
+					.setPositiveButton(R.string.OK,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
@@ -373,10 +376,10 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 
 		case DIALOG_MARK_AS_READ_ERROR:
 			builder = new AlertDialog.Builder(mActivity);
-			builder.setTitle("Felmeddelande");
+			builder.setTitle(R.string.error_message);
 			builder.setMessage(
-					"Det blev något fel när alla inläggen skulle markeras som lästa")
-					.setPositiveButton("Ok",
+					R.string.thread_error_mark_as_read)
+					.setPositiveButton(R.string.OK,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {

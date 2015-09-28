@@ -45,8 +45,7 @@ public class LoginTask extends AsyncTask<Object, Void, Boolean> {
 
 			httpclient.execute(httpget);
 
-			HttpPost httpost = new HttpPost(
-					"http://happymtb.org/forum/login.php");
+			HttpPost httpost = new HttpPost("http://happymtb.org/forum/login.php");
 
 			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 			nvps.add(new BasicNameValuePair("forum_id", "1"));

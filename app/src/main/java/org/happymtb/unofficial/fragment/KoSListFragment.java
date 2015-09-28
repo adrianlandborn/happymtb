@@ -62,8 +62,9 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	private KoSData mKoSData;
 	private SharedPreferences mPreferences;
 	private boolean mPictureList;
-	MainActivity mActivity;
-	FragmentManager mFragmentManager;
+	private MainActivity mActivity;
+	private FragmentManager mFragmentManager;
+    private ListView mListView;
 
 
 	/** Called when the activity is first created. */
@@ -88,6 +89,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         if (savedInstanceState != null) {
 			// Restore Current page.
 			mKoSData.setCurrentPage(savedInstanceState.getInt(CURRENT_PAGE, 1));
+            mKoSData.setListPosition(savedInstanceState.getInt(CURRENT_POSITION, 0));
 
 //			Toast.makeText(mActivity, "setCurrentPage: " + savedInstanceState.getInt(CURRENT_PAGE, 1), Toast.LENGTH_SHORT).show();
 		}
@@ -104,6 +106,9 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         super.onSaveInstanceState(outState);
         if (mKoSData != null) {
             outState.putInt(CURRENT_PAGE, mKoSData.getCurrentPage());
+        }
+        if (mListView != null) {
+            outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
         }
     }
 
@@ -142,24 +147,24 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 			return true;
 		case R.id.kos_sort:
 			mFragmentManager = mActivity.getSupportFragmentManager();
-	        KoSSortDialogFragment KoSSortDialog = new KoSSortDialogFragment();
-	        KoSSortDialog.show(mFragmentManager, "fragment_edit_name");
+	        KoSSortDialogFragment koSSortDialog = new KoSSortDialogFragment();
+	        koSSortDialog.show(mFragmentManager, "kos_sort_dialog");
 			return true;						
 		case R.id.kos_search:			
 			mFragmentManager = mActivity.getSupportFragmentManager();
-			KoSSearchDialogFragment KoSSearchDialog = new KoSSearchDialogFragment();
-	        KoSSearchDialog.show(mFragmentManager, "fragment_edit_name");
+			KoSSearchDialogFragment koSSearchDialog = new KoSSearchDialogFragment();
+	        koSSearchDialog.show(mFragmentManager, "kos_search_dialog");
 			return true;			
 		case R.id.kos_go_to_page:			
 			AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
 
-			alert.setTitle("Gå till sidan...");
-			alert.setMessage("Skriv in sidnummer som du vill hoppa till (1 - " + mKoSData.getMaxPages() + ")");
+			alert.setTitle(R.string.goto_page);
+			alert.setMessage(getString(R.string.enter_page_number, mKoSData.getMaxPages()));
 
 			// Set an EditText view to get user input 
 			final EditText input = new EditText(mActivity);
 			alert.setView(input);
-			alert.setPositiveButton("Hoppa", new DialogInterface.OnClickListener() {
+			alert.setPositiveButton(R.string.jump, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Do something with value!
 					if (HappyUtils.isInteger(input.getText().toString())) {
@@ -169,7 +174,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 				}
 			});
 
-			alert.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+			alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Canceled.
 				}
@@ -182,7 +187,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 			return true;	
 		case R.id.kos_new_item:
 			String url = "http://happymtb.org/annonser/index.php?page=add";
-			Intent browserIntent = new Intent("android.intent.action.VIEW", Uri.parse(url));
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			startActivity(browserIntent);							
 			return true;			
 		}
@@ -190,8 +195,9 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	}	
 
 	public void refreshList() {
-        mKoSData.setCurrentPage(0);
-		fetchData();
+        mKoSData.setCurrentPage(1);
+        mKoSData.setListPosition(0);
+        fetchData();
 	}
 
 	private void fetchData() {
@@ -212,7 +218,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
             public void fail() {
                 if (getActivity() != null) {
-                    Toast.makeText(mActivity, mActivity.getString(R.string.no_adds_found), Toast.LENGTH_LONG).show();
+                    Toast.makeText(mActivity, mActivity.getString(R.string.kos_no_items_found), Toast.LENGTH_LONG).show();
 
                     mKoSData = new KoSData(mPreferences.getString(SORT_ATTRIBUTE_SERVER, "creationdate"), mPreferences.getInt(SORT_ATTRIBUTE_POS, 0),
                             mPreferences.getString(SORT_ORDER_SERVER, "DESC"), mPreferences.getInt(SORT_ORDER_POS, 0),
@@ -233,8 +239,8 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		mKoSAdapter = new ListKoSAdapter(mActivity, mKoSData.getKoSItems());
 		setListAdapter(mKoSAdapter);
 
-		// TODO IllegalStateException: Content view not yet created
-		getListView().setSelection(mKoSData.getListPosition());
+        mListView = getListView();
+		mListView.setSelection(mKoSData.getListPosition());
 		
 		TextView currentPage = (TextView) mActivity.findViewById(R.id.kos_current_page);
 		currentPage.setText(Integer.toString(mKoSData.getCurrentPage()));

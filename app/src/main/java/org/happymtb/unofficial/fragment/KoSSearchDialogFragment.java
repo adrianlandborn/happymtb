@@ -48,7 +48,7 @@ public class KoSSearchDialogFragment extends DialogFragment {
 		searchRegion.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_REGION_SPINNER, 0));
 		searchType.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_TYPE_SPINNER, 0));
 
-				builder.setPositiveButton("Sök", new DialogInterface.OnClickListener() {
+				builder.setPositiveButton(R.string.search, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						activity.onSearchData(
@@ -58,7 +58,7 @@ public class KoSSearchDialogFragment extends DialogFragment {
 								searchType.getSelectedItemPosition());
 					}
 				});
-        builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 KoSSearchDialogFragment.this.getDialog().cancel();
             }

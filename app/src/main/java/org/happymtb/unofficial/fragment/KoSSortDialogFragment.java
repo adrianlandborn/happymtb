@@ -43,13 +43,13 @@ public class KoSSortDialogFragment extends DialogFragment {
         orderSpinner.setSelection(mPreferences.getInt(KoSListFragment.SORT_ORDER_POS, 0));
 
         builder.setView(view);
-        builder.setPositiveButton("Sortera", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.sort, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 activity.onSortData(attSpinner.getSelectedItemPosition(), orderSpinner.getSelectedItemPosition());
             }
         });
-        builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 KoSSortDialogFragment.this.getDialog().cancel();
             }

@@ -110,6 +110,4 @@ public class KoSObjectItem implements Serializable {
 	public void setPrice(String mPrice) {
 		this.mPrice = mPrice;
 	}
-
-
 }

@@ -39,19 +39,19 @@ public class ListMessagesAdapter extends BaseAdapter
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		MessageRowView MessageRowV = null;
+		MessageRowView messageRowView;
 		
         if (convertView == null) {  
-        	MessageRowV = new MessageRowView(mContext);
+        	messageRowView = new MessageRowView(mContext);
         } else {
-        	MessageRowV = (MessageRowView) convertView;
+        	messageRowView = (MessageRowView) convertView;
         }            
 		       
-        MessageRowV.setTitle(mMessages.get(position).getTitle());
-        MessageRowV.setText(mMessages.get(position).getText());
-        MessageRowV.setWrittenBy("Postat av: " + mMessages.get(position).getWrittenBy());
-        MessageRowV.setDate("Datum: " + mMessages.get(position).getDate());        
+        messageRowView.setTitle(mMessages.get(position).getTitle());
+        messageRowView.setText(mMessages.get(position).getText());
+        messageRowView.setWrittenBy("Postat av: " + mMessages.get(position).getWrittenBy());
+        messageRowView.setDate("Datum: " + mMessages.get(position).getDate());
                 
-        return MessageRowV;    
+        return messageRowView;
 	}
 }

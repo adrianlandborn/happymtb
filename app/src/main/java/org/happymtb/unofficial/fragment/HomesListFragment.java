@@ -28,15 +28,15 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 	private ListHomeAdapter mHomeAdapter;
 	private List<Home> mHomes = new ArrayList<Home>();
 	private HomeListTask getHome;
+	private ListView mListView;
+	private int mFirstVisiblePos;
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
         if (savedInstanceState != null) {
-            //TODO restore the fragment's state here
-//            String test = savedInstanceState.getString("test");
-//            System.out.println("FRAG RESTORE: " + test);
 
+			mFirstVisiblePos = savedInstanceState.getInt(CURRENT_POSITION, 0);
         }
 		setHasOptionsMenu(true);
 		fetchData();
@@ -46,7 +46,9 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("test", "asdklashslakkjlsadlkj");
+        if (mListView != null) {
+            outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
+        }
     }
 
     @Override
@@ -57,6 +59,7 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 	}		
 	
 	public void refreshList() {
+		mFirstVisiblePos = 0;
 		fetchData();
 	}
 	private void fetchData() {
@@ -87,8 +90,10 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 	protected void fillList() {
         if (getActivity() != null) {
             if (mHomeAdapter == null) {
+				mListView = getListView();
                 mHomeAdapter = new ListHomeAdapter(getActivity(), mHomes);
                 setListAdapter(mHomeAdapter);
+				mListView.setSelection(mFirstVisiblePos);
             } else {
                 mHomeAdapter.notifyDataSetChanged();
             }

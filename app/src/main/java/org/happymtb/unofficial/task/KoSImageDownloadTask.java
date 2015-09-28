@@ -13,10 +13,10 @@ import android.os.AsyncTask;
 
 public class KoSImageDownloadTask extends AsyncTask<Object, Void, Boolean> {
 
-	ListKoSAdapter KoSAdapter;
+	ListKoSAdapter koSAdapter;
 	List<KoSItem> mKoSItems = new ArrayList<KoSItem>();
 
-	private Drawable LoadImageFromWebOperations(String url) {
+	private Drawable loadImageFromWebOperations(String url) {
 		try {
 			InputStream is = (InputStream) new URL(url).getContent();
 			Drawable d = Drawable.createFromStream(is, "src name");			
@@ -32,9 +32,9 @@ public class KoSImageDownloadTask extends AsyncTask<Object, Void, Boolean> {
 	protected Boolean doInBackground(Object... params) {
 
 		mKoSItems = (List<KoSItem>) params[0];
-		KoSAdapter = (ListKoSAdapter) params[1];		
+		koSAdapter = (ListKoSAdapter) params[1];
 		for (int i = 0; i < mKoSItems.size(); i++) {
-			Drawable d = LoadImageFromWebOperations(mKoSItems.get(i).getImgLink());				
+			Drawable d = loadImageFromWebOperations(mKoSItems.get(i).getImgLink());
 			mKoSItems.get(i).setObjectImage(d);
 			publishProgress();
 		}
@@ -42,7 +42,7 @@ public class KoSImageDownloadTask extends AsyncTask<Object, Void, Boolean> {
 	}
 
 	protected void onProgressUpdate(Void... values) {
-		KoSAdapter.notifyDataSetChanged();
+		koSAdapter.notifyDataSetChanged();
 	}
 
 }

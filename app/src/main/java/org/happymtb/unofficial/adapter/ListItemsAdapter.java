@@ -37,29 +37,29 @@ public class ListItemsAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ItemRowView ItemRowV = null;
+		ItemRowView itemRowView;
 
 		if (convertView == null) {
-			ItemRowV = new ItemRowView(mContext);
+			itemRowView = new ItemRowView(mContext);
 		} else {
-			ItemRowV = (ItemRowView) convertView;
+			itemRowView = (ItemRowView) convertView;
 		}
 
 		if (mItems.get(position).getTitle() != "") {
-			ItemRowV.setHeaderVisible(false);
-			ItemRowV.setTitle(mItems.get(position).getTitle());
-			ItemRowV.setDescription(mItems.get(position).getDescription());						
+			itemRowView.setHeaderVisible(false);
+			itemRowView.setTitle(mItems.get(position).getTitle());
+			itemRowView.setDescription(mItems.get(position).getDescription());
 		} else {
-			ItemRowV.setHeaderVisible(true);
-			ItemRowV.setHeaderTitle(mItems.get(position).getGroup());
+			itemRowView.setHeaderVisible(true);
+			itemRowView.setHeaderTitle(mItems.get(position).getGroup());
 			if (mItems.get(position).getVisible() == true) {
-				ItemRowV.setCollapse(true);
+				itemRowView.setCollapse(true);
 			} else {
-				ItemRowV.setCollapse(false);
+				itemRowView.setCollapse(false);
 			}
 		}
 
-		return ItemRowV;
+		return itemRowView;
 	}
 
 }

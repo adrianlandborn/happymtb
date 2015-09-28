@@ -49,23 +49,23 @@ public class ListThreadsAdapter extends BaseAdapter
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {			
-		ThreadRowView ThreadRowV = null;			
+		ThreadRowView threadRowView;
 		
         if (convertView == null) {  
-        	ThreadRowV = new ThreadRowView(mContext);
+        	threadRowView = new ThreadRowView(mContext);
         } else {
-        	ThreadRowV = (ThreadRowView) convertView;
+        	threadRowView = (ThreadRowView) convertView;
         }            
 		
         Thread thread = mThreads.get(position);
                
-       	ThreadRowV.setNew(thread.getNewMsg());
-        ThreadRowV.setTitle(thread.getTitle());
-        ThreadRowV.setFooter("av <b>"+ thread.getStartedBy() + "</b>, senaste " + thread.getLastMessageDate() + " av <b>" + thread.getLastMessageBy() + "</b> (" + Integer.toString(thread.getNumberOfMessages()) + ")");      
+       	threadRowView.setNew(thread.getNewMsg());
+        threadRowView.setTitle(thread.getTitle());
+        threadRowView.setFooter("av <b>" + thread.getStartedBy() + "</b>, senaste " + thread.getLastMessageDate() + " av <b>" + thread.getLastMessageBy() + "</b> (" + Integer.toString(thread.getNumberOfMessages()) + ")");
         
-        ThreadRowV.setPage(thread.getNumberOfPages());
+        threadRowView.setPage(thread.getNumberOfPages());
         
-        LinearLayout ThreadRow = (LinearLayout) ThreadRowV.findViewById(R.id.thread_row);
+        LinearLayout ThreadRow = (LinearLayout) threadRowView.findViewById(R.id.thread_row);
         
         ThreadRow.setTag(position);       
         ThreadRow.setOnClickListener(new OnClickListener() {
@@ -94,7 +94,7 @@ public class ListThreadsAdapter extends BaseAdapter
 			}
 	    });		        
                
-        TextView New = (TextView) ThreadRowV.findViewById(R.id.thread_new);
+        TextView New = (TextView) threadRowView.findViewById(R.id.thread_new);
         
         New.setTag(position);       
         New.setOnClickListener(new OnClickListener() {
@@ -111,7 +111,7 @@ public class ListThreadsAdapter extends BaseAdapter
             }
         });                
         
-        TextView Page1 = (TextView) ThreadRowV.findViewById(R.id.thread_page_button_1);
+        TextView Page1 = (TextView) threadRowView.findViewById(R.id.thread_page_button_1);
         
         Page1.setTag(position);       
         Page1.setOnClickListener(new OnClickListener() {
@@ -128,7 +128,7 @@ public class ListThreadsAdapter extends BaseAdapter
             }
         });                        
         
-        TextView Page2 = (TextView) ThreadRowV.findViewById(R.id.thread_page_button_2);
+        TextView Page2 = (TextView) threadRowView.findViewById(R.id.thread_page_button_2);
         Page2.setTag(position);       
         Page2.setOnClickListener(new OnClickListener() {
             @Override
@@ -148,7 +148,7 @@ public class ListThreadsAdapter extends BaseAdapter
             }
         });   
         
-        TextView Page3 = (TextView) ThreadRowV.findViewById(R.id.thread_page_button_3);
+        TextView Page3 = (TextView) threadRowView.findViewById(R.id.thread_page_button_3);
         Page3.setTag(position);       
         Page3.setOnClickListener(new OnClickListener() {
             @Override
@@ -168,7 +168,7 @@ public class ListThreadsAdapter extends BaseAdapter
             }
         });   
         
-        TextView Page4 = (TextView) ThreadRowV.findViewById(R.id.thread_page_button_4);
+        TextView Page4 = (TextView) threadRowView.findViewById(R.id.thread_page_button_4);
         Page4.setTag(position);       
         Page4.setOnClickListener(new OnClickListener() {
             @Override
@@ -188,6 +188,6 @@ public class ListThreadsAdapter extends BaseAdapter
             }
         });           
         
-        return ThreadRowV;    
+        return threadRowView;
 	}	
 }

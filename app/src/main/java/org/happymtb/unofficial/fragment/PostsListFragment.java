@@ -15,6 +15,7 @@ import android.view.View;
 import android.webkit.CookieSyncManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +34,6 @@ import java.io.File;
 import java.util.List;
 
 public class PostsListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
-    private final static int DIALOG_FETCH_MESSAGES_ERROR = 0;
     private final static String BASE_URL = "http://happymtb.org/forum/read.php/1/";
 
     private MessageListTask mMessageListTask;
@@ -41,12 +41,13 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
     private ListMessagesAdapter mMessageAdapter;
     private SharedPreferences mPreferences;
     private String mUsername = "";
-    MessageActivity mActivity;
-    TextView mLoginStatus;
-    TextView mPageText;
-    TextView mCurrentPage;
-    TextView mByText;
-    TextView mMaxPages;
+    private MessageActivity mActivity;
+    private ListView mListView;
+    private TextView mLoginStatus;
+    private TextView mPageText;
+    private TextView mCurrentPage;
+    private TextView mByText;
+    private TextView mMaxPages;
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -100,6 +101,11 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.posts_menu, menu);
@@ -128,7 +134,7 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
                 final EditText input = new EditText(mActivity);
                 alert.setView(input);
 
-                alert.setPositiveButton("Hoppa", new DialogInterface.OnClickListener() {
+                alert.setPositiveButton(R.string.jump, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // Do something with value!
                         if (HappyUtils.isInteger(input.getText().toString())) {
@@ -140,13 +146,7 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
                     }
                 });
 
-                alert.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
-                    }
-                });
-
-                alert.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+                alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // Canceled.
                     }
@@ -262,7 +262,8 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
         new MessageImageDownloadTask().execute(mMessageData.getMessages(), mMessageAdapter, mActivity);
 
-        getListView().setSelection(mMessageData.getListPosition());
+        mListView = getListView();
+        mListView.setSelection(mMessageData.getListPosition());
 
         mCurrentPage.setText(Integer.toString(mMessageData.getCurrentPage()));
         mMaxPages.setText(Integer.toString(mMessageData.getMessages().get(0).getNumberOfMessagePages()));
