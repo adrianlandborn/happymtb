@@ -265,11 +265,11 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 			search.setText("");
 		}		
 		
-		TextView Sort = (TextView) mActivity.findViewById(R.id.kos_sort);
+		TextView sortView = (TextView) mActivity.findViewById(R.id.kos_sort);
 		
-		Sort.setText(" (Sortering: "
-                + HappyUtils.getSortAttrNameLocal(mActivity, mKoSData.getSortAttributePosition()) + ", "
-                + HappyUtils.getSortOrderNameLocal(mActivity, mKoSData.getSortOrderPosition()) + ")");
+		sortView.setText(" (Sortering: "
+				+ HappyUtils.getSortAttrNameLocal(mActivity, mKoSData.getSortAttributePosition()) + ", "
+				+ HappyUtils.getSortOrderNameLocal(mActivity, mKoSData.getSortOrderPosition()) + ")");
 	}
 
 	public void NextPage() {

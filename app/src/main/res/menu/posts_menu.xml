@@ -33,7 +33,7 @@
             <item
                 android:id="@+id/message_new_post"
                 android:icon="@drawable/ic_action_write"
-                android:title="Nytt inlägg" />
+                android:title="@string/thread_reply" />
 		</menu>
 	</item>
 

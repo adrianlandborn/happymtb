@@ -18,7 +18,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="org.happymtb.unofficial.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +27,7 @@
         </activity>
         
 		<activity 
-			android:name="org.happymtb.unofficial.KoSObjectActivity"
+			android:name=".KoSObjectActivity"
 			android:label="@string/app_name" >
 
             <intent-filter android:label="@string/app_name">
@@ -47,17 +47,17 @@
 		</activity>
 		
 		<activity 
-			android:name="org.happymtb.unofficial.MessageActivity"
+			android:name=".PostsActivity"
 			android:label="@string/app_name" >
 		</activity>
 
         <activity
-            android:name="org.happymtb.unofficial.WebViewActivity"
+            android:name=".WebViewActivity"
             android:label="@string/app_name" >
         </activity>
 
         <activity
-            android:name="org.happymtb.unofficial.ZoomImageActivity"
+            android:name=".ZoomImageActivity"
             android:label="@string/app_name" >
         </activity>
     </application>

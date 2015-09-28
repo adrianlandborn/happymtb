@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.happymtb.unofficial.MainActivity;
-import org.happymtb.unofficial.MessageActivity;
+import org.happymtb.unofficial.PostsActivity;
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.view.ThreadRowView;
 import org.happymtb.unofficial.item.Thread;
@@ -73,7 +73,7 @@ public class ListThreadsAdapter extends BaseAdapter
             public void onClick(View v) {           	
             	int position = (Integer) v.getTag();            	
             	Thread thread = mThreads.get(position);          	            	            	
-            	Intent Message = new Intent(mContext, MessageActivity.class);
+            	Intent Message = new Intent(mContext, PostsActivity.class);
         		Message.putExtra("ThreadId", thread.getThreadId());
         		Message.putExtra("Logined", ((MainActivity) mContext).getThreadLoggedIn());
         		Message.putExtra("New", false);
@@ -102,7 +102,7 @@ public class ListThreadsAdapter extends BaseAdapter
             public void onClick(View v) {           	
             	int position = (Integer) v.getTag();            	
             	Thread thread = mThreads.get(position);          	            	            	
-            	Intent Message = new Intent(mContext, MessageActivity.class);
+            	Intent Message = new Intent(mContext, PostsActivity.class);
         		Message.putExtra("ThreadId", thread.getThreadId());
         		Message.putExtra("Logined", ((MainActivity) mContext).getThreadLoggedIn());
         		Message.putExtra("New", true);
@@ -119,7 +119,7 @@ public class ListThreadsAdapter extends BaseAdapter
             public void onClick(View v) {           	
             	int position = (Integer) v.getTag();            	
             	Thread thread = mThreads.get(position);          	            	            	
-            	Intent Message = new Intent(mContext, MessageActivity.class);
+            	Intent Message = new Intent(mContext, PostsActivity.class);
         		Message.putExtra("ThreadId", thread.getThreadId());
         		Message.putExtra("Logined", ((MainActivity) mContext).getThreadLoggedIn());
         		Message.putExtra("New", false);
@@ -135,7 +135,7 @@ public class ListThreadsAdapter extends BaseAdapter
             public void onClick(View v) {           	
             	int position = (Integer) v.getTag();            	
             	Thread thread = mThreads.get(position);          	            	            	
-            	Intent Message = new Intent(mContext, MessageActivity.class);
+            	Intent Message = new Intent(mContext, PostsActivity.class);
         		Message.putExtra("ThreadId", thread.getThreadId());
         		Message.putExtra("Logined", ((MainActivity) mContext).getThreadLoggedIn());
         		Message.putExtra("New", false);
@@ -155,7 +155,7 @@ public class ListThreadsAdapter extends BaseAdapter
             public void onClick(View v) {           	
             	int position = (Integer) v.getTag();            	
             	Thread thread = mThreads.get(position);          	            	            	
-            	Intent Message = new Intent(mContext, MessageActivity.class);
+            	Intent Message = new Intent(mContext, PostsActivity.class);
         		Message.putExtra("ThreadId", thread.getThreadId());
         		Message.putExtra("Logined", ((MainActivity) mContext).getThreadLoggedIn());
         		Message.putExtra("New", false);
@@ -175,7 +175,7 @@ public class ListThreadsAdapter extends BaseAdapter
             public void onClick(View v) {           	
             	int position = (Integer) v.getTag();            	
             	Thread thread = mThreads.get(position);          	            	            	
-            	Intent Message = new Intent(mContext, MessageActivity.class);
+            	Intent Message = new Intent(mContext, PostsActivity.class);
         		Message.putExtra("ThreadId", thread.getThreadId());
         		Message.putExtra("Logined", ((MainActivity) mContext).getThreadLoggedIn());
         		Message.putExtra("New", false);

@@ -11,7 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 
-public class MessageActivity extends FragmentActivity {
+public class PostsActivity extends FragmentActivity {
 	private ActionBar mActionBar;
 	Fragment mFragment = new PostsListFragment();
 	int mFrameId = R.id.messageframe;
@@ -49,10 +49,13 @@ public class MessageActivity extends FragmentActivity {
 		mFrameLayout = R.layout.message_frame;
 			
 		setContentView(mFrameLayout);
-		getSupportFragmentManager()
-        .beginTransaction()
-        .replace(mFrameId, mFragment)
-        .commit();
+
+		if (savedInstanceState == null) {
+			getSupportFragmentManager()
+					.beginTransaction()
+					.replace(mFrameId, mFragment, PostsListFragment.TAG)
+					.commit();
+		}
 	}
 	
 	public void SetMessageData(MessageData MessageData) {

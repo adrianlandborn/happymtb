@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.happymtb.unofficial.MainActivity;
-import org.happymtb.unofficial.MessageActivity;
+import org.happymtb.unofficial.PostsActivity;
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.adapter.ListThreadsAdapter;
 import org.happymtb.unofficial.helpers.HappyUtils;
@@ -347,7 +347,7 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 	}
 
 	public void openThread(int position) {
-		Intent Message = new Intent(mActivity, MessageActivity.class);
+		Intent Message = new Intent(mActivity, PostsActivity.class);
 		Message.putExtra("ThreadId", mThreadData.getThreads().get(position).getThreadId());
 		Message.putExtra("Logined", mActivity.getThreadLoggedIn());
 		Message.putExtra("New", false);

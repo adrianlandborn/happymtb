@@ -19,7 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.happymtb.unofficial.MessageActivity;
+import org.happymtb.unofficial.PostsActivity;
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.adapter.ListMessagesAdapter;
 import org.happymtb.unofficial.helpers.HappyUtils;
@@ -36,12 +36,14 @@ import java.util.List;
 public class PostsListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
     private final static String BASE_URL = "http://happymtb.org/forum/read.php/1/";
 
+    public static String TAG = "posts_tag";
+
     private MessageListTask mMessageListTask;
     private MessageData mMessageData;
     private ListMessagesAdapter mMessageAdapter;
     private SharedPreferences mPreferences;
     private String mUsername = "";
-    private MessageActivity mActivity;
+    private PostsActivity mActivity;
     private ListView mListView;
     private TextView mLoginStatus;
     private TextView mPageText;
@@ -52,7 +54,7 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mActivity = ((MessageActivity) getActivity());
+        mActivity = ((PostsActivity) getActivity());
 
         setHasOptionsMenu(true);
 
@@ -62,9 +64,17 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
         CookieSyncManager.createInstance(mActivity);
         CookieSyncManager.getInstance().startSync();
 
+
         mProgressView = mActivity.findViewById(R.id.progress_container_id);
 
         mMessageData = mActivity.GetMessageData();
+
+        if (savedInstanceState != null) {
+            // Restore Current page.
+            mMessageData.setCurrentPage(savedInstanceState.getInt(CURRENT_PAGE, 1));
+            mMessageData.setListPosition(savedInstanceState.getInt(CURRENT_POSITION, 0));
+        }
+
         fetchData();
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
@@ -80,16 +90,21 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
         if (mMessageData.getLogined()) {
             loginStatusImage.setImageResource(R.drawable.ic_online);
-            mLoginStatus.setText("Inloggad som " + mUsername);
+            mLoginStatus.setText(mActivity.getString(R.string.logged_in_as) + mUsername);
         } else {
             loginStatusImage.setImageResource(R.drawable.ic_offline);
-            mLoginStatus.setText("Ej inloggad");
+            mLoginStatus.setText(R.string.not_logged_in);
         }
 
-        ClearBitmapDir();
+        clearBitmapDir();
     }
 
-    public void ClearBitmapDir() {
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        return inflater.inflate(R.layout.message_frame, container, false);
+//    }
+
+    public void clearBitmapDir() {
         String PATH = "/mnt/sdcard/happymtb/";
         File dir = new File(PATH);
         if (dir.isDirectory()) {
@@ -102,6 +117,8 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(CURRENT_PAGE, mMessageData.getCurrentPage());
+        outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
         super.onSaveInstanceState(outState);
     }
 
