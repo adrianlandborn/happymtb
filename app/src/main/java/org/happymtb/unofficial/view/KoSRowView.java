@@ -70,6 +70,10 @@ public class KoSRowView extends LinearLayout {
 		}
 	}
 
+	public ImageView getImageView() {
+		return mObjectImageView;
+	}
+
 	public void setRowBackgroundColor(int id) {
 		if (mRowColor != null) {
 			mRowColor.setBackgroundResource(id);

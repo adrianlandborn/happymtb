@@ -16,6 +16,7 @@ public abstract class RefreshListfragment extends ListFragment {
 
     public final static String CURRENT_PAGE = "current_page";
     public final static String CURRENT_POSITION = "current_position";
+    public final static String DATA = "data";
 
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected View mProgressView;

@@ -7,9 +7,12 @@ import org.happymtb.unofficial.view.VideoRowView;
 import org.happymtb.unofficial.item.VideoItem;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.squareup.picasso.Picasso;
 
 public class ListVideoAdapter extends BaseAdapter {
 	private Context mContext;
@@ -38,6 +41,7 @@ public class ListVideoAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		VideoRowView videoRowView;
+		VideoItem item = mVideoItems.get(position);
 
 		if (convertView == null) {
 			videoRowView = new VideoRowView(mContext);
@@ -45,12 +49,16 @@ public class ListVideoAdapter extends BaseAdapter {
 			videoRowView = (VideoRowView) convertView;
 		}
 
-		videoRowView.setTitle(mVideoItems.get(position).getTitle());
-		videoRowView.setDate(mVideoItems.get(position).getDate());
-		videoRowView.setUploader(mVideoItems.get(position).getUploader());
-		videoRowView.setCategory(mVideoItems.get(position).getCategory());
-		videoRowView.setLength(mVideoItems.get(position).getLength());
-		videoRowView.setObjectImage(mVideoItems.get(position).getObjectImage());
+		videoRowView.setTitle(item.getTitle());
+		videoRowView.setDate(item.getDate());
+		videoRowView.setUploader(item.getUploader());
+		videoRowView.setCategory(item.getCategory());
+		videoRowView.setLength(item.getLength());
+		if (!TextUtils.isEmpty(item.getImgLink())) {
+			Picasso.with(mContext).load(item.getImgLink()).into(videoRowView.getImageView());
+		} else {
+			videoRowView.setObjectImage(null);
+		}
 
 		return videoRowView;
 	}

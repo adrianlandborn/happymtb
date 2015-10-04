@@ -21,16 +21,12 @@ public class VideoRowView extends LinearLayout {
 	TextView mDate;
 	ImageView mObjectImage;
 	LinearLayout compoundView;
-	private Boolean mPictureList;
-	private SharedPreferences preferences;
 
 	public VideoRowView(Context context) {
 		super(context);
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-		preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
 		compoundView = (LinearLayout) inflater.inflate(R.layout.video_picture_row, this);
 
 		mTitle = (TextView) compoundView.findViewById(R.id.video_picture_row_title);
@@ -78,5 +74,9 @@ public class VideoRowView extends LinearLayout {
 		if (mDate != null) {
 			mDate.setText(Date);
 		}
-	}	
+	}
+
+	public ImageView getImageView() {
+		return mObjectImage;
+	}
 }

@@ -8,9 +8,12 @@ import org.happymtb.unofficial.view.KoSRowView;
 import org.happymtb.unofficial.item.KoSItem;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.squareup.picasso.Picasso;
 
 public class ListKoSAdapter extends BaseAdapter {
 	private Context mContext;
@@ -23,7 +26,15 @@ public class ListKoSAdapter extends BaseAdapter {
 	
 	@Override
 	public int getCount() {
-		return mKoSItems.size();
+        if (mKoSItems != null) {
+            return mKoSItems.size();
+        } else {
+            return 0;
+        }
+	}
+
+	public void setItems(List<KoSItem> items) {
+		mKoSItems = items;
 	}
 
 	@Override
@@ -51,7 +62,15 @@ public class ListKoSAdapter extends BaseAdapter {
 		kosRowView.setArea(mKoSItems.get(position).getArea());
 		kosRowView.setCategory(mKoSItems.get(position).getCategory());
 		kosRowView.setPrice(mKoSItems.get(position).getPrice());
-		kosRowView.setObjectImage(mKoSItems.get(position).getObjectImage());
+
+        if (!TextUtils.isEmpty(mKoSItems.get(position).getImgLink())) {
+            Picasso.with(mContext).load(mKoSItems.get(position).getImgLink()).into(kosRowView.getImageView());
+        } else {
+            kosRowView.setObjectImage(null);
+        }
+
+
+//		kosRowView.setObjectImage(mKoSItems.get(position).getObjectImage());
 
 		if (mKoSItems.get(position).getTitle().charAt(0) == 'S'){
 			kosRowView.setRowBackgroundColor(R.drawable.rowshape_green2);

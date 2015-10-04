@@ -11,7 +11,6 @@ import org.happymtb.unofficial.item.KoSData;
 import org.happymtb.unofficial.item.KoSItem;
 import org.happymtb.unofficial.listener.KoSListListener;
 import org.happymtb.unofficial.listener.PageTextWatcher;
-import org.happymtb.unofficial.task.KoSImageDownloadTask;
 import org.happymtb.unofficial.task.KoSListTask;
 
 import android.app.Activity;
@@ -61,7 +60,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	private ListKoSAdapter mKoSAdapter;
 	private KoSData mKoSData;
 	private SharedPreferences mPreferences;
-	private boolean mPictureList;
 	private MainActivity mActivity;
 	private FragmentManager mFragmentManager;
     private ListView mListView;
@@ -74,26 +72,25 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         setHasOptionsMenu(true);
 
         mActivity = (MainActivity) getActivity();
-
         mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        mPictureList = mPreferences.getBoolean(SHOW_IMAGES, true);
-
-        mKoSData = new KoSData(
-                mPreferences.getString(SORT_ATTRIBUTE_SERVER, "creationdate"), mPreferences.getInt(SORT_ATTRIBUTE_POS, 0),
-                mPreferences.getString(SORT_ORDER_SERVER, "DESC"), mPreferences.getInt(SORT_ORDER_POS, 0),
-				mPreferences.getInt(SEARCH_TYPE_POS, 3),
-				mPreferences.getInt(SEARCH_REGION_POS, 0), mPreferences.getString(SEARCH_REGION, "Hela Sverige"),
-				mPreferences.getInt(SEARCH_CATEGORY_POS, 0), mPreferences.getString(SEARCH_CATEGORY, "Alla Kategorier"),
-				mPreferences.getString(SEARCH_TEXT, ""));
 
         if (savedInstanceState != null) {
 			// Restore Current page.
-			mKoSData.setCurrentPage(savedInstanceState.getInt(CURRENT_PAGE, 1));
-            mKoSData.setListPosition(savedInstanceState.getInt(CURRENT_POSITION, 0));
+            mKoSData = (KoSData) savedInstanceState.getSerializable(DATA);
 
-//			Toast.makeText(mActivity, "setCurrentPage: " + savedInstanceState.getInt(CURRENT_PAGE, 1), Toast.LENGTH_SHORT).show();
-		}
-		fetchData();
+            fillList();
+            showProgress(false);
+		} else {
+            mKoSData = new KoSData(
+                    mPreferences.getString(SORT_ATTRIBUTE_SERVER, "creationdate"), mPreferences.getInt(SORT_ATTRIBUTE_POS, 0),
+                    mPreferences.getString(SORT_ORDER_SERVER, "DESC"), mPreferences.getInt(SORT_ORDER_POS, 0),
+                    mPreferences.getInt(SEARCH_TYPE_POS, 3),
+                    mPreferences.getInt(SEARCH_REGION_POS, 0), mPreferences.getString(SEARCH_REGION, "Hela Sverige"),
+                    mPreferences.getInt(SEARCH_CATEGORY_POS, 0), mPreferences.getString(SEARCH_CATEGORY, "Alla Kategorier"),
+                    mPreferences.getString(SEARCH_TEXT, ""));
+            fetchData();
+        }
+
 	}
 
     @Override
@@ -101,19 +98,21 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         return inflater.inflate(R.layout.kos_frame, container, false);
     }
 
-    @Override
+	@Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mKoSData != null) {
-            outState.putInt(CURRENT_PAGE, mKoSData.getCurrentPage());
-        }
-        if (mListView != null) {
-            outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
+            if (mListView != null) {
+                mKoSData.setListPosition(mListView.getFirstVisiblePosition());
+            } else {
+                mKoSData.setListPosition(0);
+            }
+            outState.putSerializable(DATA, mKoSData);
         }
     }
 
     @Override
-	public void onAttach(Activity activity) {
+    public void onAttach(Activity activity) {
 		super.onAttach(activity);
         ((MainActivity) getActivity()).addSortListener(this);
         ((MainActivity) getActivity()).addSearchListener(this);
@@ -208,10 +207,9 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
                 if (getActivity() != null) {
                     mKoSData.setKoSItems(KoSItems);
                     fillList();
-                    if (mPictureList) {
-                        KoSImageDownloadTask getKoSImages = new KoSImageDownloadTask();
-                        getKoSImages.execute(mKoSData.getKoSItems(), mKoSAdapter);
-                    }
+
+//                    KoSImageDownloadTask getKoSImages = new KoSImageDownloadTask();
+//                    getKoSImages.execute(mKoSData.getKoSItems(), mKoSAdapter);
                 }
                 showProgress(false);
             }
@@ -220,12 +218,13 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
                 if (getActivity() != null) {
                     Toast.makeText(mActivity, mActivity.getString(R.string.kos_no_items_found), Toast.LENGTH_LONG).show();
 
-                    mKoSData = new KoSData(mPreferences.getString(SORT_ATTRIBUTE_SERVER, "creationdate"), mPreferences.getInt(SORT_ATTRIBUTE_POS, 0),
-                            mPreferences.getString(SORT_ORDER_SERVER, "DESC"), mPreferences.getInt(SORT_ORDER_POS, 0),
-							mPreferences.getInt(SEARCH_TYPE_POS, 3),
-							mPreferences.getInt(SEARCH_REGION_POS, 0), mPreferences.getString(SEARCH_REGION, "Hela Sverige"),
-							mPreferences.getInt(SEARCH_CATEGORY_POS, 0), mPreferences.getString(SEARCH_CATEGORY, "Alla Kategorier"),
-							mPreferences.getString(SEARCH_TEXT, ""));
+					//TODO Why is kosData recreated here?
+//                    mKoSData = new KoSData(mPreferences.getString(SORT_ATTRIBUTE_SERVER, "creationdate"), mPreferences.getInt(SORT_ATTRIBUTE_POS, 0),
+//                            mPreferences.getString(SORT_ORDER_SERVER, "DESC"), mPreferences.getInt(SORT_ORDER_POS, 0),
+//							mPreferences.getInt(SEARCH_TYPE_POS, 3),
+//							mPreferences.getInt(SEARCH_REGION_POS, 0), mPreferences.getString(SEARCH_REGION, "Hela Sverige"),
+//							mPreferences.getInt(SEARCH_CATEGORY_POS, 0), mPreferences.getString(SEARCH_CATEGORY, "Alla Kategorier"),
+//							mPreferences.getString(SEARCH_TEXT, ""));
 
                     showProgress(false);
                 }
@@ -236,8 +235,19 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	}
 
 	private void fillList() {
-		mKoSAdapter = new ListKoSAdapter(mActivity, mKoSData.getKoSItems());
-		setListAdapter(mKoSAdapter);
+        if (mKoSData.getKoSItems() == null || mKoSData.getKoSItems().isEmpty()) {
+            // Workaround for orientation changes before finish loading
+            showProgress(true);
+            fetchData();
+
+            return;
+        } else if (mKoSAdapter == null) {
+			mKoSAdapter = new ListKoSAdapter(mActivity, mKoSData.getKoSItems());
+			setListAdapter(mKoSAdapter);
+		} else {
+			mKoSAdapter.setItems(mKoSData.getKoSItems());
+			mKoSAdapter.notifyDataSetChanged();
+		}
 
         mListView = getListView();
 		mListView.setSelection(mKoSData.getListPosition());

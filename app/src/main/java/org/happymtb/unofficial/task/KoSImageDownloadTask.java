@@ -35,7 +35,7 @@ public class KoSImageDownloadTask extends AsyncTask<Object, Void, Boolean> {
 		koSAdapter = (ListKoSAdapter) params[1];
 		for (int i = 0; i < mKoSItems.size(); i++) {
 			Drawable d = loadImageFromWebOperations(mKoSItems.get(i).getImgLink());
-			mKoSItems.get(i).setObjectImage(d);
+//			mKoSItems.get(i).setObjectImage(d);
 			publishProgress();
 		}
 		return null;

@@ -5,8 +5,8 @@ import java.io.Serializable;
 import android.graphics.drawable.Drawable;
 
 public class VideoItem implements Serializable {
-	private static final long serialVersionUID = 201110870001L; 
-	
+	private static final long serialVersionUID = 201110870001L;
+
 	private String mTitle;
 	private String mUploader;
 	private String mCategory;
@@ -15,11 +15,10 @@ public class VideoItem implements Serializable {
 	private String mLink;
 	private String mImgLink;
 	private String mSelectedCategory;
-	private Drawable mObjectImage;
 	private int mNumberOfVideoPages;
-	
-	public VideoItem(String Title, String Uploader, String Category, String Length, String Date, String Link, 
-			String ImgLink, int NumberOfVideoPages, String SelectedCategory) {
+
+	public VideoItem(String Title, String Uploader, String Category, String Length, String Date, String Link,
+					 String ImgLink, int NumberOfVideoPages, String SelectedCategory) {
 		mTitle = Title;
 		mUploader = Uploader;
 		mCategory = Category;
@@ -31,32 +30,30 @@ public class VideoItem implements Serializable {
 		mNumberOfVideoPages = NumberOfVideoPages;
 	}
 
-	public int getNumberOfVideoPages() 
-	{
+	public int getNumberOfVideoPages() {
 		return mNumberOfVideoPages;
-	}	
-	
-	public void setNumberOfVideoPages(int NumberOfVideoPages) 
-	{
+	}
+
+	public void setNumberOfVideoPages(int NumberOfVideoPages) {
 		mNumberOfVideoPages = NumberOfVideoPages;
-	}		
-	
+	}
+
 	public String getLength() {
 		return mLength;
 	}
 
 	public void setLength(String length) {
 		mLength = length;
-	}	
-	
+	}
+
 	public String getDate() {
 		return mDate;
 	}
 
 	public void setDate(String date) {
 		mDate = date;
-	}		
-	
+	}
+
 	public String getLink() {
 		return mLink;
 	}
@@ -71,8 +68,8 @@ public class VideoItem implements Serializable {
 
 	public void setImgLink(String imgLink) {
 		mImgLink = imgLink;
-	}	
-	
+	}
+
 	public String getTitle() {
 		return mTitle;
 	}
@@ -80,14 +77,14 @@ public class VideoItem implements Serializable {
 	public void setTitle(String title) {
 		mTitle = title;
 	}
-	
+
 	public String getSelectedCategory() {
 		return mSelectedCategory;
 	}
 
 	public void setSelectedCategory(String selectedCategory) {
 		mSelectedCategory = selectedCategory;
-	}	
+	}
 
 	public String getUploader() {
 		return mUploader;
@@ -105,11 +102,4 @@ public class VideoItem implements Serializable {
 		mCategory = category;
 	}
 
-	public Drawable getObjectImage() {
-		return mObjectImage;
-	}
-
-	public void setObjectImage(Drawable ObjectImage) {
-		mObjectImage = ObjectImage;
-	}
 }

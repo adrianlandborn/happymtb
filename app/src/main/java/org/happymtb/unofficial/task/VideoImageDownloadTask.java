@@ -34,8 +34,8 @@ public class VideoImageDownloadTask extends AsyncTask<Object, Void, Boolean> {
 		mVideoItems = (List<VideoItem>) params[0];
 		mVideoAdapter = (ListVideoAdapter) params[1];
 		for (int i = 0; i < mVideoItems.size(); i++) {
-			mVideoItems.get(i).setObjectImage(
-					LoadImageFromWebOperations(mVideoItems.get(i).getImgLink()));
+//			mVideoItems.get(i).setObjectImage(
+//					LoadImageFromWebOperations(mVideoItems.get(i).getImgLink()));
 			publishProgress();
 		}
 		return null;

@@ -19,6 +19,7 @@ import org.happymtb.unofficial.listener.KoSListListener;
 public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 	private ArrayList<KoSListListener> mKoSListListenerList;
 	private List<KoSItem> mKoSItems = new ArrayList<KoSItem>();
+	private int mCurrentPage = 0;
 	private int mNumberOfKoSPages = 1;
 	private String mSelectedCategory = "Alla Kategorier";
 	private String mSelectedRegion = "Hela Sverige";
@@ -35,7 +36,7 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 		mKoSListListenerList.remove(l);
 	}
 
-	public KoSItem ExtractKoSRow(String KoSStr) {
+	public KoSItem extractKoSRow(String KoSStr) {
 		String Time;
 		String Title;
 		String Area;
@@ -103,6 +104,8 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 					+ (String) params[4] + "&sortattribute="
 					+ (String) params[5] + "&sortorder="
 					+ (String) params[6];
+
+			mCurrentPage = (Integer) params[0];
 			HttpGet httpget = new HttpGet(urlStr);
 		
 			HttpResponse response = httpclient.execute(httpget);
@@ -137,14 +140,22 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 				else if (lineString.contains("<span class=\"bold\">")) {
 					mNumberOfKoSPages = Integer.parseInt(lineString.substring(
 							lineString.indexOf("<span class=\"bold\">", 0) + 19,   // Start
-							lineString.indexOf("</span>", 0)));					   // End										
+							lineString.indexOf("</span>", 0)));					   // End
+
+					if (mCurrentPage == mNumberOfKoSPages) {
+						// If on last page the last item is nog <span class="bold"> but <span class="bold_lightgray">
+						// Ugly workaround or this bug... :(
+						// +1 is due to offset
+						mNumberOfKoSPages = mCurrentPage + 1;
+
+					}
 				}
 				else if (StartReadMessage) {
 					ksStringBuilder.append(lineString);
 					if (lineString.contains("	</tr>")) {
 						StartReadMessage = false;
 					
-						item = ExtractKoSRow(ksStringBuilder.toString());
+						item = extractKoSRow(ksStringBuilder.toString());
 						if (item != null) {
 							mKoSItems.add(item);
 						}

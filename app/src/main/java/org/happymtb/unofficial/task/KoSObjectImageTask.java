@@ -17,7 +17,8 @@ public class KoSObjectImageTask extends AsyncTask<ImageView, Void, Bitmap> {
 	@Override
 	protected Bitmap doInBackground(ImageView... imageViews) {
 	    this.mImageView = imageViews[0];
-	    return download_Image((String) mImageView.getTag());
+
+	    return downloadImage((String) mImageView.getTag());
 	}
 
 	@Override
@@ -26,7 +27,7 @@ public class KoSObjectImageTask extends AsyncTask<ImageView, Void, Bitmap> {
 	    mImageView.setVisibility(View.VISIBLE);
 	}
 
-	private Bitmap download_Image(String url) {
+	private Bitmap downloadImage(String url) {
 
         Bitmap bmp = null;
         try {

@@ -10,7 +10,6 @@ import org.happymtb.unofficial.item.VideoData;
 import org.happymtb.unofficial.item.VideoItem;
 import org.happymtb.unofficial.listener.PageTextWatcher;
 import org.happymtb.unofficial.listener.VideoListListener;
-import org.happymtb.unofficial.task.VideoImageDownloadTask;
 import org.happymtb.unofficial.task.VideoListTask;
 
 import android.app.AlertDialog;
@@ -40,7 +39,6 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 	private ListVideoAdapter mVideoAdapter;
 	private VideoData mVideoData = new VideoData(1, 1, "", 0, null, 0);
 	private AlertDialog.Builder mAlertDialog;
-	private Boolean mPictureList;
 	private SharedPreferences preferences;
     private MainActivity mActivity;
 	private ListView mListView;
@@ -52,22 +50,28 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
         mActivity = (MainActivity) getActivity();
 		setHasOptionsMenu(true);
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+
 		if (savedInstanceState != null) {
-			mVideoData.setCurrentPage(savedInstanceState.getInt(CURRENT_PAGE, 1));
-			mVideoData.setListPosition(savedInstanceState.getInt(CURRENT_POSITION, 0));
+			mVideoData = (VideoData) savedInstanceState.getSerializable(DATA);
+
+			fillList();
+			showProgress(false);
+		} else {
+			fetchData();
 		}
-		fetchData();
-		
-		preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        mPictureList = preferences.getBoolean("videopicturelist", true);
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putInt(CURRENT_PAGE, mVideoData.getCurrentPage());
-		if (mListView != null) {
-			outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
+		if (mVideoData != null) {
+			if (mListView != null) {
+				mVideoData.setListPosition(mListView.getFirstVisiblePosition());
+			} else {
+				mVideoData.setListPosition(0);
+			}
+				outState.putSerializable(DATA, mVideoData);
 		}
 	}
 
@@ -140,24 +144,6 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 		return super.onOptionsItemSelected(item);
 	}	
 	
-	@Override
-	public void onDestroy() {
-//        if (progDialog != null) {
-//            progDialog.dismiss();
-//        }
-		super.onDestroy();
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-	}
-
 	private void fetchData() {
         if (mActivity == null) {
             return;
@@ -170,10 +156,6 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
                 if (getActivity() != null) {
                     mVideoData.setVideoItems(VideoItems);
                     fillList();
-                    if (mPictureList) {
-                        VideoImageDownloadTask getVideoImages = new VideoImageDownloadTask();
-                        getVideoImages.execute(mVideoData.getVideoItems(), mVideoAdapter);
-                    }
 
                     showProgress(false);
                 }
@@ -191,6 +173,12 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 	}
 
 	private void fillList() {
+        if (mVideoData.getVideoItems() == null || mVideoData.getVideoItems().isEmpty()) {
+             // Workaround for orientation changes before finish loading
+            showProgress(true);
+            fetchData();
+            return;
+        }
 		mVideoAdapter = new ListVideoAdapter(mActivity, mVideoData.getVideoItems());
 		setListAdapter(mVideoAdapter);
 

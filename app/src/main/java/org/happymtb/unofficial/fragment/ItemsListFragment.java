@@ -17,37 +17,34 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 
 public class ItemsListFragment extends ListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
-//	protected ProgressDialog mProgressDialog = null;
-	protected ListItemsAdapter mItemsAdapter;
+	protected static final String ITEMS = "items";
+	protected static final String ALL_ITEMS = "all_items";
+    protected ListItemsAdapter mItemsAdapter;
 	protected List<Item> mAllItems = new ArrayList<Item>();
 	protected List<Item> mItems = new ArrayList<Item>();
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
-		fetchItems();
-		
-//		getListView().setDivider(null);
-//		getListView().setDividerHeight(0);
-	}
-	
-//	@Override
-//	public void onDestroy() {
-//		mProgressDialog.dismiss();
-//		super.onDestroy();
-//	}
 
-	@Override
-	public void onStop() {
-		super.onStop();
+//        if (savedInstanceState != null) {
+//            mItems = (List<Item>) savedInstanceState.getSerializable(ITEMS);
+//            mAllItems = (List<Item>) savedInstanceState.getSerializable(ALL_ITEMS);
+//
+//        } else {
+            fetchItems();
+//        }
 	}
 
-	@Override
-	public void onStart() {
-		super.onStart();
-	}
-	
-	protected void fetchItems() {
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+//        outState.putParcelableArrayList(ITEMS, mItems);
+//        outState.putSerializable(ALL_ITEMS, mAllItems);
+    }
+
+    protected void fetchItems() {
 	}	
 
 	protected void fillList() {
