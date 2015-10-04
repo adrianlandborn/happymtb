@@ -23,10 +23,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GestureDetectorCompat;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -35,7 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class KoSListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener,
-		MainActivity.SortListener, MainActivity.SearchListener {
+		MainActivity.SortListener, MainActivity.SearchListener, GestureDetector.OnGestureListener {
     public static String TAG = "kos_frag";
 
 	public final static String SHOW_IMAGES = "kospicturelist";
@@ -64,8 +67,10 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	private FragmentManager mFragmentManager;
     private ListView mListView;
 
+    protected GestureDetectorCompat mDetector;
 
-	/** Called when the activity is first created. */
+
+    /** Called when the activity is first created. */
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -91,6 +96,20 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             fetchData();
         }
 
+        mDetector = new GestureDetectorCompat(getActivity(), this);
+        getListView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                boolean consumed = mDetector.onTouchEvent(event);
+                // Be sure to call the superclass implementation
+
+                if (consumed) {
+                    return true;
+                } else {
+                    return getActivity().onTouchEvent(event);
+                }
+            }
+        });
 	}
 
     @Override
@@ -382,5 +401,45 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		mKoSData.setCurrentPage(1);
 		mKoSData.setListPosition(0);
 		fetchData();
+
+	}
+
+	@Override
+	public boolean onDown(MotionEvent e) {
+		return false;
+	}
+
+	@Override
+	public void onShowPress(MotionEvent e) {
+
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent e) {
+		return false;
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+		return false;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent e) {
+
+	}
+
+	@Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+            // "Left Swipe"
+            NextPage();
+            return true;
+        }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+            // "Right Swipe"
+            PreviousPage();
+            return true;
+        }
+		return false;
 	}
 }

@@ -18,6 +18,9 @@ public abstract class RefreshListfragment extends ListFragment {
     public final static String CURRENT_POSITION = "current_position";
     public final static String DATA = "data";
 
+    protected static final int SWIPE_MIN_DISTANCE = 130;
+    protected static final int SWIPE_THRESHOLD_VELOCITY = 80;
+
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected View mProgressView;
 
