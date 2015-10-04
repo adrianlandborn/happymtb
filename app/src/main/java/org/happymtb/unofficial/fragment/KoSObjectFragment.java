@@ -10,8 +10,6 @@ import org.happymtb.unofficial.KoSObjectActivity;
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.ui.ScaleImageView;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,8 +24,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 public class KoSObjectFragment extends Fragment implements DialogInterface.OnCancelListener {
 	private final static int DIALOG_FETCH_KOS_ERROR = 0;
+	private final static String DATA = "data";
+
 	private KoSObjectTask mKoSObjectTask;
 	private KoSObjectItem mKoSObjectItem;
 	private View mScrollView;
@@ -40,34 +42,48 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	TextView mPrice;
 	LinearLayout mBackgroundColor;
 	ScaleImageView mObjectImageView;
-	KoSObjectActivity mKoSObjectActivity;	
+	KoSObjectActivity mActivity;
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		mKoSObjectActivity = (KoSObjectActivity) getActivity();
+		mActivity = (KoSObjectActivity) getActivity();
 
-		String url = mKoSObjectActivity.getObjectLink();
+		String url = mActivity.getObjectLink();
 
 		if (url.contains("&pm")) {
 			openInBrowser(false, true);
 		}
 		setHasOptionsMenu(true);
 
-		mTitle = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_title);
-		mPerson = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_person);
-//		mCategory = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_category);
-		mDate = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_date);
-		mText = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_text);
-		mPrice = (TextView) mKoSObjectActivity.findViewById(R.id.kos_object_price);
-		mBackgroundColor = (LinearLayout) mKoSObjectActivity.findViewById(R.id.kos_object_color);
-		mObjectImageView = (ScaleImageView) mKoSObjectActivity.findViewById(R.id.kos_object_image);
-		mScrollView = mKoSObjectActivity.findViewById(R.id.kos_object_scroll);
-		mProgressView = mKoSObjectActivity.findViewById(R.id.progress_container_id);
+		mTitle = (TextView) mActivity.findViewById(R.id.kos_object_title);
+		mPerson = (TextView) mActivity.findViewById(R.id.kos_object_person);
+//		mCategory = (TextView) mActivity.findViewById(R.id.kos_object_category);
+		mDate = (TextView) mActivity.findViewById(R.id.kos_object_date);
+		mText = (TextView) mActivity.findViewById(R.id.kos_object_text);
+		mPrice = (TextView) mActivity.findViewById(R.id.kos_object_price);
+		mBackgroundColor = (LinearLayout) mActivity.findViewById(R.id.kos_object_color);
+		mObjectImageView = (ScaleImageView) mActivity.findViewById(R.id.kos_object_image);
+		mScrollView = mActivity.findViewById(R.id.kos_object_scroll);
+		mProgressView = mActivity.findViewById(R.id.progress_container_id);
 
-		fetchKoSObject(url);
+		if (savedInstanceState != null) {
+			mKoSObjectItem = (KoSObjectItem) savedInstanceState.getSerializable(DATA);
+
+            fillList();
+		} else {
+			fetchKoSObject(url);
+		}
 	}
-	
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		if (mKoSObjectItem != null) {
+			outState.putSerializable(DATA, mKoSObjectItem);
+		}
+	}
+
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
@@ -112,7 +128,10 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 			final String url = mKoSObjectItem.getImgLink();
 
 			mObjectImageView.setTag(url);
-			new KoSObjectImageTask().execute(mObjectImageView);
+
+            //TODO Use Picasso to download/cache
+//            Picasso.with(mActivity).load(url).into(mObjectImageView);
+			new KoSObjectImageTask(mObjectImageView).execute();
 			mObjectImageView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -161,7 +180,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	}
 
     private void shareObject() {
-        String message = "Hej! Jag vill tipsa om en annons: " + mKoSObjectActivity.getObjectLink();
+        String message = "Hej! Jag vill tipsa om en annons: " + mActivity.getObjectLink();
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
         intent.putExtra(android.content.Intent.EXTRA_TEXT, message);
         intent.setType("text/plain");
@@ -169,7 +188,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
     }
 
     private void openInBrowser(boolean isMessage, boolean popBackStack) {
-        String url = mKoSObjectActivity.getObjectLink();
+        String url = mActivity.getObjectLink();
         Intent browserIntent = new Intent(getActivity(), WebViewActivity.class);
         if (isMessage) {
             browserIntent.putExtra("url", url + "&pm");
@@ -178,7 +197,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
         }
         startActivity(browserIntent);
         if (popBackStack) {
-            mKoSObjectActivity.finish();
+            mActivity.finish();
         }
     }
 }

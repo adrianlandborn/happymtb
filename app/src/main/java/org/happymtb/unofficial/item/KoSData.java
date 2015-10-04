@@ -7,7 +7,11 @@ import java.util.List;
 
 public class KoSData implements Serializable {
 	private static final long serialVersionUID = 201110070001L; 
-	
+
+	public static final int SALJES = 1;
+	public static final int KOPES = 2;
+	public static final int ALLA = 3;
+
 	private int mCurrentPage;
 	private int mMaxPages;
 	private int mType;

@@ -14,7 +14,6 @@ public class KoSObjectItem implements Serializable {
 	private String mPhone;	
 	private String mDate;		
 	private String mImgLink;
-	private Drawable mObjectImage;	
 	private String mText;
 	private String mPrice;	
 	
@@ -85,14 +84,6 @@ public class KoSObjectItem implements Serializable {
 
 	public void setImgLink(String mImgLink) {
 		this.mImgLink = mImgLink;
-	}
-
-	public Drawable getObjectImage() {
-		return mObjectImage;
-	}
-
-	public void setObjectImage(Drawable objectImage) {
-		mObjectImage = objectImage;
 	}
 
 	public String getText() {

@@ -84,7 +84,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             mKoSData = new KoSData(
                     mPreferences.getString(SORT_ATTRIBUTE_SERVER, "creationdate"), mPreferences.getInt(SORT_ATTRIBUTE_POS, 0),
                     mPreferences.getString(SORT_ORDER_SERVER, "DESC"), mPreferences.getInt(SORT_ORDER_POS, 0),
-                    mPreferences.getInt(SEARCH_TYPE_POS, 3),
+                    mPreferences.getInt(SEARCH_TYPE_POS, KoSData.ALLA),
                     mPreferences.getInt(SEARCH_REGION_POS, 0), mPreferences.getString(SEARCH_REGION, "Hela Sverige"),
                     mPreferences.getInt(SEARCH_CATEGORY_POS, 0), mPreferences.getString(SEARCH_CATEGORY, "Alla Kategorier"),
                     mPreferences.getString(SEARCH_TEXT, ""));

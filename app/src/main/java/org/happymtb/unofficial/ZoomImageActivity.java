@@ -11,6 +11,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import org.happymtb.unofficial.task.KoSObjectImageTask;
 
 public class ZoomImageActivity extends Activity {
@@ -33,9 +35,8 @@ public class ZoomImageActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setTitle(getIntent().getExtras().getString("title"));
 
-        imageDetail = (ImageView) findViewById(R.id.imageView1); /** * set on touch listner on image */
-        imageDetail.setTag(getIntent().getExtras().getString("url"));
-        new KoSObjectImageTask().execute(imageDetail);
+        imageDetail = (ImageView) findViewById(R.id.imageView1); /** set on touch listener on image */
+        Picasso.with(this).load(getIntent().getExtras().getString("url")).into(imageDetail);
         imageDetail.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
