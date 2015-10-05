@@ -61,5 +61,4 @@
             android:label="@string/app_name" >
         </activity>
     </application>
-
 </manifest>
