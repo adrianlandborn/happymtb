@@ -118,7 +118,9 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(CURRENT_PAGE, mMessageData.getCurrentPage());
-        outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
+        if (mListView != null) {
+            outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
+        }
         super.onSaveInstanceState(outState);
     }
 

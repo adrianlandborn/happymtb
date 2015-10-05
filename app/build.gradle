@@ -4,18 +4,19 @@ android {
     signingConfigs {
         releaseConfig
     }
-    compileSdkVersion 17
-    buildToolsVersion "21.1.1"
+    compileSdkVersion 22
+    buildToolsVersion "21.1.2"
     defaultConfig {
         applicationId "org.happymtb.unofficial"
         minSdkVersion 16
-        targetSdkVersion 17
+        targetSdkVersion 22
         signingConfig signingConfigs.releaseConfig
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.releaseConfig
         }
     }
     productFlavors {
@@ -23,7 +24,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:21.0.+'
+    compile 'com.android.support:support-v4:22.1.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
 }
 
