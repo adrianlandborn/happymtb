@@ -69,13 +69,10 @@ public class ListKoSAdapter extends BaseAdapter {
             kosRowView.setObjectImage(null);
         }
 
-
-//		kosRowView.setObjectImage(mKoSItems.get(position).getObjectImage());
-
 		if (mKoSItems.get(position).getTitle().charAt(0) == 'S'){
-			kosRowView.setRowBackgroundColor(R.drawable.rowshape_green2);
+			kosRowView.setRowBackgroundColor(R.color.kos_green);
 		} else {
-			kosRowView.setRowBackgroundColor(R.drawable.rowshape_red2);
+			kosRowView.setRowBackgroundColor(R.color.kos_red);
 		}		
 		
 		return kosRowView;

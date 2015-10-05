@@ -3,82 +3,79 @@
     android:id="@+id/kos_picture_row"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <LinearLayout
+    <View
         android:id="@+id/kos_picture_row_color"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rowshape_green2"
-        android:orientation="vertical" >
+        android:layout_width="8dp"
+        android:layout_height="match_parent"
+        android:background="@color/kos_green"/>
 
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="8dp">
+
+        <ImageView
+            android:id="@+id/kos_picture_row_image"
+            android:layout_width="135dip"
+            android:layout_height="105dip"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:scaleType="centerCrop"
+            android:background="@color/grey_light" />
+
+        <TextView
+            android:id="@+id/kos_picture_row_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingRight="8dp">
+            android:layout_toRightOf="@id/kos_picture_row_image"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/title_1_text"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/kos_picture_row_image"
-                android:layout_width="135dip"
-                android:layout_height="105dip"
-                android:layout_alignParentLeft="true"
-                android:gravity="center_vertical"
-                android:scaleType="centerCrop"
-                android:background="@color/grey_light" />
+        <TextView
+            android:id="@+id/kos_picture_row_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/kos_picture_row_title"
+            android:layout_alignLeft="@id/kos_picture_row_title"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
 
-            <TextView
-                android:id="@+id/kos_picture_row_title"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/kos_picture_row_image"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/title_1_text"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/kos_picture_row_area"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/kos_picture_row_title"
-                android:layout_alignLeft="@id/kos_picture_row_title"
-                android:textColor="@color/black"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/kos_picture_row_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/kos_picture_row_area"
-                android:layout_alignLeft="@id/kos_picture_row_title"
-                android:textColor="@color/black"
-                android:textSize="13sp" />
+        <TextView
+            android:id="@+id/kos_picture_row_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/kos_picture_row_area"
+            android:layout_alignLeft="@id/kos_picture_row_title"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
 
 
-            <TextView
-                android:id="@+id/kos_picture_row_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignLeft="@id/kos_picture_row_title"
-                android:layout_marginRight="5dp"
-                android:paddingBottom="8dp"
-                android:textColor="@color/title_2_text"
-                android:textSize="13sp" />
+        <TextView
+            android:id="@+id/kos_picture_row_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@id/kos_picture_row_title"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="8dp"
+            android:textColor="@color/title_2_text"
+            android:textSize="13sp" />
 
-            <TextView
-                android:id="@+id/kos_picture_row_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/kos_picture_row_category"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:paddingBottom="8dp"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+        <TextView
+            android:id="@+id/kos_picture_row_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/kos_picture_row_category"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="8dp"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
 
-        </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

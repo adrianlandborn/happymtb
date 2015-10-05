@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,7 +19,7 @@ public class CalendarRowView extends LinearLayout {
 	TextView mTime;
 	
 	LinearLayout compoundView;
-	LinearLayout mRowColor;
+	View mRowColor;
 
 	public CalendarRowView(Context context) {
 		super(context);
@@ -27,18 +28,12 @@ public class CalendarRowView extends LinearLayout {
 
         compoundView = (LinearLayout) inflater.inflate(R.layout.calendar_row, this);
 			
-		mRowColor = (LinearLayout) compoundView.findViewById(R.id.calendar_row_color);	
+		mRowColor = compoundView.findViewById(R.id.calendar_row_color);
 		mTitle = (TextView) compoundView.findViewById(R.id.calendar_row_title);
 		mDescription = (TextView) compoundView.findViewById(R.id.calendar_row_description);
 		mCategory = (TextView) compoundView.findViewById(R.id.calendar_row_category);
 	
 		mTime = (TextView) compoundView.findViewById(R.id.calendar_row_time);
-	}
-
-	public void setBackgroundColor(int color) {
-		LinearLayout mRow = (LinearLayout) compoundView
-				.findViewById(R.id.kos_row);
-		mRow.setBackgroundResource(color);
 	}
 
 	public void setRowBackgroundColor(int id) {

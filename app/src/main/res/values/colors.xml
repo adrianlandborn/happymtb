@@ -7,6 +7,9 @@
 	<color name="grey_light">#ffededed</color>
 	<color name="grey_dark">#ffbdbcbc</color>
 	
+	<color name="kos_green">#FF458B00</color>
+	<color name="kos_red">#FFB22222</color>
+
 	<color name="calender_event">#ffcd0707</color>
 	<color name="calender_happyride">#ff21a40f</color>
 	<color name="calender_motion">#ff3a87ad</color>

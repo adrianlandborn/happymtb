@@ -4,67 +4,51 @@
 	android:id="@+id/calendar_row"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
-	android:orientation="vertical"
-	android:background="@color/grey"
-	>
+	android:orientation="horizontal">
 
-	<LinearLayout 
+	<View
+		android:id="@+id/calendar_row_color"
+		android:layout_width="8dp"
+		android:layout_height="match_parent"
+		android:layout_marginRight="8dp"
+		android:background="@color/calender_happyride"/>
+
+	<LinearLayout
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:orientation="vertical"	    
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="3dp"
-        android:paddingBottom="1dp"
-        android:background="@drawable/rowshape_calendar"
-		>   
-		
-		<LinearLayout 
-		    android:id="@+id/calendar_row_color"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			android:padding="15dp"	    
-			android:textStyle="bold"
-	        android:background="@drawable/rowshape_green"
-			>   	    
-		    
-			<TextView		 	
-			    android:id="@+id/calendar_row_title"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:textSize="15sp"
-			    android:textColor="@color/title_1_text"
-			   	android:textStyle="bold"
-		   	/>
-		
-			<TextView		 	
-			    android:id="@+id/calendar_row_time"
-		    	android:layout_width="wrap_content"
-		    	android:layout_height="wrap_content"
-		    	android:textSize="13sp"
-		    	android:textColor="@color/title_2_text"		    
-		   		android:text=""	 	
-	 		/>			
-		 				
-			<TextView		 	
-			    android:id="@+id/calendar_row_description"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:textSize="13sp"
-			    android:textColor="@color/black"
-			    android:text=""	         	     	    	    		    	    	   
-		   	/>
+		android:orientation="vertical"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp" >
 
-			<TextView		 	
-			    android:id="@+id/calendar_row_category"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:textSize="13sp"
-			    android:textColor="@color/black"
-			    android:text=""	         	     	    	    		    	    	   
-		   	/>															
-		</LinearLayout>	
+		<TextView
+			android:id="@+id/calendar_row_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="15sp"
+			android:textColor="@color/title_1_text"
+			android:textStyle="bold" />
+
+		<TextView
+			android:id="@+id/calendar_row_time"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="13sp"
+			android:textColor="@color/title_2_text" />
+
+		<TextView
+			android:id="@+id/calendar_row_description"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="13sp"
+			android:textColor="@color/black" />
+
+		<TextView
+			android:id="@+id/calendar_row_category"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textSize="13sp"
+            android:textColor="@color/title_2_text"
+            android:paddingRight="8dp"
+            android:gravity="right"	/>
 	</LinearLayout>
 </LinearLayout>

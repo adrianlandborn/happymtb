@@ -52,23 +52,23 @@ public class ListCalendarAdapter extends BaseAdapter {
 		calendarRowView.setCategory(mCalendarItems.get(position).getCategory());
 		calendarRowView.setTime(mCalendarItems.get(position).getTime() + ", " + mCalendarItems.get(position).getSelectedRegion());
 		
-		int identifier;
+		int indicatorColor;
 		
 		Log.d("test", mCalendarItems.get(position).getCategory());
 		
 		if (mCalendarItems.get(position).getCategory().contains("Event/Mässa")) {
-			identifier = R.drawable.rowshape_event;
+			indicatorColor = R.color.calender_event;
 		} else if (mCalendarItems.get(position).getCategory().contains("Happyride")) {
-			identifier = R.drawable.rowshape_happyride;
+			indicatorColor = R.color.calender_happyride;
 		} else if (mCalendarItems.get(position).getCategory().contains("Motionslopp/Tävling")) {
-			identifier = R.drawable.rowshape_motion;
+			indicatorColor = R.color.calender_motion;
 		} else if (mCalendarItems.get(position).getCategory().contains("Svartrejs")) {
-			identifier = R.drawable.rowshape_svart_rejs;
+			indicatorColor = R.color.calender_svartrejs;
 		} else {
-			identifier = R.drawable.rowshape_ovrigt;
+			indicatorColor = R.color.calender_ovrigt;
 		}
 		
-		calendarRowView.setRowBackgroundColor(identifier);
+		calendarRowView.setRowBackgroundColor(indicatorColor);
 		return calendarRowView;
 	}
 

@@ -24,8 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 public class KoSObjectFragment extends Fragment implements DialogInterface.OnCancelListener {
 	private final static int DIALOG_FETCH_KOS_ERROR = 0;
 	private final static String DATA = "data";
@@ -147,9 +145,9 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mPrice.setText("Pris: " + mKoSObjectItem.getPrice());
 		
 		if (mKoSObjectItem.getType().contains("Säljes")){
-			mBackgroundColor.setBackgroundResource(R.drawable.rowshape_green2);
+			mBackgroundColor.setBackgroundResource(R.drawable.rowshape_green);
 		} else {
-			mBackgroundColor.setBackgroundResource(R.drawable.rowshape_red2);
+			mBackgroundColor.setBackgroundResource(R.drawable.rowshape_red);
 		}
 
         mScrollView.setVisibility(View.VISIBLE);

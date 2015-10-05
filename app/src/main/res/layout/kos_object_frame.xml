@@ -21,7 +21,7 @@
                 android:id="@+id/kos_object_color"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rowshape_green2"
+                android:background="@drawable/rowshape_green"
                 android:orientation="vertical">
 
                 <LinearLayout

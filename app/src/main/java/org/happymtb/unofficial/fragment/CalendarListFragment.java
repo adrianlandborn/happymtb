@@ -70,8 +70,8 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 		
 		fetchData();
 
-		getListView().setDivider(null);
-		getListView().setDividerHeight(0);
+//		getListView().setDivider(null);
+//		getListView().setDividerHeight(0);
 	}
 
     @Override
