@@ -117,7 +117,7 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 
 			public void fail() {
 				if (getActivity() != null) {
-					Toast.makeText(mActivity, getResources().getString(R.string.no_items_found), Toast.LENGTH_LONG).show();
+					Toast.makeText(mActivity, R.string.calendar_no_items_found, Toast.LENGTH_LONG).show();
 					mCalendarItems = new ArrayList<CalendarItem>();
                     showProgress(false);
 				}

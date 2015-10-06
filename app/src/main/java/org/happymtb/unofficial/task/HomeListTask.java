@@ -18,7 +18,7 @@ import org.happymtb.unofficial.listener.HomeListListener;
 
 public class HomeListTask extends AsyncTask<Object, Void, Boolean> {
 	private ArrayList<HomeListListener> mHomeListListenerList;
-	private List<Home> mHomes = new ArrayList<Home>();
+	private ArrayList<Home> mHomes = new ArrayList<Home>();
 
 	public HomeListTask() {
 		mHomeListListenerList = new ArrayList<HomeListListener>();

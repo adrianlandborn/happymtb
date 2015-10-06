@@ -26,7 +26,7 @@ import android.widget.ListView;
 public class HomesListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener, OnChildClickListener {
 	public static String TAG = "home_frag";
 	private ListHomeAdapter mHomeAdapter;
-	private List<Home> mHomes = new ArrayList<Home>();
+	private ArrayList<Home> mHomes = new ArrayList<Home>();
 	private HomeListTask getHome;
 	private ListView mListView;
 	private int mFirstVisiblePos;
@@ -34,13 +34,17 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-        if (savedInstanceState != null) {
-
-			mFirstVisiblePos = savedInstanceState.getInt(CURRENT_POSITION, 0);
-        }
 		setHasOptionsMenu(true);
-		fetchData();
-		
+        if (savedInstanceState != null) {
+			mHomes = (ArrayList<Home>)savedInstanceState.getSerializable(DATA);
+			mFirstVisiblePos = savedInstanceState.getInt(CURRENT_POSITION, 0);
+
+			fillList();
+            showProgress(false);
+        } else {
+			fetchData();
+		}
+
 	}
 
     @Override
@@ -48,6 +52,7 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
         super.onSaveInstanceState(outState);
         if (mListView != null) {
             outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
+			outState.putSerializable(DATA, mHomes);
         }
     }
 
@@ -67,7 +72,7 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 
 		getHome = new HomeListTask();
 		getHome.addHomeListListener(new HomeListListener() {
-			public void success(List<Home> Homes) {
+			public void success(ArrayList<Home> Homes) {
                 if (getActivity() != null) {
                     mHomes = Homes;
                     fillList();

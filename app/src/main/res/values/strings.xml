@@ -44,6 +44,9 @@
     <string name="error">Något gick fel</string>
     <string name="no_items_found">Inga objekt hittades</string>
     <string name="kos_no_items_found">Inga annonser hittades</string>
+    <string name="articles_no_items_found">Artiklarna gick inte att hämta</string>
+    <string name="shops_no_items_found">Butikerna gick inte att hämta</string>
+    <string name="calendar_no_items_found">Kalendern gick inte att hämta</string>
     <string name="messages_not_found">Kunde inte hämta meddelanden</string>
     <string name="OK">Ok</string>
     <string name="jump">Hoppa</string>

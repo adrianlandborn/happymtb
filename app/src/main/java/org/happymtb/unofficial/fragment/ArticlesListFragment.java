@@ -33,7 +33,7 @@ public class ArticlesListFragment extends ItemsListFragment implements DialogInt
 
             public void fail() {
 				if (getActivity() != null) {
-					Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), R.string.articles_no_items_found, Toast.LENGTH_SHORT).show();
 				}
 			}
         });

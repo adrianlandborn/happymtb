@@ -87,6 +87,7 @@ public class ArticlesListTask extends AsyncTask<Object, Void, Boolean> {
 			}					
 		} catch (Exception e) {
 			// Log.d("doInBackground", "Error: " + e.getMessage());
+			return false;
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 		}
