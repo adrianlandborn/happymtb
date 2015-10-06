@@ -20,29 +20,31 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 	protected static final String ITEMS = "items";
 	protected static final String ALL_ITEMS = "all_items";
     protected ListItemsAdapter mItemsAdapter;
-	protected List<Item> mAllItems = new ArrayList<Item>();
-	protected List<Item> mItems = new ArrayList<Item>();
+	protected ArrayList<Item> mAllItems = new ArrayList<Item>();
+	protected ArrayList<Item> mItems = new ArrayList<Item>();
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
 
-//        if (savedInstanceState != null) {
-//            mItems = (List<Item>) savedInstanceState.getSerializable(ITEMS);
-//            mAllItems = (List<Item>) savedInstanceState.getSerializable(ALL_ITEMS);
-//
-//        } else {
+        if (savedInstanceState != null) {
+            mItems = (ArrayList<Item>) savedInstanceState.getSerializable(ITEMS);
+            mAllItems = (ArrayList<Item>) savedInstanceState.getSerializable(ALL_ITEMS);
+
+			fillList();
+
+        } else {
             fetchItems();
-//        }
+        }
 	}
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-//        outState.putParcelableArrayList(ITEMS, mItems);
-//        outState.putSerializable(ALL_ITEMS, mAllItems);
-    }
+        outState.putSerializable(ITEMS, mItems);
+		outState.putSerializable(ALL_ITEMS, mAllItems);
+	}
 
     protected void fetchItems() {
 	}	

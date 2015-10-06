@@ -18,7 +18,7 @@ import org.happymtb.unofficial.listener.ItemListListener;
 
 public class ShopsListTask extends AsyncTask<Object, Void, Boolean> {
 	private ArrayList<ItemListListener> mItemListListenerList;
-	private List<Item> mShopItems = new ArrayList<Item>();
+	private ArrayList<Item> mShopItems = new ArrayList<Item>();
 	private String mGroup;
 
 	public ShopsListTask() {

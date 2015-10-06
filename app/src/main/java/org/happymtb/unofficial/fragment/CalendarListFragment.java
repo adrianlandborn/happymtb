@@ -40,7 +40,7 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 
 	private CalendarListTask mGetCalendarTask;
 	private ListCalendarAdapter mCalendarAdapter;
-	private List<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
+	private ArrayList<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
 	MainActivity mActivity;
     private ListView mListView;
 	TextView mCategoryView;
@@ -65,13 +65,14 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 		mSearchView = (TextView) mActivity.findViewById(R.id.calendar_search);
 
         if (savedInstanceState != null) {
+			mCalendarItems = (ArrayList<CalendarItem>)savedInstanceState.getSerializable(DATA);
             mFirstVisiblePos = savedInstanceState.getInt(CURRENT_POSITION, 0);
-        }
-		
-		fetchData();
 
-//		getListView().setDivider(null);
-//		getListView().setDividerHeight(0);
+			fillList();
+            showProgress(false);
+        } else {
+			fetchData();
+		}
 	}
 
     @Override
@@ -83,6 +84,7 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mListView != null) {
+			outState.putSerializable(DATA, mCalendarItems);
             outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
         }
     }
@@ -107,7 +109,7 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 
         mGetCalendarTask = new CalendarListTask();
 		mGetCalendarTask.addCalendarListListener(new CalendarListListener() {
-			public void success(List<CalendarItem> CalendarItems) {
+			public void success(ArrayList<CalendarItem> CalendarItems) {
 				if (getActivity() != null) {
 					mCalendarItems = CalendarItems;
 					fillList();

@@ -19,7 +19,7 @@ import org.happymtb.unofficial.listener.CalendarListListener;
 
 public class CalendarListTask extends AsyncTask<Object, Void, Boolean> {
 	private ArrayList<CalendarListListener> mCalendarListListenerList;
-	private List<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
+	private ArrayList<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
 
 	public CalendarListTask() {
 		mCalendarListListenerList = new ArrayList<CalendarListListener>();

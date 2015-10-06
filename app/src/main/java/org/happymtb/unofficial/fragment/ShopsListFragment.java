@@ -1,5 +1,6 @@
 package org.happymtb.unofficial.fragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.happymtb.unofficial.R;
@@ -25,7 +26,7 @@ public class ShopsListFragment extends ItemsListFragment implements DialogInterf
 	protected void fetchItems() {
 		mShopsTask = new ShopsListTask();
 		mShopsTask.addItemListListener(new ItemListListener() {
-            public void success(List<Item> Items) {
+            public void success(ArrayList<Item> Items) {
                 if (getActivity() != null) {
                     mAllItems = Items;
                     fillList();
