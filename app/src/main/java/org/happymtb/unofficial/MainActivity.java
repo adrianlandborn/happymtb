@@ -6,7 +6,6 @@ import java.util.List;
 import org.happymtb.unofficial.fragment.KoSSearchDialogFragment;
 import org.happymtb.unofficial.fragment.KoSSortDialogFragment;
 import org.happymtb.unofficial.item.ThreadData;
-import org.happymtb.unofficial.item.Thread;
 import org.happymtb.unofficial.fragment.ArticlesListFragment;
 import org.happymtb.unofficial.fragment.CalendarListFragment;
 import org.happymtb.unofficial.fragment.HomesListFragment;
@@ -40,7 +39,7 @@ public class MainActivity extends FragmentActivity implements
     private static final int SHOPS = 5;
     private static final int CALENDAR = 6;
     private static final int SETTINGS = 7;
-    public static ThreadData mThreadData = new ThreadData(1, 1, null, 0, false);
+    public static ThreadData mThreadData = new ThreadData();
     Fragment mRestoredFragment;
     private ActionBar mActionBar;
     ArrayAdapter<String> mActionbarAdapter;
@@ -57,6 +56,7 @@ public class MainActivity extends FragmentActivity implements
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
     private static final String CURRENT_FRAGMENT_TAG = "current_fragment_tag";
     private Toast mBackToast;
+    private boolean mLogin;
 
     public interface SortListener {
         void onSortParamChanged(int attPos, int orderPos);
@@ -216,16 +216,12 @@ public class MainActivity extends FragmentActivity implements
         }
     }
 
-    public void setThreadLoggedIn(Boolean loggedIn) {
-        mThreadData.setLoggedIn(loggedIn);
+    public void setLoggedIn(boolean loggedIn) {
+        mLogin = loggedIn;
     }
 
-    public boolean getThreadLoggedIn() {
-        return mThreadData.getLoggedIn();
-    }
-
-    public void setThreadDataItems(List<Thread> threads) {
-        mThreadData.setThreads(threads);
+    public boolean isLoggedIn() {
+        return mLogin;
     }
 
     @Override

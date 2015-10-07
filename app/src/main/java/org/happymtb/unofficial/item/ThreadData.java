@@ -12,12 +12,12 @@ public class ThreadData implements Serializable {
 	private int mListPosition;
 	private Boolean mLogined;
 	
-	public ThreadData(int currentPage, int maxPages, List<Thread> threads, int listPosition, Boolean loggedIn) {
-		setThreads(threads);
-		setCurrentPage(currentPage);
-		setMaxPages(maxPages);
-		setListPosition(listPosition);
-		setLoggedIn(loggedIn);
+	public ThreadData() {
+		mThreads = null;
+		mCurrentPage = 1;
+		mMaxPages = 0;
+		mListPosition = 0;
+		mLogined = false;
 	}
 
 	public List<Thread> getThreads() {

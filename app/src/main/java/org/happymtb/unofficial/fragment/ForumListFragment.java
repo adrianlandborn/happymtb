@@ -1,13 +1,13 @@
 package org.happymtb.unofficial.fragment;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,26 +36,24 @@ import org.happymtb.unofficial.task.LoginTask;
 import org.happymtb.unofficial.task.MarkAsReadTask;
 import org.happymtb.unofficial.task.ThreadListTask;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ForumListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
-	private final static int DIALOG_FETCH_THREADS_ERROR = 0;
-	private final static int DIALOG_MARK_AS_READ_ERROR = 1;	
+public class ForumListFragment extends RefreshListfragment {
 	public final static String COOKIE_NAME = "cookiename";
 	public final static String COOKIE_VALUE = "cookivalue";
 	public static String TAG = "forum_frag";
 
 	private ThreadListTask mThreadsTask;
-	public static ThreadData mThreadData = new ThreadData(1, 1, null, 0, false);
+	private ThreadData mThreadData;
 	private MarkAsReadTask mMarkAsRead;
 	private SharedPreferences mPreferences;
 	private String mUsername = "";
 	private MainActivity mActivity;
 	private ListView mListView;
+	ImageView mLoginStatusImage;
 	private TextView mLoginStatus;
-	private TextView mPageText;
 	private TextView mCurrentPage;
-	private TextView mByText;
 	private TextView mMaxPages;
 
 	@Override
@@ -68,114 +66,69 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 		
 		mActivity = (MainActivity) getActivity();
 		
-//		setListShownNoAnimation(true);
-
 		CookieSyncManager.createInstance(mActivity);
 		CookieSyncManager.getInstance().startSync();		
 		
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		mUsername = mPreferences.getString("username", "");
 
+		mLoginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
+		mLoginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
+		mCurrentPage = (TextView) mActivity.findViewById(R.id.thread_current_page);
+		mMaxPages = (TextView) mActivity.findViewById(R.id.thread_no_of_pages);
+
+        mThreadData = new ThreadData();
+
 		if (savedInstanceState != null) {
 			// Restore Current page.
+			mThreadData.setThreads((ArrayList<Thread>) savedInstanceState.getSerializable(DATA));
 			mThreadData.setCurrentPage(savedInstanceState.getInt(CURRENT_PAGE, 1));
 			mThreadData.setListPosition(savedInstanceState.getInt(CURRENT_POSITION, 0));
-		}
+			mThreadData.setLoggedIn(savedInstanceState.getBoolean(LOGGED_IN));
 
-		if (!mActivity.getThreadLoggedIn()) {
-			if (mUsername.length() >= 0) { // Always show forum
+			setLogin(savedInstanceState.getBoolean(LOGGED_IN));
+			fillList();
+			showProgress(false);
+		} else if (mActivity.isLoggedIn()) {
+			setLogin(true);
+			fetchData();
 
-				LoginTask loginTask = new LoginTask();
-				loginTask.addLoginListener(new LoginListener() {
-					public void success() {
-						MainActivity activity = (MainActivity) getActivity();
-						if (activity != null) {
-							activity.setThreadLoggedIn(true);
-
-							ImageView loginStatusImage = (ImageView) activity.findViewById(R.id.thread_login_status_image);
-							loginStatusImage.setImageResource(R.drawable.ic_online);
-
-							TextView loginStatus = (TextView) activity.findViewById(R.id.thread_login_status);
-							loginStatus.setText("Inloggad som " + mUsername);
-
-							setHasOptionsMenu(true);
-
-							fetchData();
-						}
-					}
-
-					public void fail() {
-						MainActivity activity = (MainActivity) getActivity();
-						if (getActivity() != null) {
-							activity.setThreadLoggedIn(false);
-
-							ImageView LoginStatusImage = (ImageView) activity.findViewById(R.id.thread_login_status_image);
-							LoginStatusImage.setImageResource(R.drawable.ic_offline);
-
-							TextView loginStatus = (TextView) activity.findViewById(R.id.thread_login_status);
-							loginStatus.setText("Ej inloggad");
-
-							SharedPreferences.Editor editor = mPreferences.edit();
-							editor.putString(COOKIE_NAME, "");
-							editor.putString(COOKIE_VALUE, "");
-							editor.apply();
-
-							setHasOptionsMenu(true);
-
-							fetchData();
-						}
-					}
-				});
-				loginTask.execute(mActivity);
-			} else {
-				// Empty username
-			}
+		} else if(!TextUtils.isEmpty(mUsername)){
+			startLogin();
 		} else {
+			setLogin(false);
+			fetchData();
+		}
+	}
+
+	private void setLogin(boolean login) {
+        mActivity.setLoggedIn(login);
+		mThreadData.setLoggedIn(login);
+
+		if (login) {
+			mLoginStatusImage.setImageResource(R.drawable.ic_online);
+			mLoginStatus.setText("Inloggad som " + mUsername);
+		} else {
+			mLoginStatusImage.setImageResource(R.drawable.ic_offline);
+			mLoginStatus.setText("Ej inloggad");
+
 			SharedPreferences.Editor editor = mPreferences.edit();
 			editor.putString(COOKIE_NAME, "");
 			editor.putString(COOKIE_VALUE, "");
 			editor.apply();
-			
-			setHasOptionsMenu(true);
-			
-			mActivity.setThreadLoggedIn(true);
-			
-			ImageView LoginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
-			LoginStatusImage.setImageResource(R.drawable.ic_online);
-
-			TextView LoginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
-			LoginStatus.setText("Inloggad som " + mUsername);
-
-			fetchData();
 		}
-
-/*		
-	    getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-	    	@Override
-			public boolean onItemLongClick(AdapterView<?> av, View v, int position, long id) {
-	    		if ((mThreadData.mThreadsTask() != null) && (mThreadData.mThreadsTask().size() > 0)) {
-	    			mToast.setText(mThreadData.mThreadsTask().get(position).getMessageText());
-	                mToast.show();
-	    		}
-				return true;
-			}
-	    });		
-*/
-
-		mLoginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
-		mPageText = (TextView) mActivity.findViewById(R.id.thread_page_text);
-		mCurrentPage = (TextView) mActivity.findViewById(R.id.thread_current_page);
-		mByText = (TextView) mActivity.findViewById(R.id.thread_by_text);
-		mMaxPages = (TextView) mActivity.findViewById(R.id.thread_no_of_pages);
-
+		setHasOptionsMenu(true);
 	}
-
 
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
+		if (mListView != null) {
+			outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
+		}
 		outState.putInt(CURRENT_PAGE, mThreadData.getCurrentPage());
-		outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
+		outState.putSerializable(DATA, (ArrayList<Thread>) mThreadData.getThreads());
+		outState.putBoolean(LOGGED_IN, mThreadData.getLoggedIn());
 		super.onSaveInstanceState(outState);
 	}
 
@@ -184,7 +137,7 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();
 		inflater.inflate(R.menu.forum_menu, menu);
-        menu.findItem(R.id.thread_new_thread).setVisible(mActivity.getThreadLoggedIn());
+        menu.findItem(R.id.thread_new_thread).setVisible(mThreadData.getLoggedIn());
 
 		super.onCreateOptionsMenu(menu, inflater);
 	}
@@ -208,7 +161,6 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 
                 alert.setTitle(R.string.goto_page);
                 alert.setMessage(getString(R.string.enter_page_number, mThreadData.getMaxPages()));
-
 
                 // Set an EditText view to get user input
                 final EditText input = new EditText(mActivity);
@@ -240,7 +192,7 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
                 String url = "http://happymtb.org/forum/posting.php/1";
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(browserIntent);
-                return true;
+				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -255,7 +207,27 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 	public void onStart() {
 		super.onStart();
 		CookieSyncManager.getInstance().sync();
-	}	
+	}
+
+	private void startLogin() {
+		LoginTask loginTask = new LoginTask();
+		loginTask.addLoginListener(new LoginListener() {
+			public void success() {
+				if (getActivity() != null) {
+					setLogin(true);
+					fetchData();
+				}
+			}
+
+			public void fail() {
+				if (getActivity() != null) {
+					setLogin(false);
+					fetchData();
+				}
+			}
+		});
+		loginTask.execute(mActivity);
+	}
 
 	public void markAsRead() {
         mSwipeRefreshLayout.setRefreshing(false);
@@ -271,6 +243,7 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 
             public void fail() {
                 showProgress(false);
+                Toast.makeText(getActivity(), getString(R.string.thread_error_mark_as_read), Toast.LENGTH_SHORT).show();
             }
         });
 		mMarkAsRead.execute(mActivity);
@@ -279,14 +252,12 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 	public void refreshList() {
 		mThreadData.setListPosition(0);
 		mThreadData.setCurrentPage(1);
-		mActivity.setThreadDataItems(null);
 		fetchData();
 	}
 
 	public void nextPage() {
 		if (mThreadData.getCurrentPage() < mThreadData.getMaxPages()) {
 			mThreadData.setListPosition(0);
-			mActivity.setThreadDataItems(null);
 			mThreadData.setCurrentPage(mThreadData.getCurrentPage() + 1);
             mSwipeRefreshLayout.setRefreshing(false); // To not show multiple loading spinners
 
@@ -297,7 +268,6 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 	public void previousPage() {
     	if (mThreadData.getCurrentPage() > 1) {
     		mThreadData.setListPosition(0);
-    		mActivity.setThreadDataItems(null);
     		mThreadData.setCurrentPage(mThreadData.getCurrentPage() - 1);
 
             mSwipeRefreshLayout.setRefreshing(false); // To not show multiple loading spinners
@@ -307,6 +277,8 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 	
 	public void fetchData() {
         showProgress(true);
+
+        mThreadData.setThreads(null);
 
 		mThreadsTask = new ThreadListTask();
 		mThreadsTask.addThreadListListener(new ThreadListListener() {
@@ -320,7 +292,7 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 
             public void fail() {
 				if (getActivity() != null) {
-					Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), R.string.thread_download_error, Toast.LENGTH_SHORT).show();
 					showProgress(false);
 				}
 			}
@@ -347,61 +319,11 @@ public class ForumListFragment extends RefreshListfragment implements DialogInte
 	}
 
 	public void openThread(int position) {
-		Intent Message = new Intent(mActivity, PostsActivity.class);
-		Message.putExtra("ThreadId", mThreadData.getThreads().get(position).getThreadId());
-		Message.putExtra("Logined", mActivity.getThreadLoggedIn());
-		Message.putExtra("New", false);
-		startActivity(Message);				
+		Intent postActivity = new Intent(mActivity, PostsActivity.class);
+		postActivity.putExtra("ThreadId", mThreadData.getThreads().get(position).getThreadId());
+		postActivity.putExtra("Logined", mThreadData.getLoggedIn());
+		postActivity.putExtra("New", false);
+		startActivity(postActivity);
 	}
 	
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog = null;
-		
-		AlertDialog.Builder builder;
-		switch (id) {
-		case DIALOG_FETCH_THREADS_ERROR:
-			builder = new AlertDialog.Builder(mActivity);
-			builder.setTitle(R.string.error_message);
-			builder.setMessage(R.string.thread_download_error)
-					.setPositiveButton(R.string.OK,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int id) {
-									dialog.cancel();
-									mActivity.finish();
-								}
-							});
-			dialog = builder.create();
-			break;
-
-		case DIALOG_MARK_AS_READ_ERROR:
-			builder = new AlertDialog.Builder(mActivity);
-			builder.setTitle(R.string.error_message);
-			builder.setMessage(
-					R.string.thread_error_mark_as_read)
-					.setPositiveButton(R.string.OK,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int id) {
-									dialog.cancel();
-									mActivity.finish();
-								}
-							});
-			dialog = builder.create();
-			break;
-		}
-		
-		return dialog;		
-	}	
-	
-	@Override
-	public void onCancel(DialogInterface arg0) {
-		if (mMarkAsRead != null) {
-			mMarkAsRead.cancel(true);
-		}
-
-		if (mThreadsTask != null) {
-			mThreadsTask.cancel(true);
-		}	
-	}
 }

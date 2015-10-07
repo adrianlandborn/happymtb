@@ -17,8 +17,8 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp" >
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp" >
 
 		<TextView
 			android:id="@+id/calendar_row_title"
