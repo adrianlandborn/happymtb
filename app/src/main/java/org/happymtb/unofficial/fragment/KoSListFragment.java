@@ -74,7 +74,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-        setHasOptionsMenu(true);
 
         mActivity = (MainActivity) getActivity();
         mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);

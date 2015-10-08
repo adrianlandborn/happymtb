@@ -1,12 +1,15 @@
 package org.happymtb.unofficial.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
 
 /**
@@ -39,6 +42,7 @@ public abstract class RefreshListfragment extends ListFragment {
         });
 
         mProgressView = getActivity().findViewById(R.id.progress_container_id);
+        setHasOptionsMenu(true);
     }
 
     @Override

@@ -65,7 +65,7 @@ public class ForumListFragment extends RefreshListfragment {
 		super.onActivityCreated(savedInstanceState);
 		
 		mActivity = (MainActivity) getActivity();
-		
+
 		CookieSyncManager.createInstance(mActivity);
 		CookieSyncManager.getInstance().startSync();		
 		

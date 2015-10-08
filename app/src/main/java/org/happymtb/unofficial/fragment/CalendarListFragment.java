@@ -57,8 +57,7 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);			
-		setHasOptionsMenu(true);
-		
+
 		mActivity = (MainActivity) getActivity();
 		mCategoryView = (TextView) mActivity.findViewById(R.id.calendar_category);
 		mRegionView = (TextView) mActivity.findViewById(R.id.calendar_region);

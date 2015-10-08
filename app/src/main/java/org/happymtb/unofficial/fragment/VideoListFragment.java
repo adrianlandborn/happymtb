@@ -39,7 +39,6 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 	private ListVideoAdapter mVideoAdapter;
 	private VideoData mVideoData = new VideoData(1, 1, "", 0, null, 0);
 	private AlertDialog.Builder mAlertDialog;
-	private SharedPreferences preferences;
     private MainActivity mActivity;
 	private ListView mListView;
 
@@ -48,9 +47,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
         mActivity = (MainActivity) getActivity();
-		setHasOptionsMenu(true);
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 
 		if (savedInstanceState != null) {
 			mVideoData = (VideoData) savedInstanceState.getSerializable(DATA);

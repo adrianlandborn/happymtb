@@ -74,10 +74,10 @@ public class ListThreadsAdapter extends BaseAdapter
             	int position = (Integer) v.getTag();            	
             	Thread thread = mThreads.get(position);          	            	            	
             	Intent Message = new Intent(mContext, PostsActivity.class);
-        		Message.putExtra("ThreadId", thread.getThreadId());
-        		Message.putExtra("Logined", ((MainActivity) mContext).isLoggedIn());
-        		Message.putExtra("New", false);
-        		Message.putExtra("Page", 1);
+        		Message.putExtra(PostsActivity.THREAD_ID, thread.getThreadId());
+        		Message.putExtra(PostsActivity.LOGGED_IN, ((MainActivity) mContext).isLoggedIn());
+        		Message.putExtra(PostsActivity.NEW_POST, false);
+        		Message.putExtra(PostsActivity.PAGE, 1);
         		mContext.startActivity(Message);        		
             }            
         });    
@@ -103,10 +103,10 @@ public class ListThreadsAdapter extends BaseAdapter
             	int position = (Integer) v.getTag();            	
             	Thread thread = mThreads.get(position);          	            	            	
             	Intent Message = new Intent(mContext, PostsActivity.class);
-        		Message.putExtra("ThreadId", thread.getThreadId());
-        		Message.putExtra("Logined", ((MainActivity) mContext).isLoggedIn());
-        		Message.putExtra("New", true);
-        		Message.putExtra("Page", 1);
+        		Message.putExtra(PostsActivity.THREAD_ID, thread.getThreadId());
+        		Message.putExtra(PostsActivity.LOGGED_IN, ((MainActivity) mContext).isLoggedIn());
+        		Message.putExtra(PostsActivity.NEW_POST, true);
+        		Message.putExtra(PostsActivity.PAGE, 1);
         		mContext.startActivity(Message);        		
             }
         });                
@@ -120,10 +120,10 @@ public class ListThreadsAdapter extends BaseAdapter
             	int position = (Integer) v.getTag();            	
             	Thread thread = mThreads.get(position);          	            	            	
             	Intent Message = new Intent(mContext, PostsActivity.class);
-        		Message.putExtra("ThreadId", thread.getThreadId());
-        		Message.putExtra("Logined", ((MainActivity) mContext).isLoggedIn());
-        		Message.putExtra("New", false);
-        		Message.putExtra("Page", 1);
+        		Message.putExtra(PostsActivity.THREAD_ID, thread.getThreadId());
+        		Message.putExtra(PostsActivity.LOGGED_IN, ((MainActivity) mContext).isLoggedIn());
+        		Message.putExtra(PostsActivity.NEW_POST, false);
+        		Message.putExtra(PostsActivity.PAGE, 1);
         		mContext.startActivity(Message);        		
             }
         });                        
@@ -136,13 +136,13 @@ public class ListThreadsAdapter extends BaseAdapter
             	int position = (Integer) v.getTag();            	
             	Thread thread = mThreads.get(position);          	            	            	
             	Intent Message = new Intent(mContext, PostsActivity.class);
-        		Message.putExtra("ThreadId", thread.getThreadId());
-        		Message.putExtra("Logined", ((MainActivity) mContext).isLoggedIn());
-        		Message.putExtra("New", false);
+        		Message.putExtra(PostsActivity.THREAD_ID, thread.getThreadId());
+        		Message.putExtra(PostsActivity.LOGGED_IN, ((MainActivity) mContext).isLoggedIn());
+        		Message.putExtra(PostsActivity.NEW_POST, false);
         		if (thread.getNumberOfPages() > 4) {
-        			Message.putExtra("Page", thread.getNumberOfPages() - 2);
+        			Message.putExtra(PostsActivity.PAGE, thread.getNumberOfPages() - 2);
         		} else {
-        			Message.putExtra("Page", 2);
+        			Message.putExtra(PostsActivity.PAGE, 2);
         		}
         		mContext.startActivity(Message);        		
             }
@@ -156,13 +156,13 @@ public class ListThreadsAdapter extends BaseAdapter
             	int position = (Integer) v.getTag();            	
             	Thread thread = mThreads.get(position);          	            	            	
             	Intent Message = new Intent(mContext, PostsActivity.class);
-        		Message.putExtra("ThreadId", thread.getThreadId());
-        		Message.putExtra("Logined", ((MainActivity) mContext).isLoggedIn());
-        		Message.putExtra("New", false);
+        		Message.putExtra(PostsActivity.THREAD_ID, thread.getThreadId());
+        		Message.putExtra(PostsActivity.LOGGED_IN, ((MainActivity) mContext).isLoggedIn());
+        		Message.putExtra(PostsActivity.NEW_POST, false);
         		if (thread.getNumberOfPages() > 4) {
-        			Message.putExtra("Page", thread.getNumberOfPages() - 1);
+        			Message.putExtra(PostsActivity.PAGE, thread.getNumberOfPages() - 1);
         		} else {
-        			Message.putExtra("Page", 3);
+        			Message.putExtra(PostsActivity.PAGE, 3);
         		}
         		mContext.startActivity(Message);        		
             }
@@ -176,13 +176,13 @@ public class ListThreadsAdapter extends BaseAdapter
             	int position = (Integer) v.getTag();            	
             	Thread thread = mThreads.get(position);          	            	            	
             	Intent Message = new Intent(mContext, PostsActivity.class);
-        		Message.putExtra("ThreadId", thread.getThreadId());
-        		Message.putExtra("Logined", ((MainActivity) mContext).isLoggedIn());
-        		Message.putExtra("New", false);
+        		Message.putExtra(PostsActivity.THREAD_ID, thread.getThreadId());
+        		Message.putExtra(PostsActivity.LOGGED_IN, ((MainActivity) mContext).isLoggedIn());
+        		Message.putExtra(PostsActivity.NEW_POST, false);
         		if (thread.getNumberOfPages() > 4) {
-        			Message.putExtra("Page", thread.getNumberOfPages());
+        			Message.putExtra(PostsActivity.PAGE, thread.getNumberOfPages());
         		} else {
-        			Message.putExtra("Page", 4);
+        			Message.putExtra(PostsActivity.PAGE, 4);
         		}
         		mContext.startActivity(Message);        		
             }

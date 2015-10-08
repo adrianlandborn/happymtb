@@ -34,7 +34,6 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		setHasOptionsMenu(true);
         if (savedInstanceState != null) {
 			mHomes = (ArrayList<Home>)savedInstanceState.getSerializable(DATA);
 			mFirstVisiblePos = savedInstanceState.getInt(CURRENT_POSITION, 0);

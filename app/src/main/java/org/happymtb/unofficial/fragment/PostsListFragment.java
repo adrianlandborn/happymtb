@@ -34,29 +34,25 @@ import java.io.File;
 import java.util.List;
 
 public class PostsListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
-    private final static String BASE_URL = "http://happymtb.org/forum/read.php/1/";
-
-    public static String TAG = "posts_tag";
+    private static final String BASE_URL = "http://happymtb.org/forum/read.php/1/";
+    public static final String TAG = "posts_tag";
 
     private MessageListTask mMessageListTask;
     private MessageData mMessageData;
     private ListMessagesAdapter mMessageAdapter;
     private SharedPreferences mPreferences;
-    private String mUsername = "";
+    private String mUsername;
     private PostsActivity mActivity;
     private ListView mListView;
-    private TextView mLoginStatus;
-    private TextView mPageText;
+
     private TextView mCurrentPage;
-    private TextView mByText;
     private TextView mMaxPages;
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         mActivity = ((PostsActivity) getActivity());
-
-        setHasOptionsMenu(true);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 
         getListView().setDivider(null);
         getListView().setDividerHeight(0);
@@ -64,39 +60,40 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
         CookieSyncManager.createInstance(mActivity);
         CookieSyncManager.getInstance().startSync();
 
-
-        mProgressView = mActivity.findViewById(R.id.progress_container_id);
-
-        mMessageData = mActivity.GetMessageData();
-
-        if (savedInstanceState != null) {
-            // Restore Current page.
-            mMessageData.setCurrentPage(savedInstanceState.getInt(CURRENT_PAGE, 1));
-            mMessageData.setListPosition(savedInstanceState.getInt(CURRENT_POSITION, 0));
-        }
-
-        fetchData();
-
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         mUsername = mPreferences.getString("username", "");
 
-        mLoginStatus = (TextView) mActivity.findViewById(R.id.message_login_status);
-        mPageText = (TextView) mActivity.findViewById(R.id.message_page_text);
         mCurrentPage = (TextView) mActivity.findViewById(R.id.message_current_page);
-        mByText = (TextView) mActivity.findViewById(R.id.message_by_text);
         mMaxPages = (TextView) mActivity.findViewById(R.id.message_no_of_pages);
 
-        ImageView loginStatusImage = (ImageView) mActivity.findViewById(R.id.message_login_status_image);
 
-        if (mMessageData.getLogined()) {
-            loginStatusImage.setImageResource(R.drawable.ic_online);
-            mLoginStatus.setText(mActivity.getString(R.string.logged_in_as) + mUsername);
+        if (savedInstanceState != null && savedInstanceState.getSerializable(DATA) != null) {
+            // Restore Current page.
+            mMessageData = (MessageData) savedInstanceState.getSerializable(DATA);
+
+            fillList();
+
+            showProgress(false);
         } else {
-            loginStatusImage.setImageResource(R.drawable.ic_offline);
-            mLoginStatus.setText(R.string.not_logged_in);
+            Bundle bundle = mActivity.getIntent().getExtras();
+            int page = bundle.getInt(PostsActivity.PAGE);
+            boolean loggedIn = bundle.getBoolean(PostsActivity.LOGGED_IN);
+            String threadId = bundle.getString(PostsActivity.THREAD_ID);
+            mMessageData = new MessageData(page, 1, loggedIn, threadId, null, 0);
+
+            clearBitmapDir();
+
+            fetchData();
         }
 
-        clearBitmapDir();
+        ImageView loginStatusImage = (ImageView) mActivity.findViewById(R.id.message_login_status_image);
+        TextView loginStatus = (TextView) mActivity.findViewById(R.id.message_login_status);
+        if (mMessageData.getLogined()) {
+            loginStatusImage.setImageResource(R.drawable.ic_online);
+            loginStatus.setText(mActivity.getString(R.string.logged_in_as) + mUsername);
+        } else {
+            loginStatusImage.setImageResource(R.drawable.ic_offline);
+            loginStatus.setText(R.string.not_logged_in);
+        }
     }
 
 //    @Override
@@ -105,7 +102,7 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 //    }
 
     public void clearBitmapDir() {
-        String PATH = "/mnt/sdcard/happymtb/";
+        final String PATH = "/mnt/sdcard/happymtb/";
         File dir = new File(PATH);
         if (dir.isDirectory()) {
             String[] children = dir.list();
@@ -117,9 +114,10 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(CURRENT_PAGE, mMessageData.getCurrentPage());
+//        outState.putInt(CURRENT_PAGE, mMessageData.getCurrentPage());
         if (mListView != null) {
-            outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
+            mMessageData.setListPosition(mListView.getFirstVisiblePosition());
+            outState.putSerializable(DATA, mMessageData);
         }
         super.onSaveInstanceState(outState);
     }
@@ -158,7 +156,7 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
                         // Do something with value!
                         if (HappyUtils.isInteger(input.getText().toString())) {
                             mMessageData.setListPosition(0);
-                            mActivity.SetMessageDataItems(null);
+                            mMessageData.setMessages(null);
                             mMessageData.setCurrentPage(Integer.parseInt(input.getText().toString()));
                             fetchData();
                         }
@@ -216,14 +214,14 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
     public void refreshList() {
         mMessageData.setListPosition(0);
-        mActivity.SetMessageDataItems(null);
+        mMessageData.setMessages(null);
         fetchData();
     }
 
     public void nextPage() {
         if (mMessageData.getCurrentPage() < mMessageData.getMaxPages()) {
             mMessageData.setListPosition(0);
-            mActivity.SetMessageDataItems(null);
+            mMessageData.setMessages(null);
             mMessageData.setCurrentPage(mMessageData.getCurrentPage() + 1);
             mSwipeRefreshLayout.setRefreshing(false); // To not show multiple loading spinners
             fetchData();
@@ -233,7 +231,7 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
     public void previousPage() {
         if (mMessageData.getCurrentPage() > 1) {
             mMessageData.setListPosition(0);
-            mActivity.SetMessageDataItems(null);
+            mMessageData.setMessages(null);
             mMessageData.setCurrentPage(mMessageData.getCurrentPage() - 1);
             mSwipeRefreshLayout.setRefreshing(false); // To not show multiple loading spinners
             fetchData();
@@ -243,7 +241,6 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
     private void fetchData() {
         showProgress(true);
 
-        mMessageData = mActivity.GetMessageData();
         if ((mMessageData.getMessages() != null) && (mMessageData.getMessages().size() > 0)) {
             fillList();
 
