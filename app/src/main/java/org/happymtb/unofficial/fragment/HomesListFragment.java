@@ -36,10 +36,15 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 
         if (savedInstanceState != null) {
 			mHomes = (ArrayList<Home>)savedInstanceState.getSerializable(DATA);
-			mFirstVisiblePos = savedInstanceState.getInt(CURRENT_POSITION, 0);
 
-			fillList();
-            showProgress(false);
+			if (mHomes != null && !mHomes.isEmpty()) {
+				mFirstVisiblePos = savedInstanceState.getInt(CURRENT_POSITION, 0);
+
+				fillList();
+				showProgress(false);
+			} else {
+				fetchData();
+			}
         } else {
 			fetchData();
 		}

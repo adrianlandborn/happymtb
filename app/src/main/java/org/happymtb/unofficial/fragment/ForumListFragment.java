@@ -77,15 +77,16 @@ public class ForumListFragment extends RefreshListfragment {
 		mCurrentPage = (TextView) mActivity.findViewById(R.id.thread_current_page);
 		mMaxPages = (TextView) mActivity.findViewById(R.id.thread_no_of_pages);
 
-        mThreadData = new ThreadData();
+		mThreadData = new ThreadData();
 
-		if (savedInstanceState != null) {
+		if (savedInstanceState != null && savedInstanceState.getSerializable(DATA) != null) {
 			// Restore Current page.
-			mThreadData.setThreads((ArrayList<Thread>) savedInstanceState.getSerializable(DATA));
-			mThreadData.setCurrentPage(savedInstanceState.getInt(CURRENT_PAGE, 1));
-			mThreadData.setLoggedIn(savedInstanceState.getBoolean(LOGGED_IN));
+			mThreadData = (ThreadData)savedInstanceState.getSerializable(DATA);
+//			mThreadData.setThreads((ArrayList<Thread>) savedInstanceState.getSerializable(DATA));
+//			mThreadData.setCurrentPage(savedInstanceState.getInt(CURRENT_PAGE, 1));
+//			mThreadData.setLoggedIn(savedInstanceState.getBoolean(LOGGED_IN));
 
-			setLogin(savedInstanceState.getBoolean(LOGGED_IN));
+			setLogin(mThreadData.getLoggedIn());
 			fillList();
 			showProgress(false);
 		} else if (mActivity.isLoggedIn()) {
@@ -124,9 +125,10 @@ public class ForumListFragment extends RefreshListfragment {
 	public void onSaveInstanceState(Bundle outState) {
 		if (mListView != null && mThreadData != null) {
 			mThreadData.setListPosition(mListView.getFirstVisiblePosition());
-			outState.putInt(CURRENT_PAGE, mThreadData.getCurrentPage());
-			outState.putSerializable(DATA, (ArrayList<Thread>) mThreadData.getThreads());
-			outState.putBoolean(LOGGED_IN, mThreadData.getLoggedIn());
+			outState.putSerializable(DATA, mThreadData);
+//			outState.putInt(CURRENT_PAGE, mThreadData.getCurrentPage());
+//			outState.putSerializable(DATA, (ArrayList<Thread>) mThreadData.getThreads());
+//			outState.putBoolean(LOGGED_IN, mThreadData.getLoggedIn());
 		}
 
 		super.onSaveInstanceState(outState);

@@ -43,6 +43,7 @@ public abstract class RefreshListfragment extends ListFragment {
 
         mProgressView = getActivity().findViewById(R.id.progress_container_id);
         setHasOptionsMenu(true);
+        showProgress(true);
     }
 
     @Override

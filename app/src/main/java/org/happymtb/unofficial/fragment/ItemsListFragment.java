@@ -20,8 +20,8 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 	protected static final String ITEMS = "items";
 	protected static final String ALL_ITEMS = "all_items";
     protected ListItemsAdapter mItemsAdapter;
-	protected ArrayList<Item> mAllItems = new ArrayList<Item>();
 	protected ArrayList<Item> mItems = new ArrayList<Item>();
+	protected ArrayList<Item> mAllItems = new ArrayList<Item>();
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -30,9 +30,11 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
         if (savedInstanceState != null) {
             mItems = (ArrayList<Item>) savedInstanceState.getSerializable(ITEMS);
             mAllItems = (ArrayList<Item>) savedInstanceState.getSerializable(ALL_ITEMS);
-
-			fillList();
-
+			if (mAllItems != null && !mAllItems.isEmpty()) {
+				fillList();
+			} else {
+				fetchItems();
+			}
         } else {
             fetchItems();
         }

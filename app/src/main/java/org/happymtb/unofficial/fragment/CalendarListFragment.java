@@ -65,10 +65,15 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 
         if (savedInstanceState != null) {
 			mCalendarItems = (ArrayList<CalendarItem>)savedInstanceState.getSerializable(DATA);
-            mFirstVisiblePos = savedInstanceState.getInt(CURRENT_POSITION, 0);
 
-			fillList();
-            showProgress(false);
+			if (mCalendarItems != null && !mCalendarItems.isEmpty()) {
+				mFirstVisiblePos = savedInstanceState.getInt(CURRENT_POSITION, 0);
+
+				fillList();
+				showProgress(false);
+			} else {
+				fetchData();
+			}
         } else {
 			fetchData();
 		}
