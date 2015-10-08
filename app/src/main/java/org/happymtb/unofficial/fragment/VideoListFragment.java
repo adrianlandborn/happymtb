@@ -150,7 +150,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 		getVideo = new VideoListTask();
 		getVideo.addVideoListListener(new VideoListListener() {
 			public void success(List<VideoItem> VideoItems) {
-                if (getActivity() != null) {
+                if (getActivity() != null && !getActivity().isFinishing()) {
                     mVideoData.setVideoItems(VideoItems);
                     fillList();
 
@@ -159,7 +159,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 			}
 
 			public void fail() {
-                if (getActivity() != null) {
+                if (getActivity() != null && !getActivity().isFinishing()) {
                     Toast.makeText(getActivity(), R.string.no_items_found, Toast.LENGTH_LONG).show();
                     mVideoData = new VideoData(1, 1, "", 0, null, 0);
                     showProgress(false);

@@ -24,7 +24,7 @@ public class ArticlesListFragment extends ItemsListFragment implements DialogInt
 		mGetItems = new ArticlesListTask();
 		mGetItems.addItemListListener(new ItemListListener() {
             public void success(ArrayList<Item> items) {
-                if (getActivity() != null) {
+                if (getActivity() != null && !getActivity().isFinishing()) {
                     mAllItems = items;
 
 					expandGroup(items.get(0).getGroup());
@@ -33,7 +33,7 @@ public class ArticlesListFragment extends ItemsListFragment implements DialogInt
             }
 
             public void fail() {
-				if (getActivity() != null) {
+				if (getActivity() != null && !getActivity().isFinishing()) {
 					Toast.makeText(getActivity(), R.string.articles_no_items_found, Toast.LENGTH_SHORT).show();
 				}
 			}

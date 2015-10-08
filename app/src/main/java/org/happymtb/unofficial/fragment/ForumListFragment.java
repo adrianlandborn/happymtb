@@ -83,7 +83,6 @@ public class ForumListFragment extends RefreshListfragment {
 			// Restore Current page.
 			mThreadData.setThreads((ArrayList<Thread>) savedInstanceState.getSerializable(DATA));
 			mThreadData.setCurrentPage(savedInstanceState.getInt(CURRENT_PAGE, 1));
-			mThreadData.setListPosition(savedInstanceState.getInt(CURRENT_POSITION, 0));
 			mThreadData.setLoggedIn(savedInstanceState.getBoolean(LOGGED_IN));
 
 			setLogin(savedInstanceState.getBoolean(LOGGED_IN));
@@ -123,12 +122,13 @@ public class ForumListFragment extends RefreshListfragment {
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		if (mListView != null) {
-			outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
+		if (mListView != null && mThreadData != null) {
+			mThreadData.setListPosition(mListView.getFirstVisiblePosition());
+			outState.putInt(CURRENT_PAGE, mThreadData.getCurrentPage());
+			outState.putSerializable(DATA, (ArrayList<Thread>) mThreadData.getThreads());
+			outState.putBoolean(LOGGED_IN, mThreadData.getLoggedIn());
 		}
-		outState.putInt(CURRENT_PAGE, mThreadData.getCurrentPage());
-		outState.putSerializable(DATA, (ArrayList<Thread>) mThreadData.getThreads());
-		outState.putBoolean(LOGGED_IN, mThreadData.getLoggedIn());
+
 		super.onSaveInstanceState(outState);
 	}
 
@@ -213,14 +213,14 @@ public class ForumListFragment extends RefreshListfragment {
 		LoginTask loginTask = new LoginTask();
 		loginTask.addLoginListener(new LoginListener() {
 			public void success() {
-				if (getActivity() != null) {
+				if (getActivity() != null && !getActivity().isFinishing()) {
 					setLogin(true);
 					fetchData();
 				}
 			}
 
 			public void fail() {
-				if (getActivity() != null) {
+				if (getActivity() != null && !getActivity().isFinishing()) {
 					setLogin(false);
 					fetchData();
 				}
@@ -236,7 +236,7 @@ public class ForumListFragment extends RefreshListfragment {
 		mMarkAsRead = new MarkAsReadTask();
 		mMarkAsRead.addMarkAsReadListener(new MarkAsReadListener() {
             public void success() {
-                if (getActivity() != null) {
+                if (getActivity() != null && !getActivity().isFinishing()) {
                     fetchData();
                 }
             }
@@ -283,7 +283,7 @@ public class ForumListFragment extends RefreshListfragment {
 		mThreadsTask = new ThreadListTask();
 		mThreadsTask.addThreadListListener(new ThreadListListener() {
             public void success(List<Thread> threads) {
-                if (getActivity() != null) {
+                if (getActivity() != null  && !getActivity().isFinishing()) {
                     mThreadData.setThreads(threads);
                     fillList();
                     showProgress(false);
@@ -291,7 +291,7 @@ public class ForumListFragment extends RefreshListfragment {
             }
 
             public void fail() {
-				if (getActivity() != null) {
+				if (getActivity() != null  && !getActivity().isFinishing()) {
 					Toast.makeText(getActivity(), R.string.thread_download_error, Toast.LENGTH_SHORT).show();
 					showProgress(false);
 				}

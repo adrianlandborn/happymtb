@@ -27,14 +27,14 @@ public class ShopsListFragment extends ItemsListFragment implements DialogInterf
 		mShopsTask = new ShopsListTask();
 		mShopsTask.addItemListListener(new ItemListListener() {
             public void success(ArrayList<Item> Items) {
-                if (getActivity() != null) {
+                if (getActivity() != null && !getActivity().isFinishing()) {
                     mAllItems = Items;
                     fillList();
                 }
             }
 
             public void fail() {
-				if (getActivity() != null) {
+				if (getActivity() != null && !getActivity().isFinishing()) {
 					Toast.makeText(getActivity(), R.string.shops_no_items_found, Toast.LENGTH_SHORT).show();
 				}
             }

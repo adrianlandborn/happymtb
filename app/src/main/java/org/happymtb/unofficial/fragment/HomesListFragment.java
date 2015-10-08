@@ -72,7 +72,7 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 		getHome = new HomeListTask();
 		getHome.addHomeListListener(new HomeListListener() {
 			public void success(ArrayList<Home> Homes) {
-                if (getActivity() != null) {
+                if (getActivity() != null && !getActivity().isFinishing()) {
                     mHomes = Homes;
                     fillList();
 
@@ -81,7 +81,7 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 			}
 
 			public void fail() {
-                if (getActivity() != null) {
+                if (getActivity() != null && !getActivity().isFinishing()) {
                     Toast.makeText(getActivity(), R.string.no_items_found, Toast.LENGTH_LONG).show();
 
                     showProgress(false);
@@ -92,17 +92,15 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 	}
 	
 	protected void fillList() {
-        if (getActivity() != null) {
-            if (mHomeAdapter == null) {
-				mListView = getListView();
-                mHomeAdapter = new ListHomeAdapter(getActivity(), mHomes);
-                setListAdapter(mHomeAdapter);
-				mListView.setSelection(mFirstVisiblePos);
-            } else {
-                mHomeAdapter.notifyDataSetChanged();
-            }
-        }
-	}	
+		if (mHomeAdapter == null) {
+			mListView = getListView();
+			mHomeAdapter = new ListHomeAdapter(getActivity(), mHomes);
+			setListAdapter(mHomeAdapter);
+			mListView.setSelection(mFirstVisiblePos);
+		} else {
+			mHomeAdapter.notifyDataSetChanged();
+		}
+	}
 			
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {

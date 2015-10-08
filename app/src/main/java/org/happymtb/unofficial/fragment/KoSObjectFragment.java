@@ -96,7 +96,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mKoSObjectTask.addKoSObjectListener(new KoSObjectListener() {
 			public void success(KoSObjectItem koSObjectItem) {
 				mKoSObjectItem = koSObjectItem;
-				if (getActivity() != null) {
+				if (getActivity() != null && !getActivity().isFinishing()) {
 					if (mKoSObjectItem != null) {
 						fillList();
 					}
@@ -105,7 +105,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 			}
 
 			public void fail() {
-				if (getActivity() != null) {
+				if (getActivity() != null && !getActivity().isFinishing()) {
 					Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
 					mProgressView.setVisibility(View.INVISIBLE);
 				}

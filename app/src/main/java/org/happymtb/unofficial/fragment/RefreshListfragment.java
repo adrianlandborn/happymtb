@@ -51,7 +51,7 @@ public abstract class RefreshListfragment extends ListFragment {
     }
 
     protected void showProgress(boolean visible) {
-        if (getActivity() != null) {
+        if (getActivity() != null && !getActivity().isFinishing()) {
             if (visible) {
                 if (!mSwipeRefreshLayout.isRefreshing()) {
                     mProgressView.setVisibility(View.VISIBLE);

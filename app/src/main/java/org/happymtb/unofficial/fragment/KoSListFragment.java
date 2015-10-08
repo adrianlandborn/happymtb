@@ -222,7 +222,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		mKoSTask = new KoSListTask();
 		mKoSTask.addKoSListListener(new KoSListListener() {
             public void success(List<KoSItem> KoSItems) {
-                if (getActivity() != null) {
+                if (getActivity() != null && !getActivity().isFinishing()) {
                     mKoSData.setKoSItems(KoSItems);
                     fillList();
 
@@ -233,7 +233,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             }
 
             public void fail() {
-                if (getActivity() != null) {
+                if (getActivity() != null && !getActivity().isFinishing()) {
                     Toast.makeText(mActivity, mActivity.getString(R.string.kos_no_items_found), Toast.LENGTH_LONG).show();
 
 					//TODO Why is kosData recreated here?

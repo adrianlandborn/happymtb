@@ -249,7 +249,7 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
             mMessageListTask = new MessageListTask();
             mMessageListTask.addMessageListListener(new MessageListListener() {
                     public void success(List<Message> messages) {
-                        if (getActivity() != null) {
+                        if (getActivity() != null && !getActivity().isFinishing()) {
                             mMessageData.setMessages(messages);
                             fillList();
 
@@ -259,7 +259,7 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
                     public void fail() {
 
-                        if (getActivity() != null) {
+                        if (getActivity() != null && !getActivity().isFinishing()) {
                             Toast.makeText(mActivity, mActivity.getString(R.string.messages_not_found), Toast.LENGTH_LONG).show();
 
                             showProgress(false);
