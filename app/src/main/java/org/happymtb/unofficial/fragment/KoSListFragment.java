@@ -267,8 +267,8 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 			mKoSAdapter.notifyDataSetChanged();
 		}
 
-        mListView = getListView();
-		mListView.setSelection(mKoSData.getListPosition());
+//        mListView = getListView();
+//		mListView.setSelection(mKoSData.getListPosition());
 		
 		TextView currentPage = (TextView) mActivity.findViewById(R.id.kos_current_page);
 		currentPage.setText(Integer.toString(mKoSData.getCurrentPage()));

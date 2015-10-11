@@ -1,7 +1,6 @@
 package org.happymtb.unofficial.fragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.adapter.ListHomeAdapter;
@@ -9,12 +8,11 @@ import org.happymtb.unofficial.item.Home;
 import org.happymtb.unofficial.listener.HomeListListener;
 import org.happymtb.unofficial.task.HomeListTask;
 
-import android.app.ProgressDialog;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -33,8 +31,8 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-        if (savedInstanceState != null) {
+		System.out.println("HOMES: " + "onactcreated");
+		if (savedInstanceState != null) {
 			mHomes = (ArrayList<Home>)savedInstanceState.getSerializable(DATA);
 
 			if (mHomes != null && !mHomes.isEmpty()) {
@@ -51,7 +49,7 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 
 	}
 
-    @Override
+	@Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mListView != null) {
@@ -98,11 +96,10 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 	
 	protected void fillList() {
 		if (mHomeAdapter == null) {
-			mListView = getListView();
 			mHomeAdapter = new ListHomeAdapter(getActivity(), mHomes);
 			setListAdapter(mHomeAdapter);
-			mListView.setSelection(mFirstVisiblePos);
 		} else {
+            mHomeAdapter.setItems(mHomes);
 			mHomeAdapter.notifyDataSetChanged();
 		}
 	}

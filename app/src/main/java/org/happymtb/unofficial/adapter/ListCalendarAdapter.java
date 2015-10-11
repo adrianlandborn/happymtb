@@ -72,4 +72,7 @@ public class ListCalendarAdapter extends BaseAdapter {
 		return calendarRowView;
 	}
 
+	public void setItems(ArrayList<CalendarItem> items) {
+		mCalendarItems = items;
+	}
 }

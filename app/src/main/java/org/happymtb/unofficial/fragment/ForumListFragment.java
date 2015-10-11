@@ -55,6 +55,7 @@ public class ForumListFragment extends RefreshListfragment {
 	private TextView mLoginStatus;
 	private TextView mCurrentPage;
 	private TextView mMaxPages;
+	private ListThreadsAdapter mAdapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -237,17 +238,17 @@ public class ForumListFragment extends RefreshListfragment {
 
 		mMarkAsRead = new MarkAsReadTask();
 		mMarkAsRead.addMarkAsReadListener(new MarkAsReadListener() {
-            public void success() {
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    fetchData();
-                }
-            }
+			public void success() {
+				if (getActivity() != null && !getActivity().isFinishing()) {
+					fetchData();
+				}
+			}
 
-            public void fail() {
-                showProgress(false);
-                Toast.makeText(getActivity(), getString(R.string.thread_error_mark_as_read), Toast.LENGTH_SHORT).show();
-            }
-        });
+			public void fail() {
+				showProgress(false);
+				Toast.makeText(getActivity(), getString(R.string.thread_error_mark_as_read), Toast.LENGTH_SHORT).show();
+			}
+		});
 		mMarkAsRead.execute(mActivity);
 	}
 	
@@ -303,12 +304,16 @@ public class ForumListFragment extends RefreshListfragment {
 	}
 
 	private void fillList() {
-		ListThreadsAdapter adapter = new ListThreadsAdapter(mActivity, mThreadData.getThreads());
-		setListAdapter(adapter);
+		if (mAdapter == null) {
+			mAdapter = new ListThreadsAdapter(mActivity, mThreadData.getThreads());
+			setListAdapter(mAdapter);
+		} else {
+			mAdapter.setItems(mThreadData.getThreads());
+			mAdapter.notifyDataSetChanged();
+		}
 
-		mListView = getListView();
-		
-		mListView.setSelection(mThreadData.getListPosition());
+//		mListView = getListView();
+//		mListView.setSelection(mThreadData.getListPosition());
 		
 		mCurrentPage.setText(Integer.toString(mThreadData.getCurrentPage()));					
 		mMaxPages.setText(Integer.toString(mThreadData.getThreads().get(0).getNumberOfThreadPages()));

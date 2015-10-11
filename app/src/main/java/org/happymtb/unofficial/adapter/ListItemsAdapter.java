@@ -62,4 +62,7 @@ public class ListItemsAdapter extends BaseAdapter {
 		return itemRowView;
 	}
 
+	public void setItems(ArrayList<Item> items) {
+		mItems = items;
+	}
 }

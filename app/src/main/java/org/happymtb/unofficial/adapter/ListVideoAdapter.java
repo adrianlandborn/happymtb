@@ -62,4 +62,8 @@ public class ListVideoAdapter extends BaseAdapter {
 
 		return videoRowView;
 	}
+
+	public void setItems(List<VideoItem> items) {
+		mVideoItems = items;
+	}
 }

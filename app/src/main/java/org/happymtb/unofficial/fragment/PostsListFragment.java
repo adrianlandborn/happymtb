@@ -273,8 +273,13 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
     }
 
     private void fillList() {
-        mMessageAdapter = new ListMessagesAdapter(mActivity, mMessageData.getMessages());
-        setListAdapter(mMessageAdapter);
+        if (mMessageAdapter == null) {
+            mMessageAdapter = new ListMessagesAdapter(mActivity, mMessageData.getMessages());
+            setListAdapter(mMessageAdapter);
+        } else {
+            mMessageAdapter.setItems(mMessageData.getMessages());
+            mMessageAdapter.notifyDataSetChanged();
+        }
 
         new MessageImageDownloadTask().execute(mMessageData.getMessages(), mMessageAdapter, mActivity);
 

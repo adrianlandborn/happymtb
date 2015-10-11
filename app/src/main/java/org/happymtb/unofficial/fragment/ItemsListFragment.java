@@ -57,6 +57,7 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 			mItemsAdapter = new ListItemsAdapter(getActivity(), mItems);
 			setListAdapter(mItemsAdapter);
 		} else {
+			mItemsAdapter.setItems(mItems);
 			mItemsAdapter.notifyDataSetChanged();
 		}		
 	}	

@@ -133,8 +133,14 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 	}
 
     private void fillList() {
-		mCalendarAdapter = new ListCalendarAdapter(mActivity, mCalendarItems);
-		setListAdapter(mCalendarAdapter);
+		if (mCalendarAdapter == null) {
+			mCalendarAdapter = new ListCalendarAdapter(mActivity, mCalendarItems);
+			setListAdapter(mCalendarAdapter);
+		} else {
+			mCalendarAdapter.setItems(mCalendarItems);
+			mCalendarAdapter.notifyDataSetChanged();
+		}
+
 
         mListView = getListView();
         mListView.setSelection(mFirstVisiblePos);

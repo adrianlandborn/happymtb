@@ -52,4 +52,7 @@ public class ListHomeAdapter extends BaseAdapter {
 		return homeRowView;
 	}
 
+	public void setItems(ArrayList<Home> items) {
+		mHomes = items;
+	}
 }

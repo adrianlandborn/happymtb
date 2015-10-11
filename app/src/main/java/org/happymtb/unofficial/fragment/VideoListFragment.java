@@ -176,12 +176,17 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
             fetchData();
             return;
         }
-		mVideoAdapter = new ListVideoAdapter(mActivity, mVideoData.getVideoItems());
-		setListAdapter(mVideoAdapter);
 
-		mListView = getListView();
+		if (mVideoAdapter == null) {
+			mVideoAdapter = new ListVideoAdapter(mActivity, mVideoData.getVideoItems());
+			setListAdapter(mVideoAdapter);
+		} else {
+			mVideoAdapter.setItems(mVideoData.getVideoItems());
+			mVideoAdapter.notifyDataSetChanged();
+		}
 
-		mListView.setSelection(mVideoData.getListPosition());
+//		mListView = getListView();
+//		mListView.setSelection(mVideoData.getListPosition());
 		
 		TextView CurrentPage = (TextView) mActivity.findViewById(R.id.video_current_page);
 		CurrentPage.setText(Integer.toString(mVideoData.getCurrentPage()));		

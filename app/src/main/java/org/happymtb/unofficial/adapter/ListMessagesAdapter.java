@@ -54,4 +54,8 @@ public class ListMessagesAdapter extends BaseAdapter
                 
         return messageRowView;
 	}
+
+	public void setItems(List<Message> items) {
+		mMessages = items;
+	}
 }

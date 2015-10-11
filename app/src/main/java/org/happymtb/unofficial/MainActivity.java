@@ -77,6 +77,7 @@ public class MainActivity extends FragmentActivity implements
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         mActionBar.setDisplayHomeAsUpEnabled(false);
 
+
         // Set up the dropdown list navigation in the action bar.
 
         mActionbarAdapter = new ArrayAdapter<String>(mActionBar.getThemedContext(),

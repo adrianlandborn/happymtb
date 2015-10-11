@@ -2,6 +2,7 @@ package org.happymtb.unofficial.task;
 
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.lang.Thread;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.os.AsyncTask;
 
 import org.happymtb.unofficial.helpers.HappyUtils;
-import org.happymtb.unofficial.item.Home;
+import org.happymtb.unofficial.item.*;
 import org.happymtb.unofficial.listener.HomeListListener;
 
 public class HomeListTask extends AsyncTask<Object, Void, Boolean> {
@@ -109,6 +110,11 @@ public class HomeListTask extends AsyncTask<Object, Void, Boolean> {
 			// Log.d("doInBackground", "Error: " + e.getMessage());
 		} finally {
 			httpclient.getConnectionManager().shutdown();
+		}
+		try {
+			Thread.sleep(2000, 0);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 		return true;
 	}

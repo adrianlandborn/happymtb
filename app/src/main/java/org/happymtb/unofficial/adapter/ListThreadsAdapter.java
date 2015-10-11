@@ -47,6 +47,10 @@ public class ListThreadsAdapter extends BaseAdapter
 		return position;
 	}
 
+	public void setItems(List<Thread> threads) {
+		mThreads = threads;
+	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {			
 		ThreadRowView threadRowView;
