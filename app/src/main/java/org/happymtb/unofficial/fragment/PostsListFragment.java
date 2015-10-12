@@ -155,7 +155,7 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // Do something with value!
                         if (HappyUtils.isInteger(input.getText().toString())) {
-                            mMessageData.setListPosition(0);
+                            mMessageAdapter = null;
                             mMessageData.setMessages(null);
                             mMessageData.setCurrentPage(Integer.parseInt(input.getText().toString()));
                             fetchData();
@@ -213,14 +213,14 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
     }
 
     public void refreshList() {
-        mMessageData.setListPosition(0);
+        mMessageAdapter = null;
         mMessageData.setMessages(null);
         fetchData();
     }
 
     public void nextPage() {
         if (mMessageData.getCurrentPage() < mMessageData.getMaxPages()) {
-            mMessageData.setListPosition(0);
+            mMessageAdapter = null;
             mMessageData.setMessages(null);
             mMessageData.setCurrentPage(mMessageData.getCurrentPage() + 1);
             mSwipeRefreshLayout.setRefreshing(false); // To not show multiple loading spinners
@@ -230,7 +230,7 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
     public void previousPage() {
         if (mMessageData.getCurrentPage() > 1) {
-            mMessageData.setListPosition(0);
+            mMessageAdapter = null;
             mMessageData.setMessages(null);
             mMessageData.setCurrentPage(mMessageData.getCurrentPage() - 1);
             mSwipeRefreshLayout.setRefreshing(false); // To not show multiple loading spinners

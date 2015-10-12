@@ -65,7 +65,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	private SharedPreferences mPreferences;
 	private MainActivity mActivity;
 	private FragmentManager mFragmentManager;
-    private ListView mListView;
 
     protected GestureDetectorCompat mDetector;
 
@@ -120,11 +119,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mKoSData != null) {
-            if (mListView != null) {
-                mKoSData.setListPosition(mListView.getFirstVisiblePosition());
-            } else {
-                mKoSData.setListPosition(0);
-            }
             outState.putSerializable(DATA, mKoSData);
         }
     }
@@ -213,7 +207,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
 	public void refreshList() {
         mKoSData.setCurrentPage(1);
-        mKoSData.setListPosition(0);
+        mKoSAdapter = null;;
         fetchData();
 	}
 
@@ -225,9 +219,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
                 if (getActivity() != null && !getActivity().isFinishing()) {
                     mKoSData.setKoSItems(KoSItems);
                     fillList();
-
-//                    KoSImageDownloadTask getKoSImages = new KoSImageDownloadTask();
-//                    getKoSImages.execute(mKoSData.getKoSItems(), mKoSAdapter);
                 }
                 showProgress(false);
             }
@@ -235,14 +226,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             public void fail() {
                 if (getActivity() != null && !getActivity().isFinishing()) {
                     Toast.makeText(mActivity, mActivity.getString(R.string.kos_no_items_found), Toast.LENGTH_LONG).show();
-
-					//TODO Why is kosData recreated here?
-//                    mKoSData = new KoSData(mPreferences.getString(SORT_ATTRIBUTE_SERVER, "creationdate"), mPreferences.getInt(SORT_ATTRIBUTE_POS, 0),
-//                            mPreferences.getString(SORT_ORDER_SERVER, "DESC"), mPreferences.getInt(SORT_ORDER_POS, 0),
-//							mPreferences.getInt(SEARCH_TYPE_POS, 3),
-//							mPreferences.getInt(SEARCH_REGION_POS, 0), mPreferences.getString(SEARCH_REGION, "Hela Sverige"),
-//							mPreferences.getInt(SEARCH_CATEGORY_POS, 0), mPreferences.getString(SEARCH_CATEGORY, "Alla Kategorier"),
-//							mPreferences.getString(SEARCH_TEXT, ""));
 
                     showProgress(false);
                 }
@@ -267,9 +250,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 			mKoSAdapter.notifyDataSetChanged();
 		}
 
-//        mListView = getListView();
-//		mListView.setSelection(mKoSData.getListPosition());
-		
 		TextView currentPage = (TextView) mActivity.findViewById(R.id.kos_current_page);
 		currentPage.setText(Integer.toString(mKoSData.getCurrentPage()));
 		
@@ -303,7 +283,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	public void NextPage() {
 		if (mKoSData.getCurrentPage() < mKoSData.getMaxPages())
 		{			
-			mKoSData.setListPosition(0);
+			mKoSAdapter = null;;
 			mKoSData.setCurrentPage(mKoSData.getCurrentPage() + 1);
 			fetchData();
 		}
@@ -312,7 +292,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	public void PreviousPage() {
     	if (mKoSData.getCurrentPage() > 1)
     	{
-    		mKoSData.setListPosition(0);
+    		mKoSAdapter = null;;
     		mKoSData.setCurrentPage(mKoSData.getCurrentPage() - 1);
     		fetchData();
     	}
@@ -352,14 +332,13 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         mKoSData.setSortOrderServer(sortOrderNameServer);
 
         mKoSData.setCurrentPage(1);
-        mKoSData.setListPosition(0);
+        mKoSAdapter = null;;
 
         fetchData();
     }
 
 	@Override
 	public void onSearchParamChanged(String text, int categoryPos, int regionPos, int typePos) {
-
 		// Sökord
 		mKoSData.setSearch(text);
 
@@ -398,9 +377,8 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         edit.apply();
 
 		mKoSData.setCurrentPage(1);
-		mKoSData.setListPosition(0);
+		mKoSAdapter = null;;
 		fetchData();
-
 	}
 
 	@Override

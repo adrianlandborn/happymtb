@@ -8,7 +8,6 @@ import org.happymtb.unofficial.item.Home;
 import org.happymtb.unofficial.listener.HomeListListener;
 import org.happymtb.unofficial.task.HomeListTask;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -25,26 +24,22 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 	public static String TAG = "home_frag";
 	private ListHomeAdapter mHomeAdapter;
 	private ArrayList<Home> mHomes = new ArrayList<Home>();
-	private HomeListTask getHome;
-	private ListView mListView;
-	private int mFirstVisiblePos;
-	
+	private HomeListTask homeListTask;
+
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		System.out.println("HOMES: " + "onactcreated");
 		if (savedInstanceState != null) {
 			mHomes = (ArrayList<Home>)savedInstanceState.getSerializable(DATA);
 
 			if (mHomes != null && !mHomes.isEmpty()) {
-				mFirstVisiblePos = savedInstanceState.getInt(CURRENT_POSITION, 0);
-
 				fillList();
 				showProgress(false);
 			} else {
-				fetchData();
+                Toast.makeText(getActivity(), "not NULL", Toast.LENGTH_SHORT).show();
+                fetchData();
 			}
         } else {
-			fetchData();
+            fetchData();
 		}
 
 	}
@@ -52,10 +47,7 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 	@Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (mListView != null) {
-            outState.putInt(CURRENT_POSITION, mListView.getFirstVisiblePosition());
-			outState.putSerializable(DATA, mHomes);
-        }
+        outState.putSerializable(DATA, mHomes);
     }
 
     @Override
@@ -66,32 +58,32 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 	}		
 	
 	public void refreshList() {
-		mFirstVisiblePos = 0;
+		mHomeAdapter = null;
 		fetchData();
 	}
 	private void fetchData() {
         showProgress(true);
 
-		getHome = new HomeListTask();
-		getHome.addHomeListListener(new HomeListListener() {
-			public void success(ArrayList<Home> Homes) {
+		homeListTask = new HomeListTask();
+		homeListTask.addHomeListListener(new HomeListListener() {
+            public void success(ArrayList<Home> Homes) {
                 if (getActivity() != null && !getActivity().isFinishing()) {
                     mHomes = Homes;
                     fillList();
 
                     showProgress(false);
                 }
-			}
+            }
 
-			public void fail() {
+            public void fail() {
                 if (getActivity() != null && !getActivity().isFinishing()) {
                     Toast.makeText(getActivity(), R.string.no_items_found, Toast.LENGTH_LONG).show();
 
                     showProgress(false);
                 }
-			}
-		});
-		getHome.execute();
+            }
+        });
+		homeListTask.execute();
 	}
 	
 	protected void fillList() {

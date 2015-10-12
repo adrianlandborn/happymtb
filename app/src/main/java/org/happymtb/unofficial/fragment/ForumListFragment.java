@@ -50,7 +50,6 @@ public class ForumListFragment extends RefreshListfragment {
 	private SharedPreferences mPreferences;
 	private String mUsername = "";
 	private MainActivity mActivity;
-	private ListView mListView;
 	ImageView mLoginStatusImage;
 	private TextView mLoginStatus;
 	private TextView mCurrentPage;
@@ -124,12 +123,8 @@ public class ForumListFragment extends RefreshListfragment {
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		if (mListView != null && mThreadData != null) {
-			mThreadData.setListPosition(mListView.getFirstVisiblePosition());
+		if (mThreadData != null) {
 			outState.putSerializable(DATA, mThreadData);
-//			outState.putInt(CURRENT_PAGE, mThreadData.getCurrentPage());
-//			outState.putSerializable(DATA, (ArrayList<Thread>) mThreadData.getThreads());
-//			outState.putBoolean(LOGGED_IN, mThreadData.getLoggedIn());
 		}
 
 		super.onSaveInstanceState(outState);
@@ -253,14 +248,14 @@ public class ForumListFragment extends RefreshListfragment {
 	}
 	
 	public void refreshList() {
-		mThreadData.setListPosition(0);
+		mAdapter = null;
 		mThreadData.setCurrentPage(1);
 		fetchData();
 	}
 
 	public void nextPage() {
 		if (mThreadData.getCurrentPage() < mThreadData.getMaxPages()) {
-			mThreadData.setListPosition(0);
+			mAdapter = null;
 			mThreadData.setCurrentPage(mThreadData.getCurrentPage() + 1);
             mSwipeRefreshLayout.setRefreshing(false); // To not show multiple loading spinners
 
@@ -270,7 +265,7 @@ public class ForumListFragment extends RefreshListfragment {
 
 	public void previousPage() {
     	if (mThreadData.getCurrentPage() > 1) {
-    		mThreadData.setListPosition(0);
+    		mAdapter = null;
     		mThreadData.setCurrentPage(mThreadData.getCurrentPage() - 1);
 
             mSwipeRefreshLayout.setRefreshing(false); // To not show multiple loading spinners
@@ -312,10 +307,7 @@ public class ForumListFragment extends RefreshListfragment {
 			mAdapter.notifyDataSetChanged();
 		}
 
-//		mListView = getListView();
-//		mListView.setSelection(mThreadData.getListPosition());
-		
-		mCurrentPage.setText(Integer.toString(mThreadData.getCurrentPage()));					
+		mCurrentPage.setText(Integer.toString(mThreadData.getCurrentPage()));
 		mMaxPages.setText(Integer.toString(mThreadData.getThreads().get(0).getNumberOfThreadPages()));
 		mThreadData.setMaxPages(mThreadData.getThreads().get(0).getNumberOfThreadPages());						
 	}
