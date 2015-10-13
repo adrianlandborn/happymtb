@@ -1,11 +1,11 @@
 package org.happymtb.unofficial.fragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import org.happymtb.unofficial.WebViewActivity;
 import org.happymtb.unofficial.adapter.ListItemsAdapter;
 import org.happymtb.unofficial.item.Item;
-import android.app.ProgressDialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -113,10 +113,14 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 			
 			fillList();
 		} else {
-			final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(mItems.get(position).getLink()));
-			startActivity(intent);
+			openLink(mItems.get(position).getLink());
 		}
-	}	
+	}
+
+	public void openLink(String url) {
+        final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url));
+        startActivity(intent);
+	}
 	
 	@Override
 	public void onCancel(DialogInterface dialog) {

@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.WebViewActivity;
 import org.happymtb.unofficial.item.Item;
 import org.happymtb.unofficial.listener.ItemListListener;
 import org.happymtb.unofficial.task.ArticlesListTask;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -63,5 +65,13 @@ public class ArticlesListFragment extends ItemsListFragment implements DialogInt
 		menu.clear();
 		inflater.inflate(R.menu.articles_menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
-	}	
+	}
+
+	//TODO Reloads on orientation changes. Also no fullscreen option on videos. Remove?
+//	@Override
+//	public void openLink(String url) {
+//		Intent browserIntent = new Intent(getActivity(), WebViewActivity.class);
+//		browserIntent.putExtra("url", url);
+//		startActivity(browserIntent);
+//	}
 }

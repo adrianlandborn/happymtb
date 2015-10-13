@@ -408,15 +408,16 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-            // "Left Swipe"
-            NextPage();
-            return true;
-        }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-            // "Right Swipe"
-            PreviousPage();
-            return true;
-        }
+		//TODO A bit buggy. Need to find a better solution
+//        if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+//             //"Left Swipe"
+//            NextPage();
+//            return true;
+//        }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+//             //"Right Swipe"
+//            PreviousPage();
+//            return true;
+//        }
 		return false;
 	}
 }
