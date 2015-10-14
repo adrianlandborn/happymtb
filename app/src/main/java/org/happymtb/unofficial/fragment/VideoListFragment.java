@@ -185,19 +185,18 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 			mVideoAdapter.notifyDataSetChanged();
 		}
 
-//		mListView = getListView();
-//		mListView.setSelection(mVideoData.getListPosition());
+		//TODO: View gets null sometimes
+		TextView currentPage = (TextView) mActivity.findViewById(R.id.video_current_page);
+		currentPage.setText(Integer.toString(mVideoData.getCurrentPage()));
 		
-		TextView CurrentPage = (TextView) mActivity.findViewById(R.id.video_current_page);
-		CurrentPage.setText(Integer.toString(mVideoData.getCurrentPage()));		
-		
-		TextView MaxPages = (TextView) mActivity.findViewById(R.id.video_no_of_pages);
-		MaxPages.setText(Integer.toString(mVideoData.getVideoItems().get(0).getNumberOfVideoPages()));
+		TextView maxPages = (TextView) mActivity.findViewById(R.id.video_no_of_pages);
+		maxPages.setText(Integer.toString(mVideoData.getVideoItems().get(0).getNumberOfVideoPages()));
 		mVideoData.setMaxPages(mVideoData.getVideoItems().get(0).getNumberOfVideoPages());			
 		
-		TextView Category = (TextView) mActivity.findViewById(R.id.video_category);
-		Category.setText("Kategori: " + mVideoData.getVideoItems().get(0).getSelectedCategory());
+		TextView category = (TextView) mActivity.findViewById(R.id.video_category);
+		category.setText("Kategori: " + mVideoData.getVideoItems().get(0).getSelectedCategory());
 
+		//TODO Uncomment when fixing Search
 //		TextView searchView = (TextView) mActivity.findViewById(R.id.video_search);
 //
 //		String mSearch = mVideoData.getSearch();
@@ -248,7 +247,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 			builder = new AlertDialog.Builder(mActivity);
 			builder.setTitle(R.string.error_message);
 			builder.setMessage(
-					"Det blev något fel vid hämtning av köp och sälj")
+					"Det blev något fel vid hämtning av videolistan")
 					.setPositiveButton(R.string.OK,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,

@@ -388,7 +388,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
 	@Override
 	public void onShowPress(MotionEvent e) {
-
 	}
 
 	@Override
