@@ -1,9 +1,6 @@
 package org.happymtb.unofficial.helpers;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import org.happymtb.unofficial.R;
@@ -61,7 +58,7 @@ public class HappyUtils {
 		replaceAll("&#214;", "Í").
 		replaceAll("'", "&#39;").
 		replaceAll("&quot;", "\"").
-        replaceAll("&#8243;","\"").
+        replaceAll("&#8243;", "\"").
 		replaceAll("&gt;", ">").
 		replaceAll("&lt;","<").
 		replaceAll("&#39;","'").
@@ -73,6 +70,7 @@ public class HappyUtils {
 		replaceAll("&#8221;", "\"").
 		replaceAll("&#038;", "&").
 		replaceAll("&amp;", "&").
+		replaceAll("&#38;", "&").
 		replaceAll("&#8230;", "...");
 
 		return htmlCode;

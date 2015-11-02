@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:happy="http://schemas.android.com/apk/res-auto" >
     <item 
         android:id="@+id/thread_left" 
         android:icon="@drawable/ic_action_previous"
-        android:showAsAction="always" 
+        happy:showAsAction="always"
         android:title="Föregående sida"
         android:visible="true">        
     </item>    
@@ -11,7 +12,7 @@
     <item 
         android:id="@+id/thread_right" 
         android:icon="@drawable/ic_action_next"
-        android:showAsAction="always"
+        happy:showAsAction="always"
         android:title="Nästa sida" 
         android:visible="true">        
     </item>     
@@ -19,12 +20,12 @@
     <item android:id="@+id/thread_submenu"
         android:icon="@drawable/ic_action_submenu"
     	android:title="Submenu &gt;"
-        android:showAsAction="always">
+        happy:showAsAction="always">
         <menu>
 			<item
             	android:id="@+id/thread_go_to_page"
             	android:icon="@drawable/ic_action_go_to"
-                android:title="Gå till sidan..." />            
+                android:title="Gå till sidan..." />
             
             <item
             	android:id="@+id/thread_markasread"
@@ -40,6 +41,6 @@
             	android:id="@+id/thread_new_thread"
             	android:icon="@drawable/ic_action_write"
                 android:title="Nytt ämne" />
-		</menu>            
-	</item>			         
+		</menu>
+	</item>
 </menu>

@@ -36,7 +36,6 @@ import org.happymtb.unofficial.task.LoginTask;
 import org.happymtb.unofficial.task.MarkAsReadTask;
 import org.happymtb.unofficial.task.ThreadListTask;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ForumListFragment extends RefreshListfragment {
@@ -58,13 +57,14 @@ public class ForumListFragment extends RefreshListfragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.thread_frame, container, false);
+		return inflater.inflate(R.layout.forum_frame, container, false);
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
 		mActivity = (MainActivity) getActivity();
+		mActivity.getSupportActionBar().setTitle(getString(R.string.main_forum));
 
 		CookieSyncManager.createInstance(mActivity);
 		CookieSyncManager.getInstance().startSync();		
@@ -143,8 +143,8 @@ public class ForumListFragment extends RefreshListfragment {
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-            case R.id.thread_submenu:
-                return true;
+//            case R.id.thread_submenu:
+//                return true;
             case R.id.thread_left:
                 previousPage();
                 return true;

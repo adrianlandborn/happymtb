@@ -2,8 +2,6 @@ package org.happymtb.unofficial.item;
 
 import java.io.Serializable;
 
-import android.graphics.drawable.Drawable;
-
 public class KoSItem implements Serializable {
 	private static final long serialVersionUID = 201110070001L; 
 	
@@ -21,7 +19,7 @@ public class KoSItem implements Serializable {
 	public KoSItem(String Time, String Title, String Area, String Link,
 			String ImgLink, String Category, String Price, int NumberOfKoSPages, String SelectedCategory, String SelectedRegion) {
 		mTime = Time;
-		mTitle = Title;
+		mTitle = Title.replace("&amp;", "&");
 		mArea = Area;
 		mLink = Link;
 		mImgLink = ImgLink;

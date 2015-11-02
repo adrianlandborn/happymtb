@@ -2,8 +2,6 @@ package org.happymtb.unofficial.item;
 
 import java.io.Serializable;
 
-import android.graphics.drawable.Drawable;
-
 public class VideoItem implements Serializable {
 	private static final long serialVersionUID = 201110870001L;
 

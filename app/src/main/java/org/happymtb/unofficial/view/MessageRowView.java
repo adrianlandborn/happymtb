@@ -1,16 +1,12 @@
 package org.happymtb.unofficial.view;
 
 import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.helpers.URLImageParser;
 import android.content.Context;
-import android.content.SharedPreferences;
 
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,7 +25,7 @@ public class MessageRowView extends LinearLayout {
 		mContext = context;
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-		compoundView = (LinearLayout)inflater.inflate(R.layout.message_row, this);
+		compoundView = (LinearLayout)inflater.inflate(R.layout.post_row, this);
 		
 		mTitle = (TextView) compoundView.findViewById(R.id.message_title);
 		mText = (TextView) compoundView.findViewById(R.id.message_text);

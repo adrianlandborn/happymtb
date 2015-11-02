@@ -88,7 +88,7 @@ public class VideoListTask extends AsyncTask<Object, Void, Boolean> {
 			String urlStr = "http://happymtb.org/video/?p="
 					+ Integer.toString((Integer) params[0]) + "&c="
 					+ Integer.toString((Integer) params[1]) + "&search="
-					+ (String) params[2];
+					+ params[2];
 					
 			HttpGet httpget = new HttpGet(urlStr);
 								
@@ -177,11 +177,8 @@ public class VideoListTask extends AsyncTask<Object, Void, Boolean> {
 			// Log.d("doInBackground", "Error: " + e.getMessage());
 		} finally {
 			httpclient.getConnectionManager().shutdown();
-		}	
-		if (mVideoItems.size() > 0)
-			return true;
-		else
-			return false;
+		}
+		return mVideoItems.size() > 0;
 	}
 	
 	@Override

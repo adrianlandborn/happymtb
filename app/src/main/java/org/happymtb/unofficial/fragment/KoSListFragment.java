@@ -75,6 +75,8 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		super.onActivityCreated(savedInstanceState);
 
         mActivity = (MainActivity) getActivity();
+		mActivity.getSupportActionBar().setTitle("Annonser");
+
         mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 
         if (savedInstanceState != null) {
@@ -207,8 +209,8 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
 	public void refreshList() {
         mKoSData.setCurrentPage(1);
-        mKoSAdapter = null;;
-        fetchData();
+        mKoSAdapter = null;
+		fetchData();
 	}
 
 	private void fetchData() {
@@ -283,7 +285,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	public void NextPage() {
 		if (mKoSData.getCurrentPage() < mKoSData.getMaxPages())
 		{			
-			mKoSAdapter = null;;
+			mKoSAdapter = null;
 			mKoSData.setCurrentPage(mKoSData.getCurrentPage() + 1);
 			fetchData();
 		}
@@ -292,8 +294,8 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	public void PreviousPage() {
     	if (mKoSData.getCurrentPage() > 1)
     	{
-    		mKoSAdapter = null;;
-    		mKoSData.setCurrentPage(mKoSData.getCurrentPage() - 1);
+    		mKoSAdapter = null;
+			mKoSData.setCurrentPage(mKoSData.getCurrentPage() - 1);
     		fetchData();
     	}
 	}
@@ -332,9 +334,9 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         mKoSData.setSortOrderServer(sortOrderNameServer);
 
         mKoSData.setCurrentPage(1);
-        mKoSAdapter = null;;
+        mKoSAdapter = null;
 
-        fetchData();
+		fetchData();
     }
 
 	@Override
@@ -377,7 +379,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         edit.apply();
 
 		mKoSData.setCurrentPage(1);
-		mKoSAdapter = null;;
+		mKoSAdapter = null;
 		fetchData();
 	}
 

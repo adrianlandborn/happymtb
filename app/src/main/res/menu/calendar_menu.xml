@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:happy="http://schemas.android.com/apk/res-auto" >
     <item android:id="@+id/calendar_submenu"
         android:icon="@drawable/ic_action_submenu"
     	android:title="Submenu &gt;"
-        android:showAsAction="always">
+        happy:showAsAction="always">
         <menu>
     		<item
             	android:id="@+id/calendar_search"

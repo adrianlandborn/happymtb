@@ -2,8 +2,6 @@ package org.happymtb.unofficial.item;
 
 import java.io.Serializable;
 
-import android.graphics.drawable.Drawable;
-
 public class KoSObjectItem implements Serializable {
 	private static final long serialVersionUID = 201112070001L; 
 	

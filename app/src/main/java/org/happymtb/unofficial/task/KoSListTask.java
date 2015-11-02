@@ -101,9 +101,9 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 					+ Integer.toString((Integer) params[1]) + "&region="
 					+ Integer.toString((Integer) params[2]) + "&category="
 					+ Integer.toString((Integer) params[3]) + "&freetext="					
-					+ (String) params[4] + "&sortattribute="
-					+ (String) params[5] + "&sortorder="
-					+ (String) params[6];
+					+ params[4] + "&sortattribute="
+					+ params[5] + "&sortorder="
+					+ params[6];
 
 			mCurrentPage = (Integer) params[0];
 			HttpGet httpget = new HttpGet(urlStr);
@@ -198,10 +198,7 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 		}
-		if (mKoSItems.size() > 0)
-			return true;
-		else
-			return false;
+		return mKoSItems.size() > 0;
 	}
 	
 	@Override

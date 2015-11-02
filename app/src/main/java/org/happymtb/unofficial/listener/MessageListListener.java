@@ -6,6 +6,6 @@ import org.happymtb.unofficial.item.Message;
 
 public interface MessageListListener 
 {
-	public void success(List<Message> messages);
-	public void fail();
+	void success(List<Message> messages);
+	void fail();
 }

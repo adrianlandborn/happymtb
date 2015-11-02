@@ -1,13 +1,9 @@
 package org.happymtb.unofficial.view;
 
 import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.helpers.HappyUtils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.text.Html;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,7 +23,7 @@ public class ThreadRowView extends LinearLayout {
 		super(context);
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		compoundView = (LinearLayout) inflater.inflate(R.layout.thread_row, this);
+		compoundView = (LinearLayout) inflater.inflate(R.layout.forum_row, this);
 
 		mTitle = (TextView) compoundView.findViewById(R.id.thread_title);
 		mNew = (TextView) compoundView.findViewById(R.id.thread_new);

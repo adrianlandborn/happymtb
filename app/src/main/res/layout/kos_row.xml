@@ -33,8 +33,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
             android:textColor="@color/title_1_text"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/kos_picture_row_area"

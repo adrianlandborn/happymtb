@@ -1,19 +1,19 @@
 package org.happymtb.unofficial;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
 /**
  * Created by Adrian on 22/08/2015.
  */
-public class WebViewActivity extends Activity {
+public class WebViewActivity extends AppCompatActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String url = getIntent().getExtras().getString("url");
 

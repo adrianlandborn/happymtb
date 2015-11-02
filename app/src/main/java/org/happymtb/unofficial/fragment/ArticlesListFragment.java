@@ -1,16 +1,15 @@
 package org.happymtb.unofficial.fragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.WebViewActivity;
 import org.happymtb.unofficial.item.Item;
 import org.happymtb.unofficial.listener.ItemListListener;
 import org.happymtb.unofficial.task.ArticlesListTask;
 
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +19,12 @@ import android.widget.Toast;
 public class ArticlesListFragment extends ItemsListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
 	public static String TAG = "articles_frag";
 	private ArticlesListTask mGetItems;
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.main_articles));
+	}
 	
 	@Override
 	protected void fetchItems() {

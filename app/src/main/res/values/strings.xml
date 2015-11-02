@@ -2,6 +2,9 @@
 <resources>   
     <string name="app_name">HappyMTB</string>
 
+    <string name="navigation_drawer_open">Öppna drawer</string>
+    <string name="navigation_drawer_close">Stäng drawer</string>
+
     <string name="title_bar_home">Förstasidan</string>
     <string name="title_bar_forum">Forum</string>
     <string name="title_bar_kos">Köp &amp; Sälj</string>
@@ -48,7 +51,7 @@
     <string name="shops_no_items_found">Butikerna gick inte att hämta</string>
     <string name="calendar_no_items_found">Kalendern gick inte att hämta</string>
     <string name="messages_not_found">Kunde inte hämta meddelanden</string>
-    <string name="OK">Ok</string>
+    <string name="OK">OK</string>
     <string name="jump">Hoppa</string>
     <string name="search">Sök</string>
     <string name="sort">Sortera</string>

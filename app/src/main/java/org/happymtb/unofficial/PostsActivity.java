@@ -2,10 +2,10 @@ package org.happymtb.unofficial;
 
 import org.happymtb.unofficial.fragment.PostsListFragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-public class PostsActivity extends FragmentActivity {
+public class PostsActivity extends AppCompatActivity {
     public static final String PAGE = "Page";
     public static final String LOGGED_IN = "Logined";
     public static final String NEW_POST = "New";
@@ -13,10 +13,10 @@ public class PostsActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);		
-		
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-		setContentView(R.layout.message_frame);
+		super.onCreate(savedInstanceState);
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		setContentView(R.layout.posts_frame);
 
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()

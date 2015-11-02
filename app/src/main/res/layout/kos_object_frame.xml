@@ -54,14 +54,6 @@
                         android:textColor="@color/title_2_text"
                         android:textSize="13sp" />
 
-                    <TextView
-                        android:id="@+id/kos_object_person"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textIsSelectable="true"
-                        android:textSize="13sp" />
-
                     <org.happymtb.unofficial.ui.ScaleImageView
                         android:id="@+id/kos_object_image"
                         android:layout_width="match_parent"
@@ -74,6 +66,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:autoLink="web"
+                        android:paddingTop="16dp"
+                        android:textColor="@color/black"
+                        android:textIsSelectable="true"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/kos_object_person"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:paddingTop="16dp"
                         android:textColor="@color/black"
                         android:textIsSelectable="true"

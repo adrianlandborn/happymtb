@@ -116,8 +116,10 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	}
 	
 	private void fillList() {
-		mTitle.setText(mKoSObjectItem.getArea() + " - " + mKoSObjectItem.getType() + " - " + mKoSObjectItem.getTitle());		
-		mPerson.setText("Annonsör: " + mKoSObjectItem.getPerson() + "(Telefon: " + mKoSObjectItem.getPhone() + ")");
+		mActivity.getSupportActionBar().setTitle(mKoSObjectItem.getType());
+		mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+		mTitle.setText(mKoSObjectItem.getTitle() + " (" + mKoSObjectItem.getArea() + ")");
+		mPerson.setText("Annonsör: " + mKoSObjectItem.getPerson() + " (Telefon: " + mKoSObjectItem.getPhone() + ")");
 		mDate.setText("Datum: " + mKoSObjectItem.getDate());
 
 		if (!TextUtils.isEmpty(mKoSObjectItem.getImgLink()))

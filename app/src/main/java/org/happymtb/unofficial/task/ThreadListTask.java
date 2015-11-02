@@ -163,13 +163,9 @@ public class ThreadListTask extends AsyncTask<Object, Void, Boolean>
     		//Log.d("doInBackground", "Error: " + e.getMessage());
 		} finally {
     		httpclient.getConnectionManager().shutdown();
-        }   
-    	
-    	if (mThreads.size() != 0) {    		
-    		return true;
-    	} else {
-    		return false;    		
-    	}
+        }
+
+		return mThreads.size() != 0;
 	}
 	
 	@Override

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:happy="http://schemas.android.com/apk/res-auto" >
     <item
         android:id="@+id/kos_object_share"
-        android:showAsAction="always"
+        happy:showAsAction="always"
         android:icon="@drawable/ic_action_share"
         android:title="Dela..."/>
     <item
         android:id="@+id/kos_object_browser"
-        android:showAsAction="always"
+        happy:showAsAction="always"
         android:icon="@drawable/ic_action_chrome"
         android:title="Öppna i webläsare"/>
     <item
         android:id="@+id/kos_object_mail"
-        android:showAsAction="always"
+        happy:showAsAction="always"
         android:icon="@drawable/ic_action_message"
         android:title="Mejla annonsör"/>
 </menu>

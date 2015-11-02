@@ -2,35 +2,36 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:padding="16dp">
     
 	<TextView		 	
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:textSize="15sp"
 	    android:textStyle="bold"
-	    android:textColor="@color/title_1_text"
-	    android:text="Text att söka efter"/>	
+	    android:text="Text att söka efter"/>
 		        
     <EditText
         android:id="@+id/kos_dialog_search_text"
         android:inputType="text"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        />
 
 	<TextView		 	
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:textSize="15sp"
 	    android:textStyle="bold"
-	    android:textColor="@color/title_1_text"
-	    android:text="Kategori"/>	
+	    android:text="Kategori"/>
     
     <Spinner 
         android:id="@+id/kos_dialog_search_category"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:drawSelectorOnTop="true"
+        android:minHeight="36dp"
         android:entries="@array/kos_dialog_search_category_name"
     />
 
@@ -39,14 +40,14 @@
 	    android:layout_height="wrap_content"
 	    android:textSize="15sp"
 	    android:textStyle="bold"
-	    android:textColor="@color/title_1_text"
-	    android:text="Region"/>	
+	    android:text="Region"/>
     
     <Spinner 
         android:id="@+id/kos_dialog_search_region"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:drawSelectorOnTop="true"
+        android:minHeight="36dp"
         android:entries="@array/kos_dialog_search_region_name"
     />
     
@@ -55,14 +56,14 @@
 	    android:layout_height="wrap_content"
 	    android:textSize="15sp"
 	    android:textStyle="bold"
-	    android:textColor="@color/title_1_text"
-	    android:text="Typ"/>	
+	    android:text="Typ"/>
     
     <Spinner 
         android:id="@+id/kos_dialog_search_type"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:drawSelectorOnTop="true"
+        android:minHeight="36dp"
         android:entries="@array/kos_dialog_search_type"
     />    
 </LinearLayout>

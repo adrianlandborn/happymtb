@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -47,6 +48,8 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
     private TextView mCurrentPage;
     private TextView mMaxPages;
+    private FloatingActionButton mReplyFab;
+
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -64,7 +67,20 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
         mCurrentPage = (TextView) mActivity.findViewById(R.id.message_current_page);
         mMaxPages = (TextView) mActivity.findViewById(R.id.message_no_of_pages);
+        mReplyFab = (FloatingActionButton) mActivity.findViewById(R.id.reply);
 
+        Bundle bundle = mActivity.getIntent().getExtras();
+        boolean loggedIn = bundle.getBoolean(PostsActivity.LOGGED_IN);
+        if (loggedIn) {
+            mReplyFab.setVisibility(View.VISIBLE);
+            mReplyFab.setOnClickListener(new View.OnClickListener() {
+                                             @Override
+                                             public void onClick(View v) {
+                                                 reply();
+                                             }
+                                         }
+            );
+        }
 
         if (savedInstanceState != null && savedInstanceState.getSerializable(DATA) != null) {
             // Restore Current page.
@@ -74,9 +90,8 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
             showProgress(false);
         } else {
-            Bundle bundle = mActivity.getIntent().getExtras();
+
             int page = bundle.getInt(PostsActivity.PAGE);
-            boolean loggedIn = bundle.getBoolean(PostsActivity.LOGGED_IN);
             String threadId = bundle.getString(PostsActivity.THREAD_ID);
             mMessageData = new MessageData(page, 1, loggedIn, threadId, null, 0);
 
@@ -98,7 +113,7 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
 //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        return inflater.inflate(R.layout.message_frame, container, false);
+//        return inflater.inflate(R.layout.posts_frame, container, false);
 //    }
 
     public void clearBitmapDir() {
@@ -126,7 +141,8 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.posts_menu, menu);
-        menu.findItem(R.id.message_new_post).setVisible(mMessageData.getLogined());
+
+//        menu.findItem(R.id.message_new_post).setVisible(mMessageData.getLogined());
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -174,13 +190,17 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
                 dialog.show();
                 return true;
-            case R.id.message_new_post:
-                String url = BASE_URL + mMessageData.getThreadId() + "/#REPLY";
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(browserIntent);
-                return true;
+//            case R.id.message_new_post:
+//                reply();
+//                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void reply() {
+        String url = BASE_URL + mMessageData.getThreadId() + "/#REPLY";
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
     }
 
     @Override

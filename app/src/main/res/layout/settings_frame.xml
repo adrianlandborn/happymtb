@@ -6,16 +6,10 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/settingsframe"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp" />
-
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:textColor="@color/title_1_text"
         android:textStyle="bold"
         android:text="Användarnamn" />
 
@@ -28,7 +22,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:textColor="@color/title_1_text"
         android:textStyle="bold"
         android:text="Lösenord" />
 
@@ -42,15 +35,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:textColor="@color/title_1_text"
         android:textStyle="bold"
         android:text="Starta med denna sidan" />
 
     <Spinner
         android:id="@+id/settings_startpage"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:drawSelectorOnTop="true"
+        android:layout_height="32dp"
         android:entries="@array/settings_startpage" />
 
     <TextView

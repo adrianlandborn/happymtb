@@ -25,8 +25,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:textSize="15sp"
-			android:textColor="@color/title_1_text"
-			android:textStyle="bold" />
+			android:textColor="@color/title_1_text" />
 
 		<TextView
 			android:id="@+id/calendar_row_time"

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >  
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:happy="http://schemas.android.com/apk/res-auto" >
     <item 
         android:id="@+id/message_left" 
         android:icon="@drawable/ic_action_previous"
-        android:showAsAction="always" 
+        happy:showAsAction="always"
         android:title="Föregående sida"
         android:visible="true">        
     </item>    
@@ -11,7 +13,7 @@
     <item 
         android:id="@+id/message_right" 
         android:icon="@drawable/ic_action_next"
-        android:showAsAction="always"
+        happy:showAsAction="always"
         android:title="Nästa sida" 
         android:visible="true">
     </item>
@@ -19,7 +21,7 @@
     <item android:id="@+id/message_submenu"
         android:icon="@drawable/ic_action_submenu"
     	android:title="Submenu &gt;"
-        android:showAsAction="always">
+        happy:showAsAction="always">
         <menu>
 			<item
             	android:id="@+id/message_go_to_page"
@@ -30,10 +32,10 @@
 <!--             	android:id="@+id/thread_search" -->
 <!--             	android:icon="@drawable/ic_action_search" -->
 <!--                 android:title="Sök" /> -->
-            <item
-                android:id="@+id/message_new_post"
-                android:icon="@drawable/ic_action_write"
-                android:title="@string/thread_reply" />
+            <!--<item-->
+                <!--android:id="@+id/message_new_post"-->
+                <!--android:icon="@drawable/ic_action_write"-->
+                <!--android:title="@string/thread_reply" />-->
 		</menu>
 	</item>
 

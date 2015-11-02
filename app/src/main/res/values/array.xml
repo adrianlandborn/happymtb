@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array 
-    	name="entries_list_fontsize">
-        <item>small</item>
-        <item>medium</item>
-        <item>large</item>
-        <item>x-large</item>
+    <string-array name="drawer_items">
+        <item>@string/title_bar_home</item>
+        <item>@string/title_bar_forum</item>
+        <item>@string/title_bar_articles</item>
+        <item>@string/title_bar_kos</item>
+        <item>@string/title_bar_videos</item>
+        <item>@string/title_bar_shops</item>
+        <item>@string/title_bar_calendar</item>
     </string-array>
     <string-array
     	name="entryvalues_list_fontsize">

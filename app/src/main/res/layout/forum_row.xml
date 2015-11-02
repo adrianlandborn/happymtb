@@ -4,9 +4,7 @@
 	android:id="@+id/thread_row"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
-	android:orientation="vertical"
-	android:background="@color/grey"
-	>
+	android:orientation="vertical">
 
 	<LinearLayout
 		android:layout_width="fill_parent"
@@ -16,8 +14,7 @@
         android:paddingLeft="10dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:background="@color/white"
-		>      		
+		>
 		<LinearLayout 
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
@@ -30,8 +27,6 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:textSize="15sp"
-				android:textStyle="bold"
-				android:text=""
 				android:textColor="@color/title_1_text"/>
 								
 			<TextView
@@ -58,48 +53,20 @@
 					/>
 				<TextView
 		        	android:id="@+id/thread_page_button_1"
-	        		android:layout_width="wrap_content"
-	        		android:layout_height="wrap_content"
-	        		android:textSize="13sp"
-					android:padding="5dp"
-					android:textStyle="bold"
 					android:text="1"
-					android:textColor="@color/red"
-					android:visibility="gone"
-	        		/>		
+					style="@style/ForumPageLink" />
 				<TextView
 		        	android:id="@+id/thread_page_button_2"
-	        		android:layout_width="wrap_content"
-	        		android:layout_height="wrap_content"
-	        		android:textSize="13sp"
-					android:padding="5dp"
-					android:textStyle="bold"
 					android:text="2"
-					android:textColor="@color/red"
-					android:visibility="gone"
-	        		/>		
+					style="@style/ForumPageLink" />
 				<TextView
 		        	android:id="@+id/thread_page_button_3"
-	        		android:layout_width="wrap_content"
-	        		android:layout_height="wrap_content"
-	        		android:textSize="13sp"
-					android:padding="5dp"
-					android:textStyle="bold"
 					android:text="3"
-					android:textColor="@color/red"
-					android:visibility="gone"					
-	        		/>	
+					style="@style/ForumPageLink" />
 				<TextView
 		        	android:id="@+id/thread_page_button_4"
-	        		android:layout_width="wrap_content"
-	        		android:layout_height="wrap_content"
-	        		android:textSize="13sp"
-					android:padding="5dp"
-					android:textStyle="bold"
 					android:text="4"
-					android:textColor="@color/red"
-					android:visibility="gone"
-	        		/>			
+					style="@style/ForumPageLink" />
 			</LinearLayout>
 		</LinearLayout>
 		<TextView
@@ -112,8 +79,9 @@
 			android:paddingRight="10dp"
 			android:textStyle="bold"
 			android:text="@string/thread_new"
-			android:textColor="@color/red"
+			android:textAllCaps="true"
+			android:textColor="@color/colorAccent"
 			android:visibility="gone"
-     		/>		
+     		/>
 	</LinearLayout>
 </LinearLayout>

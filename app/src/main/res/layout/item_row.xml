@@ -4,7 +4,6 @@
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
 	android:orientation="vertical"
-	android:background="@color/grey"
 	>
 	
     <LinearLayout 
@@ -16,7 +15,7 @@
         android:paddingRight="10dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-		android:background="@color/background_2"
+		android:background="@color/colorPrimaryDark"
 		android:visibility="gone"
 		>
 		
@@ -26,8 +25,6 @@
 		    android:layout_height="wrap_content"
 		    android:textSize="15sp"
 		    android:textColor="@color/white"
-		   	android:textStyle="bold"
-		    android:text=""
 		    android:layout_gravity="left|center_vertical"
 		    android:layout_weight="1"/>	
 	   	
@@ -59,7 +56,6 @@
         android:paddingRight="10dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:background="@color/white"
 		>
 				
 		<TextView		 	
@@ -68,9 +64,7 @@
 		    android:layout_height="wrap_content"
 		    android:textSize="15sp"
 		    android:textColor="@color/title_1_text"
-		   	android:textStyle="bold"
-		    android:text=""	   
-	   	/>		   
+	   	/>
   					
 		<TextView		 	
 		    android:id="@+id/item_description"

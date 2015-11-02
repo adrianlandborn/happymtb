@@ -16,10 +16,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -47,6 +45,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
         mActivity = (MainActivity) getActivity();
+		mActivity.getSupportActionBar().setTitle(R.string.main_video);
 
 
 		if (savedInstanceState != null) {

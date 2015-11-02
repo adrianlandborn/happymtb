@@ -48,8 +48,8 @@ public class URLImageParser implements ImageGetter {
 							
 		// it's important to call setBounds otherwise the image will
 		// have a size of 0px * 0px and won't show at all
-		d.setBounds(0, 0, width, height);			
-		
+		d.setBounds(0, 0, width, height);
+
 		return d;
 	}		
 	
@@ -65,9 +65,13 @@ public class URLImageParser implements ImageGetter {
 				&& (options.outHeight * Metrics.density / scale / 2 >= Metrics.heightPixels)) {
 			scale *= 2;
 		}
+
+		//TODO Try to find proper scale of images
+		boolean landscape = options.outWidth > options.outHeight;
+
 		BitmapFactory.Options options2 = new BitmapFactory.Options();
-        int w = (int) Math.ceil(options.outWidth / (float)Metrics.widthPixels);
-        options2.inSampleSize = w;       
+        int w = (int) Math.ceil(options.outWidth / ((float)Metrics.widthPixels * 1.05)); // Dont bother if 5% gets cut off
+        options2.inSampleSize = w;
         
 		try {
 			bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options2);

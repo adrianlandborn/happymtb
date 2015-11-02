@@ -1,7 +1,5 @@
 package org.happymtb.unofficial.item;
 
-import org.happymtb.unofficial.helpers.HappyUtils;
-
 import java.io.Serializable;
 import java.util.List;
 

@@ -3,7 +3,6 @@ package org.happymtb.unofficial.task;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -89,9 +88,9 @@ public class CalendarListTask extends AsyncTask<Object, Void, Boolean> {
 
 		try {
 			String urlStr = "http://happymtb.org/kalender/?list=1"
-					+ "&search=" + (String) params[0]
-					+ "&r=" + (String) params[1] 
-					+ "&c=" + (String) params[2];					
+					+ "&search=" + params[0]
+					+ "&r=" + params[1]
+					+ "&c=" + params[2];
 			
 			HttpGet httpget = new HttpGet(urlStr);
 		
@@ -129,10 +128,7 @@ public class CalendarListTask extends AsyncTask<Object, Void, Boolean> {
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 		}
-		if (mCalendarItems.size() > 0)
-			return true;
-		else
-			return false;
+		return mCalendarItems.size() > 0;
 	}
 	
 	@Override

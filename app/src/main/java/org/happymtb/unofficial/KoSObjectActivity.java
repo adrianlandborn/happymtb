@@ -1,23 +1,22 @@
 package org.happymtb.unofficial;
 
 import org.happymtb.unofficial.fragment.KoSObjectFragment;
-import android.app.ActionBar;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-public class KoSObjectActivity extends FragmentActivity {
+public class KoSObjectActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
 		
 		// Set up the action bar to show a dropdown list.
-        ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 		setContentView(R.layout.kos_object_frame);
         Fragment fragment;

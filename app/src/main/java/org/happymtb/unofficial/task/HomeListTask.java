@@ -4,7 +4,6 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.lang.Thread;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

@@ -1,10 +1,10 @@
 package org.happymtb.unofficial;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.FloatMath;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -13,9 +13,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import org.happymtb.unofficial.task.KoSObjectImageTask;
-
-public class ZoomImageActivity extends Activity {
+public class ZoomImageActivity extends AppCompatActivity {
     ImageView imageDetail;
     Matrix matrix = new Matrix();
     Matrix savedMatrix = new Matrix();
@@ -32,8 +30,8 @@ public class ZoomImageActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zoom_image);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(getIntent().getExtras().getString("title"));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(getIntent().getExtras().getString("title"));
 
         imageDetail = (ImageView) findViewById(R.id.imageView1); /** set on touch listener on image */
         Picasso.with(this).load(getIntent().getExtras().getString("url")).into(imageDetail);

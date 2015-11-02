@@ -2,7 +2,6 @@ package org.happymtb.unofficial.fragment;
 
 import java.util.ArrayList;
 
-import org.happymtb.unofficial.WebViewActivity;
 import org.happymtb.unofficial.adapter.ListItemsAdapter;
 import org.happymtb.unofficial.item.Item;
 
@@ -99,11 +98,7 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 			String group = mItems.get(position).getGroup();
 			boolean visible = mItems.get(position).getVisible();
 
-			if (visible == true) {
-				visible = false;
-			} else {
-				visible = true;
-			}
+			visible = visible != true;
 			
 			for (int i = 0; i < mAllItems.size(); i++) {
 				if (mAllItems.get(i).getGroup() == group) {

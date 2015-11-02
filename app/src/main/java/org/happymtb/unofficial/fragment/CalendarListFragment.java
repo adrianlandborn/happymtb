@@ -1,7 +1,6 @@
 package org.happymtb.unofficial.fragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
@@ -12,7 +11,6 @@ import org.happymtb.unofficial.listener.CalendarListListener;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,8 +18,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -59,6 +55,8 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 		super.onActivityCreated(savedInstanceState);			
 
 		mActivity = (MainActivity) getActivity();
+		mActivity.getSupportActionBar().setTitle(getString(R.string.main_calendar));
+
 		mCategoryView = (TextView) mActivity.findViewById(R.id.calendar_category);
 		mRegionView = (TextView) mActivity.findViewById(R.id.calendar_region);
 		mSearchView = (TextView) mActivity.findViewById(R.id.calendar_search);

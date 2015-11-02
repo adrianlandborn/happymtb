@@ -1,7 +1,6 @@
 package org.happymtb.unofficial.view;
 
 import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.fragment.KoSListFragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -31,7 +30,7 @@ public class KoSRowView extends LinearLayout {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		compoundView = (LinearLayout) inflater.inflate(R.layout.kos_row_picture, this);
+		compoundView = (LinearLayout) inflater.inflate(R.layout.kos_row, this);
 
 		mRowColor = compoundView.findViewById(R.id.kos_picture_row_color);
 		mTitle = (TextView) compoundView.findViewById(R.id.kos_picture_row_title);

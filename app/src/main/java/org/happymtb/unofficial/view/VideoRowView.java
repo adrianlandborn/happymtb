@@ -1,13 +1,9 @@
 package org.happymtb.unofficial.view;
 
 import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.helpers.HappyUtils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.preference.PreferenceManager;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,7 +23,7 @@ public class VideoRowView extends LinearLayout {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-		compoundView = (LinearLayout) inflater.inflate(R.layout.video_picture_row, this);
+		compoundView = (LinearLayout) inflater.inflate(R.layout.video_row, this);
 
 		mTitle = (TextView) compoundView.findViewById(R.id.video_picture_row_title);
 		mDate = (TextView) compoundView.findViewById(R.id.video_picture_row_date);

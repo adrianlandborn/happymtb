@@ -125,7 +125,7 @@ public class MessageListTask extends AsyncTask<Object, Void, Boolean>
     			bitmapDirectory.mkdirs();
     		}
     		
-    		String urlStr = "http://happymtb.org/forum/read.php/1/" + (String)param[1] + "/page=" + (String)param[2];
+    		String urlStr = "http://happymtb.org/forum/read.php/1/" + param[1] + "/page=" + param[2];
             HttpGet httpget = new HttpGet(urlStr);
            
             HttpResponse response = httpclient.execute(httpget);
@@ -163,12 +163,8 @@ public class MessageListTask extends AsyncTask<Object, Void, Boolean>
 		} finally {
     		httpclient.getConnectionManager().shutdown();
         }
-    	
-    	if (mMessages.size() != 0) {    		
-    		return true;
-    	} else {
-    		return false;    		
-    	}
+
+		return mMessages.size() != 0;
 	}
 	
 	@Override

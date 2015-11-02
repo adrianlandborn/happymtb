@@ -25,12 +25,12 @@ public class CCResponseCache extends ResponseCache {
 	@Override
 	public CacheRequest put(URI uri, URLConnection conn) {
 
-		CacheRequest req = (CacheRequest) new CCCacheRequest();
+		CacheRequest req = new CCCacheRequest();
 
 		Map<String, List<String>> headers = conn.getHeaderFields();
 		CacheResponse resp = null;
 		try {
-			resp = (CacheResponse) new CCCacheResponse(headers, req.getBody());
+			resp = new CCCacheResponse(headers, req.getBody());
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			// e1.printStackTrace();
