@@ -70,7 +70,7 @@ public class ZoomImageActivity extends AppCompatActivity {
                         }
                         break;
                 }
-                ((ImageView) v).setImageMatrix(matrix);
+                ((ImageView)v).setImageMatrix(matrix);
                 return true;
             }
 
