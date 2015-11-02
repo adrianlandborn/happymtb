@@ -25,7 +25,6 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 	public static String TAG = "home_frag";
 	private ListHomeAdapter mHomeAdapter;
 	private ArrayList<Home> mHomes = new ArrayList<Home>();
-	private HomeListTask homeListTask;
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -66,25 +65,25 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 	private void fetchData() {
         showProgress(true);
 
-		homeListTask = new HomeListTask();
+		HomeListTask homeListTask = new HomeListTask();
 		homeListTask.addHomeListListener(new HomeListListener() {
-            public void success(ArrayList<Home> Homes) {
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    mHomes = Homes;
-                    fillList();
+			public void success(ArrayList<Home> Homes) {
+				if (getActivity() != null && !getActivity().isFinishing()) {
+					mHomes = Homes;
+					fillList();
 
-                    showProgress(false);
-                }
-            }
+					showProgress(false);
+				}
+			}
 
-            public void fail() {
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    Toast.makeText(getActivity(), R.string.no_items_found, Toast.LENGTH_LONG).show();
+			public void fail() {
+				if (getActivity() != null && !getActivity().isFinishing()) {
+					Toast.makeText(getActivity(), R.string.no_items_found, Toast.LENGTH_LONG).show();
 
-                    showProgress(false);
-                }
-            }
-        });
+					showProgress(false);
+				}
+			}
+		});
 		homeListTask.execute();
 	}
 	

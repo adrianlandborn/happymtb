@@ -26,12 +26,6 @@ public class HomeRowView extends LinearLayout {
 
 	}
 
-	public void setBackgroundColor(int color) {
-		LinearLayout mRow = (LinearLayout) compoundView
-				.findViewById(R.id.home_row);
-		mRow.setBackgroundResource(color);
-	}
-
 	public void setTitle(String Title) {
 		if (mTitle != null) {
 			mTitle.setText(Title);

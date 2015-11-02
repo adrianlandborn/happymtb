@@ -42,7 +42,7 @@ public class ItemRowView extends LinearLayout {
 
 	public void setCollapse(boolean collapse) {
 		if ((mHeaderExpand != null) && (mHeaderCollapse != null))  {
-			if (collapse == true) {
+			if (collapse) {
 				mHeaderExpand.setVisibility(GONE);
 				mHeaderCollapse.setVisibility(VISIBLE);
 			} else {
@@ -58,9 +58,9 @@ public class ItemRowView extends LinearLayout {
 		}
 	}
 
-	public void setHeaderVisible(boolean Header) {
+	public void setHeaderVisible(boolean header) {
 		if (mHeader != null) {
-			if (Header == true)	{
+			if (header)	{
 				mHeader.setVisibility(VISIBLE);				
 				mLink.setVisibility(GONE);
 			} else {

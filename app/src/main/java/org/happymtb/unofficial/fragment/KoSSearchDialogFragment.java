@@ -19,9 +19,8 @@ import org.happymtb.unofficial.R;
  * Created by Adrian on 01/07/2015.
  */
 public class KoSSearchDialogFragment extends DialogFragment {
-	private SharedPreferences mPreferences;
 
-    public KoSSearchDialogFragment() {
+	public KoSSearchDialogFragment() {
     }
 
 	public interface SearchDialogDataListener {
@@ -36,7 +35,7 @@ public class KoSSearchDialogFragment extends DialogFragment {
         final View view = inflater.inflate(R.layout.kos_search, null);
         builder.setView(view);
 
-		mPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+		SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
 		final EditText searchString = (EditText) view.findViewById(R.id.kos_dialog_search_text);
 		final Spinner searchCategory = (Spinner) view.findViewById(R.id.kos_dialog_search_category);

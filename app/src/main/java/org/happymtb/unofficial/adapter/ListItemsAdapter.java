@@ -52,7 +52,7 @@ public class ListItemsAdapter extends BaseAdapter {
 		} else {
 			itemRowView.setHeaderVisible(true);
 			itemRowView.setHeaderTitle(mItems.get(position).getGroup());
-			if (mItems.get(position).getVisible() == true) {
+			if (mItems.get(position).getVisible()) {
 				itemRowView.setCollapse(true);
 			} else {
 				itemRowView.setCollapse(false);

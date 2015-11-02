@@ -30,7 +30,7 @@ public class MessageListTask extends AsyncTask<Object, Void, Boolean>
 	private ArrayList<MessageListListener> mMessageListListenerList;
 	private List<Message> mMessages = new ArrayList<Message>();
 	int mNumberOfMessagePages = 1;
-	private String mBitmapFolder = "/happymtb/"; 
+	private static String mBitmapFolder = "/happymtb/";
 	
 	public MessageListTask() {
 		mMessageListListenerList = new ArrayList<MessageListListener>();

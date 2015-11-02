@@ -25,6 +25,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
+    public static final String START_PAGE = "startpage";
 
     private SharedPreferences mPreferences;
     private Spinner mStartPageSpinner;
@@ -86,12 +87,12 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        mStartPageSpinner.setSelection(mPreferences.getInt("startpage", 0));
+        mStartPageSpinner.setSelection(mPreferences.getInt(SettingsActivity.START_PAGE, 0));
         mStartPageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
-                editor.putInt("startpage", mStartPageSpinner.getSelectedItemPosition());
+                editor.putInt(SettingsActivity.START_PAGE, mStartPageSpinner.getSelectedItemPosition());
                 editor.apply();
             }
 

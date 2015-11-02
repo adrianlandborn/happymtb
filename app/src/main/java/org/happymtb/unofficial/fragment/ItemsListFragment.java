@@ -64,7 +64,7 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 	protected void populateList() {
 		mItems.clear();
 		for(int i=0; i < mAllItems.size(); i++)	{
-			if ((mAllItems.get(i).getVisible() == true) || (mAllItems.get(i).getTitle() == ""))	{
+			if (mAllItems.get(i).getVisible() || (mAllItems.get(i).getTitle() == ""))	{
 				mItems.add(mAllItems.get(i));
 			}			
 		}
@@ -98,11 +98,9 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 			String group = mItems.get(position).getGroup();
 			boolean visible = mItems.get(position).getVisible();
 
-			visible = visible != true;
-			
 			for (int i = 0; i < mAllItems.size(); i++) {
 				if (mAllItems.get(i).getGroup() == group) {
-					mAllItems.get(i).setVisible(visible);
+					mAllItems.get(i).setVisible(!visible);
 				}
 			}	
 			

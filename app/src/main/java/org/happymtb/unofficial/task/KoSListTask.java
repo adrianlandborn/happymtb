@@ -19,7 +19,6 @@ import org.happymtb.unofficial.listener.KoSListListener;
 public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 	private ArrayList<KoSListListener> mKoSListListenerList;
 	private List<KoSItem> mKoSItems = new ArrayList<KoSItem>();
-	private int mCurrentPage = 0;
 	private int mNumberOfKoSPages = 1;
 	private String mSelectedCategory = "Alla Kategorier";
 	private String mSelectedRegion = "Hela Sverige";
@@ -105,7 +104,7 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 					+ params[5] + "&sortorder="
 					+ params[6];
 
-			mCurrentPage = (Integer) params[0];
+			int mCurrentPage = (Integer) params[0];
 			HttpGet httpget = new HttpGet(urlStr);
 		
 			HttpResponse response = httpclient.execute(httpget);

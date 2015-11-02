@@ -22,14 +22,13 @@ public class KoSRowView extends LinearLayout {
 	ImageView mObjectImageView;
 	LinearLayout compoundView;
 	View mRowColor;
-	private SharedPreferences preferences;
 
 	public KoSRowView(Context context) {
 		super(context);
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		compoundView = (LinearLayout) inflater.inflate(R.layout.kos_row, this);
 
 		mRowColor = compoundView.findViewById(R.id.kos_picture_row_color);

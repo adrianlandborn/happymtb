@@ -36,6 +36,7 @@ public class ThreadRowView extends LinearLayout {
 		mPage4 = (TextView) compoundView.findViewById(R.id.thread_page_button_4);
 	}
 
+	@Override
 	public void setBackgroundColor(int color) {
 		compoundView.setBackgroundResource(color);
 	}
@@ -89,9 +90,9 @@ public class ThreadRowView extends LinearLayout {
 			mTitle.setText(Html.fromHtml(text));
 	}
 	
-	public void setNew(Boolean Value) {
+	public void setNew(boolean isNew) {
 		if (mNew != null) {
-			if (Value == true)
+			if (isNew)
 				mNew.setVisibility(VISIBLE);
 			else
 				mNew.setVisibility(GONE);

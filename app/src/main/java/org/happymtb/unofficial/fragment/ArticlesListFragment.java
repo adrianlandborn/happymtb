@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 public class ArticlesListFragment extends ItemsListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
 	public static String TAG = "articles_frag";
-	private ArticlesListTask mGetItems;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -28,25 +27,25 @@ public class ArticlesListFragment extends ItemsListFragment implements DialogInt
 	
 	@Override
 	protected void fetchItems() {
-		mGetItems = new ArticlesListTask();
-		mGetItems.addItemListListener(new ItemListListener() {
-            public void success(ArrayList<Item> items) {
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    mAllItems = items;
+		ArticlesListTask getItems = new ArticlesListTask();
+		getItems.addItemListListener(new ItemListListener() {
+			public void success(ArrayList<Item> items) {
+				if (getActivity() != null && !getActivity().isFinishing()) {
+					mAllItems = items;
 
 					expandGroup(items.get(0).getGroup());
-                    fillList();
-                }
-            }
+					fillList();
+				}
+			}
 
-            public void fail() {
+			public void fail() {
 				if (getActivity() != null && !getActivity().isFinishing()) {
 					Toast.makeText(getActivity(), R.string.articles_no_items_found, Toast.LENGTH_SHORT).show();
 				}
 			}
-        });
+		});
 
-		mGetItems.execute();
+		getItems.execute();
 	}
 	
 	@Override

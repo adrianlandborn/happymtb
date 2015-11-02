@@ -64,7 +64,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	private KoSData mKoSData;
 	private SharedPreferences mPreferences;
 	private MainActivity mActivity;
-	private FragmentManager mFragmentManager;
+	private FragmentManager fragmentManager;
 
     protected GestureDetectorCompat mDetector;
 
@@ -159,14 +159,14 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 			NextPage();
 			return true;
 		case R.id.kos_sort:
-			mFragmentManager = mActivity.getSupportFragmentManager();
+			fragmentManager = mActivity.getSupportFragmentManager();
 	        KoSSortDialogFragment koSSortDialog = new KoSSortDialogFragment();
-	        koSSortDialog.show(mFragmentManager, "kos_sort_dialog");
+	        koSSortDialog.show(fragmentManager, "kos_sort_dialog");
 			return true;						
 		case R.id.kos_search:			
-			mFragmentManager = mActivity.getSupportFragmentManager();
+			fragmentManager = mActivity.getSupportFragmentManager();
 			KoSSearchDialogFragment koSSearchDialog = new KoSSearchDialogFragment();
-	        koSSearchDialog.show(mFragmentManager, "kos_search_dialog");
+	        koSSearchDialog.show(fragmentManager, "kos_search_dialog");
 			return true;			
 		case R.id.kos_go_to_page:			
 			AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);

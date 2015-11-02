@@ -18,7 +18,6 @@ import org.happymtb.unofficial.R;
  * Created by Adrian on 30/05/2015.
  */
 public class KoSSortDialogFragment extends DialogFragment {
-    private SharedPreferences mPreferences;
 
     public KoSSortDialogFragment() {
     }
@@ -34,7 +33,7 @@ public class KoSSortDialogFragment extends DialogFragment {
         LayoutInflater inflater = activity.getLayoutInflater();
         final View view = inflater.inflate(R.layout.kos_sort, null);
 
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         // Tid, Rubrik, Omrade, Kategori, Pris
         final Spinner attSpinner = (Spinner) view.findViewById(R.id.kos_dialog_sort_attribute);
         attSpinner.setSelection(mPreferences.getInt(KoSListFragment.SORT_ATTRIBUTE_POS, 0));

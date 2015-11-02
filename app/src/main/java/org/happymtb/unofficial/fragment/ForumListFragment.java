@@ -43,9 +43,7 @@ public class ForumListFragment extends RefreshListfragment {
 	public final static String COOKIE_VALUE = "cookivalue";
 	public static String TAG = "forum_frag";
 
-	private ThreadListTask mThreadsTask;
 	private ThreadData mThreadData;
-	private MarkAsReadTask mMarkAsRead;
 	private SharedPreferences mPreferences;
 	private String mUsername = "";
 	private MainActivity mActivity;
@@ -231,7 +229,7 @@ public class ForumListFragment extends RefreshListfragment {
         mSwipeRefreshLayout.setRefreshing(false);
         showProgress(true);
 
-		mMarkAsRead = new MarkAsReadTask();
+		MarkAsReadTask mMarkAsRead = new MarkAsReadTask();
 		mMarkAsRead.addMarkAsReadListener(new MarkAsReadListener() {
 			public void success() {
 				if (getActivity() != null && !getActivity().isFinishing()) {
@@ -278,23 +276,23 @@ public class ForumListFragment extends RefreshListfragment {
 
         mThreadData.setThreads(null);
 
-		mThreadsTask = new ThreadListTask();
+		ThreadListTask mThreadsTask = new ThreadListTask();
 		mThreadsTask.addThreadListListener(new ThreadListListener() {
-            public void success(List<Thread> threads) {
-                if (getActivity() != null  && !getActivity().isFinishing()) {
-                    mThreadData.setThreads(threads);
-                    fillList();
-                    showProgress(false);
-                }
-            }
+			public void success(List<Thread> threads) {
+				if (getActivity() != null && !getActivity().isFinishing()) {
+					mThreadData.setThreads(threads);
+					fillList();
+					showProgress(false);
+				}
+			}
 
-            public void fail() {
-				if (getActivity() != null  && !getActivity().isFinishing()) {
+			public void fail() {
+				if (getActivity() != null && !getActivity().isFinishing()) {
 					Toast.makeText(getActivity(), R.string.thread_download_error, Toast.LENGTH_SHORT).show();
 					showProgress(false);
 				}
 			}
-        });
+		});
         mThreadsTask.execute(mThreadData.getCurrentPage(), mActivity);
 	}
 

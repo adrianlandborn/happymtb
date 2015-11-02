@@ -1,6 +1,7 @@
 package org.happymtb.unofficial.fragment;
 
 import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.SettingsActivity;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -89,12 +90,12 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-		mStartPageSpinner.setSelection(mPreferences.getInt("startpage", 0));
+		mStartPageSpinner.setSelection(mPreferences.getInt(SettingsActivity.START_PAGE, 0));
 		mStartPageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
-                editor.putInt("startpage", mStartPageSpinner.getSelectedItemPosition());
+                editor.putInt(SettingsActivity.START_PAGE, mStartPageSpinner.getSelectedItemPosition());
                 editor.apply();
             }
 

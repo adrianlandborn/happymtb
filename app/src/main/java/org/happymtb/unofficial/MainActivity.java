@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements
             mCurrentFragmentTag = savedInstanceState.getString(CURRENT_FRAGMENT_TAG);
             mRestoredFragment = getSupportFragmentManager().findFragmentByTag(mCurrentFragmentTag);
         } else {
-            mCheckedNavigationItem = mPreferences.getInt("startpage", HOME);
+            mCheckedNavigationItem = mPreferences.getInt(SettingsActivity.START_PAGE, HOME);
             switchContent(mCheckedNavigationItem);
             mNavigationView.getMenu().getItem(mCheckedNavigationItem).setChecked(true);
 
@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements
 //            switch (event.getAction()) {
 //                case KeyEvent.ACTION_DOWN:
 //                    if (mActionBar.getSelectedNavigationIndex() == SETTINGS) {
-//                        mActionBar.setSelectedNavigationItem(mPreferences.getInt("startpage", 0));
+//                        mActionBar.setSelectedNavigationItem(mPreferences.getInt(SettingsActivity.START_PAGE, 0));
 //                    } else {
 //                        onBackPressed();
 //                    }
@@ -237,7 +237,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         item.setChecked(true);
-        //TODO
 
         int id = item.getItemId();
         int pos = 0;
