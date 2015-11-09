@@ -1,34 +1,34 @@
 <resources>
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-    </style>
+    <!--&lt;!&ndash;-->
+        <!--Base application theme, dependent on API level. This theme is replaced-->
+        <!--by AppBaseTheme from res/values-vXX/styles.xml on newer devices.-->
+    <!--&ndash;&gt;-->
+    <!--<style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <!--&lt;!&ndash;-->
+            <!--Theme customizations available in newer API levels can go in-->
+            <!--res/values-vXX/styles.xml, while customizations related to-->
+            <!--backward-compatibility can go here.-->
+        <!--&ndash;&gt;-->
+    <!--</style>-->
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <!--<item name="android:actionBarStyle">@style/MyActionBar</item>-->
-    </style>
+    <!--&lt;!&ndash; Application theme. &ndash;&gt;-->
+    <!--<style name="AppTheme" parent="AppBaseTheme">-->
+        <!--&lt;!&ndash; All customizations that are NOT specific to a particular API-level can go here. &ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:actionBarStyle">@style/MyActionBar</item>&ndash;&gt;-->
+    <!--</style>-->
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+    <!--<style name="AppTheme.NoActionBar">-->
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+    <!--</style>-->
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <!--<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!--<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
 
 </resources>
