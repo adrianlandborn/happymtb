@@ -11,85 +11,176 @@
         android:layout_height="fill_parent">
 
         <ScrollView
+            android:id="@+id/kos_object_scroll"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/kos_object_scroll"
-            android:visibility="invisible"
-            android:background="@color/grey">
+            android:visibility="invisible">
 
             <LinearLayout
-                android:id="@+id/kos_object_color"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rowshape_green"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
+                <TextView
+                    android:id="@+id/kos_object_title"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:orientation="vertical">
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:textColor="@color/title_1_text"
+                    android:textIsSelectable="true"
+                    android:textSize="17sp" />
 
-                    <TextView
-                        android:id="@+id/kos_object_title"
+                <TextView
+                    android:id="@+id/kos_object_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/kos_object_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:textColor="@color/title_2_text"
+                    android:textSize="13sp" />
+
+                <org.happymtb.unofficial.ui.ScaleImageView
+                    android:id="@+id/kos_object_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/kos_object_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_horizontal"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <View style="@style/kosObjectDivider" />
+
+                <TextView
+                    android:id="@+id/kos_object_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:autoLink="web"
+                    android:textColor="@color/black"
+                    android:textIsSelectable="true"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/colorPrimary"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:text="Kontakt"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/kos_object_person"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_horizontal"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textIsSelectable="true"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/kos_object_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/title_2_text"
+                    android:textIsSelectable="true"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:gravity="center_horizontal"
+                    android:padding="8dp">
+
+                    <LinearLayout
+                        android:id="@+id/kos_action_phone_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/title_1_text"
-                        android:textIsSelectable="true"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:visibility="gone" >
 
-                    <TextView
-                        android:id="@+id/kos_object_category"
+                        <ImageButton
+                            android:id="@+id/kos_action_phone"
+                            style="@style/kosAction"
+                            android:src="@drawable/ic_phone"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ring"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/kos_action_sms_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="13sp"
-                        android:visibility="gone" />
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:visibility="gone" >
 
-                    <TextView
-                        android:id="@+id/kos_object_date"
+                        <ImageButton
+                            android:id="@+id/kos_action_sms"
+                            style="@style/kosAction"
+                            android:src="@drawable/ic_message"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SMS"/>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/title_2_text"
-                        android:textSize="13sp" />
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal">
 
-                    <org.happymtb.unofficial.ui.ScaleImageView
-                        android:id="@+id/kos_object_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="16dp"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/kos_object_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:autoLink="web"
-                        android:paddingTop="16dp"
-                        android:textColor="@color/black"
-                        android:textIsSelectable="true"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/kos_object_person"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="16dp"
-                        android:textColor="@color/black"
-                        android:textIsSelectable="true"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/kos_object_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="16dp"
-                        android:paddingTop="16dp"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        <ImageButton
+                            android:id="@+id/kos_action_email"
+                            style="@style/kosAction"
+                            android:src="@drawable/ic_email" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mejla"/>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
+-            </LinearLayout>
         </ScrollView>
 
         <LinearLayout

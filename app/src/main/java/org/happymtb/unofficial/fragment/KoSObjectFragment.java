@@ -12,6 +12,7 @@ import org.happymtb.unofficial.ui.ScaleImageView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -20,11 +21,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class KoSObjectFragment extends Fragment implements DialogInterface.OnCancelListener {
+public class KoSObjectFragment extends Fragment implements DialogInterface.OnCancelListener, View.OnClickListener {
 	private final static int DIALOG_FETCH_KOS_ERROR = 0;
 	private final static String DATA = "data";
 
@@ -34,11 +35,15 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	private View mProgressView;
 	TextView mTitle;
 	TextView mPerson;		
-//	TextView mCategory;
+	TextView mPhone;
+	TextView mCategory;
 	TextView mDate;
 	TextView mText;
 	TextView mPrice;
-	LinearLayout mBackgroundColor;
+
+	ImageButton mActionPhone;
+	ImageButton mActionSms;
+	ImageButton mActionEmail;
 	ScaleImageView mObjectImageView;
 	KoSObjectActivity mActivity;
 	
@@ -56,14 +61,22 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 
 		mTitle = (TextView) mActivity.findViewById(R.id.kos_object_title);
 		mPerson = (TextView) mActivity.findViewById(R.id.kos_object_person);
-//		mCategory = (TextView) mActivity.findViewById(R.id.kos_object_category);
+		mPhone = (TextView) mActivity.findViewById(R.id.kos_object_phone);
+		mCategory = (TextView) mActivity.findViewById(R.id.kos_object_category);
 		mDate = (TextView) mActivity.findViewById(R.id.kos_object_date);
 		mText = (TextView) mActivity.findViewById(R.id.kos_object_text);
 		mPrice = (TextView) mActivity.findViewById(R.id.kos_object_price);
-		mBackgroundColor = (LinearLayout) mActivity.findViewById(R.id.kos_object_color);
 		mObjectImageView = (ScaleImageView) mActivity.findViewById(R.id.kos_object_image);
 		mScrollView = mActivity.findViewById(R.id.kos_object_scroll);
 		mProgressView = mActivity.findViewById(R.id.progress_container_id);
+
+		mActionPhone = (ImageButton) mActivity.findViewById(R.id.kos_action_phone);
+		mActionSms = (ImageButton) mActivity.findViewById(R.id.kos_action_sms);
+		mActionEmail = (ImageButton) mActivity.findViewById(R.id.kos_action_email);
+
+        mActionPhone.setOnClickListener(this);
+        mActionSms.setOnClickListener(this);
+        mActionEmail.setOnClickListener(this);
 
 		if (savedInstanceState != null) {
 			mKoSObjectItem = (KoSObjectItem) savedInstanceState.getSerializable(DATA);
@@ -118,9 +131,16 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	private void fillList() {
 		mActivity.getSupportActionBar().setTitle(mKoSObjectItem.getType());
 		mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
-		mTitle.setText(mKoSObjectItem.getTitle() + " (" + mKoSObjectItem.getArea() + ")");
-		mPerson.setText("Annonsör: " + mKoSObjectItem.getPerson() + " (Telefon: " + mKoSObjectItem.getPhone() + ")");
+		mTitle.setText(mKoSObjectItem.getTitle());
+		mCategory.setText( mActivity.getCategory() + ", " + mKoSObjectItem.getArea());
+		mPerson.setText(mKoSObjectItem.getPerson());
+		mPhone.setText("Telefon: " + mKoSObjectItem.getPhone());
 		mDate.setText("Datum: " + mKoSObjectItem.getDate());
+
+		if (mKoSObjectItem.getPhone().startsWith("+") || mKoSObjectItem.getPhone().startsWith("0")) {
+			mActivity.findViewById(R.id.kos_action_phone_layout).setVisibility(View.VISIBLE);
+			mActivity.findViewById(R.id.kos_action_sms_layout).setVisibility(View.VISIBLE);
+		}
 
 		if (!TextUtils.isEmpty(mKoSObjectItem.getImgLink()))
 		{
@@ -145,13 +165,6 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		
 		mText.setText(Html.fromHtml(mKoSObjectItem.getText()));		
 		mPrice.setText("Pris: " + mKoSObjectItem.getPrice());
-		
-		if (mKoSObjectItem.getType().contains("Säljes")){
-			mBackgroundColor.setBackgroundResource(R.drawable.rowshape_green);
-		} else {
-			mBackgroundColor.setBackgroundResource(R.drawable.rowshape_red);
-		}
-
         mScrollView.setVisibility(View.VISIBLE);
 	}	
 	
@@ -165,9 +178,6 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
-			case R.id.kos_object_mail:
-				openInBrowser(true, false);
-				return true;
             case R.id.kos_object_share:
                 shareObject();
                 return true;
@@ -200,4 +210,17 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
             mActivity.finish();
         }
     }
+
+	@Override
+	public void onClick(View v) {
+		if (v.getId() == R.id.kos_action_phone) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("tel", mKoSObjectItem.getPhone(), null));
+            startActivity(intent);
+		} else if (v.getId() == R.id.kos_action_sms) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", mKoSObjectItem.getPhone(), null));
+            startActivity(intent);
+        } else if (v.getId() == R.id.kos_action_email) {
+            openInBrowser(true, false);
+		}
+	}
 }

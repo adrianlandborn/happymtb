@@ -302,9 +302,10 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		Intent KoSObject = new Intent(mActivity, KoSObjectActivity.class);
-		KoSObject.putExtra("KoSObjectLink", mKoSData.getKoSItems().get(position).getLink());
-		startActivity(KoSObject);
+		Intent koSObject = new Intent(mActivity, KoSObjectActivity.class);
+		koSObject.putExtra(KoSObjectActivity.URL, mKoSData.getKoSItems().get(position).getLink());
+		koSObject.putExtra(KoSObjectActivity.CATEGORY, mKoSData.getKoSItems().get(position).getCategory());
+		startActivity(koSObject);
 	}
 
 	@Override

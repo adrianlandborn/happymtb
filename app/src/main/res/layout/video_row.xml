@@ -16,7 +16,7 @@
             android:layout_width="125dp"
             android:layout_height="100dp"
             android:gravity="center_vertical"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="8dp"
             android:scaleType="centerCrop"
             android:background="@color/grey_light"
             android:src="@drawable/no_video" />
@@ -25,7 +25,9 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp">
 
             <TextView
                 android:id="@+id/video_picture_row_title"
@@ -36,19 +38,12 @@
                 android:textSize="15sp"/>
 
             <TextView
-                android:id="@+id/video_picture_row_date"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/title_2_text"
-                android:textSize="13sp" />
-
-            <TextView
                 android:id="@+id/video_picture_row_uploader"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:textColor="@color/title_2_text"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/video_picture_row_category"
@@ -58,13 +53,32 @@
                 android:textColor="@color/black"
                 android:textSize="13sp" />
 
-            <TextView
-                android:id="@+id/video_picture_row_length"
-                android:layout_width="fill_parent"
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/video_picture_row_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/title_2_text"
+                    android:textSize="13sp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/video_picture_row_length"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+                </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

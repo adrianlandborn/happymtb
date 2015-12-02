@@ -10,6 +10,9 @@ import android.view.MenuItem;
 
 public class KoSObjectActivity extends AppCompatActivity {
 
+	public final static String CATEGORY = "category";
+	public final static String URL = "KoSObjectLink";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
@@ -30,6 +33,10 @@ public class KoSObjectActivity extends AppCompatActivity {
 		}
 	}
 	
+	public String getCategory() {
+		return getIntent().getStringExtra(CATEGORY);
+	}
+
 	public String getObjectLink() {
 		String objectLink = "";
 		Intent intent = getIntent();
@@ -39,7 +46,7 @@ public class KoSObjectActivity extends AppCompatActivity {
 			objectLink = data.toString();
 
 		} else {
-			objectLink = intent.getExtras().getString("KoSObjectLink");
+			objectLink = intent.getExtras().getString(URL);
 		}
 
 		return objectLink;
