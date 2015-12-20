@@ -132,7 +132,11 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mActivity.getSupportActionBar().setTitle(mKoSObjectItem.getType());
 		mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
 		mTitle.setText(mKoSObjectItem.getTitle());
-		mCategory.setText( mActivity.getCategory() + ", " + mKoSObjectItem.getArea());
+		if (!TextUtils.isEmpty(mActivity.getCategory())) {
+			mCategory.setText(mActivity.getCategory() + ", " + mKoSObjectItem.getArea());
+		} else {
+			mCategory.setText(mKoSObjectItem.getArea());
+		}
 		mPerson.setText(mKoSObjectItem.getPerson());
 		mPhone.setText("Telefon: " + mKoSObjectItem.getPhone());
 		mDate.setText("Datum: " + mKoSObjectItem.getDate());
@@ -162,7 +166,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 				}
 			});
 		}
-		
+
 		mText.setText(Html.fromHtml(mKoSObjectItem.getText()));		
 		mPrice.setText("Pris: " + mKoSObjectItem.getPrice());
         mScrollView.setVisibility(View.VISIBLE);
