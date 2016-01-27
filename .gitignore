@@ -9,3 +9,4 @@
 /app/app-release.apk
 *.apk
 .idea/gradle.xml
+app/app.iml
