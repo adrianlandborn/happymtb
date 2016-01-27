@@ -69,7 +69,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 			
 		Start = Str.indexOf("\"bold\">", Start) + 7;
 		End = Str.indexOf("</span>", Start);		
-		String Date = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
+		String Date = HappyUtils.replaceHTMLChars(Str.substring(Start, End).trim());
 		Start = End;	
 		
 		if (Str.contains("<img")) {
@@ -90,7 +90,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 		} else {
 			Start = Str.indexOf("\"bold\">", Start) + 7;
 			End = Str.indexOf("</span>", Start);		
-			Price = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
+			Price = HappyUtils.replaceHTMLChars(Str.substring(Start, End)).replace(" ", "");
 		}
 
 		return new KoSObjectItem(Area, Type, Title, Person, Phone, Date, ImgLink, Text, Price);

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -134,6 +135,8 @@ public class ForumListFragment extends RefreshListfragment {
 		menu.clear();
 		inflater.inflate(R.menu.forum_menu, menu);
         menu.findItem(R.id.thread_new_thread).setVisible(mThreadData.getLoggedIn());
+        menu.findItem(R.id.thread_left).setVisible(mThreadData.getCurrentPage() > 1);
+        menu.findItem(R.id.thread_right).setVisible(mThreadData.getCurrentPage() < mThreadData.getMaxPages());
 
 		super.onCreateOptionsMenu(menu, inflater);
 	}
@@ -160,6 +163,7 @@ public class ForumListFragment extends RefreshListfragment {
 
                 // Set an EditText view to get user input
                 final EditText input = new EditText(mActivity);
+				input.setInputType(InputType.TYPE_CLASS_NUMBER);
                 alert.setView(input);
 
                 alert.setPositiveButton(R.string.jump, new DialogInterface.OnClickListener() {
@@ -307,7 +311,9 @@ public class ForumListFragment extends RefreshListfragment {
 
 		mCurrentPage.setText(Integer.toString(mThreadData.getCurrentPage()));
 		mMaxPages.setText(Integer.toString(mThreadData.getThreads().get(0).getNumberOfThreadPages()));
-		mThreadData.setMaxPages(mThreadData.getThreads().get(0).getNumberOfThreadPages());						
+		mThreadData.setMaxPages(mThreadData.getThreads().get(0).getNumberOfThreadPages());
+
+		getActivity().invalidateOptionsMenu();
 	}
 
 	@Override

@@ -18,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -80,6 +81,9 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
 		inflater.inflate(R.menu.video_menu, menu);
+
+		menu.findItem(R.id.video_left).setVisible(mVideoData.getCurrentPage() > 1);
+		menu.findItem(R.id.video_right).setVisible(mVideoData.getCurrentPage() < mVideoData.getMaxPages());
 		super.onCreateOptionsMenu(menu, inflater);
 	}			
 
@@ -107,6 +111,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 
 			// Set an EditText view to get user input 
 			final EditText input = new EditText(mActivity);
+			input.setInputType(InputType.TYPE_CLASS_NUMBER);
 			mAlertDialog.setView(input);
 
 			mAlertDialog.setPositiveButton(R.string.jump, new DialogInterface.OnClickListener() {
@@ -121,7 +126,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 
 			mAlertDialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					// Canceled.
+					// Cancelled
 				}
 			});
 
@@ -205,6 +210,8 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 //		} else {
 //			searchView.setText("");
 //		}
+
+        getActivity().invalidateOptionsMenu();
 	}
 
 	public void refreshList() {

@@ -9,6 +9,7 @@ import org.happymtb.unofficial.fragment.ArticlesListFragment;
 import org.happymtb.unofficial.fragment.CalendarListFragment;
 import org.happymtb.unofficial.fragment.HomesListFragment;
 import org.happymtb.unofficial.fragment.KoSListFragment;
+import org.happymtb.unofficial.fragment.SavedListFragment;
 import org.happymtb.unofficial.fragment.SettingsFragment;
 import org.happymtb.unofficial.fragment.ShopsListFragment;
 import org.happymtb.unofficial.fragment.ForumListFragment;
@@ -37,10 +38,11 @@ public class MainActivity extends AppCompatActivity implements
     private static final int FORUM = 1;
     private static final int ARTICLES = 2;
     private static final int KOP_OCH_SALJ = 3;
-    private static final int VIDEO = 4;
-    private static final int SHOPS = 5;
-    private static final int CALENDAR = 6;
-    private static final int SETTINGS = 7;
+    private static final int SAVED = 4;
+    private static final int VIDEO = 5;
+    private static final int SHOPS = 6;
+    private static final int CALENDAR = 7;
+    private static final int SETTINGS = 8;
 
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
     private static final String CURRENT_FRAGMENT_TAG = "current_fragment_tag";
@@ -53,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements
     private List<SearchListener> mSearchListeners;
 
     private String mCurrentFragmentTag = null;
-    private Toast mBackToast;
     private boolean mLogin;
     private NavigationView mNavigationView;
     DrawerLayout mDrawer;
@@ -116,13 +117,6 @@ public class MainActivity extends AppCompatActivity implements
 //        outState.putString(CURRENT_FRAGMENT_TAG, mCurrentFragmentTag);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
-    }
-
 //    @Override
 //    public boolean onNavigationItemSelected(int position, long id) {
 //         When the given dropdown item is selected, show its contents in the
@@ -156,6 +150,10 @@ public class MainActivity extends AppCompatActivity implements
             case KOP_OCH_SALJ:
                 frag = new KoSListFragment();
                 mCurrentFragmentTag = KoSListFragment.TAG;
+                break;
+            case SAVED:
+                frag = new SavedListFragment();
+                mCurrentFragmentTag = SavedListFragment.TAG;
                 break;
             case VIDEO:
                 frag = new VideoListFragment();
@@ -249,6 +247,8 @@ public class MainActivity extends AppCompatActivity implements
             pos = ARTICLES;
         } else if (id == R.id.nav_kos) {
             pos = KOP_OCH_SALJ;
+        } else if (id == R.id.nav_saved) {
+            pos = SAVED;
         } else if (id == R.id.nav_videos) {
             pos = VIDEO;
         } else if (id == R.id.nav_shops) {

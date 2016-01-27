@@ -21,6 +21,10 @@
             android:icon="@drawable/ic_search_black_24dp"
             android:title="@string/title_bar_kos" />
         <item
+            android:id="@+id/nav_saved"
+            android:icon="@drawable/ic_favorite_black_24dp"
+            android:title="@string/title_bar_saved"/>
+        <item
             android:id="@+id/nav_videos"
             android:icon="@drawable/ic_movie_black_24dp"
             android:title="@string/title_bar_videos" />

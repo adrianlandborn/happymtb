@@ -2,6 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:happy="http://schemas.android.com/apk/res-auto" >
     <item
+        android:id="@+id/kos_object_favorite"
+        happy:showAsAction="always"
+        android:icon="@drawable/ic_favorite_border_white_24dp"
+        android:title="Spara annons"/>
+
+    <item
+        android:id="@+id/kos_object_unfavorite"
+        happy:showAsAction="always"
+        android:visible="false"
+        android:icon="@drawable/ic_favorite_white_24dp"
+        android:title="Släng annons"/>
+
+    <item
         android:id="@+id/kos_object_share"
         happy:showAsAction="always"
         android:icon="@drawable/ic_action_share"

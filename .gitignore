@@ -7,3 +7,5 @@
 /build
 /app/build
 /app/app-release.apk
+*.apk
+.idea/gradle.xml

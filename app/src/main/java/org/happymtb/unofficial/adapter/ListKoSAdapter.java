@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.view.KoSRowView;
-import org.happymtb.unofficial.item.KoSItem;
+import org.happymtb.unofficial.item.KoSListItem;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -17,29 +17,29 @@ import com.squareup.picasso.Picasso;
 
 public class ListKoSAdapter extends BaseAdapter {
 	private Context mContext;
-	private List<KoSItem> mKoSItems = new ArrayList<KoSItem>();
+	private List<KoSListItem> mKoSListItems = new ArrayList<KoSListItem>();
 
-	public ListKoSAdapter(Context context, List<KoSItem> KoSItems) {
+	public ListKoSAdapter(Context context, List<KoSListItem> koSListItems) {
 		mContext = context;
-		mKoSItems = KoSItems;
+		mKoSListItems = koSListItems;
 	}		
 	
 	@Override
 	public int getCount() {
-        if (mKoSItems != null) {
-            return mKoSItems.size();
+        if (mKoSListItems != null) {
+            return mKoSListItems.size();
         } else {
             return 0;
         }
 	}
 
-	public void setItems(List<KoSItem> items) {
-		mKoSItems = items;
+	public void setItems(List<KoSListItem> items) {
+		mKoSListItems = items;
 	}
 
 	@Override
-	public KoSItem getItem(int position) {
-		return mKoSItems.get(position);
+	public KoSListItem getItem(int position) {
+		return mKoSListItems.get(position);
 	}
 
 	@Override
@@ -57,19 +57,19 @@ public class ListKoSAdapter extends BaseAdapter {
 			kosRowView = (KoSRowView) convertView;
 		}
 			
-		kosRowView.setTitle(mKoSItems.get(position).getTitle());
-		kosRowView.setTime(mKoSItems.get(position).getTime());
-		kosRowView.setArea(mKoSItems.get(position).getArea());
-		kosRowView.setCategory(mKoSItems.get(position).getCategory());
-		kosRowView.setPrice(mKoSItems.get(position).getPrice());
+		kosRowView.setTitle(mKoSListItems.get(position).getTitle());
+		kosRowView.setTime(mKoSListItems.get(position).getTime());
+		kosRowView.setArea(mKoSListItems.get(position).getArea());
+		kosRowView.setCategory(mKoSListItems.get(position).getCategory());
+		kosRowView.setPrice(mKoSListItems.get(position).getPrice());
 
-        if (!TextUtils.isEmpty(mKoSItems.get(position).getImgLink())) {
-            Picasso.with(mContext).load(mKoSItems.get(position).getImgLink()).into(kosRowView.getImageView());
+        if (!TextUtils.isEmpty(mKoSListItems.get(position).getImgLink())) {
+            Picasso.with(mContext).load(mKoSListItems.get(position).getImgLink()).into(kosRowView.getImageView());
         } else {
             kosRowView.setObjectImage(null);
         }
 
-		if (mKoSItems.get(position).getTitle().charAt(0) == 'S'){
+		if (mKoSListItems.get(position).getType().equals(KoSListItem.TYPE_SALJES)){
 			kosRowView.setRowBackgroundColor(R.color.kos_green);
 		} else {
 			kosRowView.setRowBackgroundColor(R.color.kos_red);

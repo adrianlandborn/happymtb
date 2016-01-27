@@ -7,9 +7,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class KoSObjectActivity extends AppCompatActivity {
 
+	public final static String AREA = "area";
+	public final static String TYPE = "type";
+	public final static String TITLE = "title";
+	public final static String DATE = "date";
+	public final static String PRICE = "price";
 	public final static String CATEGORY = "category";
 	public final static String URL = "KoSObjectLink";
 
@@ -32,9 +38,38 @@ public class KoSObjectActivity extends AppCompatActivity {
 					.commit();
 		}
 	}
+
+	public long getObjectId() {
+		String[] urlSplit = getObjectLink().split("id=");
+		if (urlSplit.length == 2) {
+			return Long.parseLong(urlSplit[1]);
+		} else {
+		return -1;
+		}
+	}
 	
-	public String getCategory() {
-		return getIntent().getStringExtra(CATEGORY);
+	public String getObjectArea() {
+		return getIntent().getStringExtra(AREA);
+	}
+
+	public String getObjectDate() {
+		return getIntent().getStringExtra(DATE);
+	}
+
+	public String getObjectType() {
+		return getIntent().getStringExtra(TYPE);
+	}
+
+	public String getObjectTitle() {
+		return getIntent().getStringExtra(TITLE);
+	}
+
+	public String getObjectCategory() {
+        return getIntent().getStringExtra(CATEGORY);
+	}
+
+	public String getObjectPrice() {
+		return getIntent().getStringExtra(PRICE);
 	}
 
 	public String getObjectLink() {

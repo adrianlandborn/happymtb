@@ -5,6 +5,7 @@
         <item>@string/title_bar_forum</item>
         <item>@string/title_bar_articles</item>
         <item>@string/title_bar_kos</item>
+        <item>@string/title_bar_saved</item>
         <item>@string/title_bar_videos</item>
         <item>@string/title_bar_shops</item>
         <item>@string/title_bar_calendar</item>
@@ -208,6 +209,7 @@
 	    <item>Forum</item>
 	    <item>Artiklar</item>
 	    <item>Köp &amp; Sälj</item>
+	    <item>Sparade annonser</item>
 	    <item>Video</item>
 	    <item>Butiker</item>
 	    <item>Kalender</item>

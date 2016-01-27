@@ -18,7 +18,7 @@ public class KoSData implements Serializable {
 	private int mCategory;
 	private String mCategoryStr;
 	private String mSearch;	
-	private List<KoSItem> mKoSItems;
+	private List<KoSListItem> mKoSListItems;
 	private int mListPosition;
 	private String mSortAttribute;
 	private int mSortAttributePosition;
@@ -39,7 +39,7 @@ public class KoSData implements Serializable {
 		mCategory = searchCategory; //0;
 		mCategoryStr = searchCategoryString; //"Alla Kategorier";
 		mSearch = searchText;
-		mKoSItems = null;
+		mKoSListItems = null;
         mListPosition = 0;
         mSortAttribute = sortAttribute;
         mSortAttributePosition = sortAttributePosition;
@@ -111,12 +111,12 @@ public class KoSData implements Serializable {
 		this.mSearch = mSearch;
 	}
 
-	public List<KoSItem> getKoSItems() {
-		return mKoSItems;
+	public List<KoSListItem> getKoSItems() {
+		return mKoSListItems;
 	}
 
-	public void setKoSItems(List<KoSItem> mKoSItems) {
-		this.mKoSItems = mKoSItems;
+	public void setKoSItems(List<KoSListItem> mKoSListItems) {
+		this.mKoSListItems = mKoSListItems;
 	}
 
 	public int getListPosition() {

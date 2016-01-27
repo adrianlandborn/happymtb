@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
+import android.text.InputType;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -142,7 +143,8 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
         menu.clear();
         inflater.inflate(R.menu.posts_menu, menu);
 
-//        menu.findItem(R.id.message_new_post).setVisible(mMessageData.getLogined());
+        menu.findItem(R.id.message_left).setVisible(mMessageData.getCurrentPage() > 1);
+        menu.findItem(R.id.message_right).setVisible(mMessageData.getCurrentPage() < mMessageData.getMaxPages());
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -165,6 +167,7 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
                 // Set an EditText view to get user input
                 final EditText input = new EditText(mActivity);
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
                 alert.setView(input);
 
                 alert.setPositiveButton(R.string.jump, new DialogInterface.OnClickListener() {
@@ -309,6 +312,8 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
         mCurrentPage.setText(Integer.toString(mMessageData.getCurrentPage()));
         mMaxPages.setText(Integer.toString(mMessageData.getMessages().get(0).getNumberOfMessagePages()));
         mMessageData.setMaxPages(mMessageData.getMessages().get(0).getNumberOfMessagePages());
+
+        getActivity().invalidateOptionsMenu();
     }
 
     @Override

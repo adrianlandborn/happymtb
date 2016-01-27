@@ -2,10 +2,15 @@ package org.happymtb.unofficial.item;
 
 import java.io.Serializable;
 
-public class KoSItem implements Serializable {
-	private static final long serialVersionUID = 201110070001L; 
-	
+public class KoSListItem implements Serializable {
+	private static final long serialVersionUID = 201110070001L;
+
+	public static String TYPE_SALJES =  "Säljes";
+	public static String TYPE_KOPES =  "Köpes";
+
+	private long mId;
 	private String mTime;
+	private String mType;
 	private String mTitle;
 	private String mArea;
 	private String mLink;
@@ -14,12 +19,19 @@ public class KoSItem implements Serializable {
 	private String mSelectedCategory;
 	private String mSelectedRegion;
 	private String mPrice;
+	private boolean mSold;
 	private int mNumberOfKoSPages;
-	
-	public KoSItem(String Time, String Title, String Area, String Link,
-			String ImgLink, String Category, String Price, int NumberOfKoSPages, String SelectedCategory, String SelectedRegion) {
+
+    public KoSListItem() {
+
+    }
+	public KoSListItem(long id, String Time, String type, String Title, String Area, String Link,
+                       String ImgLink, String Category, String Price, int NumberOfKoSPages,
+                       String SelectedCategory, String SelectedRegion) {
+		mId = id;
 		mTime = Time;
-		mTitle = Title.replace("&amp;", "&");
+		mType = type;
+		mTitle = Title;
 		mArea = Area;
 		mLink = Link;
 		mImgLink = ImgLink;
@@ -28,6 +40,14 @@ public class KoSItem implements Serializable {
 		mSelectedRegion = SelectedRegion;
 		mPrice = Price;
 		mNumberOfKoSPages = NumberOfKoSPages;
+	}
+
+	public void setId(long id) {
+		mId = id;
+	}
+
+	public long getId() {
+		return mId;
 	}
 
 	public int getNumberOfKoSPages() 
@@ -62,6 +82,14 @@ public class KoSItem implements Serializable {
 
 	public void setTitle(String title) {
 		mTitle = title;
+	}
+
+	public String getType() {
+		return mType;
+	}
+
+	public void setType(String type) {
+		mType = type;
 	}
 
 	public String getArea() {
@@ -110,6 +138,14 @@ public class KoSItem implements Serializable {
 
 	public void setTime(String time) {
 		mTime = time;
+	}
+
+	public boolean isSold() {
+		return mSold;
+	}
+
+	public void setSold(boolean sold) {
+		mSold = sold;
 	}
 
 }

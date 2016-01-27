@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ public class SettingsFragment extends Fragment {
 
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
+    private static final String USE_LARGE_IMAGES = "use_large_images";
 
 	private SharedPreferences mPreferences;
     private Spinner mStartPageSpinner;

@@ -2,6 +2,8 @@ package org.happymtb.unofficial.fragment;
 
 import org.happymtb.unofficial.WebViewActivity;
 import org.happymtb.unofficial.ZoomImageActivity;
+import org.happymtb.unofficial.database.KoSItemDataSource;
+import org.happymtb.unofficial.item.KoSListItem;
 import org.happymtb.unofficial.item.KoSObjectItem;
 import org.happymtb.unofficial.listener.KoSObjectListener;
 import org.happymtb.unofficial.task.KoSObjectImageTask;
@@ -33,19 +35,24 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	private KoSObjectItem mKoSObjectItem;
 	private View mScrollView;
 	private View mProgressView;
-	TextView mTitle;
-	TextView mPerson;		
-	TextView mPhone;
-	TextView mCategory;
-	TextView mDate;
-	TextView mText;
-	TextView mPrice;
+    private TextView mTitle;
+    private TextView mPerson;
+    private TextView mPhone;
+    private TextView mCategory;
+    private TextView mDate;
+    private TextView mText;
+    private TextView mPrice;
+
+    private boolean mIsSaved = false;
+    private boolean mIsSold = false;
 
 	ImageButton mActionPhone;
 	ImageButton mActionSms;
 	ImageButton mActionEmail;
 	ScaleImageView mObjectImageView;
 	KoSObjectActivity mActivity;
+
+	private KoSItemDataSource datasource;
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -84,7 +91,26 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
             fillList();
 		} else {
 			fetchKoSObject(url);
+
+			if (!TextUtils.isEmpty(mActivity.getObjectTitle())) {
+				mActivity.getSupportActionBar().setTitle(mActivity.getObjectType());
+                mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+
+                //TODO Delete or uncomment?
+//				mTitle.setText(mActivity.getObjectTitle());
+//				mCategory.setText(mActivity.getObjectCategory() + ", " + mActivity.getObjectArea());
+//				mDate.setText("Datum: " + mActivity.getObjectDate());
+//                mPrice.setText("Pris: " + mActivity.getObjectPrice());
+//                mScrollView.setVisibility(View.VISIBLE);
+
+				//TODO Set old image if already cached
+			}
 		}
+
+        datasource = new KoSItemDataSource(mActivity);
+        datasource.open();
+
+        mIsSaved = datasource.isItemInDatabase(mActivity.getObjectId());
 	}
 
 	@Override
@@ -99,6 +125,9 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
 		inflater.inflate(R.menu.kos_object_menu, menu);
+
+        menu.findItem(R.id.kos_object_favorite).setVisible(!mIsSaved && !mIsSold);
+        menu.findItem(R.id.kos_object_unfavorite).setVisible(mIsSaved);
 		super.onCreateOptionsMenu(menu, inflater);
 	}		
 	
@@ -111,10 +140,28 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 				mKoSObjectItem = koSObjectItem;
 				if (getActivity() != null && !getActivity().isFinishing()) {
 					if (mKoSObjectItem != null) {
-						fillList();
-					}
-					mProgressView.setVisibility(View.INVISIBLE);
-				}
+                        if (!mKoSObjectItem.getDate().equals("1970-01-01 01:00")) {
+                            fillList();
+                            //TODO update in database
+                            if (mIsSaved) {
+                                updateInDatabase();
+                            }
+                        } else {
+                            mScrollView.setVisibility(View.INVISIBLE);
+                            mActivity.findViewById(R.id.no_content).setVisibility(View.VISIBLE);
+
+                            mIsSold = true;
+                            if (mIsSaved) {
+                                datasource.setItemSold(mActivity.getObjectId(), true);
+                                mActivity.setResult(SavedListFragment.RESULT_MODIFIED, null);
+                            }
+                            mActivity.invalidateOptionsMenu();
+                        }
+                    }
+				} else {
+                    // Something went wrong
+                }
+                mProgressView.setVisibility(View.INVISIBLE);
 			}
 
 			public void fail() {
@@ -130,10 +177,10 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	
 	private void fillList() {
 		mActivity.getSupportActionBar().setTitle(mKoSObjectItem.getType());
-		mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+        mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
 		mTitle.setText(mKoSObjectItem.getTitle());
-		if (!TextUtils.isEmpty(mActivity.getCategory())) {
-			mCategory.setText(mActivity.getCategory() + ", " + mKoSObjectItem.getArea());
+		if (!TextUtils.isEmpty(mActivity.getObjectCategory())) {
+			mCategory.setText(mActivity.getObjectCategory() + ", " + mKoSObjectItem.getArea());
 		} else {
 			mCategory.setText(mKoSObjectItem.getArea());
 		}
@@ -167,8 +214,13 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 			});
 		}
 
-		mText.setText(Html.fromHtml(mKoSObjectItem.getText()));		
-		mPrice.setText("Pris: " + mKoSObjectItem.getPrice());
+		mText.setText(Html.fromHtml(mKoSObjectItem.getText()));
+        String price = mKoSObjectItem.getPrice();
+        if (price.trim().equals("Prisuppgift saknas.")) {
+            mPrice.setText("Prisuppgift saknas");
+        } else {
+            mPrice.setText("Pris: " + price);
+        }
         mScrollView.setVisibility(View.VISIBLE);
 	}	
 	
@@ -182,16 +234,72 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
+            case R.id.kos_object_favorite:
+                addToDatabase();
+                mActivity.invalidateOptionsMenu();
+                return true;
+            case R.id.kos_object_unfavorite:
+                removeFromDatabase();
+                mActivity.invalidateOptionsMenu();
+                return true;
             case R.id.kos_object_share:
                 shareObject();
                 return true;
             case R.id.kos_object_browser:
+                mIsSold = true;
+                mActivity.invalidateOptionsMenu();
+//                if (mIsSaved) {
+//                    if (datasource.setItemSold(mActivity.getObjectId(), true) != -1) {
+//                        Toast.makeText(mActivity, "Såld!", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
                 openInBrowser(false, false);
                 return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+
+    private void addToDatabase() {
+        long row = datasource.insertKosItem(getKoSListItem());
+
+        if (row > 0) {
+//            Toast.makeText(mActivity, "Annonsen sparad", Toast.LENGTH_SHORT).show();
+            mIsSaved = true;
+        } else {
+            Toast.makeText(mActivity, "Annonsen kunde inte sparas", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateInDatabase() {
+        long row = datasource.updateKosItem(getKoSListItem());
+
+        if (row > 0) {
+            mActivity.setResult(SavedListFragment.RESULT_MODIFIED, null);
+        } else {
+            Toast.makeText(mActivity, "Annonsen kunde inte uppdateras", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void removeFromDatabase() {
+        mIsSaved = false;
+        long id = Long.parseLong(mActivity.getObjectLink().split("id=")[1]);
+        boolean success = datasource.deleteItem(id);
+		if (success) {
+			mActivity.setResult(SavedListFragment.RESULT_MODIFIED, null);
+		}
+    }
+
+    private KoSListItem getKoSListItem() {
+        if (mKoSObjectItem != null) {
+            return new KoSListItem(mActivity.getObjectId(), mKoSObjectItem.getDate(), mKoSObjectItem.getType(), mKoSObjectItem.getTitle(),
+                    mKoSObjectItem.getArea(), mActivity.getObjectLink(), mKoSObjectItem.getImgLink(), mActivity.getObjectCategory(),
+                    mKoSObjectItem.getPrice(), 0, null, null);
+        } else {
+            return null;
+        }
+
+    }
 
     private void shareObject() {
         String message = "Hej! Jag vill tipsa om en annons: " + mActivity.getObjectLink();

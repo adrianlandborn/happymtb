@@ -13,12 +13,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.os.AsyncTask;
 
 import org.happymtb.unofficial.helpers.HappyUtils;
-import org.happymtb.unofficial.item.KoSItem;
+import org.happymtb.unofficial.item.KoSListItem;
 import org.happymtb.unofficial.listener.KoSListListener;
 
 public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 	private ArrayList<KoSListListener> mKoSListListenerList;
-	private List<KoSItem> mKoSItems = new ArrayList<KoSItem>();
+	private List<KoSListItem> mKoSListItems = new ArrayList<KoSListItem>();
 	private int mNumberOfKoSPages = 1;
 	private String mSelectedCategory = "Alla Kategorier";
 	private String mSelectedRegion = "Hela Sverige";
@@ -35,7 +35,9 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 		mKoSListListenerList.remove(l);
 	}
 
-	public KoSItem extractKoSRow(String KoSStr) {
+	public KoSListItem extractKoSRow(String KoSStr) {
+		long id;
+		String type;
 		String Time;
 		String Title;
 		String Area;
@@ -68,7 +70,9 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 		
 		Start = KoSStr.indexOf("class=\"resultline_large\">", Start) + 25;
 		End = KoSStr.indexOf("</span></a>", Start);
-		Title = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
+		String titleWithType = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
+		type = titleWithType.split(": ")[0].equals("S") ? KoSListItem.TYPE_SALJES : KoSListItem.TYPE_KOPES;
+		Title = titleWithType.split(": ")[1].trim();
 		Start = End;
 		
 		Start = KoSStr.indexOf("<span class=\"resultline\">", Start) + 25;
@@ -84,13 +88,15 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 		Start = KoSStr.indexOf("<span class=\"resultline\">", Start) + 25;
 		End = KoSStr.indexOf("</span><br />", Start);
 		Price = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
+
+		id = Long.parseLong(Link.split("id=")[1]);
 		
-		return new KoSItem(Time, Title, Area, Link, ImgLink, Category, Price, 0, mSelectedCategory, mSelectedRegion);
+		return new KoSListItem(id, Time, type, Title, Area, Link, ImgLink, Category, Price, 0, mSelectedCategory, mSelectedRegion);
 	}
 
 	@Override
 	protected Boolean doInBackground(Object... params) {
-		mKoSItems.clear();		
+		mKoSListItems.clear();
 		
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 
@@ -114,7 +120,7 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 			LineNumberReader lineNumberReader = new LineNumberReader(is);
 			
 			StringBuilder ksStringBuilder = new StringBuilder();
-			KoSItem item;			
+			KoSListItem item;
 			boolean StartReadMessage = false;
 			boolean StartReadCategory = false;
 			boolean StartReadRegion = false;
@@ -156,7 +162,7 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 					
 						item = extractKoSRow(ksStringBuilder.toString());
 						if (item != null) {
-							mKoSItems.add(item);
+							mKoSListItems.add(item);
 						}
 					}
 				}	
@@ -188,8 +194,8 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 				}					
 			}
 			
-			for(int i = 0; i < mKoSItems.size(); i++) {
-				mKoSItems.get(i).setNumberOfKoSPages(mNumberOfKoSPages);
+			for(int i = 0; i < mKoSListItems.size(); i++) {
+				mKoSListItems.get(i).setNumberOfKoSPages(mNumberOfKoSPages);
 			}
 			
 		} catch (Exception e) {
@@ -197,14 +203,14 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 		}
-		return mKoSItems.size() > 0;
+		return mKoSListItems.size() > 0;
 	}
 	
 	@Override
 	protected void onPostExecute(Boolean result) {
 		for (KoSListListener l : mKoSListListenerList) {
 			if (result) {
-				l.success(mKoSItems);
+				l.success(mKoSListItems);
 			} else {
 				l.fail();
 			}

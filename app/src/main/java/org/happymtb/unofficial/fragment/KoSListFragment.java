@@ -8,7 +8,7 @@ import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.adapter.ListKoSAdapter;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSData;
-import org.happymtb.unofficial.item.KoSItem;
+import org.happymtb.unofficial.item.KoSListItem;
 import org.happymtb.unofficial.listener.KoSListListener;
 import org.happymtb.unofficial.listener.PageTextWatcher;
 import org.happymtb.unofficial.task.KoSListTask;
@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GestureDetectorCompat;
+import android.text.InputType;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,8 +41,6 @@ import android.widget.Toast;
 public class KoSListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener,
 		MainActivity.SortListener, MainActivity.SearchListener, GestureDetector.OnGestureListener {
     public static String TAG = "kos_frag";
-
-	public final static String SHOW_IMAGES = "kospicturelist";
 
 	public final static String SORT_ORDER_POS = "sort_order_pos";
 	public final static String SORT_ORDER_SERVER = "sort_order";
@@ -144,6 +143,10 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
 		inflater.inflate(R.menu.kos_menu, menu);
+
+		// Dont show left arrow for first page
+		menu.findItem(R.id.kos_left).setVisible(mKoSData.getCurrentPage() > 1);
+		menu.findItem(R.id.kos_right).setVisible(mKoSData.getCurrentPage() < mKoSData.getMaxPages());
 		super.onCreateOptionsMenu(menu, inflater);
 	}		
 
@@ -153,10 +156,10 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		case R.id.kos_submenu:
 			return true;		
 		case R.id.kos_left:
-			PreviousPage();
+			previousPage();
 			return true;
 		case R.id.kos_right:
-			NextPage();
+			nextPage();
 			return true;
 		case R.id.kos_sort:
 			fragmentManager = mActivity.getSupportFragmentManager();
@@ -176,6 +179,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
 			// Set an EditText view to get user input 
 			final EditText input = new EditText(mActivity);
+			input.setInputType(InputType.TYPE_CLASS_NUMBER);
 			alert.setView(input);
 			alert.setPositiveButton(R.string.jump, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
@@ -217,9 +221,9 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         showProgress(true);
 		mKoSTask = new KoSListTask();
 		mKoSTask.addKoSListListener(new KoSListListener() {
-            public void success(List<KoSItem> KoSItems) {
+            public void success(List<KoSListItem> koSListItems) {
                 if (getActivity() != null && !getActivity().isFinishing()) {
-                    mKoSData.setKoSItems(KoSItems);
+                    mKoSData.setKoSItems(koSListItems);
                     fillList();
                 }
                 showProgress(false);
@@ -280,9 +284,11 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		sortView.setText(" (Sortering: "
 				+ HappyUtils.getSortAttrNameLocal(mActivity, mKoSData.getSortAttributePosition()) + ", "
 				+ HappyUtils.getSortOrderNameLocal(mActivity, mKoSData.getSortOrderPosition()) + ")");
+
+		getActivity().invalidateOptionsMenu();
 	}
 
-	public void NextPage() {
+	public void nextPage() {
 		if (mKoSData.getCurrentPage() < mKoSData.getMaxPages())
 		{			
 			mKoSAdapter = null;
@@ -291,7 +297,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		}
 	}
 
-	public void PreviousPage() {
+	public void previousPage() {
     	if (mKoSData.getCurrentPage() > 1)
     	{
     		mKoSAdapter = null;
@@ -303,10 +309,18 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Intent koSObject = new Intent(mActivity, KoSObjectActivity.class);
-		koSObject.putExtra(KoSObjectActivity.URL, mKoSData.getKoSItems().get(position).getLink());
-		koSObject.putExtra(KoSObjectActivity.CATEGORY, mKoSData.getKoSItems().get(position).getCategory());
+		KoSListItem item = mKoSData.getKoSItems().get(position);
+		koSObject.putExtra(KoSObjectActivity.URL, item.getLink());
+		koSObject.putExtra(KoSObjectActivity.AREA, item.getArea());
+		koSObject.putExtra(KoSObjectActivity.TYPE, item.getType());
+		koSObject.putExtra(KoSObjectActivity.TITLE, item.getTitle());
+		koSObject.putExtra(KoSObjectActivity.DATE, item.getTime());
+		koSObject.putExtra(KoSObjectActivity.PRICE, item.getPrice());
+		koSObject.putExtra(KoSObjectActivity.CATEGORY, item.getCategory());
 		startActivity(koSObject);
 	}
+
+
 
 	@Override
 	public void onCancel(DialogInterface dialog) {
@@ -413,11 +427,11 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		//TODO A bit buggy. Need to find a better solution
 //        if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 //             //"Left Swipe"
-//            NextPage();
+//            nextPage();
 //            return true;
 //        }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 //             //"Right Swipe"
-//            PreviousPage();
+//            previousPage();
 //            return true;
 //        }
 		return false;

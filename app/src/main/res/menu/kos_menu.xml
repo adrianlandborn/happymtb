@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_action_previous"
         happy:showAsAction="always"
         android:title="Föregående sida"
-        android:visible="true">        
+        android:visible="false">
     </item>    
        
     <item 
