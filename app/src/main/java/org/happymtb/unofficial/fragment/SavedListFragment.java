@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
@@ -33,6 +34,13 @@ import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.database.KoSItemDataSource;
 import org.happymtb.unofficial.database.MyContentProvider;
 import org.happymtb.unofficial.database.MySQLiteHelper;
+import org.happymtb.unofficial.item.KoSListItem;
+import org.happymtb.unofficial.item.KoSObjectItem;
+import org.happymtb.unofficial.listener.KoSObjectListener;
+import org.happymtb.unofficial.task.KoSObjectTask;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SavedListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static String TAG = "saved_frag";
@@ -309,22 +317,6 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
             }
         }
 
-//        , new Callback() {
-//            @Override
-//            public void onSuccess() {
-//                mObjectImageView.setVisibility(View.VISIBLE);
-//                mKosSoldView.setVisibility(View.INVISIBLE);
-//                System.out.println("Callback: OK" );
-//            }
-//
-//            @Override
-//            public void onError() {
-//                System.out.println("Callback: Fail" );
-//                mObjectImageView.setVisibility(View.INVISIBLE);
-//                mKosSoldView.setVisibility(View.VISIBLE);
-//            }
-//        }
-
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
             // R.layout.list_row is your xml layout for each row
             return inflater.inflate(R.layout.kos_row, parent, false);
@@ -339,4 +331,5 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
             return value;
         }
     }
+
 }
