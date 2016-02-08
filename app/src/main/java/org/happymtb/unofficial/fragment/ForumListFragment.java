@@ -189,7 +189,7 @@ public class ForumListFragment extends RefreshListfragment {
                 dialog.show();
                 return true;
             case R.id.thread_new_thread:
-                String url = "http://happymtb.org/forum/posting.php/1";
+                String url = "http://happyride.se/forum/posting.php/1";
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(browserIntent);
 				return true;

@@ -203,7 +203,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 			dialog.show();
 			return true;	
 		case R.id.kos_new_item:
-			String url = "http://happymtb.org/annonser/index.php?page=add";
+			String url = "http://happyride.se/annonser/index.php?page=add";
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			startActivity(browserIntent);							
 			return true;			
@@ -237,8 +237,11 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
                 }
             }
         });
-		mKoSTask.execute(mKoSData.getCurrentPage() - 1, mKoSData.getType(), mKoSData.getRegion(), mKoSData.getCategory(),
-                mKoSData.getSearch(), mKoSData.getSortAttributeServer(), mKoSData.getSortOrderServer());
+		mKoSTask.execute(mKoSData.getSearch(), mKoSData.getCategory(), mKoSData.getRegion(), mKoSData.getType(),
+				"" /*category2*/, ""/*county2*/, ""/*type2*/, ""/*price*/, ""/*year*/, mKoSData.getCurrentPage() - 1,
+                mKoSData.getSortAttributeServer(), mKoSData.getSortOrderServer());
+
+		//?search=&category=1&county=&type=1&category2=&county2=&type2=&price=3&year=2013&p=1&sortattribute=creationdate&sortorder=DESC
 	}
 
 	private void fillList() {

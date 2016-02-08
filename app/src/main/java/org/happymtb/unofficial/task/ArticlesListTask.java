@@ -57,7 +57,7 @@ public class ArticlesListTask extends AsyncTask<Object, Void, Boolean> {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 
 		try {
-			String urlStr = "http://happymtb.org/arkiv/";
+			String urlStr = "http://happyride.se/arkiv/";
 			HttpGet httpget = new HttpGet(urlStr);
 
 			HttpResponse response = httpclient.execute(httpget);

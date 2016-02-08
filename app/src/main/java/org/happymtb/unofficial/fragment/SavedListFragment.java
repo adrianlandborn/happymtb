@@ -332,4 +332,61 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
         }
     }
 
+//    private class CheckSoldItemsTask extends AsyncTask<Void, Void, Void> {
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//
+//            KoSItemDataSource datasource = new KoSItemDataSource(mActivity);
+//            datasource.open();
+//
+//            List<KoSListItem> items = datasource.getAllKoSItems();
+//
+//
+//            return null;
+//        }
+//
+//        private void fetchKoSObject(String objectLink) {
+//            mProgressView.setVisibility(View.VISIBLE);
+//
+//            mKoSObjectTask = new KoSObjectTask();
+//            mKoSObjectTask.addKoSObjectListener(new KoSObjectListener() {
+//                public void success(KoSObjectItem koSObjectItem) {
+//                    mKoSObjectItem = koSObjectItem;
+//                    if (getActivity() != null && !getActivity().isFinishing()) {
+//                        if (mKoSObjectItem != null) {
+//                            if (!mKoSObjectItem.getDate().equals("1970-01-01 01:00")) {
+//                                fillList();
+//                                //TODO update in database
+//                                if (mIsSaved) {
+//                                    updateInDatabase();
+//                                }
+//                            } else {
+//                                mScrollView.setVisibility(View.INVISIBLE);
+//                                mActivity.findViewById(R.id.no_content).setVisibility(View.VISIBLE);
+//
+//                                mIsSold = true;
+//                                if (mIsSaved) {
+//                                    datasource.setItemSold(mActivity.getObjectId(), true);
+//                                    mActivity.setResult(SavedListFragment.RESULT_MODIFIED, null);
+//                                }
+//                                mActivity.invalidateOptionsMenu();
+//                            }
+//                        }
+//                    } else {
+//                        // Something went wrong
+//                    }
+//                    mProgressView.setVisibility(View.INVISIBLE);
+//                }
+//
+//                public void fail() {
+//                    if (getActivity() != null && !getActivity().isFinishing()) {
+//                        Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+//                        mProgressView.setVisibility(View.INVISIBLE);
+//                    }
+//                }
+//            });
+//
+//            mKoSObjectTask.execute(objectLink);
+//    }
 }

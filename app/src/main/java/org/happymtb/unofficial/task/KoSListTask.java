@@ -10,13 +10,16 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.graphics.Region;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSListItem;
 import org.happymtb.unofficial.listener.KoSListListener;
 
 public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
+    private static final String TAG = "happyride";
 	private ArrayList<KoSListListener> mKoSListListenerList;
 	private List<KoSListItem> mKoSListItems = new ArrayList<KoSListItem>();
 	private int mNumberOfKoSPages = 1;
@@ -26,6 +29,16 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 	public KoSListTask() {
 		mKoSListListenerList = new ArrayList<KoSListListener>();
 	}
+
+    private int getStart(String searchString, String searchValue, int oldStart) {
+        try {
+            return searchString.indexOf(searchValue, oldStart) + searchValue.length();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "Cannot find: " + searchValue);
+        }
+        return oldStart;
+    }
 
 	public void addKoSListListener(KoSListListener l) {
 		mKoSListListenerList.add(l);
@@ -37,61 +50,68 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 
 	public KoSListItem extractKoSRow(String KoSStr) {
 		long id;
-		String type;
-		String Time;
+		String Type ="";
+		String Time ="";
 		String Title;
-		String Area;
+		String Area ="";
 		String Link;
 		String ImgLink;
-		String Category;
-		String Price;
+		String Category ="";
+		String Price ="";
 
 		int Start = 0;
 		int End = 0;
 
-		Start = KoSStr.indexOf("<span class=\"resultline\">", Start) + 25;
-		End = KoSStr.indexOf("</span><br />", Start);
-		Time = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
-		Start = End;		
-		
-		if (KoSStr.contains("table")) {
-			Start = KoSStr.indexOf("src=\"", Start) + 5;
-			End = KoSStr.indexOf("\" border=\"0\" />", Start);
-			ImgLink = "http://happymtb.org/annonser/" + KoSStr.substring(Start, End);
-			Start = End;
-		} else {
-			ImgLink = "";
-		}		
-		
+        //ImageLink
+//        Start = getStart(KoSStr, "src=\"", Start);
+        Start = KoSStr.indexOf("src=\"", Start) + 5;
+        End = KoSStr.indexOf("\" border=\"0\" ", Start);
+        ImgLink = "http://happyride.se" + KoSStr.substring(Start, End);
+        Start = End;
+
+        //Link
 		Start = KoSStr.indexOf("<a href=\"", Start) + 9;
 		End = KoSStr.indexOf("\"", Start);
-		Link = "http://happymtb.org/annonser/" + KoSStr.substring(Start, End);
+		Link = "http://happyride.se/annonser/" + KoSStr.substring(Start, End);
 		Start = End;
-		
-		Start = KoSStr.indexOf("class=\"resultline_large\">", Start) + 25;
-		End = KoSStr.indexOf("</span></a>", Start);
-		String titleWithType = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
-		type = titleWithType.split(": ")[0].equals("S") ? KoSListItem.TYPE_SALJES : KoSListItem.TYPE_KOPES;
-		Title = titleWithType.split(": ")[1].trim();
+
+        //Title
+		Start = Start + 2;
+		End = KoSStr.indexOf("</a></h4>", Start);
+        Title = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
 		Start = End;
-		
-		Start = KoSStr.indexOf("<span class=\"resultline\">", Start) + 25;
-		End = KoSStr.indexOf("</span><br />", Start);
-		Area = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
+
+        //Type
+        Start = Start + 1;
+		End = KoSStr.indexOf("<span class=\"visible-xs\">", Start);
+		String typeWithRegion = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
+		Type = typeWithRegion.split(" i ")[0].contains("Säljes") ? KoSListItem.TYPE_SALJES : KoSListItem.TYPE_KOPES;
+
+        //Area
+		Area = typeWithRegion.split(" i ")[1].trim();
 		Start = End;
-		
-		Start = KoSStr.indexOf("<span class=\"resultline\">", Start) + 25;
-		End = KoSStr.indexOf("</span><br />", Start);
+
+        //Price
+		Start = KoSStr.indexOf("<span class=\"visible-xs\">", Start) + 25;
+		End = KoSStr.indexOf("</span></td>", Start);
+		Price = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
+        Start = End;
+
+        //Category
+		Start = KoSStr.indexOf("<td class=\"col-3 hidden-xs\">", Start) + 28;
+		End = KoSStr.indexOf("</td>", Start);
 		Category = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
 		Start = End;
-		
-		Start = KoSStr.indexOf("<span class=\"resultline\">", Start) + 25;
-		End = KoSStr.indexOf("</span><br />", Start);
-		Price = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
+
+        //Time
+        Start = KoSStr.indexOf("<td class=\"hidden-xs\"><nobr>", Start) + 28;
+        End = KoSStr.indexOf("</nobr></td>", Start);
+        Time = HappyUtils.replaceHTMLChars(KoSStr.substring(Start, End));
+        Start = End;
 
 		id = Long.parseLong(Link.split("id=")[1]);
 		
-		return new KoSListItem(id, Time, type, Title, Area, Link, ImgLink, Category, Price, 0, mSelectedCategory, mSelectedRegion);
+		return new KoSListItem(id, Time, Type, Title, Area, Link, ImgLink, Category, Price, 0, mSelectedCategory, mSelectedRegion);
 	}
 
 	@Override
@@ -100,18 +120,27 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 		
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 
-		try {
-			String urlStr = "http://happymtb.org/annonser/index.php?adpage="
-					+ Integer.toString((Integer) params[0]) + "&type="
-					+ Integer.toString((Integer) params[1]) + "&region="
-					+ Integer.toString((Integer) params[2]) + "&category="
-					+ Integer.toString((Integer) params[3]) + "&freetext="					
-					+ params[4] + "&sortattribute="
-					+ params[5] + "&sortorder="
-					+ params[6];
 
-			int mCurrentPage = (Integer) params[0];
+        // //?search=&category=1&county=&type=1&category2=&county2=&type2=&price=3&year=2013&p=1&sortattribute=creationdate&sortorder=DESC
+		try {
+			String urlStr = "http://happyride.se/annonser/"
+                    + "?search="    + params[0]
+                    + "&category="  + Integer.toString((Integer) params[1])
+                    + "&county="    + Integer.toString((Integer) params[2])
+                    + "&type="      + Integer.toString((Integer) params[3])
+                    + "&category2=" + params[4]
+                    + "&county2="   + params[5]
+                    + "&type2="     + params[6]
+                    + "&price="     + params[7]
+                    + "&year="      + params[8]
+                    + "&p="         + Integer.toString((Integer) params[9])
+                    + "&sortattribute=" + params[10]
+                    + "&sortorder=" + params[11];
+
+			int mCurrentPage = (Integer) params[9];
 			HttpGet httpget = new HttpGet(urlStr);
+
+			System.out.println(urlStr);
 		
 			HttpResponse response = httpclient.execute(httpget);
 			HttpEntity entity = response.getEntity();
@@ -127,7 +156,7 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 			String lineString = "";
 			
 			while((lineString = lineNumberReader.readLine()) != null) {
-				if (lineString.contains("<tr style=\"background-color: #fff;\" onmouseover=\"this.style.backgroundColor='#eee';\" onmouseout=\"this.style.backgroundColor='';\">")) {
+				if (lineString.contains("<td class=\"col-1\">")) {
 					StartReadMessage = true;
 					ksStringBuilder = new StringBuilder();
 					ksStringBuilder.append(lineString);
@@ -157,10 +186,10 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 				}
 				else if (StartReadMessage) {
 					ksStringBuilder.append(lineString);
-					if (lineString.contains("	</tr>")) {
+					if (lineString.contains("</tr>")) {
 						StartReadMessage = false;
-					
-						item = extractKoSRow(ksStringBuilder.toString());
+                        String row = ksStringBuilder.toString();
+						item = extractKoSRow(row);
 						if (item != null) {
 							mKoSListItems.add(item);
 						}
@@ -199,7 +228,8 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 			}
 			
 		} catch (Exception e) {
-			// Log.d("doInBackground", "Error: " + e.getMessage());
+            Log.d("doInBackground", "Error: " + e.getMessage());
+            e.printStackTrace();
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 		}

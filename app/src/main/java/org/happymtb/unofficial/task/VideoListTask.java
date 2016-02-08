@@ -37,7 +37,7 @@ public class VideoListTask extends AsyncTask<Object, Void, Boolean> {
 	public VideoItem ExtractVideoRow(String VideoStr) {
 		int start = VideoStr.indexOf("<a href=\"", 0) + 9;
 		int end = VideoStr.indexOf("\">", start);
-		String link = "http://happymtb.org" + VideoStr.substring(start, end);
+		String link = "http://happyride.se" + VideoStr.substring(start, end);
 		start = end;
 		
 		start = VideoStr.indexOf("<img src=\"", start) + 10;
@@ -85,7 +85,7 @@ public class VideoListTask extends AsyncTask<Object, Void, Boolean> {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 
 		try {
-			String urlStr = "http://happymtb.org/video/?p="
+			String urlStr = "http://happyride.se/video/?p="
 					+ Integer.toString((Integer) params[0]) + "&c="
 					+ Integer.toString((Integer) params[1]) + "&search="
 					+ params[2];

@@ -116,7 +116,7 @@ public class MessageListTask extends AsyncTask<Object, Void, Boolean>
     		BasicClientCookie cookie = new BasicClientCookie(preferences.getString(ForumListFragment.COOKIE_NAME, ""),
 					preferences.getString(ForumListFragment.COOKIE_VALUE, ""));
     		cookie.setPath("/");
-    		cookie.setDomain("happymtb.org");
+    		cookie.setDomain("happyride.se");
     		cookieStore.addCookie(cookie);
   		
         	File extStore = Environment.getExternalStorageDirectory();
@@ -125,7 +125,7 @@ public class MessageListTask extends AsyncTask<Object, Void, Boolean>
     			bitmapDirectory.mkdirs();
     		}
     		
-    		String urlStr = "http://happymtb.org/forum/read.php/1/" + param[1] + "/page=" + param[2];
+    		String urlStr = "http://happyride.se/forum/read.php/1/" + param[1] + "/page=" + param[2];
             HttpGet httpget = new HttpGet(urlStr);
            
             HttpResponse response = httpclient.execute(httpget);

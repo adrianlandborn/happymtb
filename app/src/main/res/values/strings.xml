@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>   
-    <string name="app_name">HappyMTB</string>
+    <string name="app_name">Happyride</string>
 
     <string name="navigation_drawer_open">Öppna drawer</string>
     <string name="navigation_drawer_close">Stäng drawer</string>

@@ -55,7 +55,7 @@ public class ThreadListTask extends AsyncTask<Object, Void, Boolean>
 		String MessageText = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;
 		
-		Start = Str.indexOf("href=\"http://happymtb.org/forum/read.php/1/", Start) + 43;
+		Start = Str.indexOf("href=\"http://happyride.se/forum/read.php/1/", Start) + 43;
 		End = Str.indexOf("\">", Start);     
 		String ThreadId = Str.substring(Start, End); 
 		Start = End;
@@ -116,10 +116,10 @@ public class ThreadListTask extends AsyncTask<Object, Void, Boolean>
     		BasicClientCookie cookie = new BasicClientCookie(preferences.getString(ForumListFragment.COOKIE_NAME, ""),
 					preferences.getString(ForumListFragment.COOKIE_VALUE, ""));
     		cookie.setPath("/");
-    		cookie.setDomain("happymtb.org");
+    		cookie.setDomain("happyride.se");
     		cookieStore.addCookie(cookie);
 
-    		String urlStr = "http://happymtb.org/forum/list.php/1/page=" + Integer.toString((Integer)param[0]);
+    		String urlStr = "http://happyride.se/forum/list.php/1/page=" + Integer.toString((Integer)param[0]);
     		
             HttpGet httpget = new HttpGet(urlStr);
 

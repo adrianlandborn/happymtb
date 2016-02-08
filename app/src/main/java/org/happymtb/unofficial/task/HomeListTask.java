@@ -37,17 +37,17 @@ public class HomeListTask extends AsyncTask<Object, Void, Boolean> {
 		int end = str.indexOf("</title>", start);
 		String title = HappyUtils.replaceHTMLChars(str.substring(start, end));
 		start = end;
-		
-		start = str.indexOf("<description><![CDATA[", start) + 22;
-		end = str.indexOf("]]></description>", start);
-		String text = HappyUtils.replaceHTMLChars(str.substring(start, end));
-		start = end;
-		
+
 		start = str.indexOf("<link>", start) + 6;
 		end = str.indexOf("</link>", start);
 		String link = str.substring(start, end);
-		
-		start = link.indexOf("org/", 0) + 4;
+		start = end;
+
+		start = str.indexOf("<description><![CDATA[", start) + 22;
+		end = str.indexOf("]]></description>", start);
+		String text = HappyUtils.replaceHTMLChars(str.substring(start, end));
+
+		start = link.indexOf("se/", 0) + 3;
 		end = link.indexOf("/", start);
 		String year = link.substring(start, end);
 		start = end;
@@ -73,7 +73,7 @@ public class HomeListTask extends AsyncTask<Object, Void, Boolean> {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 
 		try {
-			String urlStr = "http://happymtb.org/rss";
+			String urlStr = "http://happyride.se/feed";
 			HttpGet httpget = new HttpGet(urlStr);
 
 			HttpResponse response = httpclient.execute(httpget);

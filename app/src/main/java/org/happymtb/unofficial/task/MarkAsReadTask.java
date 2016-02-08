@@ -40,9 +40,9 @@ public class MarkAsReadTask extends AsyncTask<Object, Void, Boolean>
     		CookieStore cookieStore = httpclient.getCookieStore();
     		BasicClientCookie cookie = new BasicClientCookie(preferences.getString(ForumListFragment.COOKIE_NAME, ""), preferences.getString(ForumListFragment.COOKIE_VALUE, ""));
     		cookie.setPath("/");
-    		cookie.setDomain("happymtb.org");
+    		cookie.setDomain("happyride.se");
     		cookieStore.addCookie(cookie);   		
-    		String urlStr = "http://happymtb.org/forum/list.php/1/markread";
+    		String urlStr = "http://happyride.se/forum/list.php/1/markread";
     		
             HttpGet httpget = new HttpGet(urlStr);
             //HttpResponse response = httpclient.execute(httpget);

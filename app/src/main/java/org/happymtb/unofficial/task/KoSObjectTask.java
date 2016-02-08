@@ -75,7 +75,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 		if (Str.contains("<img")) {
 			Start = Str.indexOf("src=\"", Start) + 5;
 			End = Str.indexOf("\" border=", Start);		
-			ImgLink = "http://happymtb.org/annonser/" + Str.substring(Start, End);
+			ImgLink = "http://happyride.se/annonser/" + Str.substring(Start, End);
 			Start = End;				
 		}
 			

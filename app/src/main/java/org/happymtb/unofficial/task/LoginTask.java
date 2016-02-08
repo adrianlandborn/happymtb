@@ -41,11 +41,11 @@ public class LoginTask extends AsyncTask<Object, Void, Boolean> {
 				.getDefaultSharedPreferences((Context) param[0]);
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		try {
-			HttpGet httpget = new HttpGet("http://happymtb.org/forum/login.php");
+			HttpGet httpget = new HttpGet("http://happyride.se/forum/login.php");
 
 			httpclient.execute(httpget);
 
-			HttpPost httpost = new HttpPost("http://happymtb.org/forum/login.php");
+			HttpPost httpost = new HttpPost("http://happyride.se/forum/login.php");
 
 			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 			nvps.add(new BasicNameValuePair("forum_id", "1"));

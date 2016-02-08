@@ -40,7 +40,7 @@ public class ShopsListTask extends AsyncTask<Object, Void, Boolean> {
 
 		Start = ShopStr.indexOf("<a href='", Start) + 9;
 		End = ShopStr.indexOf("'", Start);
-		String Link = "http://happymtb.org/forum/butiker/"	+ ShopStr.substring(Start, End);
+		String Link = "http://happyride.se/forum/butiker/"	+ ShopStr.substring(Start, End);
 		Start = End;
 
 		Start = ShopStr.indexOf("PhorumSmallFont'>", Start) + 17;
@@ -57,7 +57,7 @@ public class ShopsListTask extends AsyncTask<Object, Void, Boolean> {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		
 		try {
-			String urlStr = "http://happymtb.org/forum/butiker/";
+			String urlStr = "http://happyride.se/forum/butiker/";
 			HttpGet httpget = new HttpGet(urlStr);
 
 			HttpResponse response = httpclient.execute(httpget);

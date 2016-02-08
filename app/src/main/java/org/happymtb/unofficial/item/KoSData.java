@@ -6,9 +6,9 @@ import java.util.List;
 public class KoSData implements Serializable {
 	private static final long serialVersionUID = 201110070001L; 
 
+	public static final int ALLA = 0;
 	public static final int SALJES = 1;
 	public static final int KOPES = 2;
-	public static final int ALLA = 3;
 
 	private int mCurrentPage;
 	private int mMaxPages;
@@ -33,7 +33,7 @@ public class KoSData implements Serializable {
 				   String searchText) {
 		mCurrentPage = 1;
 		mMaxPages = 1;
-		mType = searchType; // 3;
+		mType = searchType; // 0;
 		mRegion = searchRegion; //0;
 		mRegionStr = searchRegionString; //"Hela Sverige";
 		mCategory = searchCategory; //0;
