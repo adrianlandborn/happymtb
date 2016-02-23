@@ -10,14 +10,19 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
+import android.text.TextUtils;
+import android.util.Log;
 
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSObjectItem;
+import org.happymtb.unofficial.item.Person;
 import org.happymtb.unofficial.listener.KoSObjectListener;
 
 public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
-	private ArrayList<KoSObjectListener> mKoSObjectListenerList;
+    public static final String BASE_URL = "http://happyride.se";
+    private ArrayList<KoSObjectListener> mKoSObjectListenerList;
 	private KoSObjectItem mKoSObjectItem;
+	private static final String TAG = "happyride";
 
 	public KoSObjectTask() {
 		mKoSObjectListenerList = new ArrayList<KoSObjectListener>();
@@ -31,69 +36,134 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 		mKoSObjectListenerList.remove(l);
 	}
 
-	public KoSObjectItem ExtractKoSObject(String Str) {
-		String ImgLink = null;		
-		
-		int Start = Str.indexOf("\"header\">", 0) + 9;
-		int End = Str.indexOf("</span>", Start);
-		String Area = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
-		Start = End;
-		
-		Start = Str.indexOf("\"header\">", Start) + 9;
-		End = Str.indexOf("</span>", Start);
-		Start = End;		
-		
-		Start = Str.indexOf("\"header\">", Start) + 9;
-		End = Str.indexOf("</span>", Start);		
-		String Type = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
-		Start = End;
-		
-		Start = Str.indexOf("\"header\">", Start) + 9;
-		End = Str.indexOf("</span>", Start);
-		Start = End;
-		
-		Start = Str.indexOf("\"header\">", Start) + 9;
-		End = Str.indexOf("</span>", Start);		
-		String Title = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
-		Start = End;		
-		
-		Start = Str.indexOf("\"bold\">", Start) + 7;
-		End = Str.indexOf("</span>", Start);		
-		String Person = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
-		Start = End;		
-		
-		Start = Str.indexOf("<strong>", Start) + 8;
-		End = Str.indexOf("</strong>", Start);		
-		String Phone = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
-		Start = End;			
-			
-		Start = Str.indexOf("\"bold\">", Start) + 7;
-		End = Str.indexOf("</span>", Start);		
-		String Date = HappyUtils.replaceHTMLChars(Str.substring(Start, End).trim());
-		Start = End;	
-		
-		if (Str.contains("<img")) {
-			Start = Str.indexOf("src=\"", Start) + 5;
-			End = Str.indexOf("\" border=", Start);		
-			ImgLink = "http://happyride.se/annonser/" + Str.substring(Start, End);
-			Start = End;				
+	private int getStart(String searchString, String startString, int from) {
+		try {
+			return searchString.indexOf(startString, from) + startString.length();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.e(TAG, "Cannot find START: " + startString);
 		}
-			
-		Start = Str.indexOf("\"plain\">", Start) + 8;
-		End = Str.indexOf("</span>", Start);		
-		String Text = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
-		Start = End;			
-		
-		String Price = "";		
-		if (Str.contains("Prisuppgift saknas.")) {
-			Price = "Prisuppgift saknas.";
-		} else {
-			Start = Str.indexOf("\"bold\">", Start) + 7;
-			End = Str.indexOf("</span>", Start);		
-			Price = HappyUtils.replaceHTMLChars(Str.substring(Start, End)).replace(" ", "");
+		return from;
+	}
+
+	private int getEnd(String searchString, String endString, int from) {
+		try {
+			return searchString.indexOf(endString, from);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.e(TAG, "Cannot find END: " + endString);
+		}
+		return from;
+	}
+
+	public KoSObjectItem ExtractKoSObject(String str) {
+		String imgLink = null;
+
+
+        int start = getStart(str, "<h1>", 0);
+        int end = getEnd(str, "</h1>", start);
+        String titleTemp = HappyUtils.replaceHTMLChars(str.substring(start, end));
+        String[] titleSplit = titleTemp.split(": ", 2);
+        String type = "Säljes";
+        if (titleSplit[0].equals("Köpes")) {
+            type = "Köpes";
+        }
+        String title = titleSplit[1];
+        start = end;
+
+		if (str.contains("<div class=\"carousel-inner\"")) {
+            //TODO handle additional images
+			start = getStart(str, "<div class=\"item active\">", start);
+			start = getStart(str, "<a href=\"/img/admarket/large/", start);
+			end = getEnd(str, "\" rel=\"lightbox[gallery1]\">", start);
+			imgLink = BASE_URL + "/img/admarket/normal/" + str.substring(start, end);
+			start = end;
+        }
+        end = getEnd(str, "<div class=\"well\"", start);
+        String description = str.substring(start, end);
+        while (description.contains("</div>")) {
+            description = description.substring(description.indexOf("</div>") + 6 );
+        }
+
+        description = HappyUtils.replaceHTMLChars(description);
+
+        // Fakta
+        start = getStart(str, "<strong>Pris:</strong>", end);
+        end = getEnd(str, "<br />", start);
+        String price = HappyUtils.replaceHTMLChars(str.substring(start, end));
+
+        start = getStart(str, "<strong>Årsmodell:</strong>", end);
+        end = getEnd(str, "<br />", start);
+
+        int yearModel = -1;
+        try {
+            yearModel = Integer.parseInt(HappyUtils.replaceHTMLChars(str.substring(start, end)));
+        }catch (NumberFormatException e) {
+            //
+        }
+
+        start = getStart(str, "Län:</strong>", end);
+        end = getEnd(str, "<br />", start);
+        String area = HappyUtils.replaceHTMLChars(str.substring(start, end));
+
+        start = getStart(str, "<strong>Plats:</strong>", end);
+        end = getEnd(str, "<br />", start);
+        String town = HappyUtils.replaceHTMLChars(str.substring(start, end));
+
+        start = getStart(str, "<strong>Publicerad:</strong>", end);
+        end = getEnd(str, "<br />", start);
+        String publishDate = HappyUtils.replaceHTMLChars(str.substring(start, end));
+
+        //Annonsör
+        Person person;
+        start = getStart(str, "<a href=\"", end);
+        end = getEnd(str, "\">", start);
+        String personIdLink = str.substring(start, end);
+        start = start + personIdLink.length() + 2;
+        personIdLink = BASE_URL + personIdLink;
+
+        end = getEnd(str, "</a>)<br />", end + 2);
+        String personName = HappyUtils.replaceHTMLChars(str.substring(start, end));
+
+        start = getStart(str, "<strong>Medlem sedan:</strong>", end);
+        end = getEnd(str, "<br />", start);
+        String personMemberSince = HappyUtils.replaceHTMLChars(str.substring(start, end));
+
+		String personPhone = "";
+		if (str.indexOf("<strong>Telefon/Mobilnummer:</strong>", end) > -1) {
+			start = getStart(str, "<strong>Telefon/Mobilnummer:</strong>", end);
+			end = getEnd(str, "<br />", start);
+			personPhone = str.substring(start, end).trim();
 		}
 
-		return new KoSObjectItem(Area, Type, Title, Person, Phone, Date, ImgLink, Text, Price);
+
+        //TODO Contact:  PM, Mail, Phone
+        String personPM = "";
+        String personEmail = "";
+
+        start = getStart(str, "<div class=\"ad-contact-buttons\">", end);
+        end = getEnd(str, "</div>", start);
+
+		String contact = str.substring(start);
+		start = 0;
+		if (contact.indexOf("Skicka PM") > -1) {
+			// Skicka PM
+			start = getStart(contact, "<a href=\"", start);
+			end = getEnd(contact, "\" class=\"btn btn-primary\"", start);
+			personPM = BASE_URL + HappyUtils.replaceHTMLChars(contact.substring(start, end));
+		}
+
+		if (contact.indexOf("Skicka E-post", end) > -1) {
+			// Skicka Epost
+			start = getStart(contact, "<a href=\"", end);
+			end = getEnd(contact, "\" class=\"btn btn-primary\"", start);
+			personEmail = BASE_URL + HappyUtils.replaceHTMLChars(contact.substring(start, end));
+		}
+
+        person = new Person(personName, personPhone, personMemberSince, personIdLink, personPM, personEmail);
+
+
+		return new KoSObjectItem(area, town, type, title, person, publishDate, imgLink, description, price, yearModel);
 	}
 
 	@Override
@@ -102,10 +172,10 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 
 		try {
 			String urlStr = (String) params[0];
-			if (urlStr == "")
+			if (TextUtils.isEmpty(urlStr)) {
 				return false;
+			}
 			HttpGet httpget = new HttpGet(urlStr);
-				
 			HttpResponse response = httpclient.execute(httpget);
 			HttpEntity entity = response.getEntity();
 
@@ -113,24 +183,24 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 			LineNumberReader lineNumberReader = new LineNumberReader(is);
 			
 			StringBuilder ksStringBuilder = new StringBuilder();
-			boolean StartRead = false;
+			boolean startRead = false;
 			String lineString = "";
 				
 			while((lineString = lineNumberReader.readLine()) != null) {
-				if (lineString.contains("viewheader")) {
-					StartRead = true;
+				if (lineString.contains("<div id=\"content\">")) {
+					startRead = true;
 					ksStringBuilder = new StringBuilder();
 					ksStringBuilder.append(lineString);
-				} else if (StartRead) {
+				} else if (startRead) {
 					ksStringBuilder.append(lineString);
-					if (lineString.contains("<span class=\"link\">")) {
-						StartRead = false;
+					if (lineString.contains("<a href=\"report.php")) {
+						startRead = false;
 						mKoSObjectItem = ExtractKoSObject(ksStringBuilder.toString());
 					}
 				}								
 			}						
 		} catch (Exception e) {
-			// Log.d("doInBackground", "Error: " + e.getMessage());
+			 Log.d("doInBackground", "Error: " + e.getMessage());
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 		}

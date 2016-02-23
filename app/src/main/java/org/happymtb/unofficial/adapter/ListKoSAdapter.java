@@ -63,8 +63,11 @@ public class ListKoSAdapter extends BaseAdapter {
 		kosRowView.setCategory(mKoSListItems.get(position).getCategory());
 		kosRowView.setPrice(mKoSListItems.get(position).getPrice());
 
-        if (!TextUtils.isEmpty(mKoSListItems.get(position).getImgLink())) {
-            Picasso.with(mContext).load(mKoSListItems.get(position).getImgLink()).into(kosRowView.getImageView());
+		String imageUrl = mKoSListItems.get(position).getImgLink();
+        if (!TextUtils.isEmpty(imageUrl) && imageUrl.equals("http://happyride.se/img/news_250x145.jpg")) {
+			kosRowView.getImageView().setImageResource(R.drawable.no_photo);
+		} else if (!TextUtils.isEmpty(imageUrl)) {
+            Picasso.with(mContext).load(imageUrl).into(kosRowView.getImageView());
         } else {
             kosRowView.setObjectImage(null);
         }

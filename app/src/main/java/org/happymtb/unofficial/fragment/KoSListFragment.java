@@ -238,7 +238,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             }
         });
 		mKoSTask.execute(mKoSData.getSearch(), mKoSData.getCategory(), mKoSData.getRegion(), mKoSData.getType(),
-				"" /*category2*/, ""/*county2*/, ""/*type2*/, ""/*price*/, ""/*year*/, mKoSData.getCurrentPage() - 1,
+				"" /*category2*/, ""/*county2*/, ""/*type2*/, ""/*price*/, ""/*year*/, mKoSData.getCurrentPage(),
                 mKoSData.getSortAttributeServer(), mKoSData.getSortOrderServer());
 
 		//?search=&category=1&county=&type=1&category2=&county2=&type2=&price=3&year=2013&p=1&sortattribute=creationdate&sortorder=DESC

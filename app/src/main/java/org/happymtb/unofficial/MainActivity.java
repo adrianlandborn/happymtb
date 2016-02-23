@@ -86,10 +86,11 @@ public class MainActivity extends AppCompatActivity implements
             mCurrentFragmentTag = savedInstanceState.getString(CURRENT_FRAGMENT_TAG);
             mRestoredFragment = getSupportFragmentManager().findFragmentByTag(mCurrentFragmentTag);
         } else {
-            mCheckedNavigationItem = mPreferences.getInt(SettingsActivity.START_PAGE, HOME);
+            //TODO Enable after list is fixed
+//            mCheckedNavigationItem = mPreferences.getInt(SettingsActivity.START_PAGE, KOP_OCH_SALJ);
+            mCheckedNavigationItem = KOP_OCH_SALJ;
             switchContent(mCheckedNavigationItem);
             mNavigationView.getMenu().getItem(mCheckedNavigationItem).setChecked(true);
-
         }
 
         //Open the drawer the first time the app is started

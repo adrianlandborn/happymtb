@@ -1,6 +1,8 @@
 package org.happymtb.unofficial.helpers;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import org.happymtb.unofficial.R;
@@ -69,9 +71,12 @@ public class HappyUtils {
 		replaceAll("&#160;", " ").
 		replaceAll("&#8221;", "\"").
 		replaceAll("&#038;", "&").
+		replaceAll("&#039;", "\'").
 		replaceAll("&amp;", "&").
 		replaceAll("&#38;", "&").
+		replaceAll("\t", "").
 		replaceAll("&#8230;", "...");
+		htmlCode = htmlCode.trim();
 
 		return htmlCode;
 	}
@@ -95,4 +100,18 @@ public class HappyUtils {
         String OrderArray[] = ctx.getResources().getStringArray(R.array.kos_dialog_sort_order);
         return OrderArray[pos];
     }
+
+	public static boolean isBeta(Context context) {
+		PackageInfo pInfo = null;
+		try {
+			pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			String version = pInfo.versionName;
+			if (version.contains("alpha") || version.contains("beta")) {
+				return true;
+			}
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

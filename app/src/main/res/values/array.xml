@@ -10,8 +10,8 @@
         <item>@string/title_bar_shops</item>
         <item>@string/title_bar_calendar</item>
     </string-array>
-    <string-array
-    	name="entryvalues_list_fontsize">
+
+    <string-array name="entryvalues_list_fontsize">
         <item>10</item>
         <item>12</item>
         <item>14</item>
@@ -117,10 +117,38 @@
 	</string-array>   
 	
     <string-array name="kos_dialog_search_type_position">
-		<item>3</item>
+		<item>0</item>
 		<item>1</item>		
 		<item>2</item>
-	</string-array>   
+	</string-array>
+
+    <string-array name="kos_dialog_search_price">
+		<item>0</item>
+		<item>1-1000</item>
+		<item>1000-2000</item>
+		<item>2000-4000</item>
+		<item>4000-8000</item>
+		<item>8000-10000</item>
+		<item>10000-15000</item>
+		<item>15000-20000</item>
+		<item>20000-30000</item>
+		<item>30000-40000</item>
+		<item>40000-</item>
+	</string-array>
+
+    <string-array name="kos_dialog_search_price_position">
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
+	</string-array>
    
     <string-array name="calendar_dialog_search_category">
 		<item>Alla Kategorier</item>

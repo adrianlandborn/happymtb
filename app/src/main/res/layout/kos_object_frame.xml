@@ -168,7 +168,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:gravity="center_horizontal">
+                        android:gravity="center_horizontal"
+                        android:visibility="gone" >
 
                         <ImageButton
                             android:id="@+id/kos_action_email"

@@ -5,6 +5,7 @@ import org.happymtb.unofficial.ZoomImageActivity;
 import org.happymtb.unofficial.database.KoSItemDataSource;
 import org.happymtb.unofficial.item.KoSListItem;
 import org.happymtb.unofficial.item.KoSObjectItem;
+import org.happymtb.unofficial.item.Person;
 import org.happymtb.unofficial.listener.KoSObjectListener;
 import org.happymtb.unofficial.task.KoSObjectImageTask;
 import org.happymtb.unofficial.task.KoSObjectTask;
@@ -184,11 +185,12 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		} else {
 			mCategory.setText(mKoSObjectItem.getArea());
 		}
-		mPerson.setText(mKoSObjectItem.getPerson());
-		mPhone.setText("Telefon: " + mKoSObjectItem.getPhone());
+		Person person = mKoSObjectItem.getPerson();
+		mPerson.setText(person.getName());
+		mPhone.setText("Telefon: " + person.getPhone());
 		mDate.setText("Datum: " + mKoSObjectItem.getDate());
 
-		if (mKoSObjectItem.getPhone().startsWith("+") || mKoSObjectItem.getPhone().startsWith("0")) {
+		if (person.getPhone().startsWith("+") || person.getPhone().startsWith("0")) {
 			mActivity.findViewById(R.id.kos_action_phone_layout).setVisibility(View.VISIBLE);
 			mActivity.findViewById(R.id.kos_action_sms_layout).setVisibility(View.VISIBLE);
 		}
@@ -326,10 +328,10 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.kos_action_phone) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("tel", mKoSObjectItem.getPhone(), null));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("tel", mKoSObjectItem.getPerson().getPhone(), null));
             startActivity(intent);
 		} else if (v.getId() == R.id.kos_action_sms) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", mKoSObjectItem.getPhone(), null));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", mKoSObjectItem.getPerson().getPhone(), null));
             startActivity(intent);
         } else if (v.getId() == R.id.kos_action_email) {
             openInBrowser(true, false);
