@@ -84,6 +84,18 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/kos_object_year_model"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:visibility="gone"
+                    android:textColor="@color/title_2_text"
+                    android:textSize="13sp" />
+
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -117,6 +129,7 @@
                     android:gravity="center_horizontal"
                     android:textColor="@color/title_2_text"
                     android:textIsSelectable="true"
+                    android:text="Telefon: -"
                     android:textSize="15sp" />
 
                 <LinearLayout
@@ -157,7 +170,7 @@
                         <ImageButton
                             android:id="@+id/kos_action_sms"
                             style="@style/kosAction"
-                            android:src="@drawable/ic_message"/>
+                            android:src="@drawable/ic_textsms"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -165,6 +178,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/kos_action_email_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -178,7 +192,25 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Mejla"/>
+                            android:text="E-post"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/kos_action_pm_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:visibility="gone" >
+
+                        <ImageButton
+                            android:id="@+id/kos_action_pm"
+                            style="@style/kosAction"
+                            android:src="@drawable/ic_message" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PM"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

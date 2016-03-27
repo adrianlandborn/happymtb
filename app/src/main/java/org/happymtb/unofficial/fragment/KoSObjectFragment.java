@@ -42,6 +42,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
     private TextView mCategory;
     private TextView mDate;
     private TextView mText;
+    private TextView mYear;
     private TextView mPrice;
 
     private boolean mIsSaved = false;
@@ -50,6 +51,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	ImageButton mActionPhone;
 	ImageButton mActionSms;
 	ImageButton mActionEmail;
+	ImageButton mActionPM;
 	ScaleImageView mObjectImageView;
 	KoSObjectActivity mActivity;
 
@@ -63,7 +65,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		String url = mActivity.getObjectLink();
 
 		if (url.contains("&pm")) {
-			openInBrowser(false, true);
+			openInBrowser(url, true);
 		}
 		setHasOptionsMenu(true);
 
@@ -74,6 +76,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mDate = (TextView) mActivity.findViewById(R.id.kos_object_date);
 		mText = (TextView) mActivity.findViewById(R.id.kos_object_text);
 		mPrice = (TextView) mActivity.findViewById(R.id.kos_object_price);
+		mYear = (TextView) mActivity.findViewById(R.id.kos_object_year_model);
 		mObjectImageView = (ScaleImageView) mActivity.findViewById(R.id.kos_object_image);
 		mScrollView = mActivity.findViewById(R.id.kos_object_scroll);
 		mProgressView = mActivity.findViewById(R.id.progress_container_id);
@@ -81,10 +84,12 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mActionPhone = (ImageButton) mActivity.findViewById(R.id.kos_action_phone);
 		mActionSms = (ImageButton) mActivity.findViewById(R.id.kos_action_sms);
 		mActionEmail = (ImageButton) mActivity.findViewById(R.id.kos_action_email);
+		mActionPM = (ImageButton) mActivity.findViewById(R.id.kos_action_pm);
 
         mActionPhone.setOnClickListener(this);
         mActionSms.setOnClickListener(this);
         mActionEmail.setOnClickListener(this);
+        mActionPM.setOnClickListener(this);
 
 		if (savedInstanceState != null) {
 			mKoSObjectItem = (KoSObjectItem) savedInstanceState.getSerializable(DATA);
@@ -180,19 +185,35 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mActivity.getSupportActionBar().setTitle(mKoSObjectItem.getType());
         mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
 		mTitle.setText(mKoSObjectItem.getTitle());
+
+		String categoryString;
 		if (!TextUtils.isEmpty(mActivity.getObjectCategory())) {
-			mCategory.setText(mActivity.getObjectCategory() + ", " + mKoSObjectItem.getArea());
+			categoryString = mActivity.getObjectCategory() + ", " + mKoSObjectItem.getArea();
 		} else {
-			mCategory.setText(mKoSObjectItem.getArea());
+			categoryString = mKoSObjectItem.getArea();
 		}
+
+		if (!TextUtils.isEmpty(mKoSObjectItem.getTown())) {
+			categoryString =  categoryString + ", " + mKoSObjectItem.getTown();
+		}
+
+		mCategory.setText(categoryString);
 		Person person = mKoSObjectItem.getPerson();
 		mPerson.setText(person.getName());
-		mPhone.setText("Telefon: " + person.getPhone());
 		mDate.setText("Datum: " + mKoSObjectItem.getDate());
 
 		if (person.getPhone().startsWith("+") || person.getPhone().startsWith("0")) {
+			mPhone.setText("Telefon: " + person.getPhone());
 			mActivity.findViewById(R.id.kos_action_phone_layout).setVisibility(View.VISIBLE);
 			mActivity.findViewById(R.id.kos_action_sms_layout).setVisibility(View.VISIBLE);
+		}
+
+		if (!TextUtils.isEmpty(person.getEmailLink())) {
+			mActivity.findViewById(R.id.kos_action_email_layout).setVisibility(View.VISIBLE);
+		}
+
+		if (!TextUtils.isEmpty(person.getPmLink())) {
+			mActivity.findViewById(R.id.kos_action_pm_layout).setVisibility(View.VISIBLE);
 		}
 
 		if (!TextUtils.isEmpty(mKoSObjectItem.getImgLink()))
@@ -208,12 +229,18 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 			mObjectImageView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					String largeImageUrl = url.replace("normal", "large");
 					Intent zoomImageIntent = new Intent(getActivity(), ZoomImageActivity.class);
 					zoomImageIntent.putExtra("title", mKoSObjectItem.getTitle());
-					zoomImageIntent.putExtra("url", url);
+					zoomImageIntent.putExtra("url", largeImageUrl);
 					startActivity(zoomImageIntent);
 				}
 			});
+		}
+
+		if (mKoSObjectItem.getYearModel() > 0) {
+			mYear.setText("Årsmodell: " + mKoSObjectItem.getYearModel());
+			mActivity.findViewById(R.id.kos_object_year_model).setVisibility(View.VISIBLE);
 		}
 
 		mText.setText(Html.fromHtml(mKoSObjectItem.getText()));
@@ -255,7 +282,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 //                        Toast.makeText(mActivity, "Såld!", Toast.LENGTH_SHORT).show();
 //                    }
 //                }
-                openInBrowser(false, false);
+                openInBrowser(mActivity.getObjectLink(), false);
                 return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -311,14 +338,9 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
         startActivity(Intent.createChooser(intent, "Dela annons..."));
     }
 
-    private void openInBrowser(boolean isMessage, boolean popBackStack) {
-        String url = mActivity.getObjectLink();
+    private void openInBrowser(String url, boolean popBackStack) {
         Intent browserIntent = new Intent(getActivity(), WebViewActivity.class);
-        if (isMessage) {
-            browserIntent.putExtra("url", url + "&pm");
-        } else {
-            browserIntent.putExtra("url", url);
-        }
+        browserIntent.putExtra("url", url);
         startActivity(browserIntent);
         if (popBackStack) {
             mActivity.finish();
@@ -334,7 +356,9 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", mKoSObjectItem.getPerson().getPhone(), null));
             startActivity(intent);
         } else if (v.getId() == R.id.kos_action_email) {
-            openInBrowser(true, false);
+            openInBrowser(mKoSObjectItem.getPerson().getEmailLink(), false);
+		} else if (v.getId() == R.id.kos_action_pm) {
+            openInBrowser(mKoSObjectItem.getPerson().getPmLink(), false);
 		}
 	}
 }

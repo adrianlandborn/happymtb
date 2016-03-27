@@ -157,7 +157,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 			// Skicka Epost
 			start = getStart(contact, "<a href=\"", end);
 			end = getEnd(contact, "\" class=\"btn btn-primary\"", start);
-			personEmail = BASE_URL + HappyUtils.replaceHTMLChars(contact.substring(start, end));
+			personEmail = BASE_URL + "/annonser/" + HappyUtils.replaceHTMLChars(contact.substring(start, end));
 		}
 
         person = new Person(personName, personPhone, personMemberSince, personIdLink, personPM, personEmail);
