@@ -301,19 +301,21 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
 
             boolean isSold = cursor.getInt(cursor.getColumnIndex(MySQLiteHelper.COLUMN_SOLD)) == 1;
 
-            if (!isSold) {
-                String imageUrl = cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_IMAGE_LINK));
-                if (!TextUtils.isEmpty(imageUrl)) {
-                    imageUrl = imageUrl.replace("large.jpg", "medium.jpg");
-                    Picasso.with(context).load(imageUrl).into(mObjectImageView);
-                } else {
-                    mObjectImageView.setVisibility(View.VISIBLE);
-                    mKosSoldView.setVisibility(View.INVISIBLE);
-                    mObjectImageView.setImageResource(R.drawable.no_photo);
-                }
+            String imageUrl = cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_IMAGE_LINK));
+            if (!TextUtils.isEmpty(imageUrl)) {
+                imageUrl = imageUrl.replace("large.jpg", "medium.jpg");
+                Picasso.with(context).load(imageUrl).into(mObjectImageView);
             } else {
-                mObjectImageView.setVisibility(View.INVISIBLE);
+                mObjectImageView.setImageResource(R.drawable.no_photo);
+                mObjectImageView.setVisibility(View.VISIBLE);
+            }
+
+            if (isSold) {
+                mObjectImageView.setAlpha(0.3f);
                 mKosSoldView.setVisibility(View.VISIBLE);
+            } else {
+                mObjectImageView.setAlpha(1.0f);
+                mKosSoldView.setVisibility(View.INVISIBLE);
             }
         }
 

@@ -51,12 +51,43 @@
                     android:textColor="@color/title_2_text"
                     android:textSize="13sp" />
 
-                <org.happymtb.unofficial.ui.ScaleImageView
-                    android:id="@+id/kos_object_image"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:visibility="gone" />
+                    android:id="@+id/kos_object_image_frame"
+                    android:paddingTop="16dp" >
+
+                    <org.happymtb.unofficial.ui.ScaleImageView
+                        android:id="@+id/kos_object_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+
+                    <org.happymtb.unofficial.ui.ScaleImageView
+                        android:id="@+id/kos_object_image2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+
+                    <ImageButton
+                        android:id="@+id/kos_object_prev_image"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_action_previous"
+                        android:background="@color/grey_semitransparent"
+                        android:layout_gravity="start"
+                        android:visibility="gone"/>
+
+                    <ImageButton
+                        android:id="@+id/kos_object_next_image"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_action_next"
+                        android:background="@color/grey_semitransparent"
+                        android:layout_gravity="end"
+                        android:visibility="gone"/>
+
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/kos_object_price"

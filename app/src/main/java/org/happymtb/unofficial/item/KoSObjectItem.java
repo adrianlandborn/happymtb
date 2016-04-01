@@ -1,6 +1,8 @@
 package org.happymtb.unofficial.item;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class KoSObjectItem implements Serializable {
 	private static final long serialVersionUID = 201112070001L; 
@@ -12,21 +14,27 @@ public class KoSObjectItem implements Serializable {
 	private Person mPerson;
 	private String mDate;
 	private String mImgLink;
+	private List<String> mImgLinkList;
 	private String mText;
 	private String mPrice;	
 	private int mYearModel;
 
+	public KoSObjectItem(String title) {
+		setTitle(title);
+	}
+
 	public KoSObjectItem(String area, String town, String type, String title, Person person,
-			String publishDate, String ImgLink, String Text, String Price, int yearModel) {
+							  String publishDate, String imgLink, List<String> imgLinkList, String text, String price, int yearModel) {
 		setArea(area);
 		setTown(town);
 		setType(type);
 		setTitle(title);
 		setPerson(person);
 		setDate(publishDate);
-		setImgLink(ImgLink);
-		setText(Text);
-		setPrice(Price);
+		setImgLink(imgLink);
+		setImgLinkList(imgLinkList);
+		setText(text);
+		setPrice(price);
 		setYearmodel(yearModel);
 	}
 
@@ -84,6 +92,14 @@ public class KoSObjectItem implements Serializable {
 
 	public void setImgLink(String imgLink) {
 		this.mImgLink = imgLink;
+	}
+
+	public List<String> getImgLinkList() {
+		return mImgLinkList;
+	}
+
+	public void setImgLinkList(List list) {
+		this.mImgLinkList = new ArrayList<String>(list);
 	}
 
 	public String getText() {

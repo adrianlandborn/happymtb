@@ -3,6 +3,7 @@ package org.happymtb.unofficial.task;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,6 +21,7 @@ import org.happymtb.unofficial.listener.KoSObjectListener;
 
 public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
     public static final String BASE_URL = "http://happyride.se";
+    public static final String ITEM_REMOVED = "Hittade ingen annons";
     private ArrayList<KoSObjectListener> mKoSObjectListenerList;
 	private KoSObjectItem mKoSObjectItem;
 	private static final String TAG = "happyride";
@@ -56,14 +58,20 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 		return from;
 	}
 
-	public KoSObjectItem ExtractKoSObject(String str) {
+	public KoSObjectItem extractKoSObject(String str) {
 		String imgLink = null;
+		List<String> imgLinkList = new ArrayList<String>();
 
 
         int start = getStart(str, "<h1>", 0);
         int end = getEnd(str, "</h1>", start);
         String titleTemp = HappyUtils.replaceHTMLChars(str.substring(start, end));
-        String[] titleSplit = titleTemp.split(": ", 2);
+
+		if (titleTemp.equals(ITEM_REMOVED)) {
+			return new KoSObjectItem(titleTemp);
+		}
+
+		String[] titleSplit = titleTemp.split(": ", 2);
         String type = "Säljes";
         if (titleSplit[0].equals("Köpes")) {
             type = "Köpes";
@@ -77,7 +85,15 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 			start = getStart(str, "<a href=\"/img/admarket/large/", start);
 			end = getEnd(str, "\" rel=\"lightbox[gallery1]\">", start);
 			imgLink = BASE_URL + "/img/admarket/normal/" + str.substring(start, end);
+			imgLinkList.add(imgLink);
 			start = end;
+
+            while (str.substring(start).contains("<div class=\"item\">")) {
+                start = getStart(str, "<a href=\"/img/admarket/large/", start);
+                end = getEnd(str, "\" rel=\"lightbox[gallery1]\">", start);
+                imgLinkList.add(BASE_URL + "/img/admarket/normal/" + str.substring(start, end));
+                start = end;
+            }
         }
         end = getEnd(str, "<div class=\"well\"", start);
         String description = str.substring(start, end);
@@ -163,7 +179,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
         person = new Person(personName, personPhone, personMemberSince, personIdLink, personPM, personEmail);
 
 
-		return new KoSObjectItem(area, town, type, title, person, publishDate, imgLink, description, price, yearModel);
+		return new KoSObjectItem(area, town, type, title, person, publishDate, imgLink, imgLinkList, description, price, yearModel);
 	}
 
 	@Override
@@ -193,9 +209,9 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 					ksStringBuilder.append(lineString);
 				} else if (startRead) {
 					ksStringBuilder.append(lineString);
-					if (lineString.contains("<a href=\"report.php")) {
+					if (lineString.contains("<a href=\"report.php") || lineString.contains("<h1>Hittade ingen annons</h1>")) {
 						startRead = false;
-						mKoSObjectItem = ExtractKoSObject(ksStringBuilder.toString());
+						mKoSObjectItem = extractKoSObject(ksStringBuilder.toString());
 					}
 				}								
 			}						
