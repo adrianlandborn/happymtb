@@ -241,8 +241,8 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 					String category = CategoryArray[position];
 
 					position = searchRegion.getSelectedItemPosition();
-					String RegionArrayPosition [] =  getResources().getStringArray(R.array.calendar_dialog_search_region_position);
-					String RegionArray [] =  getResources().getStringArray(R.array.calendar_dialog_search_region);
+					String RegionArrayPosition [] =  getResources().getStringArray(R.array.dialog_search_region_position);
+					String RegionArray [] =  getResources().getStringArray(R.array.dialog_search_region_name);
 					String regionPosition = RegionArrayPosition[position];
 					String region = RegionArray[position];
 
@@ -253,7 +253,6 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 //					editor.putString("calendar_search_category_position", categoryPosition);
 //					editor.putString("calendar_search_region_position", regionPosition);
 					editor.apply();
-
 
 				}
 			});

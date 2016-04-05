@@ -369,8 +369,8 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		mKoSData.setCategoryName(categoryArrayName[categoryPos]);
 
 		// Skåne, Blekinge, Halland...
-		String regionArrayPosition[] = getResources().getStringArray(R.array.kos_dialog_search_region_position);
-		String regionArrayName[] = getResources().getStringArray(R.array.kos_dialog_search_region_name);
+		String regionArrayPosition[] = getResources().getStringArray(R.array.dialog_search_region_position);
+		String regionArrayName[] = getResources().getStringArray(R.array.dialog_search_region_name);
 		mKoSData.setRegionPos(Integer.parseInt(regionArrayPosition[regionPos]));
 		mKoSData.setRegionName(regionArrayName[regionPos]);
 

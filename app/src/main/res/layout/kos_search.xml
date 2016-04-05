@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:drawSelectorOnTop="true"
         android:minHeight="36dp"
-        android:entries="@array/kos_dialog_search_region_name"
+        android:entries="@array/dialog_search_region_name"
     />
     
 	<TextView		 	
