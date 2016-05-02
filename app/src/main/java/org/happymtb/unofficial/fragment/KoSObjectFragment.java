@@ -117,6 +117,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 
         mPrevButton.setOnClickListener(this);
         mNextButton.setOnClickListener(this);
+
         if (savedInstanceState != null) {
 			mKoSObjectItem = (KoSObjectItem) savedInstanceState.getSerializable(DATA);
 
@@ -368,7 +369,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
     }
 
     private void shareObject() {
-        String message = "Hej! Jag vill tipsa om en annons: " + mActivity.getObjectLink();
+        String message = "Hej! Jag vill tipsa om en annons: " + mKoSObjectItem.getTitle() + " " + mActivity.getObjectLink();
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
         intent.putExtra(android.content.Intent.EXTRA_TEXT, message);
         intent.setType("text/plain");
