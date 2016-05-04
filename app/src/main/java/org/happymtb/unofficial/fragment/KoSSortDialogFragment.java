@@ -6,13 +6,19 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Spinner;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
 
 /**
  * Created by Adrian on 30/05/2015.
@@ -32,6 +38,15 @@ public class KoSSortDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
         final View view = inflater.inflate(R.layout.kos_sort, null);
+
+        // Obtain the shared Tracker instance.
+        HappyApplication application = (HappyApplication) getActivity().getApplication();
+        Tracker mTracker = application.getDefaultTracker();
+
+        // [START Google analytics screen]
+        mTracker.setScreenName(GaConstants.Screens.KOS_SORT_DIALOG);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        // [END Google analytics screen]
 
         SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         // Tid, Rubrik, Omrade, Kategori, Pris

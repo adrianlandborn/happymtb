@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.adapter.ListCalendarAdapter;
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.task.CalendarListTask;
 import org.happymtb.unofficial.item.CalendarItem;
 import org.happymtb.unofficial.listener.CalendarListListener;
@@ -17,6 +19,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,9 +33,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 public class CalendarListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
   	private final static int DIALOG_FETCH_CALENDAR_ERROR = 0;
 	public static String TAG = "calendar_frag";
+
+	private Tracker mTracker;
 
 	private CalendarListTask mGetCalendarTask;
 	private ListCalendarAdapter mCalendarAdapter;
@@ -75,6 +83,19 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
         } else {
 			fetchData();
 		}
+	}
+
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// Obtain the shared Tracker instance.
+		HappyApplication application = (HappyApplication) getActivity().getApplication();
+		mTracker = application.getDefaultTracker();
+
+		// [START Google analytics screen]
+		mTracker.setScreenName(GaConstants.Screens.CALENDAR);
+		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+		// [END Google analytics screen]
 	}
 
     @Override

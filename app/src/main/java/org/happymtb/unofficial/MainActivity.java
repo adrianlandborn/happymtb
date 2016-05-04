@@ -3,6 +3,8 @@ package org.happymtb.unofficial;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.fragment.KoSSearchDialogFragment;
 import org.happymtb.unofficial.fragment.KoSSortDialogFragment;
 import org.happymtb.unofficial.fragment.ArticlesListFragment;
@@ -30,6 +32,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 public class MainActivity extends AppCompatActivity implements
         KoSSortDialogFragment.SortDialogDataListener,
         KoSSearchDialogFragment.SearchDialogDataListener, NavigationView.OnNavigationItemSelectedListener {
@@ -48,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements
     private static final String CURRENT_FRAGMENT_TAG = "current_fragment_tag";
     private static final String OPEN_DRAWER = "opend_drawer";
 
+    private Tracker mTracker;
+
     private Fragment mRestoredFragment;
     private SharedPreferences mPreferences;
 
@@ -65,6 +72,15 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);
+
+        // Obtain the shared Tracker instance.
+        HappyApplication application = (HappyApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        // [START Google analytics screen]
+        mTracker.setScreenName(GaConstants.Screens.MAIN);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        // [END sGoogle analytics screen]
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

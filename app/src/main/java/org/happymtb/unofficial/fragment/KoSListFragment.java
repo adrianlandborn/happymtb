@@ -6,6 +6,8 @@ import org.happymtb.unofficial.KoSObjectActivity;
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.adapter.ListKoSAdapter;
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSData;
 import org.happymtb.unofficial.item.KoSListItem;
@@ -22,6 +24,7 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.text.InputType;
@@ -37,6 +40,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 public class KoSListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener,
 		MainActivity.SortListener, MainActivity.SearchListener, GestureDetector.OnGestureListener {
@@ -57,6 +63,8 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
     public final static String SEARCH_TYPE_SPINNER = "search_type_spinner";
     public final static String SEARCH_REGION_SPINNER = "search_region_spinner";
     public final static String SEARCH_CATEGORY_SPINNER = "search_category_spinner";
+
+	private Tracker mTracker;
 
 	private KoSListTask mKoSTask;
 	private ListKoSAdapter mKoSAdapter;
@@ -109,6 +117,19 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
                 }
             }
         });
+	}
+
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// Obtain the shared Tracker instance.
+		HappyApplication application = (HappyApplication) getActivity().getApplication();
+		mTracker = application.getDefaultTracker();
+
+		// [START Google analytics screen]
+		mTracker.setScreenName(GaConstants.Screens.KOS_LIST);
+		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+		// [END Google analytics screen]
 	}
 
     @Override

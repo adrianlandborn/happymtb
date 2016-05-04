@@ -3,6 +3,8 @@ package org.happymtb.unofficial.fragment;
 import java.util.ArrayList;
 
 import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.item.Item;
 import org.happymtb.unofficial.listener.ItemListListener;
 import org.happymtb.unofficial.task.ShopsListTask;
@@ -11,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,15 +21,33 @@ import android.view.MenuItem;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 public class ShopsListFragment extends ItemsListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
 	public static String TAG = "shops_frag";
 
 	private ShopsListTask mShopsTask;
+	private Tracker mTracker;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.main_shops));
+	}
+
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// Obtain the shared Tracker instance.
+		HappyApplication application = (HappyApplication) getActivity().getApplication();
+		mTracker = application.getDefaultTracker();
+
+		// [START Google analytics screen]
+		mTracker.setScreenName(GaConstants.Screens.SHOPS);
+		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+		// [END Google analytics screen]
 	}
 
 	@Override

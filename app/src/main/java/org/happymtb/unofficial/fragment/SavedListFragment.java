@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -24,6 +25,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -31,6 +34,8 @@ import com.squareup.picasso.Target;
 import org.happymtb.unofficial.KoSObjectActivity;
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.database.KoSItemDataSource;
 import org.happymtb.unofficial.database.MyContentProvider;
 import org.happymtb.unofficial.database.MySQLiteHelper;
@@ -48,6 +53,8 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
     public final static int REQUEST_ITEM_MODIFIED 	= 1;
     public static final int RESULT_CANCELED    		= 0;
     public static final int RESULT_MODIFIED     	= -1;
+
+    private Tracker mTracker;
 
 	private KosItemCursorAdapter mAdapter;
 //	private KoSData mKoSData;
@@ -87,6 +94,20 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
         datasource = new KoSItemDataSource(mActivity);
         datasource.open();
 	}
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Obtain the shared Tracker instance.
+        HappyApplication application = (HappyApplication) getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
+
+        // [START Google analytics screen]
+        mTracker.setScreenName(GaConstants.Screens.SAVED_LIST);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        // [END Google analytics screen]
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

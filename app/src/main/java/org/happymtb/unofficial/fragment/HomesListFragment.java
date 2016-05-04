@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.adapter.ListHomeAdapter;
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.item.Home;
 import org.happymtb.unofficial.listener.HomeListListener;
 import org.happymtb.unofficial.task.HomeListTask;
@@ -12,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,10 +24,15 @@ import android.widget.Toast;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 public class HomesListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener, OnChildClickListener {
 	public static String TAG = "home_frag";
 	private ListHomeAdapter mHomeAdapter;
 	private ArrayList<Home> mHomes = new ArrayList<Home>();
+
+	private Tracker mTracker;
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -43,6 +51,20 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
             fetchData();
 		}
 
+	}
+
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// Obtain the shared Tracker instance.
+		HappyApplication application = (HappyApplication) getActivity().getApplication();
+		mTracker = application.getDefaultTracker();
+
+		// [START Google analytics screen]
+		mTracker.setScreenName(GaConstants.Screens.HOME);
+		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+		// [END sGoogle analytics screen]
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package org.happymtb.unofficial;
 
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.fragment.KoSObjectFragment;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 public class KoSObjectActivity extends AppCompatActivity {
 
@@ -19,6 +24,8 @@ public class KoSObjectActivity extends AppCompatActivity {
 	public final static String CATEGORY = "category";
 	public final static String URL = "KoSObjectLink";
 
+	private Tracker mTracker;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
@@ -28,6 +35,17 @@ public class KoSObjectActivity extends AppCompatActivity {
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 		setContentView(R.layout.kos_object_frame);
+
+
+		// Obtain the shared Tracker instance.
+		HappyApplication application = (HappyApplication) getApplication();
+		mTracker = application.getDefaultTracker();
+
+		// [START Google analytics screen]
+		mTracker.setScreenName(GaConstants.Screens.KOS_OBJECT);
+		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+		// [END sGoogle analytics screen]
+
         Fragment fragment;
 
 		if (savedInstanceState == null) {
