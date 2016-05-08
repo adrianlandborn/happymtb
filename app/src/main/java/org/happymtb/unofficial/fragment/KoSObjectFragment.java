@@ -269,7 +269,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 
 		mText.setText(Html.fromHtml(mKoSObjectItem.getText()));
         String price = mKoSObjectItem.getPrice();
-        if (price.trim().equals("Prisuppgift saknas.")) {
+        if (price.trim().equals("0 Kr")) {
             mPrice.setText("Prisuppgift saknas");
         } else {
             mPrice.setText("Pris: " + price);

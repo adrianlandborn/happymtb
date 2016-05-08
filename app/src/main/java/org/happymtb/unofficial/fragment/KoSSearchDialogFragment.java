@@ -10,12 +10,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import org.droidparts.widget.ClearableEditText;
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.analytics.GaConstants;
@@ -52,10 +54,11 @@ public class KoSSearchDialogFragment extends DialogFragment {
 
 		SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
-		final EditText searchString = (EditText) view.findViewById(R.id.kos_dialog_search_text);
+		final ClearableEditText searchString = (ClearableEditText) view.findViewById(R.id.kos_dialog_search_text);
 		final Spinner searchCategory = (Spinner) view.findViewById(R.id.kos_dialog_search_category);
 		final Spinner searchRegion = (Spinner) view.findViewById(R.id.kos_dialog_search_region);
 		final Spinner searchType = (Spinner) view.findViewById(R.id.kos_dialog_search_type);
+		final Button clearAllButton = (Button) view.findViewById(R.id.kos_dialog_search_clear_all);
 
 		searchString.setText(mPreferences.getString(KoSListFragment.SEARCH_TEXT, ""));
 		searchCategory.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_CATEGORY_SPINNER, 0));
@@ -77,6 +80,16 @@ public class KoSSearchDialogFragment extends DialogFragment {
                 KoSSearchDialogFragment.this.getDialog().cancel();
             }
         });
+
+		clearAllButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				searchString.setText("");
+				searchCategory.setSelection(0);
+				searchRegion.setSelection(0);
+				searchType.setSelection(0);
+			}
+		});
 		return builder.create();
 	}
 }

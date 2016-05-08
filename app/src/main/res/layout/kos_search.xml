@@ -12,7 +12,7 @@
 	    android:textStyle="bold"
 	    android:text="Text att söka efter"/>
 		        
-    <EditText
+    <org.droidparts.widget.ClearableEditText
         android:id="@+id/kos_dialog_search_text"
         android:inputType="text"
         android:layout_width="fill_parent"
@@ -65,5 +65,10 @@
         android:drawSelectorOnTop="true"
         android:minHeight="36dp"
         android:entries="@array/kos_dialog_search_type"
-    />    
+    />
+	<Button
+        android:id="@+id/kos_dialog_search_clear_all"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Återställ"/>
 </LinearLayout>
