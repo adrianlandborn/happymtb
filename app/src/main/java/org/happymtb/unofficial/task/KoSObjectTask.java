@@ -80,7 +80,6 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
         start = end;
 
 		if (str.contains("<div class=\"carousel-inner\"")) {
-            //TODO handle additional images
 			start = getStart(str, "<div class=\"item active\">", start);
 			start = getStart(str, "<a href=\"/img/admarket/large/", start);
 			end = getEnd(str, "\" rel=\"lightbox[gallery1]\">", start);
@@ -98,10 +97,20 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
         end = getEnd(str, "<div class=\"well\"", start);
         String description = str.substring(start, end);
         while (description.contains("</div>")) {
-            description = description.substring(description.indexOf("</div>") + 6 );
+            description = description.substring(description.indexOf("</div>") + 6);
         }
 
-        description = HappyUtils.replaceHTMLChars(description);
+		int linkStart = 0;
+		String linkTemp;
+		while (description.substring(linkStart).contains(">länk<")) {
+			linkStart = description.indexOf("<a href=\"http://", linkStart) + 16;
+			linkTemp = description.substring(linkStart);
+			linkTemp = linkTemp.substring(0,linkTemp.indexOf("\" target=\"_blank\">"));
+			description = description.replaceFirst(">länk<", ">" + linkTemp + "<");
+			linkStart = description.indexOf("</a>", linkStart) + 4;
+		}
+
+		description = HappyUtils.replaceHTMLChars(description);
 
         // Fakta
         start = getStart(str, "<strong>Pris:</strong>", end);
