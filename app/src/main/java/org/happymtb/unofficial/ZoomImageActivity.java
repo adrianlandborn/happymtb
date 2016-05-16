@@ -5,7 +5,6 @@ import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.FloatMath;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,7 +18,7 @@ public class ZoomImageActivity extends AppCompatActivity {
     Matrix savedMatrix = new Matrix();
     PointF startPoint = new PointF();
     PointF midPoint = new PointF();
-    float oldDist = 1f;
+    double oldDist = 1f;
     static final int NONE = 0;
     static final int DRAG = 1;
     static final int ZOOM = 2;
@@ -61,10 +60,10 @@ public class ZoomImageActivity extends AppCompatActivity {
                             matrix.set(savedMatrix);
                             matrix.postTranslate(event.getX() - startPoint.x, event.getY() - startPoint.y);
                         } else if (mode == ZOOM) {
-                            float newDist = spacing(event);
+                            double newDist = spacing(event);
                             if (newDist > 10f) {
                                 matrix.set(savedMatrix);
-                                float scale = newDist / oldDist;
+                                float scale = (float) (newDist / oldDist);
                                 matrix.postScale(scale, scale, midPoint.x, midPoint.y);
                             }
                         }
@@ -74,11 +73,10 @@ public class ZoomImageActivity extends AppCompatActivity {
                 return true;
             }
 
-            @SuppressLint("FloatMath")
-            private float spacing(MotionEvent event) {
+            private double spacing(MotionEvent event) {
                 float x = event.getX(0) - event.getX(1);
                 float y = event.getY(0) - event.getY(1);
-                return FloatMath.sqrt(x * x + y * y);
+                return Math.sqrt(x * x + y * y);
             }
 
             private void midPoint(PointF point, MotionEvent event) {

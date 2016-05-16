@@ -8,11 +8,16 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -27,6 +32,8 @@ import org.happymtb.unofficial.analytics.HappyApplication;
  * Created by Adrian on 01/07/2015.
  */
 public class KoSSearchDialogFragment extends DialogFragment {
+
+	private Button clearAllButton;
 
 	public KoSSearchDialogFragment() {
     }
@@ -58,7 +65,8 @@ public class KoSSearchDialogFragment extends DialogFragment {
 		final Spinner searchCategory = (Spinner) view.findViewById(R.id.kos_dialog_search_category);
 		final Spinner searchRegion = (Spinner) view.findViewById(R.id.kos_dialog_search_region);
 		final Spinner searchType = (Spinner) view.findViewById(R.id.kos_dialog_search_type);
-		final Button clearAllButton = (Button) view.findViewById(R.id.kos_dialog_search_clear_all);
+
+		clearAllButton = (Button) view.findViewById(R.id.kos_dialog_search_clear_all);
 
 		searchString.setText(mPreferences.getString(KoSListFragment.SEARCH_TEXT, ""));
 		searchCategory.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_CATEGORY_SPINNER, 0));
@@ -81,6 +89,39 @@ public class KoSSearchDialogFragment extends DialogFragment {
             }
         });
 
+		searchString.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				updateClearAllButton(searchString.getText().toString().trim(),
+						searchCategory.getSelectedItemPosition(),
+						searchRegion.getSelectedItemPosition(),
+						searchType.getSelectedItemPosition());
+			}
+		});
+
+		AdapterView.OnItemSelectedListener selectedListener = new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				updateClearAllButton(searchString.getText().toString().trim(),
+						searchCategory.getSelectedItemPosition(),
+						searchRegion.getSelectedItemPosition(),
+						searchType.getSelectedItemPosition());
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {}
+		};
+
+		searchCategory.setOnItemSelectedListener(selectedListener);
+		searchRegion.setOnItemSelectedListener(selectedListener);
+		searchType.setOnItemSelectedListener(selectedListener);
+
 		clearAllButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -88,8 +129,18 @@ public class KoSSearchDialogFragment extends DialogFragment {
 				searchCategory.setSelection(0);
 				searchRegion.setSelection(0);
 				searchType.setSelection(0);
+
+				updateClearAllButton("", 0, 0, 0);
 			}
 		});
 		return builder.create();
+	}
+
+    private void updateClearAllButton(String text, int cat, int region, int type) {
+		if (TextUtils.isEmpty(text) && cat == 0 && region == 0 && type == 0) {
+			clearAllButton.setEnabled(false);
+		} else {
+			clearAllButton.setEnabled(true);
+		}
 	}
 }

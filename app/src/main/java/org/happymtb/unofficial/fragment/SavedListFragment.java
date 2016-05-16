@@ -260,7 +260,7 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
 	public Loader onCreateLoader(int id, Bundle args) {
         String[] projection = MySQLiteHelper.ALL_COLUMNS;
         CursorLoader cursorLoader = new CursorLoader(mActivity,
-                MyContentProvider.CONTENT_URI, projection, null, null, null);
+                MyContentProvider.CONTENT_URI, projection, null, null, MySQLiteHelper.COLUMN_ID + " DESC");
         return cursorLoader;
 	}
 
