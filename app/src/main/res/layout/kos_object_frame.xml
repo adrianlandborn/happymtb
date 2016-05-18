@@ -138,7 +138,7 @@
                     android:text="Kontakt"
                     android:textColor="@color/white" />
 
-                <TextView
+                <Button
                     android:id="@+id/kos_object_person"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -149,7 +149,8 @@
                     android:padding="8dp"
                     android:textColor="@color/black"
                     android:textIsSelectable="true"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:background="@null"/>
 
                 <TextView
                     android:id="@+id/kos_object_phone"

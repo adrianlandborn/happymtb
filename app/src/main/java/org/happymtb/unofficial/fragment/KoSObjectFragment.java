@@ -27,6 +27,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,7 +45,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	private View mScrollView;
 	private View mProgressView;
     private TextView mTitle;
-    private TextView mPerson;
+    private Button mPerson;
     private TextView mPhone;
     private TextView mCategory;
     private TextView mDate;
@@ -86,7 +87,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		setHasOptionsMenu(true);
 
 		mTitle = (TextView) mActivity.findViewById(R.id.kos_object_title);
-		mPerson = (TextView) mActivity.findViewById(R.id.kos_object_person);
+		mPerson = (Button) mActivity.findViewById(R.id.kos_object_person);
 		mPhone = (TextView) mActivity.findViewById(R.id.kos_object_phone);
 		mCategory = (TextView) mActivity.findViewById(R.id.kos_object_category);
 		mDate = (TextView) mActivity.findViewById(R.id.kos_object_date);
@@ -110,6 +111,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mActionEmail = (ImageButton) mActivity.findViewById(R.id.kos_action_email);
 		mActionPM = (ImageButton) mActivity.findViewById(R.id.kos_action_pm);
 
+        mPerson.setOnClickListener(this);
         mActionPhone.setOnClickListener(this);
         mActionSms.setOnClickListener(this);
         mActionEmail.setOnClickListener(this);
@@ -387,7 +389,9 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.kos_action_phone) {
+        if (v.getId() == R.id.kos_object_person) {
+            openInBrowser(mKoSObjectItem.getPerson().getIdLink(), false);
+        } else if (v.getId() == R.id.kos_action_phone) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("tel", mKoSObjectItem.getPerson().getPhone(), null));
             startActivity(intent);
 		} else if (v.getId() == R.id.kos_action_sms) {
