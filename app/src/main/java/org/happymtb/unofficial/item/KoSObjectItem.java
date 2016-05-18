@@ -13,7 +13,6 @@ public class KoSObjectItem implements Serializable {
 	private String mTitle;
 	private Person mPerson;
 	private String mDate;
-	private String mImgLink;
 	private List<String> mImgLinkList;
 	private String mText;
 	private String mPrice;	
@@ -24,14 +23,13 @@ public class KoSObjectItem implements Serializable {
 	}
 
 	public KoSObjectItem(String area, String town, String type, String title, Person person,
-							  String publishDate, String imgLink, List<String> imgLinkList, String text, String price, int yearModel) {
+							  String publishDate, List<String> imgLinkList, String text, String price, int yearModel) {
 		setArea(area);
 		setTown(town);
 		setType(type);
 		setTitle(title);
 		setPerson(person);
 		setDate(publishDate);
-		setImgLink(imgLink);
 		setImgLinkList(imgLinkList);
 		setText(text);
 		setPrice(price);
@@ -87,11 +85,10 @@ public class KoSObjectItem implements Serializable {
 	}
 
 	public String getImgLink() {
-		return mImgLink;
-	}
-
-	public void setImgLink(String imgLink) {
-		this.mImgLink = imgLink;
+		if (mImgLinkList != null && mImgLinkList.size() > 0) {
+			return mImgLinkList.get(0);
+		}
+		return "";
 	}
 
 	public List<String> getImgLinkList() {

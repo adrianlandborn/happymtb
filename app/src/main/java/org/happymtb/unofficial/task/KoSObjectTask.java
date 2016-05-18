@@ -59,7 +59,6 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 	}
 
 	public KoSObjectItem extractKoSObject(String str) {
-		String imgLink = null;
 		List<String> imgLinkList = new ArrayList<String>();
 
 
@@ -83,8 +82,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 			start = getStart(str, "<div class=\"item active\">", start);
 			start = getStart(str, "<a href=\"/img/admarket/large/", start);
 			end = getEnd(str, "\" rel=\"lightbox[gallery1]\">", start);
-			imgLink = BASE_URL + "/img/admarket/normal/" + str.substring(start, end);
-			imgLinkList.add(imgLink);
+			imgLinkList.add(BASE_URL + "/img/admarket/normal/" + str.substring(start, end));
 			start = end;
 
             while (str.substring(start).contains("<div class=\"item\">")) {
@@ -187,8 +185,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 
         person = new Person(personName, personPhone, personMemberSince, personIdLink, personPM, personEmail);
 
-
-		return new KoSObjectItem(area, town, type, title, person, publishDate, imgLink, imgLinkList, description, price, yearModel);
+		return new KoSObjectItem(area, town, type, title, person, publishDate, imgLinkList, description, price, yearModel);
 	}
 
 	@Override
