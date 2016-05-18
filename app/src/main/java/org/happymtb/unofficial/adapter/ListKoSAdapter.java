@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.view.KoSRowView;
 import org.happymtb.unofficial.item.KoSListItem;
 
@@ -67,7 +68,11 @@ public class ListKoSAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(imageUrl) && imageUrl.equals("http://happyride.se/img/news_250x145.jpg")) {
 			kosRowView.getImageView().setImageResource(R.drawable.no_photo);
 		} else if (!TextUtils.isEmpty(imageUrl)) {
-            Picasso.with(mContext).load(imageUrl).into(kosRowView.getImageView());
+			if (HappyUtils.isHighDensity(mContext.getResources())) {
+				Picasso.with(mContext).load(imageUrl).into(kosRowView.getImageView());
+			} else {
+				Picasso.with(mContext).load(imageUrl.replace("normal", "small")).into(kosRowView.getImageView());
+			}
         } else {
             kosRowView.setObjectImage(null);
         }

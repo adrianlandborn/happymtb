@@ -3,7 +3,9 @@ package org.happymtb.unofficial.helpers;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 
 import org.happymtb.unofficial.R;
 
@@ -111,6 +113,26 @@ public class HappyUtils {
 			}
 		} catch (PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public static float pixelsToDp(float px) {
+		DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+		float dp = px / (metrics.densityDpi / 160f);
+		return Math.round(dp);
+	}
+
+	public static float dpToPixel(float dp) {
+		DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+		float px = dp * (metrics.densityDpi / 160f);
+		return Math.round(px);
+	}
+
+	public static boolean isHighDensity(Resources resources) {
+		DisplayMetrics metrics = resources.getDisplayMetrics();
+        if (DisplayMetrics.DENSITY_XHIGH <= metrics.densityDpi) {
+			return true;
 		}
 		return false;
 	}

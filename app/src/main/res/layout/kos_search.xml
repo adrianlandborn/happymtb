@@ -70,5 +70,5 @@
         android:id="@+id/kos_dialog_search_clear_all"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Återställ"/>
+		android:text="Rensa"/>
 </LinearLayout>
