@@ -17,9 +17,13 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.text.TextUtils;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -54,6 +58,8 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
     public static final int RESULT_CANCELED    		= 0;
     public static final int RESULT_MODIFIED     	= -1;
 
+    private static final int MENU_CONTEXT_DELETE_ID = 0;
+
     private Tracker mTracker;
 
 	private KosItemCursorAdapter mAdapter;
@@ -78,21 +84,12 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
 
         mProgressView = getActivity().findViewById(R.id.progress_container_id);
 
-//        mActivity.findViewById(R.id.no_content).setVisibility(View.VISIBLE);
-//        if (savedInstanceState != null) {
-//			// Restore Current page.
-//            mKoSData = (KoSData) savedInstanceState.getSerializable(DATA);
-//
-//            fillList();
-//            showProgress(false);
-//		} else {
-//            fetchData();
-//        }
-
         fillList();
 
         datasource = new KoSItemDataSource(mActivity);
         datasource.open();
+
+        registerForContextMenu(getListView());
 	}
 
     @Override
@@ -107,6 +104,7 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
         mTracker.setScreenName(GaConstants.Screens.SAVED_LIST);
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         // [END Google analytics screen]
+
     }
 
     @Override
@@ -126,108 +124,6 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
         super.onPause();
     }
 
-    //	@Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        if (mKoSData != null) {
-//            outState.putSerializable(DATA, mKoSData);
-//        }
-//    }
-
-//	@Override
-//	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//		menu.clear();
-//		inflater.inflate(R.menu.kos_menu, menu);
-//
-//		// Dont show left arrow for first page
-//		menu.findItem(R.id.kos_left).setVisible(mKoSData.getCurrentPage() > 0);
-//		super.onCreateOptionsMenu(menu, inflater);
-//	}
-//
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		switch (item.getItemId()) {
-//		case R.id.kos_submenu:
-//			return true;
-//		case R.id.kos_left:
-//			previousPage();
-//			return true;
-//		case R.id.kos_right:
-//			nextPage();
-//			return true;
-//		case R.id.kos_sort:
-//			fragmentManager = mActivity.getSupportFragmentManager();
-//	        KoSSortDialogFragment koSSortDialog = new KoSSortDialogFragment();
-//	        koSSortDialog.show(fragmentManager, "kos_sort_dialog");
-//			return true;
-//		case R.id.kos_search:
-//			fragmentManager = mActivity.getSupportFragmentManager();
-//			KoSSearchDialogFragment koSSearchDialog = new KoSSearchDialogFragment();
-//	        koSSearchDialog.show(fragmentManager, "kos_search_dialog");
-//			return true;
-//		case R.id.kos_go_to_page:
-//			AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
-//
-//			alert.setTitle(R.string.goto_page);
-//			alert.setMessage(getString(R.string.enter_page_number, mKoSData.getMaxPages()));
-//
-//			// Set an EditText view to get user input
-//			final EditText input = new EditText(mActivity);
-//			alert.setView(input);
-//			alert.setPositiveButton(R.string.jump, new DialogInterface.OnClickListener() {
-//				public void onClick(DialogInterface dialog, int whichButton) {
-//					// Do something with value!
-//					if (HappyUtils.isInteger(input.getText().toString())) {
-//						mKoSData.setCurrentPage(Integer.parseInt(input.getText().toString()));
-//						fetchData();
-//					}
-//				}
-//			});
-//
-//			alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//				public void onClick(DialogInterface dialog, int whichButton) {
-//					// Canceled.
-//				}
-//			});
-//			final AlertDialog dialog = alert.create();
-//
-//			input.addTextChangedListener(new PageTextWatcher(dialog, mKoSData.getMaxPages()));
-//
-//			dialog.show();
-//			return true;
-//		case R.id.kos_new_item:
-//			String url = "http://happymtb.org/annonser/index.php?page=add";
-//			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//			startActivity(browserIntent);
-//			return true;
-//		}
-//		return super.onOptionsItemSelected(item);
-//	}
-
-//	private void fetchData() {
-//        showProgress(true);
-//		mKoSTask = new KoSListTask();
-//		mKoSTask.addKoSListListener(new KoSListListener() {
-//            public void success(List<KoSItem> KoSItems) {
-//                if (getActivity() != null && !getActivity().isFinishing()) {
-//                    mKoSData.setKoSItems(KoSItems);
-//                    fillList();
-//                }
-//                showProgress(false);
-//            }
-//
-//            public void fail() {
-//                if (getActivity() != null && !getActivity().isFinishing()) {
-//                    Toast.makeText(mActivity, mActivity.getString(R.string.kos_no_items_found), Toast.LENGTH_LONG).show();
-//
-//                    showProgress(false);
-//                }
-//            }
-//        });
-//		mKoSTask.execute(mKoSData.getCurrentPage() - 1, mKoSData.getType(), mKoSData.getRegion(), mKoSData.getCategory(),
-//                mKoSData.getSearch(), mKoSData.getSortAttributeServer(), mKoSData.getSortOrderServer());
-//	}
-
 	private void fillList() {
 
         getLoaderManager().initLoader(0, null, this);
@@ -243,6 +139,34 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
 		koSObject.putExtra(KoSObjectActivity.CATEGORY, mAdapter.getItemColumn(position, MySQLiteHelper.COLUMN_CATEGORY));
 		startActivityForResult(koSObject, REQUEST_ITEM_MODIFIED);
 	}
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        menu.setHeaderTitle(mAdapter.getItemColumn(info.position, MySQLiteHelper.COLUMN_TITLE));
+        menu.add(Menu.NONE, MENU_CONTEXT_DELETE_ID, Menu.NONE, R.string.remove);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case MENU_CONTEXT_DELETE_ID:
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                int itemId = Integer.parseInt(mAdapter.getItemColumn(info.position, MySQLiteHelper.COLUMN_ID));
+
+                KoSItemDataSource dataSource = new KoSItemDataSource(mActivity);
+                dataSource.open();
+
+                dataSource.close();
+                boolean success = dataSource.deleteItem(itemId);
+                if (success) {
+                    getLoaderManager().restartLoader(0, null, this);
+                }
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -354,62 +278,4 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
             return value;
         }
     }
-
-//    private class CheckSoldItemsTask extends AsyncTask<Void, Void, Void> {
-//
-//        @Override
-//        protected Void doInBackground(Void... params) {
-//
-//            KoSItemDataSource datasource = new KoSItemDataSource(mActivity);
-//            datasource.open();
-//
-//            List<KoSListItem> items = datasource.getAllKoSItems();
-//
-//
-//            return null;
-//        }
-//
-//        private void fetchKoSObject(String objectLink) {
-//            mProgressView.setVisibility(View.VISIBLE);
-//
-//            mKoSObjectTask = new KoSObjectTask();
-//            mKoSObjectTask.addKoSObjectListener(new KoSObjectListener() {
-//                public void success(KoSObjectItem koSObjectItem) {
-//                    mKoSObjectItem = koSObjectItem;
-//                    if (getActivity() != null && !getActivity().isFinishing()) {
-//                        if (mKoSObjectItem != null) {
-//                            if (!mKoSObjectItem.getDate().equals("1970-01-01 01:00")) {
-//                                fillList();
-//                                //TODO update in database
-//                                if (mIsSaved) {
-//                                    updateInDatabase();
-//                                }
-//                            } else {
-//                                mScrollView.setVisibility(View.INVISIBLE);
-//                                mActivity.findViewById(R.id.no_content).setVisibility(View.VISIBLE);
-//
-//                                mIsSold = true;
-//                                if (mIsSaved) {
-//                                    datasource.setItemSold(mActivity.getObjectId(), true);
-//                                    mActivity.setResult(SavedListFragment.RESULT_MODIFIED, null);
-//                                }
-//                                mActivity.invalidateOptionsMenu();
-//                            }
-//                        }
-//                    } else {
-//                        // Something went wrong
-//                    }
-//                    mProgressView.setVisibility(View.INVISIBLE);
-//                }
-//
-//                public void fail() {
-//                    if (getActivity() != null && !getActivity().isFinishing()) {
-//                        Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
-//                        mProgressView.setVisibility(View.INVISIBLE);
-//                    }
-//                }
-//            });
-//
-//            mKoSObjectTask.execute(objectLink);
-//    }
 }

@@ -28,6 +28,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.text.InputType;
+import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -117,6 +118,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
                 }
             }
         });
+
 	}
 
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -152,7 +154,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         ((MainActivity) getActivity()).addSearchListener(this);
 	}
 
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -160,7 +161,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         ((MainActivity) getActivity()).removeSearchListener(this);
     }
 
-	@Override
+    @Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
 		inflater.inflate(R.menu.kos_menu, menu);
