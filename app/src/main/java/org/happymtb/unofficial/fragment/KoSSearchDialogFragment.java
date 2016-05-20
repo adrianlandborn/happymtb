@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -15,9 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -55,7 +52,7 @@ public class KoSSearchDialogFragment extends DialogFragment {
 		Tracker mTracker = application.getDefaultTracker();
 
 		// [START Google analytics screen]
-		mTracker.setScreenName(GaConstants.Screens.KOS_SEARCH_DIALOG);
+		mTracker.setScreenName(GaConstants.Categories.KOS_SEARCH_DIALOG);
 		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 		// [END Google analytics screen]
 

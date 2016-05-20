@@ -93,7 +93,7 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 		mTracker = application.getDefaultTracker();
 
 		// [START Google analytics screen]
-		mTracker.setScreenName(GaConstants.Screens.CALENDAR);
+		mTracker.setScreenName(GaConstants.Categories.CALENDAR);
 		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 		// [END Google analytics screen]
 	}

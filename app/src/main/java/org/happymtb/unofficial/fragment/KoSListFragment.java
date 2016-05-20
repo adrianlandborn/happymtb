@@ -28,7 +28,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.text.InputType;
-import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -129,7 +128,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		mTracker = application.getDefaultTracker();
 
 		// [START Google analytics screen]
-		mTracker.setScreenName(GaConstants.Screens.KOS_LIST);
+		mTracker.setScreenName(GaConstants.Categories.KOS_LIST);
 		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 		// [END Google analytics screen]
 	}
@@ -179,9 +178,11 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 			return true;		
 		case R.id.kos_left:
 			previousPage();
+            sendGaEvent(GaConstants.Actions.PREV_PAGE, GaConstants.Labels.EMPTY);
 			return true;
 		case R.id.kos_right:
 			nextPage();
+            sendGaEvent(GaConstants.Actions.NEXT_PAGE, GaConstants.Labels.EMPTY);
 			return true;
 		case R.id.kos_sort:
 			fragmentManager = mActivity.getSupportFragmentManager();
@@ -195,7 +196,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 			return true;			
 		case R.id.kos_go_to_page:			
 			AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
-
 			alert.setTitle(R.string.goto_page);
 			alert.setMessage(getString(R.string.enter_page_number, mKoSData.getMaxPages()));
 
@@ -207,6 +207,10 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Do something with value!
 					if (HappyUtils.isInteger(input.getText().toString())) {
+						// [START Google analytics screen]
+						mTracker.setScreenName(GaConstants.Categories.KOS_GOTO_DIALOG);
+						mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+						// [END Google analytics screen]
 						mKoSData.setCurrentPage(Integer.parseInt(input.getText().toString()));
 						fetchData();
 					}
@@ -226,6 +230,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 			return true;	
 		case R.id.kos_new_item:
 			String url = "http://happyride.se/annonser/index.php?page=add";
+            sendGaEvent(GaConstants.Actions.NEW_ADD, GaConstants.Labels.EMPTY);
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			startActivity(browserIntent);							
 			return true;			
@@ -421,6 +426,14 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		mKoSData.setCurrentPage(1);
 		mKoSAdapter = null;
 		fetchData();
+	}
+
+	private void sendGaEvent(String action, String label) {
+		mActivity.getTracker().send(new HitBuilders.EventBuilder()
+				.setCategory(GaConstants.Categories.KOS_LIST)
+				.setAction(action)
+				.setLabel(label)
+				.build());
 	}
 
 	@Override

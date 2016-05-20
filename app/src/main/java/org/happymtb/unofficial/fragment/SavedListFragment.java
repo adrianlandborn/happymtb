@@ -1,13 +1,9 @@
 package org.happymtb.unofficial.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -27,13 +23,10 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.happymtb.unofficial.KoSObjectActivity;
 import org.happymtb.unofficial.MainActivity;
@@ -43,13 +36,6 @@ import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.database.KoSItemDataSource;
 import org.happymtb.unofficial.database.MyContentProvider;
 import org.happymtb.unofficial.database.MySQLiteHelper;
-import org.happymtb.unofficial.item.KoSListItem;
-import org.happymtb.unofficial.item.KoSObjectItem;
-import org.happymtb.unofficial.listener.KoSObjectListener;
-import org.happymtb.unofficial.task.KoSObjectTask;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SavedListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static String TAG = "saved_frag";
@@ -101,7 +87,7 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
         mTracker = application.getDefaultTracker();
 
         // [START Google analytics screen]
-        mTracker.setScreenName(GaConstants.Screens.SAVED_LIST);
+        mTracker.setScreenName(GaConstants.Categories.SAVED_LIST);
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         // [END Google analytics screen]
 

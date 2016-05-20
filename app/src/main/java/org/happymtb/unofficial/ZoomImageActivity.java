@@ -10,7 +10,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
+
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
 
 public class ZoomImageActivity extends AppCompatActivity {
     ImageView imageDetail;
@@ -31,6 +36,15 @@ public class ZoomImageActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getIntent().getExtras().getString("title"));
+
+        // Obtain the shared Tracker instance.
+        HappyApplication application = (HappyApplication) getApplication();
+        Tracker mTracker = application.getDefaultTracker();
+
+        // [START Google analytics screen]
+        mTracker.setScreenName(GaConstants.Categories.KOS_ZOOM_IMAGE);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        // [END sGoogle analytics screen]
 
         imageDetail = (ImageView) findViewById(R.id.imageView1); /** set on touch listener on image */
         Picasso.with(this).load(getIntent().getExtras().getString("url")).into(imageDetail);

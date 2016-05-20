@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -42,7 +41,7 @@ public class KoSObjectActivity extends AppCompatActivity {
 		mTracker = application.getDefaultTracker();
 
 		// [START Google analytics screen]
-		mTracker.setScreenName(GaConstants.Screens.KOS_OBJECT);
+		mTracker.setScreenName(GaConstants.Categories.KOS_OBJECT);
 		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 		// [END sGoogle analytics screen]
 
@@ -114,5 +113,9 @@ public class KoSObjectActivity extends AppCompatActivity {
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
-	}	 	
+	}
+
+	public Tracker getTracker() {
+		return mTracker;
+	}
 }

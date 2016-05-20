@@ -62,7 +62,7 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 		mTracker = application.getDefaultTracker();
 
 		// [START Google analytics screen]
-		mTracker.setScreenName(GaConstants.Screens.HOME);
+		mTracker.setScreenName(GaConstants.Categories.HOME);
 		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 		// [END sGoogle analytics screen]
 	}

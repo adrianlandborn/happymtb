@@ -28,9 +28,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -78,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements
         mTracker = application.getDefaultTracker();
 
         // [START Google analytics screen]
-        mTracker.setScreenName(GaConstants.Screens.MAIN);
+        mTracker.setScreenName(GaConstants.Categories.MAIN);
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         // [END sGoogle analytics screen]
 
@@ -286,6 +284,10 @@ public class MainActivity extends AppCompatActivity implements
 
         mDrawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public Tracker getTracker() {
+        return mTracker;
     }
 
     public interface SortListener {

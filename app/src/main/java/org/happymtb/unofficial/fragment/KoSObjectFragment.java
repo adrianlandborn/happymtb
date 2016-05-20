@@ -2,6 +2,7 @@ package org.happymtb.unofficial.fragment;
 
 import org.happymtb.unofficial.WebViewActivity;
 import org.happymtb.unofficial.ZoomImageActivity;
+import org.happymtb.unofficial.analytics.GaConstants;
 import org.happymtb.unofficial.database.KoSItemDataSource;
 import org.happymtb.unofficial.item.KoSListItem;
 import org.happymtb.unofficial.item.KoSObjectItem;
@@ -33,6 +34,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.analytics.HitBuilders;
 
 import java.util.List;
 
@@ -304,21 +307,26 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+
 	    switch (item.getItemId()) {
             case R.id.kos_object_favorite:
                 addToDatabase();
                 mActivity.invalidateOptionsMenu();
+                sendGaEvent(GaConstants.Actions.FAVORITE, GaConstants.Labels.ADD);
                 return true;
             case R.id.kos_object_unfavorite:
                 removeFromDatabase();
                 mActivity.invalidateOptionsMenu();
+                sendGaEvent(GaConstants.Actions.FAVORITE, GaConstants.Labels.REMOVE);
                 return true;
             case R.id.kos_object_share:
                 shareObject();
+                sendGaEvent(GaConstants.Actions.SHARE, GaConstants.Labels.EMPTY);
                 return true;
             case R.id.kos_object_browser:
                 mIsSold = true;
                 mActivity.invalidateOptionsMenu();
+                sendGaEvent(GaConstants.Actions.OPEN_IN_BROWSER, GaConstants.Labels.EMPTY);
 //                if (mIsSaved) {
 //                    if (datasource.setItemSold(mActivity.getObjectId(), true) != -1) {
 //                        Toast.makeText(mActivity, "Såld!", Toast.LENGTH_SHORT).show();
@@ -330,6 +338,14 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+
+    private void sendGaEvent(String action, String label) {
+        mActivity.getTracker().send(new HitBuilders.EventBuilder()
+                .setCategory(GaConstants.Categories.KOS_OBJECT)
+                .setAction(action)
+                .setLabel(label)
+                .build());
+    }
 
     private void addToDatabase() {
         long row = datasource.insertKosItem(getKoSListItem());

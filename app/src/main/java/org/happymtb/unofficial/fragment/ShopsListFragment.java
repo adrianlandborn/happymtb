@@ -45,7 +45,7 @@ public class ShopsListFragment extends ItemsListFragment implements DialogInterf
 		mTracker = application.getDefaultTracker();
 
 		// [START Google analytics screen]
-		mTracker.setScreenName(GaConstants.Screens.SHOPS);
+		mTracker.setScreenName(GaConstants.Categories.SHOPS);
 		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 		// [END Google analytics screen]
 	}

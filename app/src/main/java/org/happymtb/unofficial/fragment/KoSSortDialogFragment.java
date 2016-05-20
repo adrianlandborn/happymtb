@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +43,7 @@ public class KoSSortDialogFragment extends DialogFragment {
         Tracker mTracker = application.getDefaultTracker();
 
         // [START Google analytics screen]
-        mTracker.setScreenName(GaConstants.Screens.KOS_SORT_DIALOG);
+        mTracker.setScreenName(GaConstants.Categories.KOS_SORT_DIALOG);
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         // [END Google analytics screen]
 
