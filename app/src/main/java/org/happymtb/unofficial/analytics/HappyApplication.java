@@ -28,8 +28,19 @@ import org.happymtb.unofficial.R;
  * the {@link Tracker}.
  */
 public class HappyApplication extends Application {
+  private static volatile HappyApplication appContext;
   private Tracker mTracker;
 
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    appContext = this;
+  }
+
+  public static HappyApplication get() {
+    return appContext;
+  }
   /**
    * Gets the default {@link Tracker} for this {@link Application}.
    * @return tracker
