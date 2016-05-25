@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.happymtb.unofficial"
-    android:versionCode="32"
-    android:versionName="1.0.3" >
+    android:versionCode="33"
+    android:versionName="1.0.4" >
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -70,5 +70,8 @@
             android:name=".SettingsActivity"
             android:label="@string/main_settings" >
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="017b9c41bf1477fee55a5831a62f03e03c202fa9" />
     </application>
 </manifest>

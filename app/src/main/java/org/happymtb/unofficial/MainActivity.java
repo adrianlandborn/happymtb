@@ -33,6 +33,9 @@ import android.view.MenuItem;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import io.fabric.sdk.android.Fabric;
+import com.crashlytics.android.Crashlytics;
+
 public class MainActivity extends AppCompatActivity implements
         KoSSortDialogFragment.SortDialogDataListener,
         KoSSearchDialogFragment.SearchDialogDataListener, NavigationView.OnNavigationItemSelectedListener {
@@ -49,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
     private static final String CURRENT_FRAGMENT_TAG = "current_fragment_tag";
-    private static final String OPEN_DRAWER = "opend_drawer";
+    private static final String OPEN_DRAWER = "open_drawer";
 
     private Tracker mTracker;
 
@@ -69,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
+
         setContentView(R.layout.activity_main_drawer);
 
         // Obtain the shared Tracker instance.
