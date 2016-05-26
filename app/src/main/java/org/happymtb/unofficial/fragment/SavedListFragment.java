@@ -143,8 +143,8 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
                 KoSItemDataSource dataSource = new KoSItemDataSource(mActivity);
                 dataSource.open();
 
-                dataSource.close();
                 boolean success = dataSource.deleteItem(itemId);
+                dataSource.close();
                 if (success) {
                     getLoaderManager().restartLoader(0, null, this);
                 }
