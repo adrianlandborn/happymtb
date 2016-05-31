@@ -103,7 +103,7 @@ public class KoSData implements Serializable {
 		this.mCategoryStr = mCategoryStr;
 	}
 
-	public String getSearch() {
+	public String getSearchString() {
 		return mSearch;
 	}
 

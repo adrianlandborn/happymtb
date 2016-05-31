@@ -203,7 +203,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 		//TODO Uncomment when fixing Search
 //		TextView searchView = (TextView) mActivity.findViewById(R.id.video_search);
 //
-//		String mSearch = mVideoData.getSearch();
+//		String mSearch = mVideoData.getSearchString();
 //
 //		if (mSearch.length() > 0) {
 //			searchView.setText(" (Sökord: " + mSearch + ")");

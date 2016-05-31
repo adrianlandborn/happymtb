@@ -264,7 +264,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
                 }
             }
         });
-		mKoSTask.execute(mKoSData.getSearch(), mKoSData.getCategory(), mKoSData.getRegion(), mKoSData.getType(),
+		mKoSTask.execute(mKoSData.getSearchString(), mKoSData.getCategory(), mKoSData.getRegion(), mKoSData.getType(),
 				"" /*category2*/, ""/*county2*/, ""/*type2*/, ""/*price*/, ""/*year*/, mKoSData.getCurrentPage(),
                 mKoSData.getSortAttributeServer(), mKoSData.getSortOrderServer());
 
@@ -294,26 +294,27 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		mKoSData.setMaxPages(mKoSData.getKoSItems().get(0).getNumberOfKoSPages());
 				
 		TextView category = (TextView) mActivity.findViewById(R.id.kos_category);
-		category.setText("Kategori: " + mKoSData.getKoSItems().get(0).getSelectedCategory());
+		category.setText("Kategori: " + mKoSData.getCategoryStr());
 
 		TextView region = (TextView) mActivity.findViewById(R.id.kos_region);
-		region.setText("Region: " + mKoSData.getKoSItems().get(0).getSelectedRegion());
-		
+		region.setText("Region: " + mKoSData.getRegionStr());
+
 		TextView search = (TextView) mActivity.findViewById(R.id.kos_search);
 		
-		String mSearch = mKoSData.getSearch();
+		String searchString = mKoSData.getSearchString();
 		
-		if (mSearch.length() > 0) {
-			search.setText(" (Sökord: " + mSearch + ")");
+		if (searchString.length() > 0) {
+			search.setVisibility(View.VISIBLE);
+			search.setText("Sökord: " + searchString);
 		} else {
+			search.setVisibility(View.GONE);
 			search.setText("");
-		}		
+		}
 		
-		TextView sortView = (TextView) mActivity.findViewById(R.id.kos_sort);
-		
-		sortView.setText(" (Sortering: "
-				+ HappyUtils.getSortAttrNameLocal(mActivity, mKoSData.getSortAttributePosition()) + ", "
-				+ HappyUtils.getSortOrderNameLocal(mActivity, mKoSData.getSortOrderPosition()) + ")");
+//		TextView sortView = (TextView) mActivity.findViewById(R.id.kos_sort);
+//		sortView.setText(" (Sortering: "
+//				+ HappyUtils.getSortAttrNameLocal(mActivity, mKoSData.getSortAttributePosition()) + ", "
+//				+ HappyUtils.getSortOrderNameLocal(mActivity, mKoSData.getSortOrderPosition()) + ")");
 
 		getActivity().invalidateOptionsMenu();
 	}

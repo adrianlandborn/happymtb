@@ -16,8 +16,6 @@ public class KoSListItem implements Serializable {
 	private String mLink;
 	private String mImgLink;
 	private String mCategory;
-	private String mSelectedCategory;
-	private String mSelectedRegion;
 	private String mPrice;
 	private boolean mSold;
 	private int mNumberOfKoSPages;
@@ -26,8 +24,7 @@ public class KoSListItem implements Serializable {
 
     }
 	public KoSListItem(long id, String Time, String type, String Title, String Area, String Link,
-                       String ImgLink, String Category, String Price, int NumberOfKoSPages,
-                       String SelectedCategory, String SelectedRegion) {
+                       String ImgLink, String Category, String Price, int NumberOfKoSPages) {
 		mId = id;
 		mTime = Time;
 		mType = type;
@@ -36,8 +33,6 @@ public class KoSListItem implements Serializable {
 		mLink = Link;
 		mImgLink = ImgLink;
 		mCategory = Category;
-		mSelectedCategory = SelectedCategory;
-		mSelectedRegion = SelectedRegion;
 		mPrice = Price;
 		mNumberOfKoSPages = NumberOfKoSPages;
 	}
@@ -108,22 +103,6 @@ public class KoSListItem implements Serializable {
 		mCategory = category;
 	}
 
-	public String getSelectedRegion() {
-		return mSelectedRegion;
-	}
-
-	public void setSelectedRegion(String selectedRegion) {
-		mSelectedRegion = selectedRegion;
-	}	
-	
-	public String getSelectedCategory() {
-		return mSelectedCategory;
-	}
-
-	public void setSelectedCategory(String selectedCategory) {
-		mSelectedCategory = selectedCategory;
-	}
-	
 	public String getPrice() {
 		return mPrice;
 	}

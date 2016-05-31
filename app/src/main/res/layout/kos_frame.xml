@@ -50,30 +50,22 @@
 		</LinearLayout>
 	</FrameLayout>
 
-	<LinearLayout
-		android:orientation="horizontal"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:background="@color/black"
-		android:paddingLeft="3dp"
-		android:baselineAligned="false">
+    <TextView
+        android:id="@+id/kos_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        style="@style/bottomBarTextStyle" />
 
-	    <TextView
-	    	android:id="@+id/kos_region"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="Region"
-			android:textSize="15sp"
-			android:textColor="@color/white"/>
-
-		<TextView
-		    android:id="@+id/kos_sort"
-		   	android:layout_width="wrap_content"
-		   	android:layout_height="wrap_content"
-		   	android:text=""
-		   	android:textSize="15sp"
-			android:textColor="@color/white"/>
-	</LinearLayout>
+    <TextView
+        android:id="@+id/kos_region"
+        android:text="Region"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/bottomBarTextStyle"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"/>
 
 	<LinearLayout
 		android:orientation="horizontal"
@@ -84,29 +76,14 @@
 		android:paddingRight="3dp"
 		android:baselineAligned="false">
 
-		<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:gravity="left"
-			android:layout_weight="1">
-
-			<TextView
-		    	android:id="@+id/kos_category"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Kategori"
-				android:textSize="15sp"
-				android:textColor="@color/white"/>
-
-			<TextView
-			    android:id="@+id/kos_search"
-		    	android:layout_width="wrap_content"
-		    	android:layout_height="wrap_content"
-		    	android:text=""
-		    	android:textSize="15sp"
-				android:textColor="@color/white"/>
-		</LinearLayout>
+        <TextView
+            android:id="@+id/kos_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kategori"
+            style="@style/bottomBarTextStyle"
+            android:gravity="left"
+            android:layout_weight="1"/>
 
 		<LinearLayout
 			android:orientation="horizontal"
@@ -120,8 +97,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/kos_page"
-				android:textSize="15sp"
-				android:textColor="@color/white"
+                style="@style/bottomBarTextStyle"
 				android:layout_gravity="center_vertical"/>
 
 			<TextView
@@ -129,8 +105,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/kos_one"
-				android:textSize="15sp"
-				android:textColor="@color/white"
+                style="@style/bottomBarTextStyle"
 				android:layout_gravity="center_vertical"/>
 
 			<TextView
@@ -138,8 +113,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/kos_by"
-				android:textSize="15sp"
-				android:textColor="@color/white"
+                style="@style/bottomBarTextStyle"
 				android:layout_gravity="center_vertical"/>
 
 			<TextView
@@ -147,8 +121,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/kos_one"
-				android:textSize="15sp"
-				android:textColor="@color/white"
+                style="@style/bottomBarTextStyle"
 				android:layout_gravity="center_vertical"/>
 		</LinearLayout>
 	</LinearLayout>

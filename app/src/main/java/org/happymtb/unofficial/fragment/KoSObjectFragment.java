@@ -380,7 +380,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
         if (mKoSObjectItem != null) {
             return new KoSListItem(mActivity.getObjectId(), mKoSObjectItem.getDate(), mKoSObjectItem.getType(), mKoSObjectItem.getTitle(),
                     mKoSObjectItem.getArea(), mActivity.getObjectLink(), mKoSObjectItem.getImgLink(), mActivity.getObjectCategory(),
-                    mKoSObjectItem.getPrice(), 0, null, null);
+                    mKoSObjectItem.getPrice(), 0);
         } else {
             return null;
         }

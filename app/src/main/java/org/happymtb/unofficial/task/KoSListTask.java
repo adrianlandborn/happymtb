@@ -101,7 +101,7 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 
         id = Long.parseLong(link.split("id=")[1]);
 
-        return new KoSListItem(id, time, type, title, area, link, imgLink, category, price, 0, mSelectedCategory, mSelectedRegion);
+        return new KoSListItem(id, time, type, title, area, link, imgLink, category, price, 0);
     }
 
     @Override
@@ -109,7 +109,6 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
         mKoSListItems.clear();
 
         DefaultHttpClient httpclient = new DefaultHttpClient();
-
 
         // //?search=&category=1&county=&type=1&category2=&county2=&type2=&price=3&year=2013&p=1&sortattribute=creationdate&sortorder=DESC
         try {
