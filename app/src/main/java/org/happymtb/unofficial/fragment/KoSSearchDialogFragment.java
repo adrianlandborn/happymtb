@@ -58,14 +58,14 @@ public class KoSSearchDialogFragment extends DialogFragment {
 
 		SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
-		final ClearableEditText searchString = (ClearableEditText) view.findViewById(R.id.kos_dialog_search_text);
+		final ClearableEditText searchEditText = (ClearableEditText) view.findViewById(R.id.kos_dialog_search_text);
 		final Spinner searchCategory = (Spinner) view.findViewById(R.id.kos_dialog_search_category);
 		final Spinner searchRegion = (Spinner) view.findViewById(R.id.kos_dialog_search_region);
 		final Spinner searchType = (Spinner) view.findViewById(R.id.kos_dialog_search_type);
 
 		clearAllButton = (Button) view.findViewById(R.id.kos_dialog_search_clear_all);
 
-		searchString.setText(mPreferences.getString(KoSListFragment.SEARCH_TEXT, ""));
+		searchEditText.setText(mPreferences.getString(KoSListFragment.SEARCH_TEXT, ""));
 		searchCategory.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_CATEGORY_SPINNER, 0));
 		searchRegion.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_REGION_SPINNER, 0));
 		searchType.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_TYPE_SPINNER, 0));
@@ -73,11 +73,15 @@ public class KoSSearchDialogFragment extends DialogFragment {
 				builder.setPositiveButton(R.string.search, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						activity.onSearchData(
-								searchString.getText().toString().trim(),
-								searchCategory.getSelectedItemPosition(),
-								searchRegion.getSelectedItemPosition(),
-								searchType.getSelectedItemPosition());
+								String searchText = "";
+								if (searchEditText.getText() != null) {
+									searchText = searchEditText.getText().toString().trim();
+								}
+								activity.onSearchData(
+										searchText,
+										searchCategory.getSelectedItemPosition(),
+										searchRegion.getSelectedItemPosition(),
+										searchType.getSelectedItemPosition());
 					}
 				});
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -86,7 +90,7 @@ public class KoSSearchDialogFragment extends DialogFragment {
             }
         });
 
-		searchString.addTextChangedListener(new TextWatcher() {
+		searchEditText.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -95,7 +99,7 @@ public class KoSSearchDialogFragment extends DialogFragment {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				updateClearAllButton(searchString.getText().toString().trim(),
+				updateClearAllButton(searchEditText.getText().toString().trim(),
 						searchCategory.getSelectedItemPosition(),
 						searchRegion.getSelectedItemPosition(),
 						searchType.getSelectedItemPosition());
@@ -105,7 +109,7 @@ public class KoSSearchDialogFragment extends DialogFragment {
 		AdapterView.OnItemSelectedListener selectedListener = new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				updateClearAllButton(searchString.getText().toString().trim(),
+				updateClearAllButton(searchEditText.getText().toString().trim(),
 						searchCategory.getSelectedItemPosition(),
 						searchRegion.getSelectedItemPosition(),
 						searchType.getSelectedItemPosition());
@@ -122,7 +126,7 @@ public class KoSSearchDialogFragment extends DialogFragment {
 		clearAllButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				searchString.setText("");
+				searchEditText.setText("");
 				searchCategory.setSelection(0);
 				searchRegion.setSelection(0);
 				searchType.setSelection(0);

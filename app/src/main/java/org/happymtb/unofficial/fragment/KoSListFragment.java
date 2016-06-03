@@ -118,6 +118,15 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             }
         });
 
+        mActivity.findViewById(R.id.kos_bottombar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentManager = mActivity.getSupportFragmentManager();
+                KoSSearchDialogFragment koSSearchDialog = new KoSSearchDialogFragment();
+                koSSearchDialog.show(fragmentManager, "kos_search_dialog");
+            }
+        });
+
 	}
 
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -131,6 +140,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		mTracker.setScreenName(GaConstants.Categories.KOS_LIST);
 		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 		// [END Google analytics screen]
+
 	}
 
     @Override
