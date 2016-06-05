@@ -104,6 +104,17 @@
                 <View style="@style/kosObjectDivider" />
 
                 <TextView
+                    android:id="@+id/kos_object_year_model"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:visibility="gone"
+                    android:textColor="@color/title_2_text"
+                    android:textSize="13sp" />
+
+                <TextView
                     android:id="@+id/kos_object_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -113,18 +124,6 @@
                     android:textColor="@color/black"
                     android:textIsSelectable="true"
                     android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/kos_object_year_model"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:visibility="gone"
-                    android:textColor="@color/title_2_text"
-                    android:textSize="13sp" />
-
 
                 <TextView
                     android:layout_width="match_parent"
