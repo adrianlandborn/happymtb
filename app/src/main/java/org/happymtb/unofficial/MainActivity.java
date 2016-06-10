@@ -16,6 +16,7 @@ import org.happymtb.unofficial.fragment.SettingsFragment;
 import org.happymtb.unofficial.fragment.ShopsListFragment;
 import org.happymtb.unofficial.fragment.ForumListFragment;
 import org.happymtb.unofficial.fragment.VideoListFragment;
+import org.happymtb.unofficial.helpers.HappyUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,10 +46,11 @@ public class MainActivity extends AppCompatActivity implements
     private static final int ARTICLES = 2;
     private static final int KOP_OCH_SALJ = 3;
     private static final int SAVED = 4;
-    private static final int VIDEO = 5;
-    private static final int SHOPS = 6;
-    private static final int CALENDAR = 7;
-    private static final int SETTINGS = 8;
+    private static final int PROFILE = 5;
+    private static final int VIDEO = 6;
+    private static final int SHOPS = 7;
+    private static final int CALENDAR = 8;
+    private static final int SETTINGS = 9;
 
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
     private static final String CURRENT_FRAGMENT_TAG = "current_fragment_tag";
@@ -74,7 +76,11 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
 
-        setContentView(R.layout.activity_main_drawer);
+        if (HappyUtils.isDebug(getApplicationContext())) {
+            setContentView(R.layout.activity_main_drawer_debug);
+        } else {
+            setContentView(R.layout.activity_main_drawer);
+        }
 
         // Obtain the shared Tracker instance.
         HappyApplication application = (HappyApplication) getApplication();
@@ -175,6 +181,11 @@ public class MainActivity extends AppCompatActivity implements
                 frag = new SavedListFragment();
                 mCurrentFragmentTag = SavedListFragment.TAG;
                 break;
+            case PROFILE:
+                Intent browserIntent = new Intent(this, WebViewActivity.class);
+                browserIntent.putExtra("url", "http://happyride.se/annonser/my_ads.php");
+                startActivity(browserIntent);
+                break;
             case VIDEO:
                 frag = new VideoListFragment();
                 mCurrentFragmentTag = VideoListFragment.TAG;
@@ -192,11 +203,13 @@ public class MainActivity extends AppCompatActivity implements
                 mCurrentFragmentTag = SettingsFragment.TAG;
                 break;
         }
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.content_frame, frag, mCurrentFragmentTag)
-                .addToBackStack(null)
-                .commit();
+        if (frag != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_frame, frag, mCurrentFragmentTag)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 
     @Override
@@ -269,6 +282,8 @@ public class MainActivity extends AppCompatActivity implements
             pos = KOP_OCH_SALJ;
         } else if (id == R.id.nav_saved) {
             pos = SAVED;
+        } else if (id == R.id.nav_my_ads) {
+            pos = PROFILE;
         } else if (id == R.id.nav_videos) {
             pos = VIDEO;
         } else if (id == R.id.nav_shops) {

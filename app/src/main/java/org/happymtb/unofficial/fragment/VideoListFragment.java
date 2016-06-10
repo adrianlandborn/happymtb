@@ -5,6 +5,8 @@ import java.util.List;
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.adapter.ListVideoAdapter;
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.VideoData;
 import org.happymtb.unofficial.item.VideoItem;
@@ -18,6 +20,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,6 +33,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 public class VideoListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
 	public static String TAG = "video_frag";
 
@@ -40,6 +46,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 	private AlertDialog.Builder mAlertDialog;
     private MainActivity mActivity;
 	private ListView mListView;
+    private Tracker mTracker;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -71,6 +78,21 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 				outState.putSerializable(DATA, mVideoData);
 		}
 	}
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Obtain the shared Tracker instance.
+        HappyApplication application = (HappyApplication) getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
+
+        // [START Google analytics screen]
+        mTracker.setScreenName(GaConstants.Categories.VIDEO_LIST);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        // [END Google analytics screen]
+
+    }
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -196,9 +218,10 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 		TextView maxPages = (TextView) mActivity.findViewById(R.id.video_no_of_pages);
 		maxPages.setText(Integer.toString(mVideoData.getVideoItems().get(0).getNumberOfVideoPages()));
 		mVideoData.setMaxPages(mVideoData.getVideoItems().get(0).getNumberOfVideoPages());			
-		
-		TextView category = (TextView) mActivity.findViewById(R.id.video_category);
-		category.setText("Kategori: " + mVideoData.getVideoItems().get(0).getSelectedCategory());
+
+		// TODO Fixa kategorier
+//		TextView category = (TextView) mActivity.findViewById(R.id.video_category);
+//		category.setText("Kategori: " + mVideoData.getVideoItems().get(0).getSelectedCategory());
 
 		//TODO Uncomment when fixing Search
 //		TextView searchView = (TextView) mActivity.findViewById(R.id.video_search);

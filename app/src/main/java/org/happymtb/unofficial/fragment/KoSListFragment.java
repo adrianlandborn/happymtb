@@ -398,8 +398,10 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	@Override
 	public void onSearchParamChanged(String text, int categoryPos, int regionPos, int typePos) {
 		// Sökord
-		mKoSData.setSearch(text);
-
+        if (text != null) {
+            // TODO Should not be null
+            mKoSData.setSearch(text);
+        }
 		// Cyklar, Ramar, Komponenter...
 		String categoryArrayPosition[] = getResources().getStringArray(R.array.kos_dialog_search_category_position);
 		String categoryArrayName[] = getResources().getStringArray(R.array.kos_dialog_search_category_name);

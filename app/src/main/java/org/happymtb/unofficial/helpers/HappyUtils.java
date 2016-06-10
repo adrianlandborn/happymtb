@@ -103,6 +103,20 @@ public class HappyUtils {
         return OrderArray[pos];
     }
 
+	public static boolean isDebug(Context context) {
+		PackageInfo pInfo = null;
+		try {
+			pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			String version = pInfo.versionName;
+			if (version.toLowerCase().contains("debug")) {
+				return true;
+			}
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 	public static boolean isBeta(Context context) {
 		PackageInfo pInfo = null;
 		try {

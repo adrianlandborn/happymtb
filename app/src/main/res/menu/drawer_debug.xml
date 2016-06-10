@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/title_bar_home"/>
+        <item
+            android:id="@+id/nav_forum"
+            android:icon="@drawable/ic_forum_black_24dp"
+            android:visible="false"
+            android:title="@string/title_bar_forum"/>
+        <item
+            android:id="@+id/nav_articles"
+            android:icon="@drawable/ic_description_black_24dp"
+            android:visible="false"
+            android:title="@string/title_bar_articles" />
+        <item
+            android:id="@+id/nav_kos"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/title_bar_kos" />
+        <item
+            android:id="@+id/nav_saved"
+            android:icon="@drawable/ic_favorite_black_24dp"
+            android:title="@string/title_bar_saved"/>
+        <item
+            android:id="@+id/nav_my_ads"
+            android:icon="@drawable/ic_profile2"
+            android:title="@string/title_bar_my_ads"/>
+        <item
+            android:id="@+id/nav_videos"
+            android:icon="@drawable/ic_movie_black_24dp"
+            android:visible="true"
+            android:title="@string/title_bar_videos" />
+        <item
+            android:id="@+id/nav_shops"
+            android:icon="@drawable/ic_store_black_24dp"
+            android:title="@string/title_bar_shops" />
+        <item
+            android:id="@+id/nav_calendar"
+            android:icon="@drawable/ic_event_black_24dp"
+            android:title="@string/title_bar_calendar" />
+    </group>
+    <group
+        android:id="@+id/group2"
+        android:visible="false">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="Inställningar" />
+    </group>
+</menu>

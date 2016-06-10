@@ -12,6 +12,7 @@ public final class GaConstants {
 
         public static final String MAIN =  "main";
         public static final String SAVED_LIST =  "saved_list";
+        public static final String VIDEO_LIST =  "video_list";
         public static final String KOS_LIST =  "kos_list";
         public static final String KOS_OBJECT =  "kos_object";
         public static final String KOS_ZOOM_IMAGE =  "kos_zoom_image";

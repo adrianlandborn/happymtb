@@ -45,37 +45,37 @@ public class VideoListTask extends AsyncTask<Object, Void, Boolean> {
 		String imgLink = VideoStr.substring(start, end);
 		start = end;
 
-		start = VideoStr.indexOf("Längd: ", start) + 7;
-		end = VideoStr.indexOf("\" title", start);
-		String length = "Längd: " + VideoStr.substring(start, end);
+		start = VideoStr.indexOf("duration\">", start) + 10;
+		end = VideoStr.indexOf("</div>", start);
+		String length = VideoStr.substring(start, end);
 		start = end;
 		
-		start = VideoStr.indexOf("\" title=\"", start) + 9;
-		end = VideoStr.indexOf("\" width", start) - 13;
+		start = VideoStr.indexOf("class=\"title\">", start) + 14;
+		end = VideoStr.indexOf("</a><br />", start);
 		String Title = HappyUtils.replaceHTMLChars(VideoStr.substring(start, end));
 		start = end;
 
-		start = VideoStr.indexOf(" - ", start) + 3;
-		end = VideoStr.indexOf("\" width", start);
-		String date = VideoStr.substring(start, end);
-		start = end;
+//		start = VideoStr.indexOf(" - ", start) + 3;
+//		end = VideoStr.indexOf("\" width", start);
+//		String date = VideoStr.substring(start, end);
+//		start = end;
 		
 		start = VideoStr.indexOf("Uppladdad av ", start) + 13;
-		end = VideoStr.indexOf("\">", start);
-		start = end + 2;
+		end = VideoStr.indexOf("\">", start) + 2;
+		start = end;
 			
 		end = VideoStr.indexOf("</a><br />", start);
 		String uploader = "Uppladdad av " + HappyUtils.replaceHTMLChars(VideoStr.substring(start, end));
 		start = end;
 		
-		String category = "Kategori: Ingen kategori";
+		String category = "Ingen kategori";
 		if (VideoStr.contains("Kategori")) {
 			start = VideoStr.indexOf("\">", start) + 2;
 			end = VideoStr.indexOf("</a><br />", start);
-			category = "Kategori: " + HappyUtils.replaceHTMLChars(VideoStr.substring(start, end));
+			category = /*"Kategori: " +*/ HappyUtils.replaceHTMLChars(VideoStr.substring(start, end));
 		}
 		
-		return new VideoItem(Title, uploader, category, length, date, link, imgLink, 1, mSelectedCategory);
+		return new VideoItem(Title, uploader, category, length, "" /*date*/, link, imgLink, 1, mSelectedCategory);
 	}
 	
 	@Override
@@ -106,26 +106,26 @@ public class VideoListTask extends AsyncTask<Object, Void, Boolean> {
 			boolean startReadPages = false;
 			
 			while ((lineString = lineNumberReader.readLine()) != null) {
-				if (lineString.contains("<div class=\"videobox")) {
+				if (lineString.contains("<div class=\"videobox") && !lineString.contains("<div class=\"videobox\"></div>")) {
 					startRead = true;
 					ksStringBuilder = new StringBuilder();
-					ksStringBuilder.append(lineString);
+//					ksStringBuilder.append(lineString);
 				}
 				if (lineString.contains("<div id=\"searchvideo\">")) {
 					startReadCategory = true;
 					ksStringBuilder = new StringBuilder();
 					ksStringBuilder.append(lineString);
 				}			
-				if (lineString.contains("<div class=\"pagination\">")) {
+				if (lineString.contains("<ul class=\"pagination\">")) {
 					startReadPages = true;
 					ksStringBuilder = new StringBuilder();
 					ksStringBuilder.append(lineString);
-				}							
-				else if (startRead) {
+				} else if (startRead) {
 					ksStringBuilder.append(lineString);
-					if (lineString.contains("	</div>")) {
+					if (lineString.equalsIgnoreCase("\t</div>")) {
 						startRead = false;
-						item = ExtractVideoRow(ksStringBuilder.toString());
+						String s = ksStringBuilder.toString();
+						item = ExtractVideoRow(s);
 						if (item != null) {
 							mVideoItems.add(item);
 						}
