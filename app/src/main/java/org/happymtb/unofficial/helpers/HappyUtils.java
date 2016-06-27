@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
+import org.happymtb.unofficial.BuildConfig;
 import org.happymtb.unofficial.R;
 
 public class HappyUtils {
@@ -115,6 +116,14 @@ public class HappyUtils {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public static boolean isDebugBuild() {
+		try {
+			return "debug".equals(BuildConfig.class.getField("BUILD_TYPE").get(null));
+		} catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException e) {
+			return false;
+		}
 	}
 
 	public static boolean isBeta(Context context) {

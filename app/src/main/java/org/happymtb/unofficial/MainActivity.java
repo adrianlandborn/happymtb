@@ -30,12 +30,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import io.fabric.sdk.android.Fabric;
 import com.crashlytics.android.Crashlytics;
+import com.kobakei.ratethisapp.RateThisApp;
 
 public class MainActivity extends AppCompatActivity implements
         KoSSortDialogFragment.SortDialogDataListener,
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
     private static final String CURRENT_FRAGMENT_TAG = "current_fragment_tag";
     private static final String OPEN_DRAWER = "open_drawer";
+    private static final String SHOW_RATING_DIALOG = "show_Rating_dialog";
 
     private Tracker mTracker;
 
@@ -123,6 +126,19 @@ public class MainActivity extends AppCompatActivity implements
             mDrawer.openDrawer(GravityCompat.START);
             mPreferences.edit().putBoolean(OPEN_DRAWER, false).apply();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Monitor launch times and interval from installation
+        RateThisApp.onStart(this);
+        // If the criteria is satisfied, "Rate this app" dialog will be shown
+        RateThisApp.showRateDialogIfNeeded(this);
+
+        // Force show the Rate dialog
+//        RateThisApp.showRateDialog(this);
     }
 
     @Override
