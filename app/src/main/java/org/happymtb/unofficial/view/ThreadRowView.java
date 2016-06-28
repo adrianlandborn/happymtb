@@ -38,7 +38,7 @@ public class ThreadRowView extends LinearLayout {
 
 	@Override
 	public void setBackgroundColor(int color) {
-		compoundView.setBackgroundResource(color);
+		compoundView.setBackgroundColor(color);
 	}
 
 	public void setPage(int number_of_pages) {			
