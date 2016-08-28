@@ -61,7 +61,6 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 	public KoSObjectItem extractKoSObject(String str) {
 		List<String> imgLinkList = new ArrayList<String>();
 
-
         int start = getStart(str, "<h1>", 0);
         int end = getEnd(str, "</h1>", start);
         String titleTemp = HappyUtils.replaceHTMLChars(str.substring(start, end));
@@ -100,10 +99,11 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 
 		int linkStart = 0;
 		String linkTemp;
-		while (description.substring(linkStart).contains(">länk<")) {
+		while (description.substring(linkStart).contains(">länk<") && description.substring(linkStart).contains("<a href=\"http")) {
 			linkStart = description.indexOf("<a href=\"http", linkStart) + 9;
 			linkTemp = description.substring(linkStart);
-			linkTemp = linkTemp.substring(0,linkTemp.indexOf("\" target=\"_blank\">"));
+			int linkEnd = linkTemp.indexOf("\" target=\"_blank\">");
+			linkTemp = linkTemp.substring(0,linkEnd);
 			if (linkTemp.endsWith("/")) {
 				linkTemp = linkTemp.substring(0,linkTemp.length() - 1);
 			}
@@ -124,7 +124,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
         int yearModel = -1;
         try {
             yearModel = Integer.parseInt(HappyUtils.replaceHTMLChars(str.substring(start, end)));
-        }catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             //
         }
 
