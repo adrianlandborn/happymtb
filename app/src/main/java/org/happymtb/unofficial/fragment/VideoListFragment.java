@@ -166,33 +166,32 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 		}				
 		return super.onOptionsItemSelected(item);
 	}	
-	
-	private void fetchData() {
-        if (mActivity == null) {
-            return;
-        }
-        showProgress(true);
 
-		getVideo = new VideoListTask();
-		getVideo.addVideoListListener(new VideoListListener() {
-			public void success(List<VideoItem> VideoItems) {
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    mVideoData.setVideoItems(VideoItems);
-                    fillList();
+	@Override
+	protected void fetchData() {
+		if (hasNetworkConnection()) {
+			getVideo = new VideoListTask();
+			getVideo.addVideoListListener(new VideoListListener() {
+				public void success(List<VideoItem> VideoItems) {
+					if (getActivity() != null && !getActivity().isFinishing()) {
+						mVideoData.setVideoItems(VideoItems);
+						fillList();
 
-                    showProgress(false);
-                }
-			}
+                        showList(true);
+						showProgress(false);
+					}
+				}
 
-			public void fail() {
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    Toast.makeText(getActivity(), R.string.no_items_found, Toast.LENGTH_LONG).show();
-                    mVideoData = new VideoData(1, 1, "", 0, null, 0);
-                    showProgress(false);
-                }
-			}			
-		});
-		getVideo.execute(mVideoData.getCurrentPage(), mVideoData.getCategory(), mVideoData.getSearch());	
+				public void fail() {
+					if (getActivity() != null && !getActivity().isFinishing()) {
+						Toast.makeText(getActivity(), R.string.no_items_found, Toast.LENGTH_LONG).show();
+						mVideoData = new VideoData(1, 1, "", 0, null, 0);
+						showProgress(false);
+					}
+				}
+			});
+			getVideo.execute(mVideoData.getCurrentPage(), mVideoData.getCategory(), mVideoData.getSearch());
+		}
 	}
 
 	private void fillList() {
@@ -237,7 +236,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
         getActivity().invalidateOptionsMenu();
 	}
 
-	public void refreshList() {
+	public void reloadCleanList() {
 		mVideoData.setListPosition(0);
 		mVideoData.setCurrentPage(1);
 		fetchData();

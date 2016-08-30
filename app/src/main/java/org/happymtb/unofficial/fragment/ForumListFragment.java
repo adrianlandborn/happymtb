@@ -249,7 +249,7 @@ public class ForumListFragment extends RefreshListfragment {
 		mMarkAsRead.execute(mActivity);
 	}
 	
-	public void refreshList() {
+	public void reloadCleanList() {
 		mAdapter = null;
 		mThreadData.setCurrentPage(1);
 		fetchData();

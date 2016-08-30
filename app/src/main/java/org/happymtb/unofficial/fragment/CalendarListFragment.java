@@ -126,29 +126,32 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 			mGetCalendarTask.cancel(true);
 		}		
 	}		
-	
-	private void fetchData() {
-        showProgress(true);
 
-        mGetCalendarTask = new CalendarListTask();
-		mGetCalendarTask.addCalendarListListener(new CalendarListListener() {
-			public void success(ArrayList<CalendarItem> CalendarItems) {
-				if (getActivity() != null && !getActivity().isFinishing()) {
-					mCalendarItems = CalendarItems;
-					fillList();
-                    showProgress(false);
-				}
-			}
+	@Override
+	protected void fetchData() {
+		if (hasNetworkConnection()) {
+			mGetCalendarTask = new CalendarListTask();
+			mGetCalendarTask.addCalendarListListener(new CalendarListListener() {
+				public void success(ArrayList<CalendarItem> CalendarItems) {
+					if (getActivity() != null && !getActivity().isFinishing()) {
+						mCalendarItems = CalendarItems;
+						fillList();
 
-			public void fail() {
-				if (getActivity() != null && !getActivity().isFinishing()) {
-					Toast.makeText(mActivity, R.string.calendar_no_items_found, Toast.LENGTH_LONG).show();
-					mCalendarItems = new ArrayList<CalendarItem>();
-                    showProgress(false);
+						showList(true);
+						showProgress(false);
+					}
 				}
-			}
-		});
-		mGetCalendarTask.execute(mSearch, mRegionPosition, mCategoryPosition);		
+
+				public void fail() {
+					if (getActivity() != null && !getActivity().isFinishing()) {
+						Toast.makeText(mActivity, R.string.calendar_no_items_found, Toast.LENGTH_LONG).show();
+						mCalendarItems = new ArrayList<CalendarItem>();
+						showProgress(false);
+					}
+				}
+			});
+			mGetCalendarTask.execute(mSearch, mRegionPosition, mCategoryPosition);
+		}
 	}
 
     private void fillList() {
@@ -181,7 +184,7 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 		startActivity(browserIntent);			
 	}
 	
-	public void refreshList() {
+	public void reloadCleanList() {
         mFirstVisiblePos = 0;
 
 		fetchData();

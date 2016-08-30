@@ -260,7 +260,9 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <include layout="@layout/no_content" />
+        <include layout="@layout/no_content_layout" />
+
+        <include layout="@layout/no_network_layout" />
 
     </FrameLayout>
 </LinearLayout>

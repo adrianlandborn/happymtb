@@ -49,6 +49,7 @@
     <string name="collapse">Dra ihop</string>
     <string name="expand">Expandera</string>
     <string name="error">Något gick fel</string>
+    <string name="no_network">Datatrafik saknas</string>
     <string name="no_items_found">Inga objekt hittades</string>
     <string name="kos_no_items_found">Inga annonser hittades</string>
     <string name="articles_no_items_found">Artiklarna gick inte att hämta</string>
@@ -66,4 +67,5 @@
     <string name="not_logged_in">Ej inloggad</string>
     <string name="logged_in_as">"Inloggad som "</string>
     <string name="remove">"Ta bort"</string>
+    <string name="reload">Ladda om</string>
 </resources>

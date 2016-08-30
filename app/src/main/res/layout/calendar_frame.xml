@@ -33,6 +33,8 @@
 					android:drawSelectorOnTop="false" />
 
 			</android.support.v4.widget.SwipeRefreshLayout>
+
+			<include layout="@layout/no_network_layout" />
 		</FrameLayout>
 		<LinearLayout
 			android:id="@+id/progress_container_id"

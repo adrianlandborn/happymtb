@@ -3,6 +3,7 @@ package org.happymtb.unofficial;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -19,7 +20,7 @@ public class WebViewActivity extends AppCompatActivity {
         String url = getIntent().getExtras().getString("url");
 
         WebView webView = (WebView) findViewById(R.id.webView);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.loadUrl(url);

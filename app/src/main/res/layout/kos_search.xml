@@ -56,7 +56,7 @@
 	    android:layout_height="wrap_content"
 	    android:textSize="15sp"
 	    android:textStyle="bold"
-	    android:text="Typ"/>
+	    android:text="Annonstyp"/>
     
     <Spinner 
         android:id="@+id/kos_dialog_search_type"

@@ -235,7 +235,7 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
         CookieSyncManager.getInstance().sync();
     }
 
-    public void refreshList() {
+    public void reloadCleanList() {
         mMessageAdapter = null;
         mMessageData.setMessages(null);
         fetchData();
@@ -261,7 +261,8 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
         }
     }
 
-    private void fetchData() {
+    @Override
+    protected void fetchData() {
         showProgress(true);
 
         if ((mMessageData.getMessages() != null) && (mMessageData.getMessages().size() > 0)) {

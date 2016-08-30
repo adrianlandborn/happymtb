@@ -1,5 +1,6 @@
 package org.happymtb.unofficial.fragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.happymtb.unofficial.KoSObjectActivity;
@@ -36,6 +37,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -45,7 +47,8 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 public class KoSListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener,
-		MainActivity.SortListener, MainActivity.SearchListener, GestureDetector.OnGestureListener {
+		MainActivity.SortListener, MainActivity.SearchListener, GestureDetector.OnGestureListener,
+        AbsListView.OnScrollListener {
     public static String TAG = "kos_frag";
 
 	public final static String SORT_ORDER_POS = "sort_order_pos";
@@ -248,37 +251,40 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		return super.onOptionsItemSelected(item);
 	}	
 
-	public void refreshList() {
+	public void reloadCleanList() {
         mKoSData.setCurrentPage(1);
         mKoSAdapter = null;
 		fetchData();
 	}
 
-	private void fetchData() {
-        showProgress(true);
-		mKoSTask = new KoSListTask();
-		mKoSTask.addKoSListListener(new KoSListListener() {
-            public void success(List<KoSListItem> koSListItems) {
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    mKoSData.setKoSItems(koSListItems);
-                    fillList();
-                }
-                showProgress(false);
-            }
-
-            public void fail() {
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    Toast.makeText(mActivity, mActivity.getString(R.string.kos_no_items_found), Toast.LENGTH_LONG).show();
-
+    @Override
+    protected void fetchData() {
+		if (hasNetworkConnection()) {
+            mKoSTask = new KoSListTask();
+            mKoSTask.addKoSListListener(new KoSListListener() {
+                public void success(List<KoSListItem> koSListItems) {
+                    if (getActivity() != null && !getActivity().isFinishing()) {
+                        mKoSData.setKoSItems(koSListItems);
+                        fillList();
+                    }
+                    showList(true);
                     showProgress(false);
                 }
-            }
-        });
-		mKoSTask.execute(mKoSData.getSearchString(), mKoSData.getCategory(), mKoSData.getRegion(), mKoSData.getType(),
-				"" /*category2*/, ""/*county2*/, ""/*type2*/, ""/*price*/, ""/*year*/, mKoSData.getCurrentPage(),
-                mKoSData.getSortAttributeServer(), mKoSData.getSortOrderServer());
 
-		//?search=&category=1&county=&type=1&category2=&county2=&type2=&price=3&year=2013&p=1&sortattribute=creationdate&sortorder=DESC
+                public void fail() {
+                    if (getActivity() != null && !getActivity().isFinishing()) {
+                        Toast.makeText(mActivity, mActivity.getString(R.string.kos_no_items_found), Toast.LENGTH_LONG).show();
+
+                        showProgress(false);
+                    }
+                }
+            });
+            mKoSTask.execute(mKoSData.getSearchString(), mKoSData.getCategory(), mKoSData.getRegion(), mKoSData.getType(),
+                    "" /*category2*/, ""/*county2*/, ""/*type2*/, ""/*price*/, ""/*year*/, mKoSData.getCurrentPage(),
+                    mKoSData.getSortAttributeServer(), mKoSData.getSortOrderServer());
+
+            //?search=&category=1&county=&type=1&category2=&county2=&type2=&price=3&year=2013&p=1&sortattribute=creationdate&sortorder=DESC
+        }
 	}
 
 	private void fillList() {
@@ -487,4 +493,14 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 //        }
 		return false;
 	}
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+    }
 }
