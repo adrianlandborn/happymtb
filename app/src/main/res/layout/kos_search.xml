@@ -32,8 +32,7 @@
         android:layout_height="wrap_content"
         android:drawSelectorOnTop="true"
         android:minHeight="36dp"
-        android:entries="@array/kos_dialog_search_category_name"
-    />
+        android:entries="@array/kos_dialog_search_category_name"/>
 
     <TextView		 	
 	    android:layout_width="fill_parent"
@@ -66,6 +65,36 @@
         android:minHeight="36dp"
         android:entries="@array/kos_dialog_search_type"
     />
+
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:textSize="15sp"
+		android:textStyle="bold"
+		android:text="Pris"/>
+
+	<Spinner
+		android:id="@+id/kos_dialog_search_price"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:drawSelectorOnTop="true"
+		android:minHeight="36dp"
+		android:entries="@array/kos_dialog_search_price"/>
+
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:textSize="15sp"
+		android:textStyle="bold"
+		android:text="Årsmodell"/>
+
+	<Spinner
+		android:id="@+id/kos_dialog_search_year"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:drawSelectorOnTop="true"
+		android:minHeight="36dp"
+		android:entries="@array/kos_dialog_search_year"/>
 	<Button
         android:id="@+id/kos_dialog_search_clear_all"
 		android:layout_width="wrap_content"

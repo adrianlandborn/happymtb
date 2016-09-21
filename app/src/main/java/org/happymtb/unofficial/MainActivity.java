@@ -331,7 +331,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public interface SearchListener {
-        void onSearchParamChanged(String text, int category, int region, int type);
+        void onSearchParamChanged(String text, int category, int region, int type, int price, int year);
     }
 
     public void addSortListener(SortListener l) {
@@ -364,9 +364,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onSearchData(String text, int category, int region, int type) {
+    public void onSearchData(String text, int category, int region, int type, int price, int year) {
         for (SearchListener l : mSearchListeners) {
-            l.onSearchParamChanged(text, category, region, type);
+            l.onSearchParamChanged(text, category, region, type,price,year);
         }
     }
 }

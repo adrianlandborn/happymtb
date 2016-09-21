@@ -36,7 +36,7 @@ public class KoSSearchDialogFragment extends DialogFragment {
     }
 
 	public interface SearchDialogDataListener {
-		void onSearchData(String text, int category, int region, int type);
+		void onSearchData(String text, int category, int region, int type, int price, int year);
 	}
 
 	@Override
@@ -62,6 +62,8 @@ public class KoSSearchDialogFragment extends DialogFragment {
 		final Spinner searchCategory = (Spinner) view.findViewById(R.id.kos_dialog_search_category);
 		final Spinner searchRegion = (Spinner) view.findViewById(R.id.kos_dialog_search_region);
 		final Spinner searchType = (Spinner) view.findViewById(R.id.kos_dialog_search_type);
+		final Spinner searchPrice = (Spinner) view.findViewById(R.id.kos_dialog_search_price);
+		final Spinner searchYear = (Spinner) view.findViewById(R.id.kos_dialog_search_year);
 
 		clearAllButton = (Button) view.findViewById(R.id.kos_dialog_search_clear_all);
 
@@ -69,21 +71,25 @@ public class KoSSearchDialogFragment extends DialogFragment {
 		searchCategory.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_CATEGORY_SPINNER, 0));
 		searchRegion.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_REGION_SPINNER, 0));
 		searchType.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_TYPE_SPINNER, 0));
+		searchPrice.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_PRICE_SPINNER, 0));
+		searchYear.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_YEAR_SPINNER, 0));
 
-				builder.setPositiveButton(R.string.search, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-								String searchText = "";
-								if (searchEditText.getText() != null) {
-									searchText = searchEditText.getText().toString().trim();
-								}
-								activity.onSearchData(
-										searchText,
-										searchCategory.getSelectedItemPosition(),
-										searchRegion.getSelectedItemPosition(),
-										searchType.getSelectedItemPosition());
-					}
-				});
+		builder.setPositiveButton(R.string.search, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				String searchText = "";
+				if (searchEditText.getText() != null) {
+					searchText = searchEditText.getText().toString().trim();
+				}
+				activity.onSearchData(
+						searchText,
+						searchCategory.getSelectedItemPosition(),
+						searchRegion.getSelectedItemPosition(),
+						searchType.getSelectedItemPosition(),
+						searchPrice.getSelectedItemPosition(),
+						searchYear.getSelectedItemPosition());
+			}
+		});
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 KoSSearchDialogFragment.this.getDialog().cancel();
@@ -102,7 +108,9 @@ public class KoSSearchDialogFragment extends DialogFragment {
 				updateClearAllButton(searchEditText.getText().toString().trim(),
 						searchCategory.getSelectedItemPosition(),
 						searchRegion.getSelectedItemPosition(),
-						searchType.getSelectedItemPosition());
+						searchType.getSelectedItemPosition(),
+                        searchPrice.getSelectedItemPosition(),
+                        searchType.getSelectedItemPosition());
 			}
 		});
 
@@ -112,7 +120,9 @@ public class KoSSearchDialogFragment extends DialogFragment {
 				updateClearAllButton(searchEditText.getText().toString().trim(),
 						searchCategory.getSelectedItemPosition(),
 						searchRegion.getSelectedItemPosition(),
-						searchType.getSelectedItemPosition());
+						searchType.getSelectedItemPosition(),
+                        searchPrice.getSelectedItemPosition(),
+                        searchYear.getSelectedItemPosition());
 			}
 
 			@Override
@@ -122,6 +132,8 @@ public class KoSSearchDialogFragment extends DialogFragment {
 		searchCategory.setOnItemSelectedListener(selectedListener);
 		searchRegion.setOnItemSelectedListener(selectedListener);
 		searchType.setOnItemSelectedListener(selectedListener);
+		searchPrice.setOnItemSelectedListener(selectedListener);
+		searchYear.setOnItemSelectedListener(selectedListener);
 
 		clearAllButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -130,15 +142,17 @@ public class KoSSearchDialogFragment extends DialogFragment {
 				searchCategory.setSelection(0);
 				searchRegion.setSelection(0);
 				searchType.setSelection(0);
+				searchPrice.setSelection(0);
+				searchYear.setSelection(0);
 
-				updateClearAllButton("", 0, 0, 0);
+				updateClearAllButton("", 0, 0, 0, 0, 0);
 			}
 		});
 		return builder.create();
 	}
 
-    private void updateClearAllButton(String text, int cat, int region, int type) {
-		if (TextUtils.isEmpty(text) && cat == 0 && region == 0 && type == 0) {
+    private void updateClearAllButton(String text, int cat, int region, int type, int price, int year) {
+		if (TextUtils.isEmpty(text) && cat == 0 && region == 0 && type == 0 && price == 0 && year == 0) {
 			clearAllButton.setEnabled(false);
 		} else {
 			clearAllButton.setEnabled(true);

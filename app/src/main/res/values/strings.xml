@@ -27,7 +27,7 @@
     <string name="thread_reply">Svara</string>
 
     <string name="kos_page">Sida:&#160;</string>
-    <string name="kos_by">&#160;av&#160;</string>
+    <string name="kos_by">/</string>
     <string name="kos_one">1</string>
 
     <string name="removed">Annonsen borttagen</string>
@@ -68,4 +68,10 @@
     <string name="logged_in_as">"Inloggad som "</string>
     <string name="remove">"Ta bort"</string>
     <string name="reload">Ladda om</string>
+
+    <string name="all_regions">Hela Sverige</string>
+    <string name="all_categories">Alla Kategorier</string>
+    <string name="all_prices">Alla Priser</string>
+    <string name="all_years">Alla Årsmodeller</string>
+
 </resources>

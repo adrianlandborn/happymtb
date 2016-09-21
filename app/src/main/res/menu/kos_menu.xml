@@ -14,8 +14,14 @@
         android:icon="@drawable/ic_action_next"
         happy:showAsAction="always"
         android:title="Nästa sida" 
-        android:visible="true">
+        android:visible="false">
     </item>
+
+	<item
+		android:id="@+id/kos_search_option"
+		android:icon="@drawable/ic_action_search_light"
+		happy:showAsAction="always"
+		android:title="Sök" />
 
     <item android:id="@+id/kos_submenu"
         android:icon="@drawable/ic_action_submenu"
@@ -26,11 +32,6 @@
             	android:id="@+id/kos_go_to_page"
             	android:icon="@drawable/ic_action_go_to"
                 android:title="Gå till sidan..." />    	            
-
-    		<item
-            	android:id="@+id/kos_search"
-            	android:icon="@drawable/ic_action_search"
-                android:title="Sök" />
 
     		<item
             	android:id="@+id/kos_sort"
