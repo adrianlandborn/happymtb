@@ -233,6 +233,7 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
             boolean isSold = cursor.getInt(cursor.getColumnIndex(MySQLiteHelper.COLUMN_SOLD)) == 1;
 
             String imageUrl = cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_IMAGE_LINK));
+            imageUrl = imageUrl.replace("http://", "https://");
             if (!TextUtils.isEmpty(imageUrl)) {
                 imageUrl = imageUrl.replace("large.jpg", "medium.jpg");
                 Picasso.with(context).load(imageUrl).into(mObjectImageView);
