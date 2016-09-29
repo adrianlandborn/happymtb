@@ -20,7 +20,7 @@ import org.happymtb.unofficial.item.Person;
 import org.happymtb.unofficial.listener.KoSObjectListener;
 
 public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
-    public static final String BASE_URL = "http://happyride.se";
+    public static final String BASE_URL = "https://happyride.se";
     public static final String ITEM_REMOVED = "Hittade ingen annons";
     private ArrayList<KoSObjectListener> mKoSObjectListenerList;
 	private KoSObjectItem mKoSObjectItem;

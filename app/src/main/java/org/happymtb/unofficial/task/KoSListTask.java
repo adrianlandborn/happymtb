@@ -56,7 +56,7 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
         start = getStart(KoSStr, "src=\"", start);
 //        Start = KoSStr.indexOf("src=\"", Start) + 5;
         end = KoSStr.indexOf("\" border=\"0\" ", start);
-        imgLink = ("http://happyride.se" + KoSStr.substring(start, end)).replace("small", "normal");
+        imgLink = ("https://happyride.se" + KoSStr.substring(start, end)).replace("small", "normal");
         start = end;
 
         //Link

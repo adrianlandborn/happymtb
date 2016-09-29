@@ -162,15 +162,15 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
             case R.id.message_go_to_page:
                 AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
 
-                alert.setTitle("Gå till sidan...");
-                alert.setMessage("Skriv in sidnummer som du vill hoppa till (1 - " + mMessageData.getMaxPages() + ")");
+                alert.setTitle(R.string.goto_page);
+                alert.setMessage(getString(R.string.enter_page_number, mMessageData.getMaxPages()));
 
                 // Set an EditText view to get user input
                 final EditText input = new EditText(mActivity);
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
                 alert.setView(input);
 
-                alert.setPositiveButton(R.string.jump, new DialogInterface.OnClickListener() {
+                alert.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // Do something with value!
                         if (HappyUtils.isInteger(input.getText().toString())) {

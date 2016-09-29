@@ -1,8 +1,8 @@
 package org.happymtb.unofficial.fragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.droidparts.widget.ClearableEditText;
 import org.happymtb.unofficial.KoSObjectActivity;
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
@@ -18,6 +18,7 @@ import org.happymtb.unofficial.task.KoSListTask;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,28 +29,31 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GestureDetectorCompat;
+import android.text.Editable;
 import android.text.InputType;
-import android.view.GestureDetector;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 public class KoSListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener,
-		MainActivity.SortListener, MainActivity.SearchListener, GestureDetector.OnGestureListener,
-        AbsListView.OnScrollListener, View.OnClickListener {
+		MainActivity.SortListener, View.OnClickListener {
     public static String TAG = "kos_frag";
 
 	public final static String SORT_ORDER_POS = "sort_order_pos";
@@ -91,6 +95,18 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	private ImageButton prevPageButton;
 	private ImageButton nextPageImageButton;
 
+    private ClearableEditText searchEditText;
+    private Spinner searchCategory;
+    private Spinner searchRegion;
+    private Spinner searchType;
+    private Spinner searchPrice;
+    private Spinner searchYear;
+
+
+    private Button mClearSearchButton;
+
+    private SlidingMenu mSlidingMenu;
+
     protected GestureDetectorCompat mDetector;
 
 
@@ -127,25 +143,123 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
                     mPreferences.getInt(SEARCH_YEAR_POS, 0), mPreferences.getString(SEARCH_YEAR, getString(R.string.all_years)),
                     mPreferences.getString(SEARCH_TEXT, ""));
             fetchData();
+
         }
 
-        mDetector = new GestureDetectorCompat(getActivity(), this);
-        getListView().setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                boolean consumed = mDetector.onTouchEvent(event);
-                // Be sure to call the superclass implementation
+        mActivity.findViewById(R.id.kos_bottombar).setOnClickListener(this);
 
-                if (consumed) {
-                    return true;
-                } else {
-                    return getActivity().onTouchEvent(event);
+        setupSearchSlidingMenu();
+
+	}
+
+    private void setupSearchSlidingMenu() {
+        mSlidingMenu = mActivity.getKosSlidingMenu();
+
+        if (mSlidingMenu == null) {
+            mSlidingMenu = new SlidingMenu(mActivity);
+            mSlidingMenu.setMode(SlidingMenu.RIGHT);
+            mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+            mSlidingMenu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
+            mSlidingMenu.setShadowDrawable(R.drawable.slidemenu_shadow);
+//          mSlidingMenu.setBehindScrollScale(R.dimen.slidingmenu_behind_scroll_scale);
+            mSlidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+            mSlidingMenu.setFadeDegree(0.85f);
+            mSlidingMenu.setBehindWidthRes(R.dimen.slidingmenu_width);
+            mSlidingMenu.setMenu(R.layout.kos_search_slide);mSlidingMenu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
+                @Override
+                public void onOpened() {
+                    // [START Google analytics screen]
+                    mTracker.setScreenName(GaConstants.Categories.KOS_SORT_MENU);
+                    mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+                    // [END Google analytics screen]
                 }
+            });
+
+            mSlidingMenu.attachToActivity(mActivity, SlidingMenu.SLIDING_CONTENT);
+
+            mActivity.setKosSlidingMenu(mSlidingMenu);
+        } else {
+            // TODO remove old listeners before adding new ones?
+        }
+
+        searchEditText = (ClearableEditText) mActivity.findViewById(R.id.kos_dialog_search_text);
+        searchCategory = (Spinner) mActivity.findViewById(R.id.kos_dialog_search_category);
+        searchRegion = (Spinner) mActivity.findViewById(R.id.kos_dialog_search_region);
+        searchType = (Spinner) mActivity.findViewById(R.id.kos_dialog_search_type);
+        searchPrice = (Spinner) mActivity.findViewById(R.id.kos_dialog_search_price);
+        searchYear = (Spinner) mActivity.findViewById(R.id.kos_dialog_search_year);
+
+        mClearSearchButton = (Button) mActivity.findViewById(R.id.kos_dialog_search_clear_all);
+
+        searchEditText.setText(mPreferences.getString(KoSListFragment.SEARCH_TEXT, ""));
+        searchCategory.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_CATEGORY_SPINNER, 0), false);
+        searchRegion.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_REGION_SPINNER, 0), false);
+        searchType.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_TYPE_SPINNER, 0), false);
+        searchPrice.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_PRICE_SPINNER, 0), false);
+        searchYear.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_YEAR_SPINNER, 0), false);
+
+        updateClearAllButton();
+
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateClearAllButton();
+                updateSearchParams();
             }
         });
 
-        mActivity.findViewById(R.id.kos_bottombar).setOnClickListener(this);
-	}
+        AdapterView.OnItemSelectedListener selectedListener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                updateClearAllButton();
+                updateSearchParams();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        };
+
+        searchCategory.setOnItemSelectedListener(selectedListener);
+        searchRegion.setOnItemSelectedListener(selectedListener);
+        searchType.setOnItemSelectedListener(selectedListener);
+        searchPrice.setOnItemSelectedListener(selectedListener);
+        searchYear.setOnItemSelectedListener(selectedListener);
+
+        mClearSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchEditText.setText("");
+                searchCategory.setSelection(0, false);
+                searchRegion.setSelection(0, false);
+                searchType.setSelection(0, false);
+                searchPrice.setSelection(0, false);
+                searchYear.setSelection(0, false);
+
+                updateClearAllButton();
+            }
+        });
+    }
+
+    private void updateClearAllButton() {
+        if (TextUtils.isEmpty(searchEditText.getText().toString().trim())
+                && searchCategory.getSelectedItemPosition() == 0
+                && searchRegion.getSelectedItemPosition() == 0
+                && searchType.getSelectedItemPosition() == 0
+                && searchPrice.getSelectedItemPosition() == 0
+                && searchYear.getSelectedItemPosition() == 0) {
+            mClearSearchButton.setEnabled(false);
+            mClearSearchButton.setTextColor(getResources().getColor(R.color.grey_light));
+        } else {
+            mClearSearchButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+            mClearSearchButton.setEnabled(true);
+        }
+    }
 
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -158,7 +272,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		mTracker.setScreenName(GaConstants.Categories.KOS_LIST);
 		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 		// [END Google analytics screen]
-
 
 	}
 
@@ -176,17 +289,15 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
     }
 
     @Override
-    public void onAttach(Activity activity) {
-		super.onAttach(activity);
+    public void onAttach(Context context) {
+		super.onAttach(context);
         ((MainActivity) getActivity()).addSortListener(this);
-        ((MainActivity) getActivity()).addSearchListener(this);
 	}
 
     @Override
     public void onDetach() {
         super.onDetach();
         ((MainActivity) getActivity()).removeSortListener(this);
-        ((MainActivity) getActivity()).removeSearchListener(this);
     }
 
     @Override
@@ -219,43 +330,10 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	        koSSortDialog.show(fragmentManager, "kos_sort_dialog");
 			return true;						
 		case R.id.kos_search_option:
-			fragmentManager = mActivity.getSupportFragmentManager();
-			KoSSearchDialogFragment koSSearchDialog = new KoSSearchDialogFragment();
-	        koSSearchDialog.show(fragmentManager, "kos_search_dialog");
-			return true;			
-		case R.id.kos_go_to_page:			
-			AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
-			alert.setTitle(R.string.goto_page);
-			alert.setMessage(getString(R.string.enter_page_number, mKoSData.getMaxPages()));
-
-			// Set an EditText view to get user input 
-			final EditText input = new EditText(mActivity);
-			input.setInputType(InputType.TYPE_CLASS_NUMBER);
-			alert.setView(input);
-			alert.setPositiveButton(R.string.jump, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					// Do something with value!
-					if (HappyUtils.isInteger(input.getText().toString())) {
-						// [START Google analytics screen]
-						mTracker.setScreenName(GaConstants.Categories.KOS_GOTO_DIALOG);
-						mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-						// [END Google analytics screen]
-						mKoSData.setCurrentPage(Integer.parseInt(input.getText().toString()));
-						fetchData();
-					}
-				}
-			});
-
-			alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					// Canceled.
-				}
-			});
-			final AlertDialog dialog = alert.create();
-
-			input.addTextChangedListener(new PageTextWatcher(dialog, mKoSData.getMaxPages()));
-
-			dialog.show();
+            mSlidingMenu.toggle();
+			return true;
+		case R.id.kos_go_to_page:
+            openGoToPage();
 			return true;	
 		case R.id.kos_new_item:
 			String url = "http://happyride.se/annonser/add.php";
@@ -265,9 +343,44 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 			return true;			
 		}
 		return super.onOptionsItemSelected(item);
-	}	
+	}
 
-	public void reloadCleanList() {
+    private void openGoToPage() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
+        alert.setTitle(R.string.goto_page);
+        alert.setMessage(getString(R.string.enter_page_number, mKoSData.getMaxPages()));
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(mActivity);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        alert.setView(input);
+        alert.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Do something with value!
+                if (HappyUtils.isInteger(input.getText().toString())) {
+                    // [START Google analytics screen]
+                    mTracker.setScreenName(GaConstants.Categories.KOS_GOTO_DIALOG);
+                    mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+                    // [END Google analytics screen]
+                    mKoSData.setCurrentPage(Integer.parseInt(input.getText().toString()));
+                    fetchData();
+                }
+            }
+        });
+
+        alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+        final AlertDialog dialog = alert.create();
+
+        input.addTextChangedListener(new PageTextWatcher(dialog, mKoSData.getMaxPages()));
+
+        dialog.show();
+    }
+
+    public void reloadCleanList() {
         mKoSData.setCurrentPage(1);
         mKoSAdapter = null;
 		fetchData();
@@ -312,46 +425,47 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
             return;
         } else if (mKoSAdapter == null) {
-			mKoSAdapter = new ListKoSAdapter(mActivity, mKoSData.getKoSItems());
+            mKoSAdapter = new ListKoSAdapter(mActivity, mKoSData.getKoSItems());
 			setListAdapter(mKoSAdapter);
 		} else {
-			mKoSAdapter.setItems(mKoSData.getKoSItems());
+            mKoSAdapter.setItems(mKoSData.getKoSItems());
 			mKoSAdapter.notifyDataSetChanged();
 		}
 
-		TextView currentPage = (TextView) mActivity.findViewById(R.id.kos_current_page);
-		currentPage.setText(Integer.toString(mKoSData.getCurrentPage()));
-		
-		TextView maxPages = (TextView) mActivity.findViewById(R.id.kos_no_of_pages);
-		maxPages.setText(Integer.toString(mKoSData.getKoSItems().get(0).getNumberOfKoSPages()));
-		mKoSData.setMaxPages(mKoSData.getKoSItems().get(0).getNumberOfKoSPages());
-				
-		TextView category = (TextView) mActivity.findViewById(R.id.kos_category);
-		category.setText("Kategori: " + mKoSData.getCategoryStr());
+        if (mActivity.findViewById(R.id.kos_bottombar) != null) {
+            TextView currentPage = (TextView) mActivity.findViewById(R.id.kos_current_page);
+            currentPage.setText(Integer.toString(mKoSData.getCurrentPage()));
 
-		TextView region = (TextView) mActivity.findViewById(R.id.kos_region);
-		region.setText("Region: " + mKoSData.getRegionStr());
+            TextView maxPages = (TextView) mActivity.findViewById(R.id.kos_no_of_pages);
+            maxPages.setText(Integer.toString(mKoSData.getKoSItems().get(0).getNumberOfKoSPages()));
+            mKoSData.setMaxPages(mKoSData.getKoSItems().get(0).getNumberOfKoSPages());
 
-		TextView search = (TextView) mActivity.findViewById(R.id.kos_search);
-		
-		String searchString = mKoSData.getSearchString();
-		
-		if (searchString.length() > 0) {
-			search.setVisibility(View.VISIBLE);
-			search.setText("Sökord: " + searchString);
-		} else {
-			search.setVisibility(View.GONE);
-			search.setText("");
-		}
-		
+            TextView category = (TextView) mActivity.findViewById(R.id.kos_category);
+            category.setText("Kategori: " + mKoSData.getCategoryStr());
+
+            TextView region = (TextView) mActivity.findViewById(R.id.kos_region);
+            region.setText("Region: " + mKoSData.getRegionStr());
+
+            TextView search = (TextView) mActivity.findViewById(R.id.kos_search);
+
+            String searchString = mKoSData.getSearchString();
+
+            if (searchString.length() > 0) {
+                search.setVisibility(View.VISIBLE);
+                search.setText("Sökord: " + searchString);
+            } else {
+                search.setVisibility(View.GONE);
+                search.setText("");
+            }
+
 //		TextView sortView = (TextView) mActivity.findViewById(R.id.kos_sort);
 //		sortView.setText(" (Sortering: "
 //				+ HappyUtils.getSortAttrNameLocal(mActivity, mKoSData.getSortAttributePosition()) + ", "
 //				+ HappyUtils.getSortOrderNameLocal(mActivity, mKoSData.getSortOrderPosition()) + ")");
 
-        prevPageButton.setVisibility(mKoSData.getCurrentPage() > 1 ? View.VISIBLE : View.INVISIBLE);
-        nextPageImageButton.setVisibility(mKoSData.getCurrentPage() < mKoSData.getMaxPages() ? View.VISIBLE : View.INVISIBLE);
-//		getActivity().invalidateOptionsMenu();
+            prevPageButton.setVisibility(mKoSData.getCurrentPage() > 1 ? View.VISIBLE : View.INVISIBLE);
+            nextPageImageButton.setVisibility(mKoSData.getCurrentPage() < mKoSData.getMaxPages() ? View.VISIBLE : View.INVISIBLE);
+        }
 	}
 
 	public void nextPage() {
@@ -420,28 +534,32 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		fetchData();
     }
 
-	@Override
-	public void onSearchParamChanged(String text, int categoryPos, int regionPos, int typePos, int pricePos, int yearPos) {
-		// Sökord
-        if (text != null) {
-            // TODO Should not be null
-            mKoSData.setSearch(text);
-        }
-		// Cyklar, Ramar, Komponenter...
-		String categoryArrayPosition[] = getResources().getStringArray(R.array.kos_dialog_search_category_position);
-		String categoryArrayName[] = getResources().getStringArray(R.array.kos_dialog_search_category_name);
-		mKoSData.setCategoryPos(Integer.parseInt(categoryArrayPosition[categoryPos]));
-		mKoSData.setCategoryName(categoryArrayName[categoryPos]);
+    public void updateSearchParams() {
+        String text = searchEditText.getText().toString().trim();
+        int categoryPos = searchCategory.getSelectedItemPosition();
+        int regionPos = searchRegion.getSelectedItemPosition();
+        int typePos = searchType.getSelectedItemPosition();
+        int pricePos = searchPrice.getSelectedItemPosition();
+        int yearPos = searchYear.getSelectedItemPosition();
 
-		// Skåne, Blekinge, Halland...
-		String regionArrayPosition[] = getResources().getStringArray(R.array.dialog_search_region_position);
-		String regionArrayName[] = getResources().getStringArray(R.array.dialog_search_region_name);
-		mKoSData.setRegionPos(Integer.parseInt(regionArrayPosition[regionPos]));
-		mKoSData.setRegionName(regionArrayName[regionPos]);
+        // Sökord
+         mKoSData.setSearch(text);
 
-		// Alla, Säljes, Köpes
-		String typeArrayPosition[] = getResources().getStringArray(R.array.kos_dialog_search_type_position);
-		mKoSData.setTypePosServer(Integer.parseInt(typeArrayPosition[typePos]));
+        // Cyklar, Ramar, Komponenter...
+        String categoryArrayPosition[] = getResources().getStringArray(R.array.kos_dialog_search_category_position);
+        String categoryArrayName[] = getResources().getStringArray(R.array.kos_dialog_search_category_name);
+        mKoSData.setCategoryPos(Integer.parseInt(categoryArrayPosition[categoryPos]));
+        mKoSData.setCategoryName(categoryArrayName[categoryPos]);
+
+        // Skåne, Blekinge, Halland...
+        String regionArrayPosition[] = getResources().getStringArray(R.array.dialog_search_region_position);
+        String regionArrayName[] = getResources().getStringArray(R.array.dialog_search_region_name);
+        mKoSData.setRegionPos(Integer.parseInt(regionArrayPosition[regionPos]));
+        mKoSData.setRegionName(regionArrayName[regionPos]);
+
+        // Alla, Säljes, Köpes
+        String typeArrayPosition[] = getResources().getStringArray(R.array.kos_dialog_search_type_position);
+        mKoSData.setTypePosServer(Integer.parseInt(typeArrayPosition[typePos]));
 
         // Priser...
         String priceArrayPosition[] = getResources().getStringArray(R.array.kos_dialog_search_price_position);
@@ -455,16 +573,16 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         mKoSData.setYearPos(Integer.parseInt(yearArrayPosition[yearPos]));
         mKoSData.setYearName(yearArrayName[yearPos]);
 
-		Editor edit = mPreferences.edit();
-		edit.putString(SEARCH_TEXT, text);
+        Editor edit = mPreferences.edit();
+        edit.putString(SEARCH_TEXT, text);
 
-		edit.putInt(SEARCH_CATEGORY_POS, Integer.parseInt(categoryArrayPosition[categoryPos]));
-		edit.putString(SEARCH_CATEGORY, categoryArrayName[categoryPos]);
+        edit.putInt(SEARCH_CATEGORY_POS, Integer.parseInt(categoryArrayPosition[categoryPos]));
+        edit.putString(SEARCH_CATEGORY, categoryArrayName[categoryPos]);
 
-		edit.putInt(SEARCH_REGION_POS, Integer.parseInt(regionArrayPosition[regionPos]));
-		edit.putString(SEARCH_REGION, regionArrayName[regionPos]);
+        edit.putInt(SEARCH_REGION_POS, Integer.parseInt(regionArrayPosition[regionPos]));
+        edit.putString(SEARCH_REGION, regionArrayName[regionPos]);
 
-		edit.putInt(SEARCH_TYPE_POS, Integer.parseInt(typeArrayPosition[typePos]));
+        edit.putInt(SEARCH_TYPE_POS, Integer.parseInt(typeArrayPosition[typePos]));
 
         edit.putInt(SEARCH_PRICE_POS, Integer.parseInt(priceArrayPosition[pricePos]));
         edit.putString(SEARCH_PRICE, priceArrayName[pricePos]);
@@ -481,10 +599,10 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
         edit.apply();
 
-		mKoSData.setCurrentPage(1);
-		mKoSAdapter = null;
-		fetchData();
-	}
+        mKoSData.setCurrentPage(1);
+        mKoSAdapter = null;
+        fetchData();
+    }
 
 	@Override
 	public void onClick(View v) {
@@ -495,9 +613,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 			nextPage();
 			sendGaEvent(GaConstants.Actions.NEXT_PAGE, GaConstants.Labels.EMPTY);
 		} else if (v.getId() == R.id.kos_bottombar) {
-			fragmentManager = mActivity.getSupportFragmentManager();
-			KoSSearchDialogFragment koSSearchDialog = new KoSSearchDialogFragment();
-			koSSearchDialog.show(fragmentManager, "kos_search_dialog");
+			openGoToPage();
 		}
 	}
 
@@ -508,54 +624,4 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 				.setLabel(label)
 				.build());
 	}
-
-	@Override
-	public boolean onDown(MotionEvent e) {
-		return false;
-	}
-
-	@Override
-	public void onShowPress(MotionEvent e) {
-	}
-
-	@Override
-	public boolean onSingleTapUp(MotionEvent e) {
-		return false;
-	}
-
-	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-		return false;
-	}
-
-	@Override
-	public void onLongPress(MotionEvent e) {
-
-	}
-
-	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-		//TODO A bit buggy. Need to find a better solution
-//        if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-//             //"Left Swipe"
-//            nextPage();
-//            return true;
-//        }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-//             //"Right Swipe"
-//            previousPage();
-//            return true;
-//        }
-		return false;
-	}
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-    }
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-    }
-
 }

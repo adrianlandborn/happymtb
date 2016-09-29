@@ -21,6 +21,7 @@ public abstract class RefreshListfragment extends ListFragment {
     public final static String CURRENT_PAGE = "current_page";
     public final static String CURRENT_POSITION = "current_position";
     public final static String DATA = "data";
+    public final static String SLIDE_MENU_ID = "slide_menu_id";
     public final static String LOGGED_IN = "logged_in";
 
     protected static final int SWIPE_MIN_DISTANCE = 130;

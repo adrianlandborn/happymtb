@@ -57,21 +57,23 @@
     <string name="calendar_no_items_found">Kalendern gick inte att hämta</string>
     <string name="messages_not_found">Kunde inte hämta meddelanden</string>
     <string name="OK">OK</string>
-    <string name="jump">Hoppa</string>
+    <string name="open">Öppna</string>
     <string name="search">Sök</string>
     <string name="sort">Sortera</string>
     <string name="cancel">Avbryt</string>
-    <string name="enter_page_number">Skriv in sidnummer som du vill hoppa till (1 - %1$d)</string>
-    <string name="goto_page">Gå till sidan...</string>
+    <string name="enter_page_number">Välj sidnummer: (1 - %1$d)</string>
+    <string name="goto_page">Öppna sida</string>
     <string name="error_message">Felmeddelande</string>
     <string name="not_logged_in">Ej inloggad</string>
     <string name="logged_in_as">"Inloggad som "</string>
-    <string name="remove">"Ta bort"</string>
+    <string name="remove">Ta bort</string>
     <string name="reload">Ladda om</string>
 
     <string name="all_regions">Hela Sverige</string>
     <string name="all_categories">Alla Kategorier</string>
     <string name="all_prices">Alla Priser</string>
     <string name="all_years">Alla Årsmodeller</string>
+
+    <string name="sorting">Sortering</string>
 
 </resources>
