@@ -17,6 +17,7 @@ package org.happymtb.unofficial;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -82,5 +83,16 @@ public class SimpleImageActivity extends AppCompatActivity {
 
         // Need to call clean-up
         mAttacher.cleanup();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
