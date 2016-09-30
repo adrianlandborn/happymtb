@@ -1,5 +1,6 @@
 package org.happymtb.unofficial.fragment;
 
+import org.happymtb.unofficial.SimpleImageActivity;
 import org.happymtb.unofficial.WebViewActivity;
 import org.happymtb.unofficial.ZoomImageActivity;
 import org.happymtb.unofficial.analytics.GaConstants;
@@ -300,14 +301,13 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
             @Override
             public void onClick(View v) {
                 String largeImageUrl = url.replace("normal", "large");
-                Intent zoomImageIntent = new Intent(getActivity(), ZoomImageActivity.class);
+                Intent zoomImageIntent = new Intent(getActivity(), SimpleImageActivity.class);
                 zoomImageIntent.putExtra("title", mKoSObjectItem.getTitle());
                 zoomImageIntent.putExtra("url", largeImageUrl);
                 startActivity(zoomImageIntent);
             }
         });
     }
-
 
     @Override
 	public void onCancel(DialogInterface dialog) {

@@ -1,6 +1,5 @@
 package org.happymtb.unofficial;
 
-import android.annotation.SuppressLint;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.os.Bundle;

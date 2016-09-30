@@ -16,7 +16,6 @@ import org.happymtb.unofficial.listener.KoSListListener;
 import org.happymtb.unofficial.listener.PageTextWatcher;
 import org.happymtb.unofficial.task.KoSListTask;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -169,7 +168,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
                 @Override
                 public void onOpened() {
                     // [START Google analytics screen]
-                    mTracker.setScreenName(GaConstants.Categories.KOS_SORT_MENU);
+                    mTracker.setScreenName(GaConstants.Categories.KOS_SEARCH_MENU);
                     mTracker.send(new HitBuilders.ScreenViewBuilder().build());
                     // [END Google analytics screen]
                 }

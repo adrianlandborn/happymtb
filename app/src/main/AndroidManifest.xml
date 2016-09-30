@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.happymtb.unofficial"
-    android:versionCode="46"
-    android:versionName="1.1.5" >
+    android:versionCode="47"
+    android:versionName="1.1.6beta" >
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -63,6 +63,16 @@
 
         <activity
             android:name=".ZoomImageActivity"
+            android:label="@string/app_name" >
+        </activity>
+
+        <activity
+            android:name=".SimpleImageActivity"
+            android:label="@string/app_name" >
+        </activity>
+
+        <activity
+            android:name=".samples.PhotoViewSimpleImageSampleActivity"
             android:label="@string/app_name" >
         </activity>
 
