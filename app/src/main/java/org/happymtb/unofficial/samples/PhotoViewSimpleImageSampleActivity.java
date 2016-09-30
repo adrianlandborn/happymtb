@@ -72,7 +72,7 @@ public class PhotoViewSimpleImageSampleActivity extends AppCompatActivity {
 //        mImageView.setImageDrawable(bitmap);
 
         Picasso.with(this).load(getIntent().getExtras().getString("url")).into(mImageView);
-        
+
         // The MAGIC happens here!
         mAttacher = new PhotoViewAttacher(mImageView);
 

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -48,7 +49,7 @@ public class KoSRowView extends LinearLayout {
 	public void setObjectImage(Drawable image) {
 		if (mObjectImageView != null) {
 			if (image == null) {
-				image = getResources().getDrawable(R.drawable.no_photo);
+				image =  ContextCompat.getDrawable(getContext(), R.drawable.no_photo);
 			}
 			mObjectImageView.setImageDrawable(image);
 		}

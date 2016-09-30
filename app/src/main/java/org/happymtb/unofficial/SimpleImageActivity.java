@@ -55,9 +55,9 @@ public class SimpleImageActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess() {
-                if(mAttacher != null){
+                if(mAttacher != null) {
                     mAttacher.update();
-                }else{
+                } else {
                     mAttacher = new PhotoViewAttacher(mImageView);
                 }
             }
