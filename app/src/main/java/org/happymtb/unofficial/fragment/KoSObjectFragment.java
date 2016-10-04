@@ -1,44 +1,36 @@
 package org.happymtb.unofficial.fragment;
 
-import org.happymtb.unofficial.SimpleImageActivity;
 import org.happymtb.unofficial.WebViewActivity;
-import org.happymtb.unofficial.ZoomImageActivity;
+import org.happymtb.unofficial.adapter.ViewPagerAdapter;
 import org.happymtb.unofficial.analytics.GaConstants;
 import org.happymtb.unofficial.database.KoSItemDataSource;
 import org.happymtb.unofficial.item.KoSListItem;
 import org.happymtb.unofficial.item.KoSObjectItem;
 import org.happymtb.unofficial.item.Person;
 import org.happymtb.unofficial.listener.KoSObjectListener;
-import org.happymtb.unofficial.task.KoSObjectImageTask;
 import org.happymtb.unofficial.task.KoSObjectTask;
 import org.happymtb.unofficial.KoSObjectActivity;
 import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.ui.ScaleImageView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.text.TextUtils;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
-
-import java.util.List;
+import com.viewpagerindicator.CirclePageIndicator;
 
 public class KoSObjectFragment extends Fragment implements DialogInterface.OnCancelListener, View.OnClickListener {
 	private final static int DIALOG_FETCH_KOS_ERROR = 0;
@@ -62,24 +54,13 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
     private boolean mIsSaved = false;
     private boolean mIsSold = false;
 
-    private int mCurrentImagePos = 0;
+    private ImageButton mActionPhone;
+    private ImageButton mActionSms;
+    private ImageButton mActionEmail;
+    private ImageButton mActionPM;
 
-	ImageButton mPrevButton;
-	ImageButton mNextButton;
-
-	ImageButton mActionPhone;
-	ImageButton mActionSms;
-	ImageButton mActionEmail;
-	ImageButton mActionPM;
-	FrameLayout mObjectImageFrameLayout;
-	ScaleImageView mObjectImageView;
-	ScaleImageView mObjectImageView2;
-    ScaleImageView mPrimaryImageView;
-    ScaleImageView mSecondaryImageView;
-	KoSObjectActivity mActivity;
-
-    String mUrl;
-
+	private KoSObjectActivity mActivity;
+    private String mUrl;
 	private KoSItemDataSource datasource;
 
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -88,7 +69,6 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mActivity = (KoSObjectActivity) getActivity();
 
 		mUrl = mActivity.getObjectLink();
-
 		if (mUrl.contains("&pm")) {
 			openInBrowser(mUrl, true);
 		}
@@ -102,19 +82,10 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		mText = (TextView) mActivity.findViewById(R.id.kos_object_text);
 		mPrice = (TextView) mActivity.findViewById(R.id.kos_object_price);
 		mYear = (TextView) mActivity.findViewById(R.id.kos_object_year_model);
-		mObjectImageFrameLayout = (FrameLayout) mActivity.findViewById(R.id.kos_object_image_frame);
-		mObjectImageView = (ScaleImageView) mActivity.findViewById(R.id.kos_object_image);
-		mObjectImageView2 = (ScaleImageView) mActivity.findViewById(R.id.kos_object_image2);
 		mScrollView = mActivity.findViewById(R.id.kos_object_scroll);
 		mProgressView = mActivity.findViewById(R.id.progress_container_id);
 		mNoNetworkView = mActivity.findViewById(R.id.no_network_layout);
 		mReloadButton = (Button)mActivity.findViewById(R.id.reload_button);
-
-        mPrimaryImageView = mObjectImageView;
-        mSecondaryImageView = mObjectImageView2;
-
-		mPrevButton = (ImageButton) mActivity.findViewById(R.id.kos_object_prev_image);
-		mNextButton = (ImageButton) mActivity.findViewById(R.id.kos_object_next_image);
 
 		mActionPhone = (ImageButton) mActivity.findViewById(R.id.kos_action_phone);
 		mActionSms = (ImageButton) mActivity.findViewById(R.id.kos_action_sms);
@@ -126,9 +97,6 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
         mActionSms.setOnClickListener(this);
         mActionEmail.setOnClickListener(this);
         mActionPM.setOnClickListener(this);
-
-        mPrevButton.setOnClickListener(this);
-        mNextButton.setOnClickListener(this);
 
         mReloadButton.setOnClickListener(this);
 
@@ -261,21 +229,13 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		}
 
 		if (!TextUtils.isEmpty(mKoSObjectItem.getImgLink())) {
-			mObjectImageView.setImageResource(R.drawable.no_photo);
-
-            //TODO Try out the translation/animation
-//			mObjectImageView2.setImageResource(R.drawable.no_photo);
-//			mObjectImageView2.setVisibility(View.VISIBLE);
-			final String url = mKoSObjectItem.getImgLink();
-
-
-            //TODO Use Picasso to download/cache
-//            Picasso.with(mActivity).load(url).into(mObjectImageView);
-            loadImage(mObjectImageView, url);
+            ViewPager viewPager = (ViewPager)mActivity.findViewById(R.id.view_pager);;
+            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(mActivity, mKoSObjectItem.getTitle(), mKoSObjectItem.getImgLinkList());
+            viewPager.setAdapter(viewPagerAdapter);
 
             if (mKoSObjectItem.getImgLinkList().size() > 1) {
-                mPrevButton.setVisibility(View.VISIBLE);
-                mNextButton.setVisibility(View.VISIBLE);
+                CirclePageIndicator pageIndicator = (CirclePageIndicator)mActivity.findViewById(R.id.view_pager_indicator);
+                pageIndicator.setViewPager(viewPager);
             }
 		}
 
@@ -294,21 +254,6 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
         mScrollView.setVisibility(View.VISIBLE);
 	}
 
-    private void loadImage(ImageView view, final String url) {
-        view.setTag(url);
-        new KoSObjectImageTask(view).execute();
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String largeImageUrl = url.replace("normal", "large");
-                Intent zoomImageIntent = new Intent(getActivity(), SimpleImageActivity.class);
-                zoomImageIntent.putExtra("title", mKoSObjectItem.getTitle());
-                zoomImageIntent.putExtra("url", largeImageUrl);
-                startActivity(zoomImageIntent);
-            }
-        });
-    }
-
     @Override
 	public void onCancel(DialogInterface dialog) {
 		if (mKoSObjectTask != null) {
@@ -318,7 +263,6 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
 	    switch (item.getItemId()) {
             case R.id.kos_object_favorite:
                 addToDatabase();
@@ -359,9 +303,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
     }
 
     private void addToDatabase() {
-        long row = datasource.insertKosItem(getKoSListItem());
-
-        if (row > 0) {
+        if (datasource.insertKosItem(getKoSListItem()) > 0) {
             mIsSaved = true;
         } else {
             Toast.makeText(mActivity, "Annonsen kunde inte sparas", Toast.LENGTH_SHORT).show();
@@ -369,9 +311,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
     }
 
     private void updateInDatabase() {
-        long row = datasource.updateKosItem(getKoSListItem());
-
-        if (row > 0) {
+        if (datasource.updateKosItem(getKoSListItem()) > 0) {
             mActivity.setResult(SavedListFragment.RESULT_MODIFIED, null);
         } else {
             Toast.makeText(mActivity, "Annonsen kunde inte uppdateras", Toast.LENGTH_SHORT).show();
@@ -418,7 +358,6 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 
 	@Override
 	public void onClick(View v) {
-
         if (v.getId() == R.id.reload_button) {
             mNoNetworkView.setVisibility(View.INVISIBLE);
             fetchKoSObject(mUrl);
@@ -437,76 +376,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
                 openInBrowser(mKoSObjectItem.getPerson().getEmailLink(), false);
             } else if (v.getId() == R.id.kos_action_pm) {
                 openInBrowser(mKoSObjectItem.getPerson().getPmLink(), false);
-            } else if (v.getId() == R.id.kos_object_prev_image) {
-                int pos = getPrevImagePos();
-                if (pos >= 0) {
-                    String url = mKoSObjectItem.getImgLinkList().get(pos);
-                    loadImage(mSecondaryImageView, url);
-                    mObjectImageView.setVisibility(View.VISIBLE);
-                    mObjectImageView2.setVisibility(View.VISIBLE);
-
-                    int width = getScreenWidth();
-                    mPrimaryImageView.animate().translationX(0).setDuration(0).start();
-                    mPrimaryImageView.animate().translationXBy(width).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator()).start();
-
-                    mSecondaryImageView.animate().translationX(-width).setDuration(0).start();
-                    mSecondaryImageView.animate().translationXBy(width).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator()).start();
-
-                    ScaleImageView temp = mPrimaryImageView;
-                    mPrimaryImageView = mSecondaryImageView;
-                    mSecondaryImageView = temp;
-
-                    mCurrentImagePos = pos;
-                }
-            } else if (v.getId() == R.id.kos_object_next_image) {
-                int pos = getNextImagePos();
-                if (pos >= 0) {
-                    String url = mKoSObjectItem.getImgLinkList().get(pos);
-                    loadImage(mSecondaryImageView, url);
-                    mObjectImageView.setVisibility(View.VISIBLE);
-                    mObjectImageView2.setVisibility(View.VISIBLE);
-
-                    int width = getScreenWidth();
-                    mPrimaryImageView.animate().translationX(0).setDuration(0).start();
-                    mPrimaryImageView.animate().translationXBy(-width).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator()).start();
-
-                    mSecondaryImageView.animate().translationX(width).setDuration(0).start();
-                    mSecondaryImageView.animate().translationXBy(-width).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator()).start();
-
-                    ScaleImageView temp = mPrimaryImageView;
-                    mPrimaryImageView = mSecondaryImageView;
-                    mSecondaryImageView = temp;
-
-                    mCurrentImagePos = pos;
-                }
             }
         }
 	}
-
-    private int getScreenWidth() {
-        Display display = mActivity.getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-
-        return size.x;
-    }
-
-    private int getPrevImagePos() {
-        if (mKoSObjectItem == null || mKoSObjectItem.getImgLinkList() == null
-                || mKoSObjectItem.getImgLinkList().size() <= 1) {
-            return -1;
-        }
-        List list = mKoSObjectItem.getImgLinkList();
-        return (mCurrentImagePos - 1 + list.size()) % list.size();
-    }
-
-    private int getNextImagePos() {
-        if (mKoSObjectItem == null || mKoSObjectItem.getImgLinkList() == null
-                || mKoSObjectItem.getImgLinkList().size() <= 1) {
-            return -1;
-        }
-        List list = mKoSObjectItem.getImgLinkList();
-
-        return (mCurrentImagePos + 1) % list.size();
-    }
 }

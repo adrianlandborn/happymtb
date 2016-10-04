@@ -13,7 +13,7 @@ public class KoSObjectItem implements Serializable {
 	private String mTitle;
 	private Person mPerson;
 	private String mDate;
-	private List<String> mImgLinkList;
+	private ArrayList<String> mImgLinkList;
 	private String mText;
 	private String mPrice;	
 	private int mYearModel;
