@@ -6,100 +6,74 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@color/black"
-
+    android:background="@color/grey_light"
+    android:visibility="gone"
     tools:showIn="@layout/kos_frame">
 
     <ImageButton
         android:id="@+id/kos_prev"
-        android:layout_height="match_parent"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:background="@drawable/bottombar_selector"
         app:srcCompat="@drawable/ic_action_previous"
-        android:layout_width="48dp" />
+        android:tint="@color/grey_dark_tint"/>
 
-    <LinearLayout
-        android:layout_width="0px"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@color/black"
-        android:orientation="vertical"
-        android:padding="8dp" >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_weight="1">
 
         <TextView
-            android:id="@+id/kos_search"
-            android:layout_width="match_parent"
+            android:id="@+id/kos_page_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/kos_page"
+            android:visibility="gone"
             style="@style/bottomBarTextStyle"
-            android:visibility="gone" />
+            android:layout_gravity="center_vertical" />
 
         <TextView
-            android:id="@+id/kos_region"
-            android:text="Region"
-            android:layout_width="match_parent"
+            android:id="@+id/kos_current_page"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/bottomBarTextStyle" />
+            android:layout_below="@id/kos_page_text"
+            android:text="@string/kos_one"
+            style="@style/bottomBarPageTextStyle"
+            android:layout_gravity="center_vertical" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/kos_by_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/kos_page_text"
+            android:layout_toRightOf="@id/kos_current_page"
+            android:layout_alignBaseline="@id/kos_current_page"
+            android:text="@string/kos_by"
+            android:padding="4dp"
+            style="@style/bottomBarTextStyle"
+            android:layout_gravity="center_vertical" />
 
-            <TextView
-                android:id="@+id/kos_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Kategori"
-                style="@style/bottomBarTextStyle"
-                android:gravity="left"
-                android:layout_weight="1" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/kos_page_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/kos_page"
-                    style="@style/bottomBarTextStyle"
-                    android:layout_gravity="center_vertical" />
-
-                <TextView
-                    android:id="@+id/kos_current_page"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/kos_one"
-                    style="@style/bottomBarTextStyle"
-                    android:layout_gravity="center_vertical" />
-
-                <TextView
-                    android:id="@+id/kos_by_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/kos_by"
-                    style="@style/bottomBarTextStyle"
-                    android:layout_gravity="center_vertical" />
-
-                <TextView
-                    android:id="@+id/kos_no_of_pages"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/kos_one"
-                    style="@style/bottomBarTextStyle"
-                    android:layout_gravity="center_vertical" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/kos_no_of_pages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/kos_one"
+            android:padding="0dp"
+            android:layout_below="@id/kos_page_text"
+            android:layout_toRightOf="@id/kos_by_text"
+            android:layout_alignBaseline="@id/kos_by_text"
+            style="@style/bottomBarPageTextStyle"
+            android:layout_gravity="center_vertical" />
+    </RelativeLayout>
 
     <ImageButton
         android:id="@+id/kos_next"
-        android:layout_height="match_parent"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:background="@drawable/bottombar_selector"
         app:srcCompat="@drawable/ic_action_next"
-        android:layout_width="48dp" />
+        android:tint="@color/grey_dark_tint" />
 
 </LinearLayout>

@@ -4,7 +4,7 @@
     android:background="@color/white">
 
     <ScrollView
-        android:id="@+id/search_scroll"
+        android:id="@+id/kos_search_dialog_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -16,7 +16,7 @@
             android:orientation="vertical">
 
             <org.droidparts.widget.ClearableEditText
-                android:id="@+id/kos_dialog_search_text"
+                android:id="@+id/kos_search_dialog_search_text"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_action_search"
@@ -25,8 +25,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginBottom="0dp"
-                />
+                android:layout_marginBottom="0dp" />
 
             <View style="@style/searchDividerStyle" />
 
@@ -35,7 +34,7 @@
                 android:text="Kategori" />
 
             <Spinner
-                android:id="@+id/kos_dialog_search_category"
+                android:id="@+id/kos_search_dialog_category"
                 android:entries="@array/kos_dialog_search_category_name"
                 style="@style/searchSpinnerStyle" />
 
@@ -46,7 +45,7 @@
                 android:text="Region" />
 
             <Spinner
-                android:id="@+id/kos_dialog_search_region"
+                android:id="@+id/kos_search_dialog_region"
                 android:entries="@array/dialog_search_region_name"
                 style="@style/searchSpinnerStyle" />
 
@@ -57,7 +56,7 @@
                 android:text="Annonstyp" />
 
             <Spinner
-                android:id="@+id/kos_dialog_search_type"
+                android:id="@+id/kos_search_dialog_type"
                 android:entries="@array/kos_dialog_search_type"
                 style="@style/searchSpinnerStyle" />
 
@@ -68,7 +67,7 @@
                 android:text="Pris" />
 
             <Spinner
-                android:id="@+id/kos_dialog_search_price"
+                android:id="@+id/kos_search_dialog_price"
                 android:entries="@array/kos_dialog_search_price"
                 style="@style/searchSpinnerStyle" />
 
@@ -79,7 +78,7 @@
                 android:text="Årsmodell" />
 
             <Spinner
-                android:id="@+id/kos_dialog_search_year"
+                android:id="@+id/kos_search_dialog_year"
                 android:entries="@array/kos_dialog_search_year"
                 style="@style/searchSpinnerStyle" />
 

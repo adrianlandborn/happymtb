@@ -23,7 +23,7 @@ public class ListKoSAdapter extends BaseAdapter {
 	public ListKoSAdapter(Context context, List<KoSListItem> koSListItems) {
 		mContext = context;
 		mKoSListItems = koSListItems;
-	}		
+	}
 	
 	@Override
 	public int getCount() {

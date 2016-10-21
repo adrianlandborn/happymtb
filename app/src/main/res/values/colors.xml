@@ -13,10 +13,12 @@
 	<color name="grey_light">#ffededed</color>
 	<color name="grey_dark">#ffbdbcbc</color>
 
+	<color name="grey_dark_tint">#838383</color>
+
 	<color name="duration_background">#aa464646</color>
 	
-	<color name="kos_green">#558b2f</color>
-	<color name="kos_red">#b71c1c</color>
+	<color name="kos_green">@color/colorPrimary</color>
+	<color name="kos_red">@color/colorAccent</color>
 
 	<color name="calender_event">#d50000</color>
 	<color name="calender_happyride">#388e3c</color>

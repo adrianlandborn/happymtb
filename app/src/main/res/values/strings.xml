@@ -26,8 +26,8 @@
 
     <string name="thread_reply">Svara</string>
 
-    <string name="kos_page">Sida:&#160;</string>
-    <string name="kos_by">/</string>
+    <string name="kos_page">Sida</string>
+    <string name="kos_by">av</string>
     <string name="kos_one">1</string>
 
     <string name="removed">Annonsen borttagen</string>
