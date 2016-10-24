@@ -463,17 +463,13 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 //				+ HappyUtils.getSortOrderNameLocal(mActivity, mKoSData.getSortOrderPosition()) + ")");
 	}
 
-
-
     private void updateBottomBar() {
         // Bottombar
         ViewGroup bottombar = (ViewGroup) mActivity.findViewById(R.id.kos_bottombar);
-        ViewCompat.setElevation(bottombar, HappyUtils.dpToPixel(4f));
         if (bottombar != null) {
+            ViewCompat.setElevation(bottombar, HappyUtils.dpToPixel(4f));
             if (mKoSData.getKoSItems() == null || mKoSData.getKoSItems().size() == 0) {
-                // TODO Hide bottombar
                 bottombar.setVisibility(View.GONE);
-                System.out.println("happy bottombar.setVisibility(View.GONE);");
             } else {
                 TextView currentPage = (TextView) mActivity.findViewById(R.id.kos_current_page);
                 currentPage.setText(Integer.toString(mKoSData.getCurrentPage()));
@@ -591,16 +587,18 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		Intent koSObject = new Intent(mActivity, KoSObjectActivity.class);
-		KoSListItem item = mKoSData.getKoSItems().get(position - mHeaderCount);
-		koSObject.putExtra(KoSObjectActivity.URL, item.getLink());
-		koSObject.putExtra(KoSObjectActivity.AREA, item.getArea());
-		koSObject.putExtra(KoSObjectActivity.TYPE, item.getType());
-		koSObject.putExtra(KoSObjectActivity.TITLE, item.getTitle());
-		koSObject.putExtra(KoSObjectActivity.DATE, item.getTime());
-		koSObject.putExtra(KoSObjectActivity.PRICE, item.getPrice());
-		koSObject.putExtra(KoSObjectActivity.CATEGORY, item.getCategory());
-		startActivity(koSObject);
+		Intent koSObject = new Intent(getActivity(), KoSObjectActivity.class);
+        if (mKoSData.getKoSItems() != null) {
+            KoSListItem item = mKoSData.getKoSItems().get(position - mHeaderCount);
+            koSObject.putExtra(KoSObjectActivity.URL, item.getLink());
+            koSObject.putExtra(KoSObjectActivity.AREA, item.getArea());
+            koSObject.putExtra(KoSObjectActivity.TYPE, item.getType());
+            koSObject.putExtra(KoSObjectActivity.TITLE, item.getTitle());
+            koSObject.putExtra(KoSObjectActivity.DATE, item.getTime());
+            koSObject.putExtra(KoSObjectActivity.PRICE, item.getPrice());
+            koSObject.putExtra(KoSObjectActivity.CATEGORY, item.getCategory());
+            startActivity(koSObject);
+        }
 	}
 
 
