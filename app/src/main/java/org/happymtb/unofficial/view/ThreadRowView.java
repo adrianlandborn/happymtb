@@ -43,7 +43,7 @@ public class ThreadRowView extends LinearLayout {
 
 	public void setPage(int number_of_pages) {			
 		mPage1.setText("1");
-		if (number_of_pages < 2) {
+		if(number_of_pages < 2) {
 			mPage.setVisibility(GONE);
 			mPage1.setVisibility(GONE);
 			mPage2.setVisibility(GONE);
@@ -86,13 +86,13 @@ public class ThreadRowView extends LinearLayout {
 	}
 		
 	public void setTitle(String text) {
-		if (mTitle != null)
+		if(mTitle != null)
 			mTitle.setText(Html.fromHtml(text));
 	}
 	
 	public void setNew(boolean isNew) {
-		if (mNew != null) {
-			if (isNew)
+		if(mNew != null) {
+			if(isNew)
 				mNew.setVisibility(VISIBLE);
 			else
 				mNew.setVisibility(GONE);
@@ -104,7 +104,7 @@ public class ThreadRowView extends LinearLayout {
 	}	
 		
 	public void setFooter(String text) {
-		if (mfooter != null)
+		if(mfooter != null)
 			mfooter.setText(Html.fromHtml(text));
 	}
 }

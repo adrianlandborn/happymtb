@@ -17,6 +17,10 @@ public class KoSData implements Serializable {
 	private String mRegionStr;
 	private int mCategory;
 	private String mCategoryStr;
+	private int mPrice;
+	private String mPriceStr;
+	private int mYear;
+	private String mYearStr;
 	private String mSearch;	
 	private List<KoSListItem> mKoSListItems;
 	private int mListPosition;
@@ -30,6 +34,8 @@ public class KoSData implements Serializable {
 				   int searchType,
 				   int searchRegion, String searchRegionString,
 				   int searchCategory, String searchCategoryString,
+				   int searchPrice, String searchPriceString,
+				   int searchYear, String searchYearString,
 				   String searchText) {
 		mCurrentPage = 1;
 		mMaxPages = 1;
@@ -38,6 +44,10 @@ public class KoSData implements Serializable {
 		mRegionStr = searchRegionString; //"Hela Sverige";
 		mCategory = searchCategory; //0;
 		mCategoryStr = searchCategoryString; //"Alla Kategorier";
+        mPrice = searchPrice; //0;
+		mPriceStr = searchPriceString; //"Alla Prise";
+        mYear = searchYear; //0;
+		mYearStr = searchYearString; //"Alla Årsmodeller";
 		mSearch = searchText;
 		mKoSListItems = null;
         mListPosition = 0;
@@ -87,6 +97,7 @@ public class KoSData implements Serializable {
 		this.mRegionStr = mRegionStr;
 	}
 
+    // Category
 	public int getCategory() {
 		return mCategory;
 	}
@@ -102,6 +113,40 @@ public class KoSData implements Serializable {
 	public void setCategoryName(String mCategoryStr) {
 		this.mCategoryStr = mCategoryStr;
 	}
+
+    // Price
+    public int getPrice() {
+        return mPrice;
+    }
+
+    public void setPricePos(int mPrice) {
+        this.mPrice = mPrice;
+    }
+
+    public String getPriceStr() {
+        return mPriceStr;
+    }
+
+    public void setPriceName(String mPriceStr) {
+        this.mPriceStr = mPriceStr;
+    }
+
+    // Year
+    public int getYear() {
+        return mYear;
+    }
+
+    public void setYearPos(int mYear) {
+        this.mYear = mYear;
+    }
+
+    public String getYearStr() {
+        return mYearStr;
+    }
+
+    public void setYearName(String mYearStr) {
+        this.mYearStr = mYearStr;
+    }
 
 	public String getSearchString() {
 		return mSearch;

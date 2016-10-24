@@ -54,41 +54,24 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/kos_object_image_frame"
+                    android:id="@+id/kos_object_viewpager_frame"
                     android:paddingTop="16dp" >
 
-                    <org.happymtb.unofficial.ui.ScaleImageView
-                        android:id="@+id/kos_object_image"
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/view_pager"
                         android:layout_width="match_parent"
+                        android:layout_height="250dp" />
+
+                    <com.viewpagerindicator.CirclePageIndicator
+                        android:id="@+id/view_pager_indicator"
                         android:layout_height="wrap_content"
-                        android:visibility="gone" />
-
-                    <org.happymtb.unofficial.ui.ScaleImageView
-                        android:id="@+id/kos_object_image2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone" />
-
-                    <ImageButton
-                        android:id="@+id/kos_object_prev_image"
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_action_previous"
-                        android:background="@color/grey_semitransparent"
-                        android:layout_gravity="start"
-                        android:visibility="gone"/>
-
-                    <ImageButton
-                        android:id="@+id/kos_object_next_image"
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_action_next"
-                        android:background="@color/grey_semitransparent"
-                        android:layout_gravity="end"
-                        android:visibility="gone"/>
+                        android:layout_width="fill_parent"
+                        android:layout_gravity="bottom"
+                        android:padding="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="8dp"/>
 
                 </FrameLayout>
-
                 <TextView
                     android:id="@+id/kos_object_price"
                     android:layout_width="match_parent"
@@ -260,7 +243,9 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <include layout="@layout/no_content" />
+        <include layout="@layout/no_content_layout" />
+
+        <include layout="@layout/no_network_layout" />
 
     </FrameLayout>
 </LinearLayout>

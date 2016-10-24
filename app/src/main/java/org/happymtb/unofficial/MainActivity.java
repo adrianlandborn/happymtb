@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.happymtb.unofficial.analytics.GaConstants;
 import org.happymtb.unofficial.analytics.HappyApplication;
-import org.happymtb.unofficial.fragment.KoSSearchDialogFragment;
 import org.happymtb.unofficial.fragment.KoSSortDialogFragment;
 import org.happymtb.unofficial.fragment.ArticlesListFragment;
 import org.happymtb.unofficial.fragment.CalendarListFragment;
@@ -30,18 +29,17 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import io.fabric.sdk.android.Fabric;
 import com.crashlytics.android.Crashlytics;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.kobakei.ratethisapp.RateThisApp;
 
 public class MainActivity extends AppCompatActivity implements
-        KoSSortDialogFragment.SortDialogDataListener,
-        KoSSearchDialogFragment.SearchDialogDataListener, NavigationView.OnNavigationItemSelectedListener {
+        KoSSortDialogFragment.SortDialogDataListener, NavigationView.OnNavigationItemSelectedListener {
 
     private static final int HOME = 0;
     private static final int FORUM = 1;
@@ -61,16 +59,18 @@ public class MainActivity extends AppCompatActivity implements
 
     private Tracker mTracker;
 
-    private Fragment mRestoredFragment;
+    private Fragment mCurrentFragment;
     private SharedPreferences mPreferences;
 
     private List<SortListener> mSortListeners;
-    private List<SearchListener> mSearchListeners;
 
     private String mCurrentFragmentTag = null;
     private boolean mLogin;
     private NavigationView mNavigationView;
     DrawerLayout mDrawer;
+
+
+    private SlidingMenu mKosSlidingMenu;
 
     private int mCheckedNavigationItem;
 
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements
         if (savedInstanceState != null) {
 
             mCurrentFragmentTag = savedInstanceState.getString(CURRENT_FRAGMENT_TAG);
-            mRestoredFragment = getSupportFragmentManager().findFragmentByTag(mCurrentFragmentTag);
+            mCurrentFragment = getSupportFragmentManager().findFragmentByTag(mCurrentFragmentTag);
         } else {
             //TODO Enable after list is fixed
 //            mCheckedNavigationItem = mPreferences.getInt(SettingsActivity.START_PAGE, KOP_OCH_SALJ);
@@ -169,33 +169,34 @@ public class MainActivity extends AppCompatActivity implements
 
     private void switchContent(int position) {
 
-        if (mRestoredFragment != null) {
-            mRestoredFragment = null;
-
-            return;
-        }
+//        if (mCurrentFragment != null) {
+//            mCurrentFragment = null;
+//
+//            return;
+//        }
 
         Fragment frag = null;
+        String newFragmentTag = "";
         switch (position) {
             case HOME:
                 frag = new HomesListFragment();
-                mCurrentFragmentTag = HomesListFragment.TAG;
+                newFragmentTag = HomesListFragment.TAG;
                 break;
             case FORUM:
                 frag = new ForumListFragment();
-                mCurrentFragmentTag = ForumListFragment.TAG;
+                newFragmentTag = ForumListFragment.TAG;
                 break;
             case ARTICLES:
                 frag = new ArticlesListFragment();
-                mCurrentFragmentTag = ArticlesListFragment.TAG;
+                newFragmentTag = ArticlesListFragment.TAG;
                 break;
             case KOP_OCH_SALJ:
                 frag = new KoSListFragment();
-                mCurrentFragmentTag = KoSListFragment.TAG;
+                newFragmentTag = KoSListFragment.TAG;
                 break;
             case SAVED:
                 frag = new SavedListFragment();
-                mCurrentFragmentTag = SavedListFragment.TAG;
+                newFragmentTag = SavedListFragment.TAG;
                 break;
             case PROFILE:
                 Intent browserIntent = new Intent(this, WebViewActivity.class);
@@ -204,27 +205,40 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case VIDEO:
                 frag = new VideoListFragment();
-                mCurrentFragmentTag = VideoListFragment.TAG;
+                newFragmentTag = VideoListFragment.TAG;
                 break;
             case SHOPS:
                 frag = new ShopsListFragment();
-                mCurrentFragmentTag = ShopsListFragment.TAG;
+                newFragmentTag = ShopsListFragment.TAG;
                 break;
             case CALENDAR:
                 frag = new CalendarListFragment();
-                mCurrentFragmentTag = CalendarListFragment.TAG;
+                newFragmentTag = CalendarListFragment.TAG;
                 break;
             case SETTINGS:
                 frag = new SettingsFragment();
-                mCurrentFragmentTag = SettingsFragment.TAG;
+                newFragmentTag = SettingsFragment.TAG;
                 break;
         }
-        if (frag != null) {
+
+        if (mKosSlidingMenu != null) {
+            if (newFragmentTag.equals(KoSListFragment.TAG)) {
+                mKosSlidingMenu.setSlidingEnabled(true);
+            } else {
+                mKosSlidingMenu.setSlidingEnabled(false);
+            }
+        }
+
+        if (frag != null && !newFragmentTag.equals(mCurrentFragmentTag)) {
+            System.out.println("New Fragment: " + frag);
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.content_frame, frag, mCurrentFragmentTag)
+                    .replace(R.id.content_frame, frag, newFragmentTag)
                     .addToBackStack(null)
                     .commit();
+
+            mCurrentFragmentTag = newFragmentTag;
+            mCurrentFragment = frag;
         }
     }
 
@@ -233,14 +247,7 @@ public class MainActivity extends AppCompatActivity implements
         if (mDrawer.isDrawerOpen(GravityCompat.START)) {
             mDrawer.closeDrawer(GravityCompat.START);
         } else {
-//
-//            if (mBackToast != null && mBackToast.getView().getWindowToken() != null) {
-                finish();
-//                super.onBackPressed();
-//            } else {
-//                mBackToast = Toast.makeText(this, "Tryck igen för att avsluta", Toast.LENGTH_SHORT);
-//                mBackToast.show();
-//            }
+            finish();
         }
 
     }
@@ -263,23 +270,6 @@ public class MainActivity extends AppCompatActivity implements
     public boolean isLoggedIn() {
         return mLogin;
     }
-
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-//            switch (event.getAction()) {
-//                case KeyEvent.ACTION_DOWN:
-//                    if (mActionBar.getSelectedNavigationIndex() == SETTINGS) {
-//                        mActionBar.setSelectedNavigationItem(mPreferences.getInt(SettingsActivity.START_PAGE, 0));
-//                    } else {
-//                        onBackPressed();
-//                    }
-//                    return true;
-//            }
-//        }
-//        return false;
-//    }
-
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -322,16 +312,21 @@ public class MainActivity extends AppCompatActivity implements
         return true;
     }
 
+    public SlidingMenu getKosSlidingMenu() {
+        return mKosSlidingMenu;
+    }
+
+    public void setKosSlidingMenu(SlidingMenu slidingMenu) {
+        this.mKosSlidingMenu = slidingMenu;
+    }
+
+
     public Tracker getTracker() {
         return mTracker;
     }
 
     public interface SortListener {
         void onSortParamChanged(int attPos, int orderPos);
-    }
-
-    public interface SearchListener {
-        void onSearchParamChanged(String text, int category, int region, int type);
     }
 
     public void addSortListener(SortListener l) {
@@ -345,28 +340,10 @@ public class MainActivity extends AppCompatActivity implements
         mSortListeners.remove(l);
     }
 
-    public void addSearchListener(SearchListener l) {
-        if (mSearchListeners == null) {
-            mSearchListeners = new ArrayList<SearchListener>();
-        }
-        mSearchListeners.add(l);
-    }
-
-    public void removeSearchListener(SearchListener l) {
-        mSearchListeners.remove(l);
-    }
-
     @Override
     public void onSortData(int attrPos, int orderPos) {
         for (SortListener l : mSortListeners) {
             l.onSortParamChanged(attrPos, orderPos);
-        }
-    }
-
-    @Override
-    public void onSearchData(String text, int category, int region, int type) {
-        for (SearchListener l : mSearchListeners) {
-            l.onSearchParamChanged(text, category, region, type);
         }
     }
 }

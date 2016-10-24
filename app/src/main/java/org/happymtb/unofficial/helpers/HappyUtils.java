@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Point;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
 
 import org.happymtb.unofficial.BuildConfig;
 import org.happymtb.unofficial.R;
@@ -146,7 +149,7 @@ public class HappyUtils {
 		return Math.round(dp);
 	}
 
-	public static float dpToPixel(float dp) {
+	public static int dpToPixel(float dp) {
 		DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
 		float px = dp * (metrics.densityDpi / 160f);
 		return Math.round(px);
@@ -158,5 +161,13 @@ public class HappyUtils {
 			return true;
 		}
 		return false;
+	}
+
+	public static int getScreenWidth(Context context) {
+		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		Display display = wm.getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		return size.x;
 	}
 }

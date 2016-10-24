@@ -80,33 +80,36 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 		super.onCreateOptionsMenu(menu, inflater);
 	}		
 	
-	public void refreshList() {
+	public void reloadCleanList() {
 		mHomeAdapter = null;
 		fetchData();
 	}
-	private void fetchData() {
-        showProgress(true);
 
-		HomeListTask homeListTask = new HomeListTask();
-		homeListTask.addHomeListListener(new HomeListListener() {
-			public void success(ArrayList<Home> Homes) {
-				if (getActivity() != null && !getActivity().isFinishing()) {
-					mHomes = Homes;
-					fillList();
+	@Override
+	protected void fetchData() {
+        if (hasNetworkConnection()) {
+            HomeListTask homeListTask = new HomeListTask();
+            homeListTask.addHomeListListener(new HomeListListener() {
+                public void success(ArrayList<Home> Homes) {
+                    if (getActivity() != null && !getActivity().isFinishing()) {
+                        mHomes = Homes;
+                        fillList();
 
-					showProgress(false);
-				}
-			}
+                        showList(true);
+                        showProgress(false);
+                    }
+                }
 
-			public void fail() {
-				if (getActivity() != null && !getActivity().isFinishing()) {
-					Toast.makeText(getActivity(), R.string.no_items_found, Toast.LENGTH_LONG).show();
+                public void fail() {
+                    if (getActivity() != null && !getActivity().isFinishing()) {
+                        Toast.makeText(getActivity(), R.string.no_items_found, Toast.LENGTH_LONG).show();
 
-					showProgress(false);
-				}
-			}
-		});
-		homeListTask.execute();
+                        showProgress(false);
+                    }
+                }
+            });
+            homeListTask.execute();
+        }
 	}
 	
 	protected void fillList() {

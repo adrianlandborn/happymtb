@@ -26,7 +26,7 @@
 			<item
             	android:id="@+id/message_go_to_page"
             	android:icon="@drawable/ic_action_go_to"
-                android:title="Gå till sidan..." />
+                android:title="@string/goto_page" />
             
 <!--     		<item -->
 <!--             	android:id="@+id/thread_search" -->

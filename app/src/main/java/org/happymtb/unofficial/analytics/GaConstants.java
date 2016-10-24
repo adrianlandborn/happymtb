@@ -17,6 +17,7 @@ public final class GaConstants {
         public static final String KOS_OBJECT =  "kos_object";
         public static final String KOS_ZOOM_IMAGE =  "kos_zoom_image";
         public static final String KOS_SEARCH_DIALOG =  "kos_search_dialog";
+        public static final String KOS_SEARCH_MENU =  "kos_search_menu";
         public static final String KOS_SORT_DIALOG =  "kos_sort_dialog";
         public static final String KOS_GOTO_DIALOG =  "kos_goto_dialog";
         public static final String HOME =  "home";

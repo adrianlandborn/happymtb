@@ -1,11 +1,15 @@
 package org.happymtb.unofficial.fragment;
 
+import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import org.happymtb.unofficial.R;
 
@@ -17,6 +21,7 @@ public abstract class RefreshListfragment extends ListFragment {
     public final static String CURRENT_PAGE = "current_page";
     public final static String CURRENT_POSITION = "current_position";
     public final static String DATA = "data";
+    public final static String SLIDE_MENU_ID = "slide_menu_id";
     public final static String LOGGED_IN = "logged_in";
 
     protected static final int SWIPE_MIN_DISTANCE = 130;
@@ -25,23 +30,39 @@ public abstract class RefreshListfragment extends ListFragment {
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected View mProgressView;
 
+    protected View mNoNetworkView;
+    protected Button mReloadButton;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.activity_main_swipe_refresh_layout);
+        Activity activity = getActivity() ;
+        mSwipeRefreshLayout = (SwipeRefreshLayout) activity.findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(R.color.colorAccent);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mProgressView.setVisibility(View.INVISIBLE);
-                refreshList();
+                reloadCleanList();
             }
         });
 
-        mProgressView = getActivity().findViewById(R.id.progress_container_id);
+        mProgressView = activity.findViewById(R.id.progress_container_id);
         setHasOptionsMenu(true);
         showProgress(true);
+
+        mNoNetworkView = activity.findViewById(R.id.no_network_layout);
+        mReloadButton = (Button)activity.findViewById(R.id.reload_button);
+
+        if (mReloadButton != null) {
+            mReloadButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fetchData();
+                }
+            });
+        }
     }
 
     @Override
@@ -62,5 +83,43 @@ public abstract class RefreshListfragment extends ListFragment {
         }
     }
 
-    protected abstract void refreshList();
+    protected void showNoNetworkView(boolean visible) {
+        if (getActivity() != null && !getActivity().isFinishing() && mNoNetworkView != null) {
+            if (visible) {
+                mNoNetworkView.setVisibility(View.VISIBLE);
+            } else {
+                mNoNetworkView.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    protected void showList(boolean visible) {
+        if (getActivity() != null && !getActivity().isFinishing() && mSwipeRefreshLayout != null) {
+            if (visible) {
+                mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+            } else {
+                mSwipeRefreshLayout.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    protected boolean hasNetworkConnection() {
+        ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        boolean hasConnection = cm.getActiveNetworkInfo() != null;
+        if (hasConnection) {
+            mNoNetworkView.setVisibility(View.GONE);
+            showProgress(true);
+        } else {
+            showProgress(false);
+            mSwipeRefreshLayout.setVisibility(View.GONE);
+            mNoNetworkView.setVisibility(View.VISIBLE);
+        }
+
+        return hasConnection;
+    }
+
+    protected abstract void fetchData();
+
+    protected abstract void reloadCleanList();
 }

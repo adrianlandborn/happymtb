@@ -136,7 +136,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 			input.setInputType(InputType.TYPE_CLASS_NUMBER);
 			mAlertDialog.setView(input);
 
-			mAlertDialog.setPositiveButton(R.string.jump, new DialogInterface.OnClickListener() {
+			mAlertDialog.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Do something with value!
 					if (HappyUtils.isInteger(input.getText().toString())) {
@@ -166,33 +166,32 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 		}				
 		return super.onOptionsItemSelected(item);
 	}	
-	
-	private void fetchData() {
-        if (mActivity == null) {
-            return;
-        }
-        showProgress(true);
 
-		getVideo = new VideoListTask();
-		getVideo.addVideoListListener(new VideoListListener() {
-			public void success(List<VideoItem> VideoItems) {
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    mVideoData.setVideoItems(VideoItems);
-                    fillList();
+	@Override
+	protected void fetchData() {
+		if (hasNetworkConnection()) {
+			getVideo = new VideoListTask();
+			getVideo.addVideoListListener(new VideoListListener() {
+				public void success(List<VideoItem> VideoItems) {
+					if (getActivity() != null && !getActivity().isFinishing()) {
+						mVideoData.setVideoItems(VideoItems);
+						fillList();
 
-                    showProgress(false);
-                }
-			}
+                        showList(true);
+						showProgress(false);
+					}
+				}
 
-			public void fail() {
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    Toast.makeText(getActivity(), R.string.no_items_found, Toast.LENGTH_LONG).show();
-                    mVideoData = new VideoData(1, 1, "", 0, null, 0);
-                    showProgress(false);
-                }
-			}			
-		});
-		getVideo.execute(mVideoData.getCurrentPage(), mVideoData.getCategory(), mVideoData.getSearch());	
+				public void fail() {
+					if (getActivity() != null && !getActivity().isFinishing()) {
+						Toast.makeText(getActivity(), R.string.no_items_found, Toast.LENGTH_LONG).show();
+						mVideoData = new VideoData(1, 1, "", 0, null, 0);
+						showProgress(false);
+					}
+				}
+			});
+			getVideo.execute(mVideoData.getCurrentPage(), mVideoData.getCategory(), mVideoData.getSearch());
+		}
 	}
 
 	private void fillList() {
@@ -211,19 +210,19 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 			mVideoAdapter.notifyDataSetChanged();
 		}
 
-		//TODO: View gets null sometimes
-		TextView currentPage = (TextView) mActivity.findViewById(R.id.video_current_page);
-		currentPage.setText(Integer.toString(mVideoData.getCurrentPage()));
-		
-		TextView maxPages = (TextView) mActivity.findViewById(R.id.video_no_of_pages);
-		maxPages.setText(Integer.toString(mVideoData.getVideoItems().get(0).getNumberOfVideoPages()));
-		mVideoData.setMaxPages(mVideoData.getVideoItems().get(0).getNumberOfVideoPages());			
+		if (mActivity.findViewById(R.id.video_bottombar) != null) {
+			TextView currentPage = (TextView) mActivity.findViewById(R.id.video_current_page);
+			currentPage.setText(Integer.toString(mVideoData.getCurrentPage()));
 
-		// TODO Fixa kategorier
+			TextView maxPages = (TextView) mActivity.findViewById(R.id.video_no_of_pages);
+			maxPages.setText(Integer.toString(mVideoData.getVideoItems().get(0).getNumberOfVideoPages()));
+			mVideoData.setMaxPages(mVideoData.getVideoItems().get(0).getNumberOfVideoPages());
+
+			// TODO Fixa kategorier
 //		TextView category = (TextView) mActivity.findViewById(R.id.video_category);
 //		category.setText("Kategori: " + mVideoData.getVideoItems().get(0).getSelectedCategory());
 
-		//TODO Uncomment when fixing Search
+			//TODO Uncomment when fixing Search
 //		TextView searchView = (TextView) mActivity.findViewById(R.id.video_search);
 //
 //		String mSearch = mVideoData.getSearchString();
@@ -233,11 +232,12 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 //		} else {
 //			searchView.setText("");
 //		}
+		}
 
         getActivity().invalidateOptionsMenu();
 	}
 
-	public void refreshList() {
+	public void reloadCleanList() {
 		mVideoData.setListPosition(0);
 		mVideoData.setCurrentPage(1);
 		fetchData();

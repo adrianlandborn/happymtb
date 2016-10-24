@@ -34,6 +34,8 @@
 					android:drawSelectorOnTop="false" />
 
 			</android.support.v4.widget.SwipeRefreshLayout>
+
+			<include layout="@layout/no_network_layout" />
 		</FrameLayout>
 		<LinearLayout
 			android:id="@+id/progress_container_id"
@@ -51,6 +53,7 @@
 	</FrameLayout>
 
 	<LinearLayout
+		android:id="@+id/video_bottombar"
 		android:orientation="horizontal"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"

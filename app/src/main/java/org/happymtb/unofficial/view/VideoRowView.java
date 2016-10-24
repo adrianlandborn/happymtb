@@ -4,6 +4,7 @@ import org.happymtb.unofficial.R;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,7 +37,7 @@ public class VideoRowView extends LinearLayout {
 	public void setObjectImage(Drawable image) {
 		if (mObjectImage != null) {
 			if (image == null) {
-				image = getResources().getDrawable(R.drawable.no_video);
+				image = ContextCompat.getDrawable(getContext(), R.drawable.no_video);
 			}			
 			mObjectImage.setImageDrawable(image);
 		}

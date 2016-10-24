@@ -166,7 +166,7 @@ public class ForumListFragment extends RefreshListfragment {
 				input.setInputType(InputType.TYPE_CLASS_NUMBER);
                 alert.setView(input);
 
-                alert.setPositiveButton(R.string.jump, new DialogInterface.OnClickListener() {
+                alert.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // Do something with value!
                         if (HappyUtils.isInteger(input.getText().toString())) {
@@ -249,7 +249,7 @@ public class ForumListFragment extends RefreshListfragment {
 		mMarkAsRead.execute(mActivity);
 	}
 	
-	public void refreshList() {
+	public void reloadCleanList() {
 		mAdapter = null;
 		mThreadData.setCurrentPage(1);
 		fetchData();
