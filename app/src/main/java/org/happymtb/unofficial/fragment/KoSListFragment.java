@@ -409,12 +409,13 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
                     if (getActivity() != null && !getActivity().isFinishing()) {
                         mKoSData.setKoSItems(koSListItems);
                         fillList();
-                    }
-                    showList(true);
-                    showProgress(false);
+                        
+                        showList(true);
+                        showProgress(false);
 
-                    mPreferences.edit().putLong(LAST_UPDATE, System.currentTimeMillis()).apply();
-                    getListView().setSelection(0);
+                        mPreferences.edit().putLong(LAST_UPDATE, System.currentTimeMillis()).apply();
+                        getListView().setSelection(0);
+                    }
                 }
 
                 public void fail() {
