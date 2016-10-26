@@ -1,11 +1,7 @@
 package org.happymtb.unofficial;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.happymtb.unofficial.analytics.GaConstants;
 import org.happymtb.unofficial.analytics.HappyApplication;
-import org.happymtb.unofficial.fragment.KoSSortDialogFragment;
 import org.happymtb.unofficial.fragment.ArticlesListFragment;
 import org.happymtb.unofficial.fragment.CalendarListFragment;
 import org.happymtb.unofficial.fragment.HomesListFragment;
@@ -38,8 +34,7 @@ import com.crashlytics.android.Crashlytics;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.kobakei.ratethisapp.RateThisApp;
 
-public class MainActivity extends AppCompatActivity implements
-        KoSSortDialogFragment.SortDialogDataListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int HOME = 0;
     private static final int FORUM = 1;
@@ -61,8 +56,6 @@ public class MainActivity extends AppCompatActivity implements
 
     private Fragment mCurrentFragment;
     private SharedPreferences mPreferences;
-
-    private List<SortListener> mSortListeners;
 
     private String mCurrentFragmentTag = null;
     private boolean mLogin;
@@ -323,27 +316,5 @@ public class MainActivity extends AppCompatActivity implements
 
     public Tracker getTracker() {
         return mTracker;
-    }
-
-    public interface SortListener {
-        void onSortParamChanged(int attPos, int orderPos);
-    }
-
-    public void addSortListener(SortListener l) {
-        if (mSortListeners == null ) {
-            mSortListeners = new ArrayList<SortListener>();
-        }
-        mSortListeners.add(l);
-    }
-
-    public void removeSortListener(SortListener l) {
-        mSortListeners.remove(l);
-    }
-
-    @Override
-    public void onSortData(int attrPos, int orderPos) {
-        for (SortListener l : mSortListeners) {
-            l.onSortParamChanged(attrPos, orderPos);
-        }
     }
 }

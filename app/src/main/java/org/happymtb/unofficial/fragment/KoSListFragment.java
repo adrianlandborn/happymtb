@@ -54,7 +54,7 @@ import com.google.android.gms.analytics.Tracker;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 public class KoSListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener,
-		MainActivity.SortListener, View.OnClickListener, AbsListView.OnScrollListener {
+		 View.OnClickListener, AbsListView.OnScrollListener {
     public static String TAG = "kos_frag";
 
 	public final static String LAST_UPDATE = "last_update";
@@ -310,18 +310,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
     }
 
     @Override
-    public void onAttach(Context context) {
-		super.onAttach(context);
-        ((MainActivity) getActivity()).addSortListener(this);
-	}
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        ((MainActivity) getActivity()).removeSortListener(this);
-    }
-
-    @Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();		
 		inflater.inflate(R.menu.kos_menu, menu);
@@ -345,11 +333,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 			nextPage();
             sendGaEvent(GaConstants.Actions.NEXT_PAGE, GaConstants.Labels.EMPTY);
 			return true;
-		case R.id.kos_sort:
-			fragmentManager = mActivity.getSupportFragmentManager();
-	        KoSSortDialogFragment koSSortDialog = new KoSSortDialogFragment();
-	        koSSortDialog.show(fragmentManager, "kos_sort_dialog");
-			return true;						
 		case R.id.kos_search_option:
             mSlidingMenu.toggle();
 			return true;
@@ -416,12 +399,13 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
                     if (getActivity() != null && !getActivity().isFinishing()) {
                         mKoSData.setKoSItems(koSListItems);
                         fillList();
-                    }
-                    showList(true);
-                    showProgress(false);
 
-                    mPreferences.edit().putLong(LAST_UPDATE, System.currentTimeMillis()).apply();
-                    getListView().setSelection(0);
+                        showList(true);
+                        showProgress(false);
+
+                        mPreferences.edit().putLong(LAST_UPDATE, System.currentTimeMillis()).apply();
+                        getListView().setSelection(0);
+                    }
                 }
 
                 public void fail() {
@@ -469,12 +453,10 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
     private void updateBottomBar() {
         // Bottombar
         ViewGroup bottombar = (ViewGroup) mActivity.findViewById(R.id.kos_bottombar);
-        ViewCompat.setElevation(bottombar, HappyUtils.dpToPixel(4f));
         if (bottombar != null) {
+            ViewCompat.setElevation(bottombar, HappyUtils.dpToPixel(4f));
             if (mKoSData.getKoSItems() == null || mKoSData.getKoSItems().size() == 0) {
-                // TODO Hide bottombar
                 bottombar.setVisibility(View.GONE);
-                System.out.println("happy bottombar.setVisibility(View.GONE);");
             } else {
                 TextView currentPage = (TextView) mActivity.findViewById(R.id.kos_current_page);
                 currentPage.setText(Integer.toString(mKoSData.getCurrentPage()));
@@ -592,16 +574,18 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		Intent koSObject = new Intent(mActivity, KoSObjectActivity.class);
-		KoSListItem item = mKoSData.getKoSItems().get(position - mHeaderCount);
-		koSObject.putExtra(KoSObjectActivity.URL, item.getLink());
-		koSObject.putExtra(KoSObjectActivity.AREA, item.getArea());
-		koSObject.putExtra(KoSObjectActivity.TYPE, item.getType());
-		koSObject.putExtra(KoSObjectActivity.TITLE, item.getTitle());
-		koSObject.putExtra(KoSObjectActivity.DATE, item.getTime());
-		koSObject.putExtra(KoSObjectActivity.PRICE, item.getPrice());
-		koSObject.putExtra(KoSObjectActivity.CATEGORY, item.getCategory());
-		startActivity(koSObject);
+		Intent koSObject = new Intent(getActivity(), KoSObjectActivity.class);
+        if (mKoSData.getKoSItems() != null) {
+            KoSListItem item = mKoSData.getKoSItems().get(position - mHeaderCount);
+            koSObject.putExtra(KoSObjectActivity.URL, item.getLink());
+            koSObject.putExtra(KoSObjectActivity.AREA, item.getArea());
+            koSObject.putExtra(KoSObjectActivity.TYPE, item.getType());
+            koSObject.putExtra(KoSObjectActivity.TITLE, item.getTitle());
+            koSObject.putExtra(KoSObjectActivity.DATE, item.getTime());
+            koSObject.putExtra(KoSObjectActivity.PRICE, item.getPrice());
+            koSObject.putExtra(KoSObjectActivity.CATEGORY, item.getCategory());
+            startActivity(koSObject);
+        }
 	}
 
 
@@ -611,31 +595,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		if (mKoSTask != null) {
 			mKoSTask.cancel(true);
         }
-    }
-
-    @Override
-    public void onSortParamChanged(int sortAttributePos, int sortOrderPos) {
-
-        String sortAttrNameServer = HappyUtils.getSortAttrNameServer(getActivity(), sortAttributePos);
-        String sortOrderNameServer = HappyUtils.getSortOrderNameServer(getActivity(), sortOrderPos);
-
-        Editor edit = mPreferences.edit();
-        edit.putInt(SORT_ATTRIBUTE_POS, sortAttributePos);
-        edit.putString(SORT_ATTRIBUTE_SERVER, sortAttrNameServer);
-        edit.putInt(SORT_ORDER_POS, sortOrderPos);
-        edit.putString(SORT_ORDER_SERVER, sortOrderNameServer);
-        edit.apply();
-
-        mKoSData.setSortAttributePosition(sortAttributePos);
-        mKoSData.setSortOrderPosition(sortOrderPos);
-
-        mKoSData.setSortAttributeServer(sortAttrNameServer);
-        mKoSData.setSortOrderServer(sortOrderNameServer);
-
-        mKoSData.setCurrentPage(1);
-        mKoSAdapter = null;
-
-		fetchData();
     }
 
     public void updateSearchParams() {
