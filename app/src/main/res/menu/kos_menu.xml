@@ -33,12 +33,6 @@
             	android:icon="@drawable/ic_action_go_to"
                 android:title="@string/goto_page" />
 
-    		<item
-            	android:id="@+id/kos_sort"
-            	android:icon="@drawable/ic_action_sort"
-                android:title="@string/sorting"
-				android:visible="false"/>
-    				
 			<item
             	android:id="@+id/kos_new_item"
             	android:icon="@drawable/ic_action_write"
