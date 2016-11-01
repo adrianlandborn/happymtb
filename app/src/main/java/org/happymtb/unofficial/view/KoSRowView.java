@@ -23,13 +23,13 @@ public class KoSRowView extends LinearLayout {
 	ImageView mObjectImageView;
 	LinearLayout compoundView;
 	View mRowColor;
+	View mBottomPadding;
 
 	public KoSRowView(Context context) {
 		super(context);
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		compoundView = (LinearLayout) inflater.inflate(R.layout.kos_row, this);
 
 		mRowColor = compoundView.findViewById(R.id.kos_picture_row_color);
@@ -39,12 +39,8 @@ public class KoSRowView extends LinearLayout {
 		mCategory = (TextView) compoundView.findViewById(R.id.kos_picture_row_category);
 		mPrice = (TextView) compoundView.findViewById(R.id.kos_picture_row_price);
 		mObjectImageView = (ImageView) compoundView.findViewById(R.id.kos_picture_row_image);
+		mBottomPadding = compoundView.findViewById(R.id.kos_bottom);
 	}
-
-//	public void setBackgroundColor(int color) {
-//		LinearLayout mRow = (LinearLayout) compoundView.findViewById(R.id.kos_picture_row);
-//		mRow.setBackgroundColor(color);
-//	}
 
 	public void setObjectImage(Drawable image) {
 		if (mObjectImageView != null) {
@@ -101,4 +97,12 @@ public class KoSRowView extends LinearLayout {
 		}
 	}
 
+	public void setBottomPaddingVisible(boolean visible) {
+		if (visible) {
+			mBottomPadding.setVisibility(VISIBLE);
+		} else {
+			mBottomPadding.setVisibility(GONE);
+		}
+
+	}
 }

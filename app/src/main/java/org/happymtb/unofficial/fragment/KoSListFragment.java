@@ -6,7 +6,7 @@ import org.droidparts.widget.ClearableEditText;
 import org.happymtb.unofficial.KoSObjectActivity;
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.adapter.ListKoSAdapter;
+import org.happymtb.unofficial.adapter.KosListdapter;
 import org.happymtb.unofficial.analytics.GaConstants;
 import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.helpers.HappyUtils;
@@ -15,9 +15,10 @@ import org.happymtb.unofficial.item.KoSListItem;
 import org.happymtb.unofficial.listener.KoSListListener;
 import org.happymtb.unofficial.listener.PageTextWatcher;
 import org.happymtb.unofficial.task.KoSListTask;
+import org.happymtb.unofficial.ui.BottomBar;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -59,7 +60,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
 	public final static String LAST_UPDATE = "last_update";
 	public final static long ONE_HOUR = 1000 * 60 * 60;
-//	public final static long ONE_HOUR = 10 * 1000; (10 sec)
+//	public final static long ONE_HOUR = 10 * 1000; //(10 sec)
 
 	public final static String SORT_ORDER_POS = "sort_order_pos";
 	public final static String SORT_ORDER_SERVER = "sort_order";
@@ -91,7 +92,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	private Tracker mTracker;
 
 	private KoSListTask mKoSTask;
-	private ListKoSAdapter mKoSAdapter;
+	private KosListdapter mKoSAdapter;
 	private KoSData mKoSData;
 	private SharedPreferences mPreferences;
 	private MainActivity mActivity;
@@ -130,9 +131,9 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
         getListView().setOnScrollListener(this);
 
-        prevPageButton = (ImageButton) mActivity.findViewById(R.id.kos_prev);
+        prevPageButton = (ImageButton) mActivity.findViewById(R.id.prev);
         prevPageButton.setOnClickListener(this);
-        nextPageImageButton = (ImageButton) mActivity.findViewById(R.id.kos_next);
+        nextPageImageButton = (ImageButton) mActivity.findViewById(R.id.next);
         nextPageImageButton.setOnClickListener(this);
 
         if (savedInstanceState != null) {
@@ -153,7 +154,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
                     mPreferences.getString(SEARCH_TEXT, ""));
             fetchData();
         }
-
 
         setupSearchSlidingMenu();
 
@@ -279,7 +279,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		mTracker.setScreenName(GaConstants.Categories.KOS_LIST);
 		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 		// [END Google analytics screen]
-
 	}
 
     @Override
@@ -301,7 +300,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         if (mKoSTask == null || (mKoSTask != null && !mKoSTask.getStatus().equals(AsyncTask.Status.RUNNING))) {
             if (System.currentTimeMillis() > (mPreferences.getLong(LAST_UPDATE, 0) + ONE_HOUR)){
                 if (mKoSData.getCurrentPage() == 1) {
-//                    Toast.makeText(mActivity, "Last update: " + (System.currentTimeMillis() - mPreferences.getLong(LAST_UPDATE, 0)) / 1000 + " seconds ago", Toast.LENGTH_LONG).show();
                     Toast.makeText(mActivity, "Uppdaterar sökning...", Toast.LENGTH_LONG).show();
                     fetchData();
                 }
@@ -314,9 +312,6 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		menu.clear();		
 		inflater.inflate(R.menu.kos_menu, menu);
 
-		// Dont show left arrow for first page
-//		menu.findItem(R.id.kos_left).setVisible(mKoSData.getCurrentPage() > 1);
-//		menu.findItem(R.id.kos_right).setVisible(mKoSData.getCurrentPage() < mKoSData.getMaxPages());
 		super.onCreateOptionsMenu(menu, inflater);
 	}		
 
@@ -396,7 +391,8 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             mKoSTask = new KoSListTask();
             mKoSTask.addKoSListListener(new KoSListListener() {
                 public void success(List<KoSListItem> koSListItems) {
-                    if (getActivity() != null && !getActivity().isFinishing()) {
+                    Activity activity = getActivity();
+                    if (activity != null && !activity.isFinishing()) {
                         mKoSData.setKoSItems(koSListItems);
                         fillList();
 
@@ -404,7 +400,9 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
                         showProgress(false);
 
                         mPreferences.edit().putLong(LAST_UPDATE, System.currentTimeMillis()).apply();
-                        getListView().setSelection(0);
+						if (getView() != null && getListView() != null) {
+                            getListView().setSelection(0);
+                        }
                     }
                 }
 
@@ -439,7 +437,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
             return;
         } else if (mKoSAdapter == null) {
-            mKoSAdapter = new ListKoSAdapter(mActivity, mKoSData.getKoSItems());
+            mKoSAdapter = new KosListdapter(mActivity, mKoSData.getKoSItems());
 			setListAdapter(mKoSAdapter);
 		} else {
             mKoSAdapter.setItems(mKoSData.getKoSItems());
@@ -454,15 +452,14 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         // Bottombar
         ViewGroup bottombar = (ViewGroup) mActivity.findViewById(R.id.kos_bottombar);
         if (bottombar != null) {
-            ViewCompat.setElevation(bottombar, HappyUtils.dpToPixel(4f));
             if (mKoSData.getKoSItems() == null || mKoSData.getKoSItems().size() == 0) {
                 bottombar.setVisibility(View.GONE);
             } else {
-                TextView currentPage = (TextView) mActivity.findViewById(R.id.kos_current_page);
+                TextView currentPage = (TextView) mActivity.findViewById(R.id.current_page);
                 currentPage.setText(Integer.toString(mKoSData.getCurrentPage()));
 
                 int pages = mKoSData.getKoSItems().get(0).getNumberOfKoSPages();
-                TextView maxPages = (TextView) mActivity.findViewById(R.id.kos_no_of_pages);
+                TextView maxPages = (TextView) mActivity.findViewById(R.id.no_of_pages);
                 maxPages.setText(Integer.toString(pages));
                 mKoSData.setMaxPages(pages);
 
@@ -669,10 +666,10 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.kos_prev) {
+		if (v.getId() == R.id.prev) {
 			previousPage();
 			sendGaEvent(GaConstants.Actions.PREV_PAGE, GaConstants.Labels.EMPTY);
-		} else if (v.getId() == R.id.kos_next) {
+		} else if (v.getId() == R.id.next) {
 			nextPage();
 			sendGaEvent(GaConstants.Actions.NEXT_PAGE, GaConstants.Labels.EMPTY);
         } else if (v.getId() == R.id.kos_list_header) {
@@ -696,28 +693,25 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        final ListView lw = getListView();
+        final ListView listView = getListView();
 
-//        if(scrollState == 0)
-//            System.out.println("scrolling stopped...");
-
-
-        if (view.getId() == lw.getId()) {
-            final int currentFirstVisibleItem = lw.getFirstVisiblePosition();
+        if (view.getId() == listView.getId()) {
+            final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
+            BottomBar bottomBar = (BottomBar) mActivity.findViewById(R.id.kos_bottombar);
             if (currentFirstVisibleItem > mLastFirstVisibleItem) {
                 mIsScrollingUp = false;
-                System.out.println("scrolling down...");
+                bottomBar.slideDown();
             } else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
                 mIsScrollingUp = true;
-                System.out.println("scrolling up...");
+                bottomBar.slideUp();
             }
-
             mLastFirstVisibleItem = currentFirstVisibleItem;
 
             final int lastItem = firstVisibleItem + visibleItemCount;
-
-//            if(lastIonListItemClick
+            if(lastItem == totalItemCount) {
+                mIsScrollingUp = true;
+                bottomBar.slideUp();
+            }
         }
-
     }
 }

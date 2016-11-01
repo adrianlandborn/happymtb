@@ -48,7 +48,7 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
 
     private Tracker mTracker;
 
-	private KosItemCursorAdapter mAdapter;
+	private SavedListCursorAdapter mAdapter;
 //	private KoSData mKoSData;
 	private SharedPreferences mPreferences;
 	private MainActivity mActivity;
@@ -113,7 +113,7 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
 	private void fillList() {
 
         getLoaderManager().initLoader(0, null, this);
-        mAdapter = new KosItemCursorAdapter(mActivity, null, 0);
+        mAdapter = new SavedListCursorAdapter(mActivity, null, 0);
 
         setListAdapter(mAdapter);
     }
@@ -187,7 +187,7 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
         mAdapter.swapCursor(null);
 	}
 
-    public class KosItemCursorAdapter extends CursorAdapter {
+    public class SavedListCursorAdapter extends CursorAdapter {
 
         private final LayoutInflater inflater;
 
@@ -201,7 +201,7 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
         View mKosSoldView;
 
         // Default constructor
-        public KosItemCursorAdapter(Context context, Cursor cursor, int flags) {
+        public SavedListCursorAdapter(Context context, Cursor cursor, int flags) {
             super(context, cursor, flags);
 
             inflater = LayoutInflater.from(context);

@@ -38,7 +38,12 @@
 
         <include layout="@layout/no_network_layout" />
 
-		<include layout="@layout/kos_bottombar" />
+		<org.happymtb.unofficial.ui.BottomBar
+			android:id="@+id/kos_bottombar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/white"
+			android:layout_gravity="bottom" />
 	</FrameLayout>
 
 </LinearLayout>

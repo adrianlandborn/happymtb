@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@color/grey_light"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/prev"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bottombar_selector"
+        android:tint="@color/grey_dark_tint"
+        app:srcCompat="@drawable/ic_action_previous" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/page_text"
+            style="@style/bottomBarTextStyle"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_vertical"
+            android:text="@string/kos_page"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/current_page"
+            style="@style/bottomBarPageTextStyle"
+            android:layout_below="@id/page_text"
+            android:layout_gravity="center_vertical"
+            android:text="@string/kos_one" />
+
+        <TextView
+            android:id="@+id/by_text"
+            style="@style/bottomBarTextStyle"
+            android:layout_alignBaseline="@id/current_page"
+            android:layout_below="@id/page_text"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@id/current_page"
+            android:padding="4dp"
+            android:text="@string/kos_by" />
+
+        <TextView
+            android:id="@+id/no_of_pages"
+            style="@style/bottomBarPageTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/by_text"
+            android:layout_below="@id/page_text"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@id/by_text"
+            android:padding="0dp"
+            android:text="@string/kos_one" />
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/next"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bottombar_selector"
+        android:tint="@color/grey_dark_tint"
+        app:srcCompat="@drawable/ic_action_next" />
+
+</LinearLayout>
