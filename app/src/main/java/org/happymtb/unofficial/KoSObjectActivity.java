@@ -5,6 +5,7 @@ import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.fragment.KoSObjectFragment;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -107,8 +108,11 @@ public class KoSObjectActivity extends AppCompatActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
-	    	case android.R.id.home:
+	    	case android.R.id.home:if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+				supportFinishAfterTransition();
+			} else {
 	    		this.finish();
+			}
 	    		return true;
 	        default:
 	            return super.onOptionsItemSelected(item);

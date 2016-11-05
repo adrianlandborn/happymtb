@@ -25,11 +25,14 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
+import android.system.Os;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -571,17 +574,25 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		Intent koSObject = new Intent(getActivity(), KoSObjectActivity.class);
+		Intent intent = new Intent(getActivity(), KoSObjectActivity.class);
         if (mKoSData.getKoSItems() != null) {
             KoSListItem item = mKoSData.getKoSItems().get(position - mHeaderCount);
-            koSObject.putExtra(KoSObjectActivity.URL, item.getLink());
-            koSObject.putExtra(KoSObjectActivity.AREA, item.getArea());
-            koSObject.putExtra(KoSObjectActivity.TYPE, item.getType());
-            koSObject.putExtra(KoSObjectActivity.TITLE, item.getTitle());
-            koSObject.putExtra(KoSObjectActivity.DATE, item.getTime());
-            koSObject.putExtra(KoSObjectActivity.PRICE, item.getPrice());
-            koSObject.putExtra(KoSObjectActivity.CATEGORY, item.getCategory());
-            startActivity(koSObject);
+            intent.putExtra(KoSObjectActivity.URL, item.getLink());
+            intent.putExtra(KoSObjectActivity.AREA, item.getArea());
+            intent.putExtra(KoSObjectActivity.TYPE, item.getType());
+            intent.putExtra(KoSObjectActivity.TITLE, item.getTitle());
+            intent.putExtra(KoSObjectActivity.DATE, item.getTime());
+            intent.putExtra(KoSObjectActivity.PRICE, item.getPrice());
+            intent.putExtra(KoSObjectActivity.CATEGORY, item.getCategory());
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                // TODO Make this work after KosObjectActivity and fragment has been merged
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(mActivity, (View) v, "image");
+                startActivity(intent, options.toBundle());
+            } else {
+                startActivity(intent);
+            }
         }
 	}
 

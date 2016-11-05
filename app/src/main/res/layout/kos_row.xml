@@ -28,7 +28,8 @@
             android:layout_alignParentLeft="true"
             android:gravity="center_vertical"
             android:scaleType="centerCrop"
-            android:background="@color/grey_light" />
+            android:background="@color/grey_light"
+            android:transitionName="image" />
 
         <TextView
             android:id="@+id/kos_sold"
