@@ -99,8 +99,8 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 
 		int linkStart = 0;
 		String linkTemp;
-		while (description.substring(linkStart).contains(">länk<") && description.substring(linkStart).contains("<a href=\"http")) {
-			linkStart = description.indexOf("<a href=\"http", linkStart) + 9;
+		while (description.substring(linkStart).contains(">länk<") && description.toLowerCase().substring(linkStart).contains("<a href=\"http")) {
+			linkStart = description.toLowerCase().indexOf("<a href=\"http", linkStart) + 9;
 			linkTemp = description.substring(linkStart);
 			int linkEnd = linkTemp.indexOf("\" target=\"_blank\">");
 			linkTemp = linkTemp.substring(0,linkEnd);
