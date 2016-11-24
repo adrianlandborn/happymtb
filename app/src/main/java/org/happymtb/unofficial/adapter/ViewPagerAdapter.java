@@ -7,11 +7,15 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.happymtb.unofficial.KoSObjectActivity;
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.SimpleImageActivity;
 import org.happymtb.unofficial.helpers.HappyUtils;
@@ -41,7 +45,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(View arg0, int arg1, Object arg2) {
+    public void destroyItem(ViewGroup arg0, int arg1, Object arg2) {
         ((ViewPager) arg0).removeView((View) arg2);
     }
 
@@ -56,7 +60,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(View collection, final int pos) {
+    public Object instantiateItem(ViewGroup collection, final int pos) {
         LayoutInflater inflater = (LayoutInflater) collection.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.kos_image_pager_layout,null);
         ((ViewPager) collection).addView(view);
@@ -68,7 +72,24 @@ public class ViewPagerAdapter extends PagerAdapter {
                 .error(R.drawable.no_photo)
                 .resize(HappyUtils.getScreenWidth(mContext), HappyUtils.dpToPixel(250f))
                 .centerCrop()
-                .into(imageView);
+                .noFade()
+                .into(imageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        ImageView transitionImageView = (ImageView) ((KoSObjectActivity)mContext).findViewById(R.id.image_transition);
+                        // TODO Fade out animation
+//                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0f);
+//                        anim.setDuration(200);
+//                        anim.setFillAfter(true);
+//                        transitionImageView.startAnimation(anim);
+                        transitionImageView.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

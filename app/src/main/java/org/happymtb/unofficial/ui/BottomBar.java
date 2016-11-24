@@ -25,7 +25,6 @@ public class BottomBar extends LinearLayout {
         inflate(getContext(), R.layout.bottombar, this);
 
         ViewCompat.setElevation(this, HappyUtils.dpToPixel(4f));
-
     }
 
     /**

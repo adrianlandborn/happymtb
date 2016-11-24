@@ -25,7 +25,7 @@ import android.widget.Toast;
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.PostsActivity;
 import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.adapter.ListThreadsAdapter;
+import org.happymtb.unofficial.adapter.ThreadAdapter;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.Thread;
 import org.happymtb.unofficial.item.ThreadData;
@@ -52,7 +52,7 @@ public class ForumListFragment extends RefreshListfragment {
 	private TextView mLoginStatus;
 	private TextView mCurrentPage;
 	private TextView mMaxPages;
-	private ListThreadsAdapter mAdapter;
+	private ThreadAdapter mAdapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -302,7 +302,7 @@ public class ForumListFragment extends RefreshListfragment {
 
 	private void fillList() {
 		if (mAdapter == null) {
-			mAdapter = new ListThreadsAdapter(mActivity, mThreadData.getThreads());
+			mAdapter = new ThreadAdapter(mActivity, mThreadData.getThreads());
 			setListAdapter(mAdapter);
 		} else {
 			mAdapter.setItems(mThreadData.getThreads());

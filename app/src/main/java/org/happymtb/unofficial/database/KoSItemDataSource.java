@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import org.happymtb.unofficial.fragment.KoSListFragment;
 import org.happymtb.unofficial.item.KoSListItem;
 
 public class KoSItemDataSource {
@@ -58,7 +59,8 @@ public class KoSItemDataSource {
         values.put(MySQLiteHelper.COLUMN_TYPE, item.getType());
         values.put(MySQLiteHelper.COLUMN_AREA, item.getArea());
         values.put(MySQLiteHelper.COLUMN_CATEGORY, item.getCategory());
-        values.put(MySQLiteHelper.COLUMN_PRICE, item.getPrice().equals("Prisuppgift saknas.") ? null : item.getPrice());
+        values.put(MySQLiteHelper.COLUMN_PRICE, item.getPrice().contains(KoSListFragment.NO_PRICE) ?
+                null : item.getPrice());
         values.put(MySQLiteHelper.COLUMN_TIME, item.getTime());
         values.put(MySQLiteHelper.COLUMN_LINK, item.getLink());
         values.put(MySQLiteHelper.COLUMN_IMAGE_LINK, item.getImgLink());

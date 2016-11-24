@@ -23,18 +23,18 @@ public class KoSListItem implements Serializable {
     public KoSListItem() {
 
     }
-	public KoSListItem(long id, String Time, String type, String Title, String Area, String Link,
-                       String ImgLink, String Category, String Price, int NumberOfKoSPages) {
+	public KoSListItem(long id, String time, String type, String title, String area, String link,
+                       String imgLink, String category, String price, int numberOfKoSPages) {
 		mId = id;
-		mTime = Time;
+		mTime = time;
 		mType = type;
-		mTitle = Title;
-		mArea = Area;
-		mLink = Link;
-		mImgLink = ImgLink;
-		mCategory = Category;
-		mPrice = Price;
-		mNumberOfKoSPages = NumberOfKoSPages;
+		mTitle = title;
+		mArea = area;
+		mLink = link;
+		mImgLink = imgLink;
+		mCategory = category;
+		mPrice = price;
+		mNumberOfKoSPages = numberOfKoSPages;
 	}
 
 	public void setId(long id) {

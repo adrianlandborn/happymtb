@@ -18,7 +18,9 @@ package org.happymtb.unofficial;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -50,12 +52,14 @@ public class SimpleImageActivity extends AppCompatActivity {
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         // [END sGoogle analytics screen]
 
+        findViewById(R.id.progress_container_id).setVisibility(View.VISIBLE);
         final ImageView mImageView = (ImageView) findViewById(R.id.imageView);
 
         Callback imageLoadedCallback = new Callback() {
 
             @Override
             public void onSuccess() {
+                findViewById(R.id.progress_container_id).setVisibility(View.GONE);
                 if(mAttacher != null) {
                     mAttacher.update();
                 } else {
@@ -65,7 +69,8 @@ public class SimpleImageActivity extends AppCompatActivity {
 
             @Override
             public void onError() {
-                // TODO Auto-generated method stub
+                findViewById(R.id.progress_container_id).setVisibility(View.GONE);
+                Toast.makeText(SimpleImageActivity.this, R.string.error_loading_image, Toast.LENGTH_SHORT).show();
             }
         };
 

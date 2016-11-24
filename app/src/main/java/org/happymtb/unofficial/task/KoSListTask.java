@@ -85,6 +85,7 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
         start = KoSStr.indexOf("<span class=\"visible-xs\">", start) + 25;
         end = KoSStr.indexOf("</span></td>", start);
         price = HappyUtils.replaceHTMLChars(KoSStr.substring(start, end));
+        price = price.replace(":-", " kr");
         start = end;
 
         //Category

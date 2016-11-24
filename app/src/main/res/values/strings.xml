@@ -49,6 +49,7 @@
     <string name="collapse">Dra ihop</string>
     <string name="expand">Expandera</string>
     <string name="error">Något gick fel</string>
+    <string name="error_loading_image">Bilden gick inte att hämta</string>
     <string name="no_network">Datatrafik saknas</string>
     <string name="no_items_found">Inga objekt hittades</string>
     <string name="kos_no_items_found">Inga annonser hittades</string>

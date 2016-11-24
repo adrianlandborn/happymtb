@@ -3,7 +3,7 @@ package org.happymtb.unofficial.fragment;
 import java.util.ArrayList;
 
 import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.adapter.ListHomeAdapter;
+import org.happymtb.unofficial.adapter.HomeAdapter;
 import org.happymtb.unofficial.analytics.GaConstants;
 import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.item.Home;
@@ -29,7 +29,7 @@ import com.google.android.gms.analytics.Tracker;
 
 public class HomesListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener, OnChildClickListener {
 	public static String TAG = "home_frag";
-	private ListHomeAdapter mHomeAdapter;
+	private HomeAdapter mHomeAdapter;
 	private ArrayList<Home> mHomes = new ArrayList<Home>();
 
 	private Tracker mTracker;
@@ -114,7 +114,7 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 	
 	protected void fillList() {
 		if (mHomeAdapter == null) {
-			mHomeAdapter = new ListHomeAdapter(getActivity(), mHomes);
+			mHomeAdapter = new HomeAdapter(getActivity(), mHomes);
 			setListAdapter(mHomeAdapter);
 		} else {
             mHomeAdapter.setItems(mHomes);

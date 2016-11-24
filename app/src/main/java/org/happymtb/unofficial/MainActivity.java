@@ -25,6 +25,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawer.setDrawerListener(toggle);
+        mDrawer.addDrawerListener(toggle);
         toggle.syncState();
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -111,6 +113,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            mCheckedNavigationItem = mPreferences.getInt(SettingsActivity.START_PAGE, KOP_OCH_SALJ);
             mCheckedNavigationItem = KOP_OCH_SALJ;
             switchContent(mCheckedNavigationItem);
+
+            mDrawer.addDrawerListener(addDrawerListenerForSlidingMenu());
+
             mNavigationView.getMenu().getItem(mCheckedNavigationItem).setChecked(true);
         }
 
@@ -303,6 +308,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mDrawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private DrawerLayout.DrawerListener addDrawerListenerForSlidingMenu() {
+        return new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                if (mKosSlidingMenu != null) {
+                    mKosSlidingMenu.setSlidingEnabled(false);
+                }
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                if (mKosSlidingMenu != null && mCurrentFragment.getTag().equals(KoSListFragment.TAG)) {
+                    mKosSlidingMenu.setSlidingEnabled(true);
+                }
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+            }
+        };
     }
 
     public SlidingMenu getKosSlidingMenu() {

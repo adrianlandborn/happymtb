@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import org.happymtb.unofficial.PostsActivity;
 import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.adapter.ListMessagesAdapter;
+import org.happymtb.unofficial.adapter.MessagesAdapter;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.Message;
 import org.happymtb.unofficial.item.MessageData;
@@ -41,7 +41,7 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
     private MessageListTask mMessageListTask;
     private MessageData mMessageData;
-    private ListMessagesAdapter mMessageAdapter;
+    private MessagesAdapter mMessageAdapter;
     private SharedPreferences mPreferences;
     private String mUsername;
     private PostsActivity mActivity;
@@ -298,7 +298,7 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
     private void fillList() {
         if (mMessageAdapter == null) {
-            mMessageAdapter = new ListMessagesAdapter(mActivity, mMessageData.getMessages());
+            mMessageAdapter = new MessagesAdapter(mActivity, mMessageData.getMessages());
             setListAdapter(mMessageAdapter);
         } else {
             mMessageAdapter.setItems(mMessageData.getMessages());

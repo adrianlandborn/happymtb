@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.fragment.KoSListFragment;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.view.KoSRowView;
 import org.happymtb.unofficial.item.KoSListItem;
@@ -13,14 +14,16 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-public class KosListdapter extends BaseAdapter {
+public class KosAdapter extends BaseAdapter {
     private Context mContext;
     private List<KoSListItem> mKoSListItems = new ArrayList<KoSListItem>();
 
-    public KosListdapter(Context context, List<KoSListItem> koSListItems) {
+    public KosAdapter(Context context, List<KoSListItem> koSListItems) {
         mContext = context;
         mKoSListItems = koSListItems;
     }
@@ -65,7 +68,7 @@ public class KosListdapter extends BaseAdapter {
         kosRowView.setPrice(mKoSListItems.get(position).getPrice());
 
         String imageUrl = mKoSListItems.get(position).getImgLink();
-        if (!TextUtils.isEmpty(imageUrl) && imageUrl.equals("http://happyride.se/img/news_250x145.jpg")) {
+        if (!TextUtils.isEmpty(imageUrl) && imageUrl.equals(KoSListFragment.NO_IMAGE_URL)) {
             kosRowView.getImageView().setImageResource(R.drawable.no_photo);
         } else if (!TextUtils.isEmpty(imageUrl)) {
             if (HappyUtils.isHighDensity(mContext.getResources())) {
@@ -83,13 +86,18 @@ public class KosListdapter extends BaseAdapter {
             kosRowView.setRowBackgroundColor(R.color.kos_red);
         }
 
-        if (position == (mKoSListItems.size() - 1)) {
+        if (position == (mKoSListItems.size() - 1) && mKoSListItems.size() > 3) {
             kosRowView.setBottomPaddingVisible(true);
         } else {
             kosRowView.setBottomPaddingVisible(false);
         }
 
         return kosRowView;
+    }
+
+    static class ViewHolder {
+        TextView title;
+        ImageView image;
     }
 
 }

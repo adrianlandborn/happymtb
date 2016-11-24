@@ -2,6 +2,7 @@ package org.happymtb.unofficial;
 
 import org.happymtb.unofficial.analytics.GaConstants;
 import org.happymtb.unofficial.analytics.HappyApplication;
+import org.happymtb.unofficial.fragment.KoSListFragment;
 import org.happymtb.unofficial.fragment.KoSObjectFragment;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,12 +10,22 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 public class KoSObjectActivity extends AppCompatActivity {
+
+	public final static String START_TAG = "tag";
 
 	public final static String AREA = "area";
 	public final static String TYPE = "type";
@@ -22,7 +33,8 @@ public class KoSObjectActivity extends AppCompatActivity {
 	public final static String DATE = "date";
 	public final static String PRICE = "price";
 	public final static String CATEGORY = "category";
-	public final static String URL = "KoSObjectLink";
+	public final static String IMAGE_URL = "image_url";
+	public final static String URL = "item_url";
 
 	private Tracker mTracker;
 
@@ -36,7 +48,6 @@ public class KoSObjectActivity extends AppCompatActivity {
 
 		setContentView(R.layout.kos_object_frame);
 
-
 		// Obtain the shared Tracker instance.
 		HappyApplication application = (HappyApplication) getApplication();
 		mTracker = application.getDefaultTracker();
@@ -46,8 +57,14 @@ public class KoSObjectActivity extends AppCompatActivity {
 		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 		// [END sGoogle analytics screen]
 
-        Fragment fragment;
+        // TODO Handle transition and visibility for other fragments
+		if (!KoSListFragment.TAG.equals(getIntent().getStringExtra(START_TAG))) {
+			findViewById(R.id.kos_object_scroll).setVisibility(View.INVISIBLE);
+		}
 
+        initFromBundle();
+
+        Fragment fragment;
 		if (savedInstanceState == null) {
 			fragment = new KoSObjectFragment();
 			getSupportFragmentManager()
@@ -56,6 +73,34 @@ public class KoSObjectActivity extends AppCompatActivity {
 					.commit();
 		}
 	}
+
+    private void initFromBundle() {
+        TextView title = (TextView) findViewById(R.id.kos_object_title);
+        TextView category = (TextView) findViewById(R.id.kos_object_category);
+        TextView date = (TextView) findViewById(R.id.kos_object_date);
+        TextView price = (TextView) findViewById(R.id.kos_object_price);
+        ImageView transitionImageView = (ImageView) findViewById(R.id.image_transition);
+        View viewPagerFrame = findViewById(R.id.kos_object_viewpager_frame);
+
+        title.setText(getObjectTitle());
+        category.setText(getObjectCategory() + ", " + getObjectArea());
+        date.setText("Datum: " + getObjectDate() + " sedan");
+
+        if (TextUtils.isEmpty(getObjectPrice())) {
+            price.setText(KoSListFragment.NO_PRICE);
+        } else {
+            price.setText("Pris: " + getObjectPrice());
+        }
+
+        String imageUrl = getObjectImageLink();
+        if (!(KoSListFragment.NO_IMAGE_URL.equals(imageUrl))) {
+            Picasso.with(this).load(imageUrl).into(transitionImageView);
+        } else {
+            transitionImageView.setVisibility(View.GONE);
+            viewPagerFrame.setVisibility(View.GONE);
+        }
+
+    }
 
 	public long getObjectId() {
 		String[] urlSplit = getObjectLink().split("id=");
@@ -90,6 +135,10 @@ public class KoSObjectActivity extends AppCompatActivity {
 		return getIntent().getStringExtra(PRICE);
 	}
 
+	public String getObjectImageLink() {
+		return getIntent().getStringExtra(IMAGE_URL);
+	}
+
 	public String getObjectLink() {
 		String objectLink = "";
 		Intent intent = getIntent();
@@ -108,12 +157,17 @@ public class KoSObjectActivity extends AppCompatActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
-	    	case android.R.id.home:if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-				supportFinishAfterTransition();
-			} else {
+	    	case android.R.id.home:
+
+				//TODO Use Finish Transitions or not?
+// if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//				supportFinishAfterTransition();
+//			} else {
+//	    		this.finish();
+//			}
 	    		this.finish();
-			}
-	    		return true;
+
+				return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

@@ -6,7 +6,7 @@ import org.droidparts.widget.ClearableEditText;
 import org.happymtb.unofficial.KoSObjectActivity;
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.adapter.KosListdapter;
+import org.happymtb.unofficial.adapter.KosAdapter;
 import org.happymtb.unofficial.analytics.GaConstants;
 import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.helpers.HappyUtils;
@@ -30,9 +30,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
-import android.system.Os;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -92,14 +90,16 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
     public final static String SEARCH_PRICE_SPINNER = "search_price_spinner";
     public final static String SEARCH_YEAR_SPINNER = "search_year_spinner";
 
+    public final static String NO_IMAGE_URL = "https://happyride.se/img/news_250x145.jpg";
+    public final static String NO_PRICE = "Prisuppgift saknas";
+
 	private Tracker mTracker;
 
 	private KoSListTask mKoSTask;
-	private KosListdapter mKoSAdapter;
+	private KosAdapter mKoSAdapter;
 	private KoSData mKoSData;
 	private SharedPreferences mPreferences;
 	private MainActivity mActivity;
-	private FragmentManager fragmentManager;
 
 	private ImageButton prevPageButton;
 	private ImageButton nextPageImageButton;
@@ -440,7 +440,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
             return;
         } else if (mKoSAdapter == null) {
-            mKoSAdapter = new KosListdapter(mActivity, mKoSData.getKoSItems());
+            mKoSAdapter = new KosAdapter(mActivity, mKoSData.getKoSItems());
 			setListAdapter(mKoSAdapter);
 		} else {
             mKoSAdapter.setItems(mKoSData.getKoSItems());
@@ -577,6 +577,9 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		Intent intent = new Intent(getActivity(), KoSObjectActivity.class);
         if (mKoSData.getKoSItems() != null) {
             KoSListItem item = mKoSData.getKoSItems().get(position - mHeaderCount);
+            intent.putExtra(KoSObjectActivity.START_TAG, KoSListFragment.TAG);
+            intent.putExtra(KoSObjectActivity.IMAGE_URL, !TextUtils.isEmpty(item.getImgLink()) ?
+                    item.getImgLink() : NO_IMAGE_URL);
             intent.putExtra(KoSObjectActivity.URL, item.getLink());
             intent.putExtra(KoSObjectActivity.AREA, item.getArea());
             intent.putExtra(KoSObjectActivity.TYPE, item.getType());

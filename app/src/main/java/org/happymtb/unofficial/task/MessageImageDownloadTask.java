@@ -15,7 +15,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 
-import org.happymtb.unofficial.adapter.ListMessagesAdapter;
+import org.happymtb.unofficial.adapter.MessagesAdapter;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.Message;
 
@@ -33,14 +33,14 @@ import android.text.style.ImageSpan;
 public class MessageImageDownloadTask extends AsyncTask<Object, Void, Void> { 
 	SpannableStringBuilder htmlSpannable;
 	String mBitmapFolder = "/happymtb/"; 
-	ListMessagesAdapter mMessagesAdapter;
+	MessagesAdapter mMessagesAdapter;
 	List<Message> mMessages;
 	Context mContext;
 	
 	@Override
 	protected Void doInBackground(Object... params) {
 		mMessages = (List<Message>) params[0];
-		mMessagesAdapter = (ListMessagesAdapter) params[1];
+		mMessagesAdapter = (MessagesAdapter) params[1];
 		mContext = (Context) params[2];
 		
 		for (int i = 0; i < mMessages.size(); i++) {

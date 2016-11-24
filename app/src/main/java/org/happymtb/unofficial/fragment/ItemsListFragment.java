@@ -2,7 +2,7 @@ package org.happymtb.unofficial.fragment;
 
 import java.util.ArrayList;
 
-import org.happymtb.unofficial.adapter.ListItemsAdapter;
+import org.happymtb.unofficial.adapter.ItemsAdapter;
 import org.happymtb.unofficial.item.Item;
 
 import android.content.DialogInterface;
@@ -18,7 +18,7 @@ import android.widget.ListView;
 public class ItemsListFragment extends ListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
 	protected static final String ITEMS = "items";
 	protected static final String ALL_ITEMS = "all_items";
-    protected ListItemsAdapter mItemsAdapter;
+    protected ItemsAdapter mItemsAdapter;
 	protected ArrayList<Item> mItems = new ArrayList<Item>();
 	protected ArrayList<Item> mAllItems = new ArrayList<Item>();
 	
@@ -53,7 +53,7 @@ public class ItemsListFragment extends ListFragment implements DialogInterface.O
 	protected void fillList() {
 		populateList();
 		if (mItemsAdapter == null) {
-			mItemsAdapter = new ListItemsAdapter(getActivity(), mItems);
+			mItemsAdapter = new ItemsAdapter(getActivity(), mItems);
 			setListAdapter(mItemsAdapter);
 		} else {
 			mItemsAdapter.setItems(mItems);

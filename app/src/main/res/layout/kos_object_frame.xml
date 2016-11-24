@@ -13,8 +13,7 @@
         <ScrollView
             android:id="@+id/kos_object_scroll"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:visibility="invisible">
+            android:layout_height="fill_parent">
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -52,10 +51,10 @@
                     android:textSize="13sp" />
 
                 <FrameLayout
+                    android:id="@+id/kos_object_viewpager_frame"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/kos_object_viewpager_frame"
-                    android:paddingTop="16dp" >
+                    android:paddingTop="16dp">
 
                     <android.support.v4.view.ViewPager
                         android:id="@+id/view_pager"
@@ -64,18 +63,21 @@
 
                     <com.viewpagerindicator.CirclePageIndicator
                         android:id="@+id/view_pager_indicator"
-                        android:layout_height="wrap_content"
                         android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:padding="4dp"
+                        android:layout_marginBottom="8dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"/>
+                        android:padding="4dp" />
+
                     <ImageView
+                        android:id="@+id/image_transition"
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
                         android:transitionName="image" />
 
                 </FrameLayout>
+
                 <TextView
                     android:id="@+id/kos_object_price"
                     android:layout_width="match_parent"
@@ -94,12 +96,12 @@
                     android:id="@+id/kos_object_year_model"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
-                    android:visibility="gone"
+                    android:paddingBottom="16dp"
                     android:textColor="@color/title_2_text"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/kos_object_text"
@@ -131,11 +133,11 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:background="@null"
                     android:gravity="center_horizontal"
                     android:padding="8dp"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:background="@null"/>
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/kos_object_phone"
@@ -144,9 +146,10 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:gravity="center_horizontal"
+                    android:visibility="gone"
+                    android:text="Telefon: Nummer saknas"
                     android:textColor="@color/title_2_text"
                     android:textIsSelectable="true"
-                    android:text="Telefon: -"
                     android:textSize="15sp" />
 
                 <LinearLayout
@@ -162,72 +165,76 @@
                         android:id="@+id/kos_action_phone_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:gravity="center_horizontal"
-                        android:visibility="gone" >
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <ImageButton
                             android:id="@+id/kos_action_phone"
                             style="@style/kosAction"
-                            android:src="@drawable/ic_phone"/>
+                            android:src="@drawable/ic_phone" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Ring"/>
+                            android:text="Ring" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/kos_action_sms_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:gravity="center_horizontal"
-                        android:visibility="gone" >
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <ImageButton
                             android:id="@+id/kos_action_sms"
                             style="@style/kosAction"
-                            android:src="@drawable/ic_textsms"/>
+                            android:src="@drawable/ic_textsms" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="SMS"/>
+                            android:text="SMS" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/kos_action_email_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:gravity="center_horizontal"
-                        android:visibility="gone" >
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <ImageButton
                             android:id="@+id/kos_action_email"
                             style="@style/kosAction"
                             android:src="@drawable/ic_email" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="E-post"/>
+                            android:text="E-post" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/kos_action_pm_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:gravity="center_horizontal"
-                        android:visibility="gone" >
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <ImageButton
                             android:id="@+id/kos_action_pm"
                             style="@style/kosAction"
                             android:src="@drawable/ic_message" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="PM"/>
+                            android:text="PM" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,8 @@ import com.viewpagerindicator.CirclePageIndicator;
 public class KoSObjectFragment extends Fragment implements DialogInterface.OnCancelListener, View.OnClickListener {
 	private final static int DIALOG_FETCH_KOS_ERROR = 0;
 	private final static String DATA = "data";
+
+    ImageView mTransitionImageView;
 
 	private KoSObjectTask mKoSObjectTask;
 	private KoSObjectItem mKoSObjectItem;
@@ -73,6 +76,8 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 			openInBrowser(mUrl, true);
 		}
 		setHasOptionsMenu(true);
+
+        mTransitionImageView = (ImageView) mActivity.findViewById(R.id.image_transition);
 
 		mTitle = (TextView) mActivity.findViewById(R.id.kos_object_title);
 		mPerson = (Button) mActivity.findViewById(R.id.kos_object_person);
@@ -216,6 +221,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 
 		if (person.getPhone().startsWith("+") || person.getPhone().startsWith("0")) {
 			mPhone.setText("Telefon: " + person.getPhone());
+            mPhone.setVisibility(View.VISIBLE);
 			mActivity.findViewById(R.id.kos_action_phone_layout).setVisibility(View.VISIBLE);
 			mActivity.findViewById(R.id.kos_action_sms_layout).setVisibility(View.VISIBLE);
 		}
@@ -246,10 +252,10 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 
 		mText.setText(Html.fromHtml(mKoSObjectItem.getText()));
         String price = mKoSObjectItem.getPrice();
-        if (price.trim().equals("0 Kr")) {
-            mPrice.setText("Prisuppgift saknas");
+        if (price.trim().equals("0 kr")) {
+            mPrice.setText(KoSListFragment.NO_PRICE);
         } else {
-            mPrice.setText("Pris: " + price);
+            mPrice.setText("Pris: " + price.replace("Kr", "kr"));
         }
         mScrollView.setVisibility(View.VISIBLE);
 	}

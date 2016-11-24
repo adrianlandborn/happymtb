@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.adapter.ListCalendarAdapter;
+import org.happymtb.unofficial.adapter.CalendarAdapter;
 import org.happymtb.unofficial.analytics.GaConstants;
 import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.task.CalendarListTask;
@@ -43,7 +43,7 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 	private Tracker mTracker;
 
 	private CalendarListTask mGetCalendarTask;
-	private ListCalendarAdapter mCalendarAdapter;
+	private CalendarAdapter mCalendarAdapter;
 	private ArrayList<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
 	MainActivity mActivity;
     private ListView mListView;
@@ -156,7 +156,7 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 
     private void fillList() {
 		if (mCalendarAdapter == null) {
-			mCalendarAdapter = new ListCalendarAdapter(mActivity, mCalendarItems);
+			mCalendarAdapter = new CalendarAdapter(mActivity, mCalendarItems);
 			setListAdapter(mCalendarAdapter);
 		} else {
 			mCalendarAdapter.setItems(mCalendarItems);
