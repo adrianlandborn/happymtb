@@ -486,7 +486,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
         } else {
             // Add or Set header
-            if (header == null) {
+            if (header == null && getView() != null && getListView() != null) {
                 header = (ViewGroup)getActivity().getLayoutInflater().inflate(R.layout.kos_list_header, getListView(), false);
                 header.setOnClickListener(this);
                 ViewCompat.setElevation(header, HappyUtils.dpToPixel(4f));
@@ -577,10 +577,9 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		Intent intent = new Intent(getActivity(), KoSObjectActivity.class);
         if (mKoSData.getKoSItems() != null) {
             KoSListItem item = mKoSData.getKoSItems().get(position - mHeaderCount);
-            intent.putExtra(KoSObjectActivity.START_TAG, KoSListFragment.TAG);
+            intent.putExtra(KoSObjectActivity.URL, item.getLink());
             intent.putExtra(KoSObjectActivity.IMAGE_URL, !TextUtils.isEmpty(item.getImgLink()) ?
                     item.getImgLink() : NO_IMAGE_URL);
-            intent.putExtra(KoSObjectActivity.URL, item.getLink());
             intent.putExtra(KoSObjectActivity.AREA, item.getArea());
             intent.putExtra(KoSObjectActivity.TYPE, item.getType());
             intent.putExtra(KoSObjectActivity.TITLE, item.getTitle());
@@ -588,8 +587,9 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             intent.putExtra(KoSObjectActivity.PRICE, item.getPrice());
             intent.putExtra(KoSObjectActivity.CATEGORY, item.getCategory());
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                // TODO Make this work after KosObjectActivity and fragment has been merged
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                    && !TextUtils.isEmpty(item.getImgLink())) {
+                intent.putExtra(KoSObjectActivity.TRANSITION, true);
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(mActivity, (View) v, "image");
                 startActivity(intent, options.toBundle());

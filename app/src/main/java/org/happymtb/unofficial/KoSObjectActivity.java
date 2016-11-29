@@ -4,28 +4,25 @@ import org.happymtb.unofficial.analytics.GaConstants;
 import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.fragment.KoSListFragment;
 import org.happymtb.unofficial.fragment.KoSObjectFragment;
+
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public class KoSObjectActivity extends AppCompatActivity {
 
-	public final static String START_TAG = "tag";
+	public final static String TRANSITION = "transition";
 
 	public final static String AREA = "area";
 	public final static String TYPE = "type";
@@ -57,10 +54,11 @@ public class KoSObjectActivity extends AppCompatActivity {
 		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 		// [END sGoogle analytics screen]
 
-        // TODO Handle transition and visibility for other fragments
-		if (!KoSListFragment.TAG.equals(getIntent().getStringExtra(START_TAG))) {
+		if (getIntent().getBooleanExtra(TRANSITION, false)) {
+			findViewById(R.id.kos_object_scroll).setVisibility(View.VISIBLE);
+		} else {
 			findViewById(R.id.kos_object_scroll).setVisibility(View.INVISIBLE);
-		}
+        }
 
         initFromBundle();
 
@@ -112,7 +110,11 @@ public class KoSObjectActivity extends AppCompatActivity {
 	}
 	
 	public String getObjectArea() {
-		return getIntent().getStringExtra(AREA);
+        String area = getIntent().getStringExtra(AREA);
+        if (TextUtils.isEmpty(area)) {
+            area = "";
+        }
+		return area;
 	}
 
 	public String getObjectDate() {

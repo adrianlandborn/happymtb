@@ -22,7 +22,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public static final String[] ALL_COLUMNS = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_TITLE, MySQLiteHelper.COLUMN_PRICE,
             MySQLiteHelper.COLUMN_AREA, MySQLiteHelper.COLUMN_CATEGORY, MySQLiteHelper.COLUMN_TIME, MySQLiteHelper.COLUMN_LINK,
-            MySQLiteHelper.COLUMN_IMAGE_LINK, MySQLiteHelper.COLUMN_SOLD };
+            MySQLiteHelper.COLUMN_IMAGE_LINK, MySQLiteHelper.COLUMN_SOLD, MySQLiteHelper.COLUMN_TYPE };
 
     private static final String DATABASE_NAME = "happy.db";
     private static final int DATABASE_VERSION = 5;

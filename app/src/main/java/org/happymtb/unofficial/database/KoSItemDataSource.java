@@ -108,7 +108,7 @@ public class KoSItemDataSource {
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            KoSListItem item = getKoSItemFromCursor(cursor);
+            KoSListItem item = KoSItemDataSource.getKoSItemFromCursor(cursor);
             items.add(item);
             cursor.moveToNext();
         }
@@ -117,7 +117,7 @@ public class KoSItemDataSource {
         return items;
     }
 
-    private KoSListItem getKoSItemFromCursor(Cursor cursor) {
+    public static KoSListItem getKoSItemFromCursor(Cursor cursor) {
         KoSListItem item = new KoSListItem();
         item.setId(cursor.getLong(cursor.getColumnIndex(MySQLiteHelper.COLUMN_ID)));
         item.setTitle(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_TITLE)));

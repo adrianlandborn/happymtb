@@ -2,11 +2,11 @@ package org.happymtb.unofficial.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -36,6 +37,9 @@ import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.database.KoSItemDataSource;
 import org.happymtb.unofficial.database.MyContentProvider;
 import org.happymtb.unofficial.database.MySQLiteHelper;
+import org.happymtb.unofficial.item.KoSListItem;
+
+import static org.happymtb.unofficial.fragment.KoSListFragment.NO_IMAGE_URL;
 
 public class SavedListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static String TAG = "saved_frag";
@@ -49,14 +53,9 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
     private Tracker mTracker;
 
 	private SavedListCursorAdapter mAdapter;
-//	private KoSData mKoSData;
-	private SharedPreferences mPreferences;
 	private MainActivity mActivity;
 
-    private View mProgressView;
-
     private KoSItemDataSource datasource;
-//    ArrayAdapter<KoSItem> mAdapter;
 
     /** Called when the activity is first created. */
 	@Override
@@ -64,11 +63,7 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
 		super.onActivityCreated(savedInstanceState);
 
         mActivity = (MainActivity) getActivity();
-		mActivity.getSupportActionBar().setTitle("Sparade annonser");
-
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-
-        mProgressView = getActivity().findViewById(R.id.progress_container_id);
+		mActivity.getSupportActionBar().setTitle(getString(R.string.title_bar_saved));
 
         fillList();
 
@@ -120,10 +115,33 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		Intent koSObject = new Intent(mActivity, KoSObjectActivity.class);
-		koSObject.putExtra(KoSObjectActivity.URL, mAdapter.getItemColumn(position, MySQLiteHelper.COLUMN_LINK));
-		koSObject.putExtra(KoSObjectActivity.CATEGORY, mAdapter.getItemColumn(position, MySQLiteHelper.COLUMN_CATEGORY));
-		startActivityForResult(koSObject, REQUEST_ITEM_MODIFIED);
+        Cursor c = mAdapter.getCursor();
+        if (c.moveToPosition(position)) {
+            KoSListItem item = KoSItemDataSource.getKoSItemFromCursor(c);
+            Intent intent = new Intent(mActivity, KoSObjectActivity.class);
+            intent.putExtra(KoSObjectActivity.URL, item.getLink());
+            intent.putExtra(KoSObjectActivity.IMAGE_URL, !TextUtils.isEmpty(item.getImgLink()) ?
+                    item.getImgLink() : NO_IMAGE_URL);
+            intent.putExtra(KoSObjectActivity.AREA, item.getArea());
+            intent.putExtra(KoSObjectActivity.TYPE, item.getType());
+            intent.putExtra(KoSObjectActivity.TITLE, item.getTitle());
+            intent.putExtra(KoSObjectActivity.DATE, item.getTime());
+            intent.putExtra(KoSObjectActivity.PRICE, item.getPrice());
+            intent.putExtra(KoSObjectActivity.CATEGORY, mAdapter.getItemColumn(position, MySQLiteHelper.COLUMN_CATEGORY));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                    && !TextUtils.isEmpty(item.getImgLink())
+                    && !item.isSold()) {
+                intent.putExtra(KoSObjectActivity.TRANSITION, true);
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(mActivity, (View) v, "image");
+                startActivityForResult(intent, REQUEST_ITEM_MODIFIED, options.toBundle());
+            } else {
+                startActivityForResult(intent, REQUEST_ITEM_MODIFIED);
+            }
+        } else {
+            Toast.makeText(mActivity, getString(R.string.error), Toast.LENGTH_SHORT).show();
+        }
 	}
 
     @Override
