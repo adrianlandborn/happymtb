@@ -39,7 +39,7 @@ public abstract class RefreshListfragment extends ListFragment {
 
         Activity activity = getActivity() ;
         mSwipeRefreshLayout = (SwipeRefreshLayout) activity.findViewById(R.id.activity_main_swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorSchemeColors(R.color.colorAccent);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

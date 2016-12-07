@@ -62,7 +62,7 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
         //Link
         start = KoSStr.indexOf("<a href=\"", start) + 9;
         end = KoSStr.indexOf("\"", start);
-        link = "http://happyride.se/annonser/" + KoSStr.substring(start, end);
+        link = "https://happyride.se/annonser/" + KoSStr.substring(start, end);
         start = end;
 
         //Title

@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawer.addDrawerListener(toggle);
         toggle.syncState();
+        mDrawer.addDrawerListener(addDrawerListenerForSlidingMenu());
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
@@ -105,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Restore fragments
         if (savedInstanceState != null) {
-
             mCurrentFragmentTag = savedInstanceState.getString(CURRENT_FRAGMENT_TAG);
             mCurrentFragment = getSupportFragmentManager().findFragmentByTag(mCurrentFragmentTag);
         } else {
@@ -114,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mCheckedNavigationItem = KOP_OCH_SALJ;
             switchContent(mCheckedNavigationItem);
 
-            mDrawer.addDrawerListener(addDrawerListenerForSlidingMenu());
 
             mNavigationView.getMenu().getItem(mCheckedNavigationItem).setChecked(true);
         }
@@ -228,7 +227,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (frag != null && !newFragmentTag.equals(mCurrentFragmentTag)) {
-            System.out.println("New Fragment: " + frag);
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.content_frame, frag, newFragmentTag)
@@ -247,7 +245,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             finish();
         }
-
     }
 
     @Override

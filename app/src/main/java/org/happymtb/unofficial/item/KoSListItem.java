@@ -64,7 +64,7 @@ public class KoSListItem implements Serializable {
 	}
 
 	public String getLink() {
-		return mLink;
+		return mLink.replace("http:", "https:");
 	}
 
 	public void setLink(String link) {
