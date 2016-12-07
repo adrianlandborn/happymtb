@@ -267,6 +267,12 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
                 mObjectImageView.setAlpha(1.0f);
                 mKosSoldView.setVisibility(View.INVISIBLE);
             }
+
+            if (cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_TYPE)).equals(KoSListItem.TYPE_SALJES)) {
+                mRowColor.setBackgroundResource(R.color.kos_green);
+            } else {
+                mRowColor.setBackgroundResource(R.color.kos_red);
+            }
         }
 
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
