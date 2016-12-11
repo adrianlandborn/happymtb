@@ -498,7 +498,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             String searchString = mKoSData.getSearchString();
 
             // Search text
-            TextView search = (TextView) mActivity.findViewById(R.id.kos_header_search_text);
+            TextView search = (TextView) header.findViewById(R.id.kos_header_search_text);
             if (searchString.length() > 0) {
                 search.setVisibility(View.VISIBLE);
                 search.setText("Sökord: " + searchString);
@@ -508,7 +508,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             }
 
             // Category
-            TextView category = (TextView) mActivity.findViewById(R.id.kos_header_category);
+            TextView category = (TextView) header.findViewById(R.id.kos_header_category);
             if (mKoSData.getCategory() != 0) {
                 category.setText("Kategori: " + mKoSData.getCategoryStr());
                 category.setVisibility(View.VISIBLE);
@@ -517,7 +517,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             }
 
             // Region
-            TextView region = (TextView) mActivity.findViewById(R.id.kos_header_region);
+            TextView region = (TextView) header.findViewById(R.id.kos_header_region);
             if (mKoSData.getRegion() != 0) {
                 region.setText("Region: " + mKoSData.getRegionStr());
                 region.setVisibility(View.VISIBLE);
@@ -526,7 +526,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             }
 
             // Type
-            TextView type = (TextView) mActivity.findViewById(R.id.kos_header_type);
+            TextView type = (TextView) header.findViewById(R.id.kos_header_type);
             if (mKoSData.getType() != 0) {
                 type.setText("Annonstyp: " +(mKoSData.getType() == KoSData.SALJES ? "Säljes" : "Köpes"));
                 type.setVisibility(View.VISIBLE);
@@ -535,7 +535,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             }
 
             // Price
-            TextView price = (TextView) mActivity.findViewById(R.id.kos_header_price);
+            TextView price = (TextView) header.findViewById(R.id.kos_header_price);
             if (mKoSData.getPrice() != 0) {
                 price.setText("Pris: " + mKoSData.getPriceStr());
                 price.setVisibility(View.VISIBLE);
@@ -544,7 +544,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             }
 
             // Year
-            TextView year = (TextView) mActivity.findViewById(R.id.kos_header_year);
+            TextView year = (TextView) header.findViewById(R.id.kos_header_year);
             if (mKoSData.getYear() != 0) {
                 year.setText("Årsmodell: " + mKoSData.getYearStr());
                 year.setVisibility(View.VISIBLE);
