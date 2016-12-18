@@ -26,7 +26,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -63,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean mLogin;
     private NavigationView mNavigationView;
     DrawerLayout mDrawer;
-
 
     private SlidingMenu mKosSlidingMenu;
 
@@ -114,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mCheckedNavigationItem = KOP_OCH_SALJ;
             switchContent(mCheckedNavigationItem);
 
-
             mNavigationView.getMenu().getItem(mCheckedNavigationItem).setChecked(true);
         }
 
@@ -153,25 +150,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onSaveInstanceState(outState);
         // Serialize the current dropdown position.
         outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, mCheckedNavigationItem);
-//        outState.putString(CURRENT_FRAGMENT_TAG, mCurrentFragmentTag);
     }
 
-//    @Override
-//    public boolean onNavigationItemSelected(int position, long id) {
-//         When the given dropdown item is selected, show its contents in the
-//         container view.
-//        switchContent(position);
-//        return true;
-//    }
-
     private void switchContent(int position) {
-
-//        if (mCurrentFragment != null) {
-//            mCurrentFragment = null;
-//
-//            return;
-//        }
-
         Fragment frag = null;
         String newFragmentTag = "";
         switch (position) {
@@ -227,14 +208,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (frag != null && !newFragmentTag.equals(mCurrentFragmentTag)) {
+            mCurrentFragmentTag = newFragmentTag;
+            mCurrentFragment = frag;
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.content_frame, frag, newFragmentTag)
                     .addToBackStack(null)
                     .commit();
-
-            mCurrentFragmentTag = newFragmentTag;
-            mCurrentFragment = frag;
         }
     }
 
@@ -310,8 +290,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout.DrawerListener addDrawerListenerForSlidingMenu() {
         return new DrawerLayout.DrawerListener() {
             @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-            }
+            public void onDrawerSlide(View drawerView, float slideOffset) {}
 
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -322,14 +301,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onDrawerClosed(View drawerView) {
-                if (mKosSlidingMenu != null && mCurrentFragment.getTag().equals(KoSListFragment.TAG)) {
+                if (mKosSlidingMenu != null && KoSListFragment.TAG.equals(mCurrentFragmentTag)) {
                     mKosSlidingMenu.setSlidingEnabled(true);
                 }
             }
 
             @Override
-            public void onDrawerStateChanged(int newState) {
-            }
+            public void onDrawerStateChanged(int newState) {}
         };
     }
 
@@ -339,8 +317,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setKosSlidingMenu(SlidingMenu slidingMenu) {
         this.mKosSlidingMenu = slidingMenu;
+        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+            slidingMenu.setSlidingEnabled(false);
+        }
     }
-
 
     public Tracker getTracker() {
         return mTracker;
