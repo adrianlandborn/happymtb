@@ -1,5 +1,6 @@
 package org.happymtb.unofficial.fragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.droidparts.widget.ClearableEditText;
@@ -12,6 +13,7 @@ import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSData;
 import org.happymtb.unofficial.item.KoSListItem;
+import org.happymtb.unofficial.item.KoSReturnData;
 import org.happymtb.unofficial.listener.KoSListListener;
 import org.happymtb.unofficial.listener.PageTextWatcher;
 import org.happymtb.unofficial.task.KoSListTask;
@@ -171,11 +173,11 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
             mSlidingMenu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
             mSlidingMenu.setShadowDrawable(R.drawable.slidemenu_shadow);
-//          mSlidingMenu.setBehindScrollScale(R.dimen.slidingmenu_behind_scroll_scale);
             mSlidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
             mSlidingMenu.setFadeDegree(0.85f);
             mSlidingMenu.setBehindWidthRes(R.dimen.slidingmenu_width);
-            mSlidingMenu.setMenu(R.layout.kos_search_slide);mSlidingMenu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
+            mSlidingMenu.setMenu(R.layout.kos_search_slide);
+            mSlidingMenu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
                 @Override
                 public void onOpened() {
                     // [START Google analytics screen]
@@ -384,6 +386,8 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
     public void reloadCleanList() {
         mKoSData.setCurrentPage(1);
+        // TODO Remove items instead of setting adapter to null
+//        mKoSAdapter.setItems(new ArrayList<KoSListItem>()); // This code crashes
         mKoSAdapter = null;
 		fetchData();
 	}
@@ -393,10 +397,11 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 		if (hasNetworkConnection()) {
             mKoSTask = new KoSListTask();
             mKoSTask.addKoSListListener(new KoSListListener() {
-                public void success(List<KoSListItem> koSListItems) {
+                public void success(KoSReturnData returnData) {
                     Activity activity = getActivity();
                     if (activity != null && !activity.isFinishing()) {
-                        mKoSData.setKoSItems(koSListItems);
+                        mKoSData.setKoSItems(returnData.getItems());
+                        mKoSData.setMaxPages(returnData.getMaxPages());
                         fillList();
 
                         showList(true);
@@ -411,7 +416,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
                 public void fail() {
                     if (getActivity() != null && !getActivity().isFinishing()) {
-                        mKoSData.setKoSItems(null);
+                        mKoSData.setKoSItems(new ArrayList<KoSListItem>());
                         updateBottomBar();
                         updateHeader();
 
@@ -461,7 +466,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
                 TextView currentPage = (TextView) mActivity.findViewById(R.id.current_page);
                 currentPage.setText(Integer.toString(mKoSData.getCurrentPage()));
 
-                int pages = mKoSData.getKoSItems().get(0).getNumberOfKoSPages();
+                int pages = mKoSData.getMaxPages();
                 TextView maxPages = (TextView) mActivity.findViewById(R.id.no_of_pages);
                 maxPages.setText(Integer.toString(pages));
                 mKoSData.setMaxPages(pages);
@@ -476,87 +481,90 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
     private void updateHeader() {
         // Header
-        View header = mActivity.findViewById(R.id.kos_list_header);
-        if (mKoSData.getSearchString().length() == 0 && mKoSData.getCategory() == 0 && mKoSData.getRegion() == 0&& mKoSData.getType() == 0 && mKoSData.getPrice() == 0 && mKoSData.getYear() == 0) {
-            // Remove header
-            if (header != null) {
-                getListView().removeHeaderView(header);
-                mHeaderCount = 0;
-            }
+        if (getView() != null && getListView() != null) {
+            View header = mActivity.findViewById(R.id.kos_list_header);
+            if (mKoSData.getSearchString().length() == 0 && mKoSData.getCategory() == 0 && mKoSData.getRegion() == 0 && mKoSData.getType() == 0 && mKoSData.getPrice() == 0 && mKoSData.getYear() == 0) {
+                // Remove header
+                if (header != null) {
+                    getListView().removeHeaderView(header);
+                    mHeaderCount = 0;
+                }
 
-        } else {
-            // Add or Set header
-            if (header == null && getView() != null && getListView() != null) {
-                header = (ViewGroup)getActivity().getLayoutInflater().inflate(R.layout.kos_list_header, getListView(), false);
-                header.setOnClickListener(this);
-                ViewCompat.setElevation(header, HappyUtils.dpToPixel(4f));
-                getListView().addHeaderView(header, null, false);
-
-                mHeaderCount = 1;
-            }
-
-            String searchString = mKoSData.getSearchString();
-
-            // Search text
-            TextView search = (TextView) header.findViewById(R.id.kos_header_search_text);
-            if (searchString.length() > 0) {
-                search.setVisibility(View.VISIBLE);
-                search.setText("Sökord: " + searchString);
             } else {
-                search.setVisibility(View.GONE);
-                search.setText("");
-            }
+                // Add or Set header
+                if (header == null) {
+                    header = (ViewGroup) getActivity().getLayoutInflater().inflate(R.layout.kos_list_header, getListView(), false);
+                    header.setOnClickListener(this);
+                    ViewCompat.setElevation(header, HappyUtils.dpToPixel(4f));
+                    getListView().addHeaderView(header, null, false);
 
-            // Category
-            TextView category = (TextView) header.findViewById(R.id.kos_header_category);
-            if (mKoSData.getCategory() != 0) {
-                category.setText("Kategori: " + mKoSData.getCategoryStr());
-                category.setVisibility(View.VISIBLE);
-            } else {
-                category.setVisibility(View.GONE);
-            }
+                    mHeaderCount = 1;
+                }
 
-            // Region
-            TextView region = (TextView) header.findViewById(R.id.kos_header_region);
-            if (mKoSData.getRegion() != 0) {
-                region.setText("Region: " + mKoSData.getRegionStr());
-                region.setVisibility(View.VISIBLE);
-            } else {
-                region.setVisibility(View.GONE);
-            }
+                String searchString = mKoSData.getSearchString();
 
-            // Type
-            TextView type = (TextView) header.findViewById(R.id.kos_header_type);
-            if (mKoSData.getType() != 0) {
-                type.setText("Annonstyp: " +(mKoSData.getType() == KoSData.SALJES ? "Säljes" : "Köpes"));
-                type.setVisibility(View.VISIBLE);
-            } else {
-                type.setVisibility(View.GONE);
-            }
+                // Search text
+                TextView search = (TextView) header.findViewById(R.id.kos_header_search_text);
+                if (searchString.length() > 0) {
+                    search.setVisibility(View.VISIBLE);
+                    search.setText("Sökord: " + searchString);
+                } else {
+                    search.setVisibility(View.GONE);
+                    search.setText("");
+                }
 
-            // Price
-            TextView price = (TextView) header.findViewById(R.id.kos_header_price);
-            if (mKoSData.getPrice() != 0) {
-                price.setText("Pris: " + mKoSData.getPriceStr());
-                price.setVisibility(View.VISIBLE);
-            } else {
-                price.setVisibility(View.GONE);
-            }
+                // Category
+                TextView category = (TextView) header.findViewById(R.id.kos_header_category);
+                if (mKoSData.getCategory() != 0) {
+                    category.setText("Kategori: " + mKoSData.getCategoryStr());
+                    category.setVisibility(View.VISIBLE);
+                } else {
+                    category.setVisibility(View.GONE);
+                }
 
-            // Year
-            TextView year = (TextView) header.findViewById(R.id.kos_header_year);
-            if (mKoSData.getYear() != 0) {
-                year.setText("Årsmodell: " + mKoSData.getYearStr());
-                year.setVisibility(View.VISIBLE);
-            } else {
-                year.setVisibility(View.GONE);
+                // Region
+                TextView region = (TextView) header.findViewById(R.id.kos_header_region);
+                if (mKoSData.getRegion() != 0) {
+                    region.setText("Region: " + mKoSData.getRegionStr());
+                    region.setVisibility(View.VISIBLE);
+                } else {
+                    region.setVisibility(View.GONE);
+                }
+
+                // Type
+                TextView type = (TextView) header.findViewById(R.id.kos_header_type);
+                if (mKoSData.getType() != 0) {
+                    type.setText("Annonstyp: " + (mKoSData.getType() == KoSData.SALJES ? "Säljes" : "Köpes"));
+                    type.setVisibility(View.VISIBLE);
+                } else {
+                    type.setVisibility(View.GONE);
+                }
+
+                // Price
+                TextView price = (TextView) header.findViewById(R.id.kos_header_price);
+                if (mKoSData.getPrice() != 0) {
+                    price.setText("Pris: " + mKoSData.getPriceStr());
+                    price.setVisibility(View.VISIBLE);
+                } else {
+                    price.setVisibility(View.GONE);
+                }
+
+                // Year
+                TextView year = (TextView) header.findViewById(R.id.kos_header_year);
+                if (mKoSData.getYear() != 0) {
+                    year.setText("Årsmodell: " + mKoSData.getYearStr());
+                    year.setVisibility(View.VISIBLE);
+                } else {
+                    year.setVisibility(View.GONE);
+                }
             }
         }
     }
 
 	public void nextPage() {
 		if (mKoSData.getCurrentPage() < mKoSData.getMaxPages())
-		{			
+		{
+            // TODO Remove items instead of setting adapter to null
 			mKoSAdapter = null;
 			mKoSData.setCurrentPage(mKoSData.getCurrentPage() + 1);
 			fetchData();
@@ -566,6 +574,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 	public void previousPage() {
     	if (mKoSData.getCurrentPage() > 1)
     	{
+            // TODO Remove items instead of setting adapter to null
     		mKoSAdapter = null;
 			mKoSData.setCurrentPage(mKoSData.getCurrentPage() - 1);
     		fetchData();
@@ -674,6 +683,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         edit.apply();
 
         mKoSData.setCurrentPage(1);
+        // TODO Remove items instead of setting adapter to null
         mKoSAdapter = null;
         fetchData();
     }

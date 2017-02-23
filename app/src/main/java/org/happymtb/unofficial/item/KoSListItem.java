@@ -1,5 +1,7 @@
 package org.happymtb.unofficial.item;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 
 public class KoSListItem implements Serializable {
@@ -8,7 +10,6 @@ public class KoSListItem implements Serializable {
 	public static String TYPE_SALJES =  "Säljes";
 	public static String TYPE_KOPES =  "Köpes";
 
-	private long mId;
 	private String mTime;
 	private String mType;
 	private String mTitle;
@@ -18,14 +19,24 @@ public class KoSListItem implements Serializable {
 	private String mCategory;
 	private String mPrice;
 	private boolean mSold;
-	private int mNumberOfKoSPages;
 
     public KoSListItem() {
 
     }
-	public KoSListItem(long id, String time, String type, String title, String area, String link,
-                       String imgLink, String category, String price, int numberOfKoSPages) {
-		mId = id;
+
+	/**
+	 *
+	 * @param time
+	 * @param type
+	 * @param title
+	 * @param area
+	 * @param link
+	 * @param imgLink
+	 * @param category
+     * @param price
+     */
+	public KoSListItem(String time, String type, String title, String area, String link,
+                       String imgLink, String category, String price) {
 		mTime = time;
 		mType = type;
 		mTitle = title;
@@ -34,27 +45,16 @@ public class KoSListItem implements Serializable {
 		mImgLink = imgLink;
 		mCategory = category;
 		mPrice = price;
-		mNumberOfKoSPages = numberOfKoSPages;
-	}
-
-	public void setId(long id) {
-		mId = id;
 	}
 
 	public long getId() {
-		return mId;
+        if (!TextUtils.isEmpty(mLink)) {
+            return Long.parseLong(mLink.split("id=")[1]);
+        }
+
+        return -1;
 	}
 
-	public int getNumberOfKoSPages() 
-	{
-		return mNumberOfKoSPages;
-	}	
-	
-	public void setNumberOfKoSPages(int NumberOfKoSPages) 
-	{
-		mNumberOfKoSPages = NumberOfKoSPages;
-	}	
-	
 	public String getImgLink() {
 		return mImgLink;
 	}

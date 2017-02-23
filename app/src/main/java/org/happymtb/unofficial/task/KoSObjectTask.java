@@ -58,7 +58,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 		return from;
 	}
 
-	public KoSObjectItem extractKoSObject(String str) {
+	private KoSObjectItem extractKoSObject(String str, String url) {
 		List<String> imgLinkList = new ArrayList<String>();
 
         int start = getStart(str, "<h1>", 0);
@@ -162,7 +162,6 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 			personPhone = str.substring(start, end).trim();
 		}
 
-
         //TODO Contact:  PM, Mail, Phone
         String personPM = "";
         String personEmail = "";
@@ -188,7 +187,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 
         person = new Person(personName, personPhone, personMemberSince, personIdLink, personPM, personEmail);
 
-		return new KoSObjectItem(area, town, type, title, person, publishDate, imgLinkList, description, price, yearModel);
+		return new KoSObjectItem(area, town, type, title, person, publishDate, imgLinkList, description, price, yearModel, url, ""/*category not available*/);
 	}
 
 	@Override
@@ -210,7 +209,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 			StringBuilder ksStringBuilder = new StringBuilder();
 			boolean startRead = false;
 			String lineString = "";
-				
+
 			while((lineString = lineNumberReader.readLine()) != null) {
 				if (lineString.contains("<div id=\"content\">")) {
 					startRead = true;
@@ -220,7 +219,7 @@ public class KoSObjectTask extends AsyncTask<Object, Void, Boolean> {
 					ksStringBuilder.append(lineString);
 					if (lineString.contains("<a href=\"report.php") || lineString.contains("<h1>Hittade ingen annons</h1>")) {
 						startRead = false;
-						mKoSObjectItem = extractKoSObject(ksStringBuilder.toString());
+						mKoSObjectItem = extractKoSObject(ksStringBuilder.toString(), urlStr);
 					}
 				}								
 			}						

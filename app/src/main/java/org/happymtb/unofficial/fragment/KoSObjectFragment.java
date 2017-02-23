@@ -33,6 +33,9 @@ import android.widget.Toast;
 import com.google.android.gms.analytics.HitBuilders;
 import com.viewpagerindicator.CirclePageIndicator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class KoSObjectFragment extends Fragment implements DialogInterface.OnCancelListener, View.OnClickListener {
 	private final static int DIALOG_FETCH_KOS_ERROR = 0;
 	private final static String DATA = "data";
@@ -309,7 +312,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
     }
 
     private void addToDatabase() {
-        if (datasource.insertKosItem(getKoSListItem()) > 0) {
+        if (datasource.insertKosItem(mKoSObjectItem) > 0) {
             mIsSaved = true;
         } else {
             Toast.makeText(mActivity, "Annonsen kunde inte sparas", Toast.LENGTH_SHORT).show();
@@ -317,7 +320,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
     }
 
     private void updateInDatabase() {
-        if (datasource.updateKosItem(getKoSListItem()) > 0) {
+        if (datasource.updateKosItem(mKoSObjectItem) > 0) {
             mActivity.setResult(SavedListFragment.RESULT_MODIFIED, null);
         } else {
             Toast.makeText(mActivity, "Annonsen kunde inte uppdateras", Toast.LENGTH_SHORT).show();
@@ -333,15 +336,7 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		}
     }
 
-    private KoSListItem getKoSListItem() {
-        if (mKoSObjectItem != null) {
-            return new KoSListItem(mActivity.getObjectId(), mKoSObjectItem.getDate(), mKoSObjectItem.getType(), mKoSObjectItem.getTitle(),
-                    mKoSObjectItem.getArea(), mActivity.getObjectLink(), mKoSObjectItem.getImgLink(), mActivity.getObjectCategory(),
-                    mKoSObjectItem.getPrice(), 0);
-        } else {
-            return null;
-        }
-    }
+
 
     private void shareObject() {
         if (mKoSObjectItem != null) {

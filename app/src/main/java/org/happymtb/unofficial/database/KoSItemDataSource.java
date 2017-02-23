@@ -12,14 +12,14 @@ import android.database.sqlite.SQLiteDatabase;
 
 import org.happymtb.unofficial.fragment.KoSListFragment;
 import org.happymtb.unofficial.item.KoSListItem;
+import org.happymtb.unofficial.item.KoSObjectItem;
 
 public class KoSItemDataSource {
 
     // Database fields
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
-    private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_TITLE };
+    private String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_TITLE };
 
     public KoSItemDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -33,12 +33,20 @@ public class KoSItemDataSource {
         dbHelper.close();
     }
 
+    public long insertKosItem(KoSObjectItem item) {
+        return insertKosItem(getKoSListItem(item));
+    }
+
     public long insertKosItem(KoSListItem item) {
         if (item != null) {
             ContentValues values = getContentValues(item);
             return database.insert(MySQLiteHelper.TABLE_SAVED, null, values);
         }
         return -1;
+    }
+
+    public long updateKosItem(KoSObjectItem item) {
+        return updateKosItem(getKoSListItem(item));
     }
 
     public long updateKosItem(KoSListItem item) {
@@ -50,6 +58,16 @@ public class KoSItemDataSource {
             }
         }
         return -1;
+    }
+
+    private KoSListItem getKoSListItem(KoSObjectItem item) {
+        if (item != null) {
+            return new KoSListItem(item.getDate(), item.getType(), item.getTitle(),
+                    item.getArea(), item.getUrl(), item.getImgLink(), item.getCatgegory(),
+                    item.getPrice());
+        } else {
+            return null;
+        }
     }
 
     private ContentValues getContentValues(KoSListItem item) {
@@ -90,8 +108,8 @@ public class KoSItemDataSource {
         }
     }
 
-    public boolean checkIsDataAlreadyInDBorNot(String coulumnName, String columnValue) {
-        String Query = "Select * from " + MySQLiteHelper.TABLE_SAVED + " where " + coulumnName + " = " + columnValue;
+    public boolean checkIsDataAlreadyInDBorNot(String columnName, String columnValue) {
+        String Query = "Select * from " + MySQLiteHelper.TABLE_SAVED + " where " + columnName + " = " + columnValue;
         Cursor cursor = database.rawQuery(Query, null);
         if(cursor.getCount() <= 0){
             cursor.close();
@@ -119,7 +137,6 @@ public class KoSItemDataSource {
 
     public static KoSListItem getKoSItemFromCursor(Cursor cursor) {
         KoSListItem item = new KoSListItem();
-        item.setId(cursor.getLong(cursor.getColumnIndex(MySQLiteHelper.COLUMN_ID)));
         item.setTitle(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_TITLE)));
         item.setType(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_TYPE)));
         item.setArea(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_AREA)));

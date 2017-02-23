@@ -38,10 +38,16 @@ import org.happymtb.unofficial.database.KoSItemDataSource;
 import org.happymtb.unofficial.database.MyContentProvider;
 import org.happymtb.unofficial.database.MySQLiteHelper;
 import org.happymtb.unofficial.item.KoSListItem;
+import org.happymtb.unofficial.item.KoSObjectItem;
+import org.happymtb.unofficial.listener.KoSObjectListener;
+import org.happymtb.unofficial.task.KoSObjectTask;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.happymtb.unofficial.fragment.KoSListFragment.NO_IMAGE_URL;
 
-public class SavedListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class SavedListFragment extends RefreshListfragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static String TAG = "saved_frag";
 
     public final static int REQUEST_ITEM_MODIFIED 	= 1;
@@ -61,6 +67,8 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+
+        showProgress(false);
 
         mActivity = (MainActivity) getActivity();
 		mActivity.getSupportActionBar().setTitle(getString(R.string.title_bar_saved));
@@ -85,12 +93,60 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
         mTracker.setScreenName(GaConstants.Categories.SAVED_LIST);
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         // [END Google analytics screen]
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.saved_frame, container, false);
+    }
+
+    @Override
+    protected void fetchData() {
+        showProgress(false);
+    }
+
+    /**
+     * Send requests to get new data for the items in the list
+     */
+    @Override
+    protected void reloadCleanList() {
+        mProgressView.setVisibility(View.VISIBLE);
+
+        /*
+        KoSObjectTask mKoSObjectTask = new KoSObjectTask();
+        mKoSObjectTask.addKoSObjectListener(new KoSObjectListener() {
+            public void success(List<KoSObjectItem> items) {
+                if (getActivity() != null && !getActivity().isFinishing()) {
+                    KoSItemDataSource dataSource = new KoSItemDataSource(mActivity);
+                    dataSource.open();
+                    for (KoSObjectItem item : items) {
+                        dataSource.updateKosItem(item);
+                    }
+
+                    getLoaderManager().restartLoader(0, null, SavedListFragment.this);
+                    //TODO Handle these
+                    // mNoNetworkView.setVisibility(View.VISIBLE);
+                    // mProgressView.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            public void fail() {
+                if (getActivity() != null && !getActivity().isFinishing()) {
+                    Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+                    mProgressView.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+        */
+
+        ArrayList urlList = new ArrayList();
+        Cursor c = mAdapter.getCursor();
+        while (c.moveToNext()) {
+            urlList.add(c.getString(c.getColumnIndex(MySQLiteHelper.COLUMN_LINK)));
+        }
+
+        // TODO Send volley requests for these urls
+//        mKoSObjectTask.execute(urlList);
     }
 
     @Override
@@ -197,7 +253,11 @@ public class SavedListFragment extends ListFragment implements LoaderManager.Loa
         mAdapter.swapCursor(cursor);
         if (cursor == null || cursor.getCount() == 0) {
             mActivity.findViewById(R.id.no_content).setVisibility(View.VISIBLE);
+        } else {
+            // TODO Iterate the cursor and send requests to update the items
+            Toast.makeText(mActivity, "Items: " + cursor.getCount(), Toast.LENGTH_SHORT).show();
         }
+        showProgress(false);
 	}
 
 	@Override

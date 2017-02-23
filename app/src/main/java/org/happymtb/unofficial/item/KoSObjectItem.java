@@ -17,13 +17,15 @@ public class KoSObjectItem implements Serializable {
 	private String mText;
 	private String mPrice;	
 	private int mYearModel;
+	private String mUrl;
+	private String mCategory;
 
 	public KoSObjectItem(String title) {
 		setTitle(title);
 	}
 
 	public KoSObjectItem(String area, String town, String type, String title, Person person,
-							  String publishDate, List<String> imgLinkList, String text, String price, int yearModel) {
+							  String publishDate, List<String> imgLinkList, String description, String price, int yearModel, String url, String category) {
 		setArea(area);
 		setTown(town);
 		setType(type);
@@ -31,9 +33,11 @@ public class KoSObjectItem implements Serializable {
 		setPerson(person);
 		setDate(publishDate);
 		setImgLinkList(imgLinkList);
-		setText(text);
+		setText(description);
 		setPrice(price);
 		setYearmodel(yearModel);
+		setUrl(url);
+		setCategory(category);
 	}
 
 	public String getArea() {
@@ -120,5 +124,20 @@ public class KoSObjectItem implements Serializable {
 
 	public void setYearmodel(int yearmodel) {
 		this.mYearModel = yearmodel;
+	}
+
+	public String getUrl() {
+		return mUrl;
+	}
+
+	public void setUrl(String url) {
+		this.mUrl = url;
+	}
+	public String getCatgegory() {
+		return mCategory;
+	}
+
+	public void setCategory(String category) {
+		this.mCategory = category;
 	}
 }

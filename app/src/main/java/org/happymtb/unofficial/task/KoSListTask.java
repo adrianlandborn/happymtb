@@ -16,6 +16,7 @@ import android.util.Log;
 
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSListItem;
+import org.happymtb.unofficial.item.KoSReturnData;
 import org.happymtb.unofficial.listener.KoSListListener;
 
 public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
@@ -39,22 +40,20 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
     }
 
     public KoSListItem extractKoSRow(String KoSStr) {
-        long id;
-        String type = "";
-        String time = "";
+        String type;
+        String time ;
         String title;
-        String area = "";
+        String area;
         String link;
         String imgLink;
-        String category = "";
-        String price = "";
+        String category;
+        String price;
 
         int start = 0;
-        int end = 0;
+        int end;
 
         //ImageLink
         start = getStart(KoSStr, "src=\"", start);
-//        Start = KoSStr.indexOf("src=\"", Start) + 5;
         end = KoSStr.indexOf("\" border=\"0\" ", start);
         imgLink = ("https://happyride.se" + KoSStr.substring(start, end)).replace("small", "normal");
         start = end;
@@ -98,11 +97,8 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
         start = KoSStr.indexOf("<td class=\"hidden-xs\"><nobr>", start) + 28;
         end = KoSStr.indexOf("</nobr></td>", start);
         time = HappyUtils.replaceHTMLChars(KoSStr.substring(start, end));
-        start = end;
 
-        id = Long.parseLong(link.split("id=")[1]);
-
-        return new KoSListItem(id, time, type, title, area, link, imgLink, category, price, 0);
+        return new KoSListItem(time, type, title, area, link, imgLink, category, price);
     }
 
     @Override
@@ -228,11 +224,6 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
                     }
                 }
             }
-
-            for (int i = 0; i < mKoSListItems.size(); i++) {
-                mKoSListItems.get(i).setNumberOfKoSPages(mNumberOfKoSPages);
-            }
-
         } catch (Exception e) {
             Log.d("doInBackground", "Error: " + e.getMessage());
             e.printStackTrace();
@@ -246,7 +237,8 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
     protected void onPostExecute(Boolean result) {
         for (KoSListListener l : mKoSListListenerList) {
             if (result) {
-                l.success(mKoSListItems);
+                KoSReturnData data = new KoSReturnData(mKoSListItems, mNumberOfKoSPages);
+                l.success(data);
             } else {
                 l.fail();
             }
