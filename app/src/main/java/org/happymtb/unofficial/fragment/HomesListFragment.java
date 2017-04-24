@@ -1,16 +1,5 @@
 package org.happymtb.unofficial.fragment;
 
-import java.util.ArrayList;
-
-import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.adapter.HomeAdapter;
-import org.happymtb.unofficial.analytics.GaConstants;
-import org.happymtb.unofficial.analytics.HappyApplication;
-import org.happymtb.unofficial.item.Home;
-import org.happymtb.unofficial.listener.HomeListListener;
-import org.happymtb.unofficial.task.HomeListTask;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,17 +9,31 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
-public class HomesListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener, OnChildClickListener {
+import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.adapter.HomeAdapter;
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
+import org.happymtb.unofficial.item.HomeItem;
+import org.happymtb.unofficial.volley.HomeListRequest;
+import org.happymtb.unofficial.volley.MyRequestQueue;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class HomesListFragment extends RefreshListfragment implements OnChildClickListener {
 	public static String TAG = "home_frag";
 	private HomeAdapter mHomeAdapter;
-	private ArrayList<Home> mHomes = new ArrayList<Home>();
+    private HomeListRequest mRequest;
+    private ArrayList<HomeItem> mHomeItems = new ArrayList<>();
 
 	private Tracker mTracker;
 
@@ -39,9 +42,9 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 
 		((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.main_home));
 		if (savedInstanceState != null) {
-			mHomes = (ArrayList<Home>)savedInstanceState.getSerializable(DATA);
+			mHomeItems = (ArrayList<HomeItem>)savedInstanceState.getSerializable(DATA);
 
-			if (mHomes != null && !mHomes.isEmpty()) {
+			if (mHomeItems != null && !mHomeItems.isEmpty()) {
 				fillList();
 				showProgress(false);
 			} else {
@@ -50,7 +53,6 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
         } else {
             fetchData();
 		}
-
 	}
 
 	@Override
@@ -64,13 +66,12 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 		// [START Google analytics screen]
 		mTracker.setScreenName(GaConstants.Categories.HOME);
 		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-		// [END sGoogle analytics screen]
 	}
 
 	@Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(DATA, mHomes);
+        outState.putSerializable(DATA, mHomeItems);
     }
 
     @Override
@@ -88,52 +89,56 @@ public class HomesListFragment extends RefreshListfragment implements DialogInte
 	@Override
 	protected void fetchData() {
         if (hasNetworkConnection()) {
-            HomeListTask homeListTask = new HomeListTask();
-            homeListTask.addHomeListListener(new HomeListListener() {
-                public void success(ArrayList<Home> Homes) {
-                    if (getActivity() != null && !getActivity().isFinishing()) {
-                        mHomes = Homes;
-                        fillList();
+            mRequest = new HomeListRequest(new Response.Listener<List<HomeItem>>() {
 
-                        showList(true);
-                        showProgress(false);
-                    }
+                @Override
+                public void onResponse(List<HomeItem> homeItems) {
+                    mHomeItems = (ArrayList<HomeItem>) homeItems;
+
+                    fillList();
+                    showProgress(false);
                 }
 
-                public void fail() {
-                    if (getActivity() != null && !getActivity().isFinishing()) {
-                        Toast.makeText(getActivity(), R.string.no_items_found, Toast.LENGTH_LONG).show();
-
-                        showProgress(false);
-                    }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    mHomeItems = new ArrayList<>();
                 }
             });
-            homeListTask.execute();
+
+            MyRequestQueue.getInstance(getContext()).addRequest(mRequest);
         }
-	}
-	
+    }
+
 	protected void fillList() {
 		if (mHomeAdapter == null) {
-			mHomeAdapter = new HomeAdapter(getActivity(), mHomes);
+			mHomeAdapter = new HomeAdapter(getActivity(), mHomeItems);
 			setListAdapter(mHomeAdapter);
 		} else {
-            mHomeAdapter.setItems(mHomes);
+            mHomeAdapter.setItems(mHomeItems);
 			mHomeAdapter.notifyDataSetChanged();
 		}
 	}
 			
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(mHomes.get(position).getLink()));
+		final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(mHomeItems.get(position).getLink()));
 		startActivity(intent);
 	}	
 	
-	@Override
-	public void onCancel(DialogInterface dialog) {}
-
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
 			int groupPosition, int childPosition, long id) {
 		return false;
 	}
+
+    @Override
+    public void onDestroy() {
+        if (mRequest != null) {
+            mRequest.removeHomeListListener();
+            mRequest.cancel();
+        }
+        super.onDestroy();
+    }
 }

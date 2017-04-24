@@ -125,7 +125,7 @@ public class MessageListTask extends AsyncTask<Object, Void, Boolean>
     			bitmapDirectory.mkdirs();
     		}
     		
-    		String urlStr = "http://happyride.se/forum/read.php/1/" + param[1] + "/page=" + param[2];
+    		String urlStr = "https://happyride.se/forum/read.php/1/" + param[1] + "/page=" + param[2];
             HttpGet httpget = new HttpGet(urlStr);
            
             HttpResponse response = httpclient.execute(httpget);

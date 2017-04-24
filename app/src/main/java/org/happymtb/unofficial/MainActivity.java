@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case PROFILE:
                 Intent browserIntent = new Intent(this, WebViewActivity.class);
-                browserIntent.putExtra("url", "http://happyride.se/annonser/my_ads.php");
+                browserIntent.putExtra("url", "https://happyride.se/annonser/my_ads.php");
                 startActivity(browserIntent);
                 break;
             case VIDEO:

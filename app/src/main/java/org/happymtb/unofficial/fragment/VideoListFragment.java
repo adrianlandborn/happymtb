@@ -159,7 +159,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 			dialog.show();
 			return true;	
 		case R.id.video_new_item:
-			String url = "http://happyride.se/video/upload.php";
+			String url = "https://happyride.se/video/upload.php";
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			startActivity(browserIntent);							
 			return true;				

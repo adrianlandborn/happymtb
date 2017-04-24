@@ -36,7 +36,7 @@ import java.io.File;
 import java.util.List;
 
 public class PostsListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
-    private static final String BASE_URL = "http://happyride.se/forum/read.php/1/";
+    private static final String BASE_URL = "https://happyride.se/forum/read.php/1/";
     public static final String TAG = "posts_tag";
 
     private MessageListTask mMessageListTask;

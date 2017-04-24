@@ -340,7 +340,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
             openGoToPage();
 			return true;	
 		case R.id.kos_new_item:
-			String url = "http://happyride.se/annonser/add.php";
+			String url = "https://happyride.se/annonser/add.php";
             sendGaEvent(GaConstants.Actions.NEW_ADD, GaConstants.Labels.EMPTY);
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			startActivity(browserIntent);							

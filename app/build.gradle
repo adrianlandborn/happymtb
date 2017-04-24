@@ -6,7 +6,7 @@ android {
         releaseConfig
     }
     compileSdkVersion 25
-    buildToolsVersion "24.0.2"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "org.happymtb.unofficial"
         minSdkVersion 16
@@ -32,10 +32,11 @@ android {
     useLibrary 'org.apache.http.legacy'
 }
 repositories {
-    maven { url "http://jzaccone.github.io/SlidingMenu-aar" }
+
 }
 
 dependencies {
+    compile 'com.android.volley:volley:1.0.0'
     compile 'com.android.support:support-v4:25.1.1'
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support:design:25.1.1'

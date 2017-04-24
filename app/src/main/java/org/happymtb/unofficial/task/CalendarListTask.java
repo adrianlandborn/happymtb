@@ -87,7 +87,7 @@ public class CalendarListTask extends AsyncTask<Object, Void, Boolean> {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 
 		try {
-			String urlStr = "http://happyride.se/kalender/?list=1"
+			String urlStr = "https://happyride.se/kalender/?list=1"
 					+ "&search=" + params[0]
 					+ "&r=" + params[1]
 					+ "&c=" + params[2];

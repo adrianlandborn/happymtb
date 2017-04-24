@@ -16,6 +16,7 @@ import org.happymtb.unofficial.item.Item;
 import org.happymtb.unofficial.listener.ItemListListener;
 
 public class ShopsListTask extends AsyncTask<Object, Void, Boolean> {
+	private static final String BASE_URL = "https://happyride.se/forum/butiker/";
 	private ArrayList<ItemListListener> mItemListListenerList;
 	private ArrayList<Item> mShopItems = new ArrayList<Item>();
 	private String mGroup;
@@ -40,7 +41,7 @@ public class ShopsListTask extends AsyncTask<Object, Void, Boolean> {
 
 		Start = ShopStr.indexOf("<a href='", Start) + 9;
 		End = ShopStr.indexOf("'", Start);
-		String Link = "http://happyride.se/forum/butiker/"	+ ShopStr.substring(Start, End);
+		String Link = BASE_URL	+ ShopStr.substring(Start, End);
 		Start = End;
 
 		Start = ShopStr.indexOf("PhorumSmallFont'>", Start) + 17;
@@ -57,7 +58,7 @@ public class ShopsListTask extends AsyncTask<Object, Void, Boolean> {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		
 		try {
-			String urlStr = "http://happyride.se/forum/butiker/";
+			String urlStr = BASE_URL;
 			HttpGet httpget = new HttpGet(urlStr);
 
 			HttpResponse response = httpclient.execute(httpget);

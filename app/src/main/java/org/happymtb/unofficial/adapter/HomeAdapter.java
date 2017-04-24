@@ -3,8 +3,8 @@ package org.happymtb.unofficial.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.happymtb.unofficial.item.HomeItem;
 import org.happymtb.unofficial.view.HomeRowView;
-import org.happymtb.unofficial.item.Home;
 
 import android.content.Context;
 import android.view.View;
@@ -13,21 +13,21 @@ import android.widget.BaseAdapter;
 
 public class HomeAdapter extends BaseAdapter {
 	private Context mContext;
-	private List<Home> mHomes = new ArrayList<Home>();
+	private List<HomeItem> mHomeItems = new ArrayList<HomeItem>();
 
-	public HomeAdapter(Context context, List<Home> Homes) {
+	public HomeAdapter(Context context, List<HomeItem> homeItems) {
 		mContext = context;
-		mHomes = Homes;
+		mHomeItems = homeItems;
 	}		
 	
 	@Override
 	public int getCount() {
-		return mHomes.size();
+		return mHomeItems.size();
 	}
 
 	@Override
-	public Home getItem(int position) {
-		return mHomes.get(position);
+	public HomeItem getItem(int position) {
+		return mHomeItems.get(position);
 	}
 
 	@Override
@@ -45,14 +45,14 @@ public class HomeAdapter extends BaseAdapter {
 			homeRowView = (HomeRowView) convertView;
 		}
 
-		homeRowView.setTitle(mHomes.get(position).getTitle());
-		homeRowView.setText(mHomes.get(position).getText());
-		homeRowView.setDate(mHomes.get(position).getDate());
+		homeRowView.setTitle(mHomeItems.get(position).getTitle());
+		homeRowView.setText(mHomeItems.get(position).getText());
+		homeRowView.setDate(mHomeItems.get(position).getDate());
 		
 		return homeRowView;
 	}
 
-	public void setItems(ArrayList<Home> items) {
-		mHomes = items;
+	public void setItems(ArrayList<HomeItem> items) {
+		mHomeItems = items;
 	}
 }

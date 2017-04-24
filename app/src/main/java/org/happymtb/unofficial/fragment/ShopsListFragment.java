@@ -83,7 +83,7 @@ public class ShopsListFragment extends ItemsListFragment implements DialogInterf
 				collapseAll();
 				return true;					
 			case R.id.shops_add:
-				String url = "http://happyride.se/forum/butiker/add.php?cat=4";
+				String url = "https://happyride.se/forum/butiker/add.php?cat=4";
 				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 				startActivity(browserIntent);							
 				return true;			

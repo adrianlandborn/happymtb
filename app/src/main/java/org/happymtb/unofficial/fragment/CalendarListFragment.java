@@ -179,7 +179,7 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		String url = "http://happyride.se/kalender/" + mCalendarItems.get(position).getId();
+		String url = "https://happyride.se/kalender/" + mCalendarItems.get(position).getId();
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 		startActivity(browserIntent);			
 	}
@@ -202,7 +202,7 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 //	        CalendarSearchDialog.show(fm, "fragment_edit_name");
 //			return true;
 		case R.id.calendar_new_item:
-			String url = "http://happyride.se/kalender/add.php";
+			String url = "https://happyride.se/kalender/add.php";
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			startActivity(browserIntent);							
 			return true;			

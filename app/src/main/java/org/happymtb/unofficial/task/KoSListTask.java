@@ -109,7 +109,7 @@ public class KoSListTask extends AsyncTask<Object, Void, Boolean> {
 
         // //?search=&category=1&county=&type=1&category2=&county2=&type2=&price=3&year=2013&p=1&sortattribute=creationdate&sortorder=DESC
         try {
-            String urlStr = "http://happyride.se/annonser/"
+            String urlStr = "https://happyride.se/annonser/"
                     + "?search=" + params[0]
                     + "&category=" + Integer.toString((Integer) params[1])
                     + "&county=" + Integer.toString((Integer) params[2])
