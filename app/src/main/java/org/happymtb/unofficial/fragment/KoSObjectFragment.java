@@ -1,18 +1,5 @@
 package org.happymtb.unofficial.fragment;
 
-import org.happymtb.unofficial.WebViewActivity;
-import org.happymtb.unofficial.adapter.ViewPagerAdapter;
-import org.happymtb.unofficial.analytics.GaConstants;
-import org.happymtb.unofficial.database.KoSItemDataSource;
-import org.happymtb.unofficial.item.KoSListItem;
-import org.happymtb.unofficial.item.KoSObjectItem;
-import org.happymtb.unofficial.item.Person;
-import org.happymtb.unofficial.listener.KoSObjectListener;
-import org.happymtb.unofficial.task.KoSObjectTask;
-import org.happymtb.unofficial.KoSObjectActivity;
-import org.happymtb.unofficial.R;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,19 +17,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
 import com.viewpagerindicator.CirclePageIndicator;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.happymtb.unofficial.KoSObjectActivity;
+import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.WebViewActivity;
+import org.happymtb.unofficial.adapter.ViewPagerAdapter;
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.database.KoSItemDataSource;
+import org.happymtb.unofficial.item.KoSObjectItem;
+import org.happymtb.unofficial.item.Person;
+import org.happymtb.unofficial.volley.KosObjectRequest;
+import org.happymtb.unofficial.volley.MyRequestQueue;
 
-public class KoSObjectFragment extends Fragment implements DialogInterface.OnCancelListener, View.OnClickListener {
-	private final static int DIALOG_FETCH_KOS_ERROR = 0;
+public class KoSObjectFragment extends Fragment implements View.OnClickListener {
 	private final static String DATA = "data";
 
     ImageView mTransitionImageView;
 
-	private KoSObjectTask mKoSObjectTask;
+	private KosObjectRequest mRequest;
 	private KoSObjectItem mKoSObjectItem;
 	private View mScrollView;
 	private View mProgressView;
@@ -157,13 +153,13 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 	private void fetchKoSObject(String objectLink) {
 		mProgressView.setVisibility(View.VISIBLE);
 
-		mKoSObjectTask = new KoSObjectTask();
-		mKoSObjectTask.addKoSObjectListener(new KoSObjectListener() {
-			public void success(KoSObjectItem koSObjectItem) {
-				mKoSObjectItem = koSObjectItem;
-				if (getActivity() != null && !getActivity().isFinishing()) {
-					if (mKoSObjectItem != null) {
-                        if (!mKoSObjectItem.getTitle().equals(KoSObjectTask.ITEM_REMOVED)) {
+        mRequest = new KosObjectRequest(objectLink, new Response.Listener<KoSObjectItem>() {
+            @Override
+            public void onResponse(KoSObjectItem response) {
+                mKoSObjectItem = response;
+                if (getActivity() != null && !getActivity().isFinishing()) {
+                    if (mKoSObjectItem != null) {
+                        if (!mKoSObjectItem.getTitle().equals(KosObjectRequest.ITEM_REMOVED)) {
                             fillList();
                             //TODO update in database
                             if (mIsSaved) {
@@ -184,21 +180,23 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
                         // No data traffic etc.
                         mNoNetworkView.setVisibility(View.VISIBLE);
                     }
-				} else {
+                } else {
                     // Something went wrong
                 }
                 mProgressView.setVisibility(View.INVISIBLE);
-			}
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (getActivity() != null && !getActivity().isFinishing()) {
+                    Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+                    mProgressView.setVisibility(View.INVISIBLE);
+                    mNoNetworkView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
-			public void fail() {
-				if (getActivity() != null && !getActivity().isFinishing()) {
-					Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
-					mProgressView.setVisibility(View.INVISIBLE);
-				}
-			}
-		});
-
-		mKoSObjectTask.execute(objectLink);
+        MyRequestQueue.getInstance(getContext()).addRequest(mRequest);
 	}
 
 	private void fillList() {
@@ -261,13 +259,6 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
             mPrice.setText("Pris: " + price);
         }
         mScrollView.setVisibility(View.VISIBLE);
-	}
-
-    @Override
-	public void onCancel(DialogInterface dialog) {
-		if (mKoSObjectTask != null) {
-			mKoSObjectTask.cancel(true);
-		}		
 	}
 
     @Override
@@ -336,8 +327,6 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
 		}
     }
 
-
-
     private void shareObject() {
         if (mKoSObjectItem != null) {
             String message = "Hej! Jag vill tipsa om en annons: " + mKoSObjectItem.getTitle() + " " + mActivity.getObjectLink();
@@ -380,4 +369,13 @@ public class KoSObjectFragment extends Fragment implements DialogInterface.OnCan
             }
         }
 	}
+
+    @Override
+    public void onDestroy() {
+        if (mRequest != null) {
+            mRequest.removeListener();
+            mRequest.cancel();
+        }
+        super.onDestroy();
+    }
 }

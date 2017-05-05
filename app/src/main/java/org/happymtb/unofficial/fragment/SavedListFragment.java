@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -38,12 +37,8 @@ import org.happymtb.unofficial.database.KoSItemDataSource;
 import org.happymtb.unofficial.database.MyContentProvider;
 import org.happymtb.unofficial.database.MySQLiteHelper;
 import org.happymtb.unofficial.item.KoSListItem;
-import org.happymtb.unofficial.item.KoSObjectItem;
-import org.happymtb.unofficial.listener.KoSObjectListener;
-import org.happymtb.unofficial.task.KoSObjectTask;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.happymtb.unofficial.fragment.KoSListFragment.NO_IMAGE_URL;
 
@@ -105,48 +100,15 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
         showProgress(false);
     }
 
-    /**
-     * Send requests to get new data for the items in the list
-     */
     @Override
     protected void reloadCleanList() {
         mProgressView.setVisibility(View.VISIBLE);
-
-        /*
-        KoSObjectTask mKoSObjectTask = new KoSObjectTask();
-        mKoSObjectTask.addKoSObjectListener(new KoSObjectListener() {
-            public void success(List<KoSObjectItem> items) {
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    KoSItemDataSource dataSource = new KoSItemDataSource(mActivity);
-                    dataSource.open();
-                    for (KoSObjectItem item : items) {
-                        dataSource.updateKosItem(item);
-                    }
-
-                    getLoaderManager().restartLoader(0, null, SavedListFragment.this);
-                    //TODO Handle these
-                    // mNoNetworkView.setVisibility(View.VISIBLE);
-                    // mProgressView.setVisibility(View.INVISIBLE);
-                }
-            }
-
-            public void fail() {
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
-                    mProgressView.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-        */
 
         ArrayList urlList = new ArrayList();
         Cursor c = mAdapter.getCursor();
         while (c.moveToNext()) {
             urlList.add(c.getString(c.getColumnIndex(MySQLiteHelper.COLUMN_LINK)));
         }
-
-        // TODO Send volley requests for these urls
-//        mKoSObjectTask.execute(urlList);
     }
 
     @Override

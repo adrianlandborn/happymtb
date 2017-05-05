@@ -1,17 +1,6 @@
 package org.happymtb.unofficial.fragment;
 
-import java.util.ArrayList;
-
-import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.analytics.GaConstants;
-import org.happymtb.unofficial.analytics.HappyApplication;
-import org.happymtb.unofficial.item.Item;
-import org.happymtb.unofficial.listener.ItemListListener;
-import org.happymtb.unofficial.task.ShopsListTask;
-
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -21,13 +10,25 @@ import android.view.MenuItem;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+
+import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
+import org.happymtb.unofficial.item.Item;
+import org.happymtb.unofficial.volley.MyRequestQueue;
+import org.happymtb.unofficial.volley.ShopsListRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShopsListFragment extends ItemsListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
 	public static String TAG = "shops_frag";
 
-	private ShopsListTask mShopsTask;
+	private ShopsListRequest mRequest;
 	private Tracker mTracker;
 
 	@Override
@@ -52,23 +53,25 @@ public class ShopsListFragment extends ItemsListFragment implements DialogInterf
 
 	@Override
 	protected void fetchItems() {
-		mShopsTask = new ShopsListTask();
-		mShopsTask.addItemListListener(new ItemListListener() {
-            public void success(ArrayList<Item> Items) {
+		mRequest = new ShopsListRequest(new Response.Listener<List<Item>>() {
+            @Override
+            public void onResponse(List<Item> items) {
                 if (getActivity() != null && !getActivity().isFinishing()) {
-                    mAllItems = Items;
+                    mAllItems = (ArrayList<Item>) items;
                     fillList();
                 }
             }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (getActivity() != null && !getActivity().isFinishing()) {
+                    Toast.makeText(getActivity(), R.string.shops_no_items_found, Toast.LENGTH_SHORT).show();
+                }
 
-            public void fail() {
-				if (getActivity() != null && !getActivity().isFinishing()) {
-					Toast.makeText(getActivity(), R.string.shops_no_items_found, Toast.LENGTH_SHORT).show();
-				}
             }
         });
 
-		mShopsTask.execute();
+        MyRequestQueue.getInstance(getContext()).addRequest(mRequest);
 	}	
 	
 	@Override
@@ -82,11 +85,11 @@ public class ShopsListFragment extends ItemsListFragment implements DialogInterf
 			case R.id.shops_hide_all:
 				collapseAll();
 				return true;					
-			case R.id.shops_add:
-				String url = "https://happyride.se/forum/butiker/add.php?cat=4";
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-				startActivity(browserIntent);							
-				return true;			
+//			case R.id.shops_add:
+//				String url = "https://happyride.se/forum/butiker/add.php?cat=4";
+//				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//				startActivity(browserIntent);
+//				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -96,5 +99,14 @@ public class ShopsListFragment extends ItemsListFragment implements DialogInterf
 		menu.clear();		
 		inflater.inflate(R.menu.shops_menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
-	}			
+	}
+
+	@Override
+	public void onDestroy() {
+		if (mRequest != null) {
+			mRequest.removeListener();
+			mRequest.cancel();
+		}
+		super.onDestroy();
+	}
 }

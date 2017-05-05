@@ -24,7 +24,7 @@ public class HomeListRequest extends Request<List<HomeItem>> implements Response
         mHomeListListener = listener;
 	}
 
-	public void removeHomeListListener() {
+	public void removeListener() {
 		mHomeListListener = null;
 	}
 

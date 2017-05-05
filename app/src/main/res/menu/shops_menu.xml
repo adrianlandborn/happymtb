@@ -21,7 +21,8 @@
     		<item 
         		android:id="@+id/shops_add" 
         		android:icon="@drawable/ic_action_write"
-        		android:title="Lägg till butik"/>    						
+        		android:title="Lägg till butik"
+				android:visible="false"/>
 		</menu>            
 	</item>	    
     

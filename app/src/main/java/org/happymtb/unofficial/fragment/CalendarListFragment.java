@@ -1,16 +1,5 @@
 package org.happymtb.unofficial.fragment;
 
-import java.util.ArrayList;
-
-import org.happymtb.unofficial.MainActivity;
-import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.adapter.CalendarAdapter;
-import org.happymtb.unofficial.analytics.GaConstants;
-import org.happymtb.unofficial.analytics.HappyApplication;
-import org.happymtb.unofficial.task.CalendarListTask;
-import org.happymtb.unofficial.item.CalendarItem;
-import org.happymtb.unofficial.listener.CalendarListListener;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -33,16 +22,30 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
-public class CalendarListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
+import org.happymtb.unofficial.MainActivity;
+import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.adapter.CalendarAdapter;
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
+import org.happymtb.unofficial.item.CalendarItem;
+import org.happymtb.unofficial.volley.CalendarListRequest;
+import org.happymtb.unofficial.volley.MyRequestQueue;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CalendarListFragment extends RefreshListfragment {
   	private final static int DIALOG_FETCH_CALENDAR_ERROR = 0;
 	public static String TAG = "calendar_frag";
 
 	private Tracker mTracker;
 
-	private CalendarListTask mGetCalendarTask;
+	private CalendarListRequest mRequest;
 	private CalendarAdapter mCalendarAdapter;
 	private ArrayList<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
 	MainActivity mActivity;
@@ -121,28 +124,27 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 	}
 
 	@Override
-	public void onCancel(DialogInterface dialog) {
-		if (mGetCalendarTask != null) {
-			mGetCalendarTask.cancel(true);
-		}		
-	}		
-
-	@Override
 	protected void fetchData() {
 		if (hasNetworkConnection()) {
-			mGetCalendarTask = new CalendarListTask();
-			mGetCalendarTask.addCalendarListListener(new CalendarListListener() {
-				public void success(ArrayList<CalendarItem> CalendarItems) {
+			String urlStr = "https://happyride.se/kalender/?list=1"
+					+ "&search=" + mSearch
+					+ "&r=" + mRegionPosition
+					+ "&c=" + mCategoryPosition;
+			mRequest = new CalendarListRequest(urlStr, new Response.Listener<List<CalendarItem>>() {
+				@Override
+				public void onResponse(List<CalendarItem> calendarItems) {
 					if (getActivity() != null && !getActivity().isFinishing()) {
-						mCalendarItems = CalendarItems;
+						mCalendarItems = (ArrayList<CalendarItem>) calendarItems;
 						fillList();
 
 						showList(true);
 						showProgress(false);
 					}
-				}
 
-				public void fail() {
+				}
+			}, new Response.ErrorListener() {
+				@Override
+				public void onErrorResponse(VolleyError error) {
 					if (getActivity() != null && !getActivity().isFinishing()) {
 						Toast.makeText(mActivity, R.string.calendar_no_items_found, Toast.LENGTH_LONG).show();
 						mCalendarItems = new ArrayList<CalendarItem>();
@@ -150,7 +152,8 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 					}
 				}
 			});
-			mGetCalendarTask.execute(mSearch, mRegionPosition, mCategoryPosition);
+
+			MyRequestQueue.getInstance(getContext()).addRequest(mRequest);
 		}
 	}
 
@@ -183,7 +186,16 @@ public class CalendarListFragment extends RefreshListfragment implements DialogI
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 		startActivity(browserIntent);			
 	}
-	
+
+	@Override
+	public void onDestroy() {
+		if (mRequest != null) {
+			mRequest.removeListener();
+			mRequest.cancel();
+		}
+		super.onDestroy();
+	}
+
 	public void reloadCleanList() {
         mFirstVisiblePos = 0;
 

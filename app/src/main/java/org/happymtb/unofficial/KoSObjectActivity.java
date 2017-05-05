@@ -1,10 +1,5 @@
 package org.happymtb.unofficial;
 
-import org.happymtb.unofficial.analytics.GaConstants;
-import org.happymtb.unofficial.analytics.HappyApplication;
-import org.happymtb.unofficial.fragment.KoSListFragment;
-import org.happymtb.unofficial.fragment.KoSObjectFragment;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +14,11 @@ import android.widget.TextView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
+
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
+import org.happymtb.unofficial.fragment.KoSListFragment;
+import org.happymtb.unofficial.fragment.KoSObjectFragment;
 
 public class KoSObjectActivity extends AppCompatActivity {
 

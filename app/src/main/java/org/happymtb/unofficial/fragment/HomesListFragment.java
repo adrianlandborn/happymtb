@@ -136,7 +136,7 @@ public class HomesListFragment extends RefreshListfragment implements OnChildCli
     @Override
     public void onDestroy() {
         if (mRequest != null) {
-            mRequest.removeHomeListListener();
+            mRequest.removeListener();
             mRequest.cancel();
         }
         super.onDestroy();

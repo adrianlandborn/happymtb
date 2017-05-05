@@ -1,24 +1,5 @@
 package org.happymtb.unofficial.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.droidparts.widget.ClearableEditText;
-import org.happymtb.unofficial.KoSObjectActivity;
-import org.happymtb.unofficial.MainActivity;
-import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.adapter.KosAdapter;
-import org.happymtb.unofficial.analytics.GaConstants;
-import org.happymtb.unofficial.analytics.HappyApplication;
-import org.happymtb.unofficial.helpers.HappyUtils;
-import org.happymtb.unofficial.item.KoSData;
-import org.happymtb.unofficial.item.KoSListItem;
-import org.happymtb.unofficial.item.KoSReturnData;
-import org.happymtb.unofficial.listener.KoSListListener;
-import org.happymtb.unofficial.listener.PageTextWatcher;
-import org.happymtb.unofficial.task.KoSListTask;
-import org.happymtb.unofficial.ui.BottomBar;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -26,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -53,11 +33,31 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-public class KoSListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener,
+import org.droidparts.widget.ClearableEditText;
+import org.happymtb.unofficial.KoSObjectActivity;
+import org.happymtb.unofficial.MainActivity;
+import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.adapter.KosAdapter;
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
+import org.happymtb.unofficial.helpers.HappyUtils;
+import org.happymtb.unofficial.item.KoSData;
+import org.happymtb.unofficial.item.KoSListItem;
+import org.happymtb.unofficial.item.KoSReturnData;
+import org.happymtb.unofficial.listener.PageTextWatcher;
+import org.happymtb.unofficial.ui.BottomBar;
+import org.happymtb.unofficial.volley.KosListRequest;
+import org.happymtb.unofficial.volley.MyRequestQueue;
+
+import java.util.ArrayList;
+
+public class KoSListFragment extends RefreshListfragment implements /*DialogInterface.OnCancelListener,*/
 		 View.OnClickListener, AbsListView.OnScrollListener {
     public static String TAG = "kos_frag";
 
@@ -97,7 +97,8 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
 
 	private Tracker mTracker;
 
-	private KoSListTask mKoSTask;
+//	private KoSListTask mKoSTask;
+    private KosListRequest mRequest;
 	private KosAdapter mKoSAdapter;
 	private KoSData mKoSData;
 	private SharedPreferences mPreferences;
@@ -302,7 +303,7 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
     @Override
     public void onStart() {
         super.onStart();
-        if (mKoSTask == null || (mKoSTask != null && !mKoSTask.getStatus().equals(AsyncTask.Status.RUNNING))) {
+        if (mRequest == null || (mRequest != null && mRequest.hasHadResponseDelivered())) {
             if (System.currentTimeMillis() > (mPreferences.getLong(LAST_UPDATE, 0) + ONE_HOUR)){
                 if (mKoSData.getCurrentPage() == 1) {
                     Toast.makeText(mActivity, "Uppdaterar sökning...", Toast.LENGTH_LONG).show();
@@ -395,9 +396,10 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
     @Override
     protected void fetchData() {
 		if (hasNetworkConnection()) {
-            mKoSTask = new KoSListTask();
-            mKoSTask.addKoSListListener(new KoSListListener() {
-                public void success(KoSReturnData returnData) {
+            mRequest = new KosListRequest(mKoSData.getCurrentPage(), getUrl(), new Response.Listener<KoSReturnData>() {
+
+                @Override
+                public void onResponse(KoSReturnData returnData) {
                     Activity activity = getActivity();
                     if (activity != null && !activity.isFinishing()) {
                         mKoSData.setKoSItems(returnData.getItems());
@@ -408,34 +410,47 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
                         showProgress(false);
 
                         mPreferences.edit().putLong(LAST_UPDATE, System.currentTimeMillis()).apply();
-						if (getView() != null && getListView() != null) {
+                        if (getView() != null && getListView() != null) {
                             getListView().setSelection(0);
                         }
                     }
                 }
 
-                public void fail() {
-                    if (getActivity() != null && !getActivity().isFinishing()) {
-                        mKoSData.setKoSItems(new ArrayList<KoSListItem>());
-                        updateBottomBar();
-                        updateHeader();
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    mKoSData.setKoSItems(new ArrayList<KoSListItem>());
+                    updateBottomBar();
+                    updateHeader();
 
-                        // TODO Clear list
+                    // TODO Clear list
 
-                        Toast.makeText(mActivity, mActivity.getString(R.string.kos_no_items_found), Toast.LENGTH_LONG).show();
+                    Toast.makeText(mActivity, mActivity.getString(R.string.kos_no_items_found), Toast.LENGTH_LONG).show();
 
-                        showProgress(false);
-                    }
+                    showProgress(false);
                 }
             });
-            String year =  mKoSData.getYear() == 0? "0" :  mKoSData.getYearStr();
-            mKoSTask.execute(mKoSData.getSearchString(), mKoSData.getCategory(), mKoSData.getRegion(), mKoSData.getType(),
-                    "" /*category2*/, ""/*county2*/, ""/*type2*/, mKoSData.getPrice(), year, mKoSData.getCurrentPage(),
-                    mKoSData.getSortAttributeServer(), mKoSData.getSortOrderServer());
 
-            //?search=&category=1&county=&type=1&category2=&county2=&type2=&price=3&year=2013&p=1&sortattribute=creationdate&sortorder=DESC
+            MyRequestQueue.getInstance(getContext()).addRequest(mRequest);
         }
 	}
+    private String getUrl() {
+        String year =  mKoSData.getYear() == 0? "0" :  mKoSData.getYearStr();
+        String urlStr = "https://happyride.se/annonser/"
+                + "?search=" + mKoSData.getSearchString()
+                + "&category=" + mKoSData.getCategory()
+                + "&county=" + mKoSData.getRegion()
+                + "&type=" + mKoSData.getType()
+                + "&category2=" + ""
+                + "&county2=" + ""
+                + "&type2=" + ""
+                + "&price=" + mKoSData.getPrice()
+                + "&year=" + year
+                + "&p=" + mKoSData.getCurrentPage()
+                + "&sortattribute=" + mKoSData.getSortAttributeServer()
+                + "&sortorder=" + mKoSData.getSortOrderServer();
+        return urlStr;
+    }
 
 	private void fillList() {
         if (mKoSData.getKoSItems() == null || mKoSData.getKoSItems().isEmpty()) {
@@ -608,14 +623,22 @@ public class KoSListFragment extends RefreshListfragment implements DialogInterf
         }
 	}
 
-
-
-	@Override
-	public void onCancel(DialogInterface dialog) {
-		if (mKoSTask != null) {
-			mKoSTask.cancel(true);
+    @Override
+    public void onDestroy() {
+        if (mRequest != null) {
+            mRequest.removeListener();
+            mRequest.cancel();
         }
+        super.onDestroy();
     }
+
+
+//	@Override
+//	public void onCancel(DialogInterface dialog) {
+//		if (mKoSTask != null) {
+//			mKoSTask.cancel(true);
+//        }
+//    }
 
     public void updateSearchParams() {
         String text = searchEditText.getText().toString().trim();
