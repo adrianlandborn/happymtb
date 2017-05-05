@@ -1,19 +1,5 @@
 package org.happymtb.unofficial.fragment;
 
-import java.util.List;
-
-import org.happymtb.unofficial.MainActivity;
-import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.adapter.ListVideoAdapter;
-import org.happymtb.unofficial.analytics.GaConstants;
-import org.happymtb.unofficial.analytics.HappyApplication;
-import org.happymtb.unofficial.helpers.HappyUtils;
-import org.happymtb.unofficial.item.VideoData;
-import org.happymtb.unofficial.item.VideoItem;
-import org.happymtb.unofficial.listener.PageTextWatcher;
-import org.happymtb.unofficial.listener.VideoListListener;
-import org.happymtb.unofficial.task.VideoListTask;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -33,19 +19,35 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+
+import org.happymtb.unofficial.MainActivity;
+import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.adapter.ListVideoAdapter;
+import org.happymtb.unofficial.analytics.GaConstants;
+import org.happymtb.unofficial.analytics.HappyApplication;
+import org.happymtb.unofficial.helpers.HappyUtils;
+import org.happymtb.unofficial.item.VideoData;
+import org.happymtb.unofficial.item.VideoItem;
+import org.happymtb.unofficial.listener.PageTextWatcher;
+import org.happymtb.unofficial.volley.MyRequestQueue;
+import org.happymtb.unofficial.volley.VideoListRequest;
+
+import java.util.List;
 
 public class VideoListFragment extends RefreshListfragment implements DialogInterface.OnCancelListener {
 	public static String TAG = "video_frag";
 
 	private final static int DIALOG_FETCH_KOS_ERROR = 0;
-	private VideoListTask getVideo;
+	private VideoListRequest mRequest;
 	private ListVideoAdapter mVideoAdapter;
 	private VideoData mVideoData = new VideoData(1, 1, "", 0, null, 0);
 	private AlertDialog.Builder mAlertDialog;
     private MainActivity mActivity;
-	private ListView mListView;
+//	private ListView mListView;
     private Tracker mTracker;
 
 	/** Called when the activity is first created. */
@@ -70,11 +72,11 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		if (mVideoData != null) {
-			if (mListView != null) {
-				mVideoData.setListPosition(mListView.getFirstVisiblePosition());
-			} else {
-				mVideoData.setListPosition(0);
-			}
+//			if (mListView != null) {
+//				mVideoData.setListPosition(mListView.getFirstVisiblePosition());
+//			} else {
+//				mVideoData.setListPosition(0);
+//			}
 				outState.putSerializable(DATA, mVideoData);
 		}
 	}
@@ -170,27 +172,34 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 	@Override
 	protected void fetchData() {
 		if (hasNetworkConnection()) {
-			getVideo = new VideoListTask();
-			getVideo.addVideoListListener(new VideoListListener() {
-				public void success(List<VideoItem> VideoItems) {
+			String urlStr = "https://happyride.se/video/?p=" + mVideoData.getCurrentPage()
+					+ "&c=" + mVideoData.getCategory()
+					+ "&search=" + mVideoData.getSearch();
+
+			mRequest = new VideoListRequest(urlStr, new Response.Listener<List<VideoItem>>() {
+				@Override
+				public void onResponse(List<VideoItem> items) {
 					if (getActivity() != null && !getActivity().isFinishing()) {
-						mVideoData.setVideoItems(VideoItems);
+						mVideoData.setVideoItems(items);
 						fillList();
 
                         showList(true);
 						showProgress(false);
 					}
-				}
 
-				public void fail() {
+				}
+			}, new Response.ErrorListener() {
+				@Override
+				public void onErrorResponse(VolleyError error) {
 					if (getActivity() != null && !getActivity().isFinishing()) {
 						Toast.makeText(getActivity(), R.string.no_items_found, Toast.LENGTH_LONG).show();
 						mVideoData = new VideoData(1, 1, "", 0, null, 0);
 						showProgress(false);
 					}
+
 				}
 			});
-			getVideo.execute(mVideoData.getCurrentPage(), mVideoData.getCategory(), mVideoData.getSearch());
+			MyRequestQueue.getInstance(getContext()).addRequest(mRequest);
 		}
 	}
 

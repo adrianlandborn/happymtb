@@ -21,15 +21,10 @@ public class ShopsListRequest extends Request<List<Item>> implements Response.Li
     private Response.Listener<List<Item>> mListener;
     private String mGroup;
 
-    public
-    ShopsListRequest(Response.Listener<List<Item>> listener, Response.ErrorListener errorListener) {
+    public ShopsListRequest(Response.Listener<List<Item>> listener, Response.ErrorListener errorListener) {
         super(Request.Method.GET, BASE_URL, errorListener);
 
         mListener = listener;
-    }
-
-    public void removeListener() {
-        mListener = null;
     }
 
     @Override
@@ -107,6 +102,10 @@ public class ShopsListRequest extends Request<List<Item>> implements Response.Li
     @Override
     public void onResponse(List<Item> response) {
         // Subclasses should implement this
+    }
+
+    public void removeListener() {
+        mListener = null;
     }
 
 }
