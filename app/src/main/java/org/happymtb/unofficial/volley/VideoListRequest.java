@@ -1,18 +1,5 @@
 package org.happymtb.unofficial.volley;
 
-import java.io.InputStreamReader;
-import java.io.LineNumberReader;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import android.os.AsyncTask;
-
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -21,9 +8,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 
 import org.happymtb.unofficial.helpers.HappyUtils;
-import org.happymtb.unofficial.item.Item;
 import org.happymtb.unofficial.item.VideoItem;
-import org.happymtb.unofficial.listener.VideoListListener;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VideoListRequest extends Request<List<VideoItem>> implements Response.Listener<List<VideoItem>> {
     private Response.Listener<List<VideoItem>> mListener;

@@ -10,11 +10,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
-
 import org.happymtb.unofficial.adapter.MessagesAdapter;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.Message;
@@ -22,7 +17,6 @@ import org.happymtb.unofficial.item.Message;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.text.Html;
@@ -77,27 +71,27 @@ public class MessageImageDownloadTask extends AsyncTask<Object, Void, Void> {
 	
     private Bitmap downloadBitmap(String url) {
         //TODO  AndroidHttpClient is deprecated from Lollopop MR1
-        final AndroidHttpClient client = AndroidHttpClient.newInstance("Android");
-        final HttpGet getRequest = new HttpGet(url);
+//        final AndroidHttpClient client = AndroidHttpClient.newInstance("Android");
+//        final HttpGet getRequest = new HttpGet(url);
 
-        try {
-            HttpResponse response = client.execute(getRequest);
-            final int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode != HttpStatus.SC_OK) { 
-                return null;
-            }
-
-            final HttpEntity entity = response.getEntity();
-            if (entity != null) {
-            	return decodeFile(entity.getContent());
-            }
-        } catch (Exception e) {
-            getRequest.abort();
-        } finally {
-            if (client != null) {
-                client.close();
-            }
-        }
+//        try {
+//            HttpResponse response = client.execute(getRequest);
+//            final int statusCode = response.getStatusLine().getStatusCode();
+//            if (statusCode != HttpStatus.SC_OK) {
+//                return null;
+//            }
+//
+//            final HttpEntity entity = response.getEntity();
+//            if (entity != null) {
+//            	return decodeFile(entity.getContent());
+//            }
+//        } catch (Exception e) {
+//            getRequest.abort();
+//        } finally {
+//            if (client != null) {
+//                client.close();
+//            }
+//        }
         return null;
     }    
 

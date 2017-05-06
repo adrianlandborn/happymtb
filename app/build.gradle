@@ -6,7 +6,7 @@ android {
         releaseConfig
     }
     compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId "org.happymtb.unofficial"
         minSdkVersion 16
@@ -29,7 +29,6 @@ android {
     productFlavors {
     }
 
-    useLibrary 'org.apache.http.legacy'
 }
 repositories {
 
@@ -37,9 +36,9 @@ repositories {
 
 dependencies {
     compile 'com.android.volley:volley:1.0.0'
-    compile 'com.android.support:support-v4:25.1.1'
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.android.support:design:25.1.1'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
     compile 'com.google.android.gms:play-services-analytics:8.3.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'org.droidparts:droidparts:2.9.6'
@@ -67,7 +66,7 @@ if (propFile.canRead()){
     } else {
         android.buildTypes.releaseConfig.signingConfig = null
     }
-}else {
+} else {
     android.buildTypes.release.signingConfig = null
 }
 

@@ -39,10 +39,10 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
     ImageView mTransitionImageView;
 
 	private KosObjectRequest mRequest;
-	private KoSObjectItem mKoSObjectItem;
-	private View mScrollView;
-	private View mProgressView;
-	private View mNoNetworkView;
+	KoSObjectItem mKoSObjectItem;
+	View mScrollView;
+	View mProgressView;
+	View mNoNetworkView;
 	private Button mReloadButton;
     private TextView mTitle;
     private Button mPerson;
@@ -53,17 +53,17 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
     private TextView mYear;
     private TextView mPrice;
 
-    private boolean mIsSaved = false;
-    private boolean mIsSold = false;
+    boolean mIsSaved = false;
+    boolean mIsSold = false;
 
     private ImageButton mActionPhone;
     private ImageButton mActionSms;
     private ImageButton mActionEmail;
     private ImageButton mActionPM;
 
-	private KoSObjectActivity mActivity;
+	KoSObjectActivity mActivity;
     private String mUrl;
-	private KoSItemDataSource datasource;
+	KoSItemDataSource datasource;
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -199,7 +199,7 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
         MyRequestQueue.getInstance(getContext()).addRequest(mRequest);
 	}
 
-	private void fillList() {
+	void fillList() {
 		mActivity.getSupportActionBar().setTitle(mKoSObjectItem.getType());
         mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
 		mTitle.setText(mKoSObjectItem.getTitle());
@@ -310,7 +310,7 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-    private void updateInDatabase() {
+    void updateInDatabase() {
         if (datasource.updateKosItem(mKoSObjectItem) > 0) {
             mActivity.setResult(SavedListFragment.RESULT_MODIFIED, null);
         } else {

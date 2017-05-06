@@ -1,28 +1,17 @@
 package org.happymtb.unofficial.task;
 
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.LineNumberReader;
-import java.util.ArrayList;
-import java.util.List;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.CookieStore;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.cookie.BasicClientCookie;
-
-import org.happymtb.unofficial.fragment.ForumListFragment;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.Message;
 import org.happymtb.unofficial.listener.MessageListListener;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.os.Environment;
-import android.preference.PreferenceManager;
+import java.io.LineNumberReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessageListTask extends AsyncTask<Object, Void, Boolean>  
 {
@@ -110,30 +99,31 @@ public class MessageListTask extends AsyncTask<Object, Void, Boolean>
 		mContext = (Context)param[0];
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
 
-		DefaultHttpClient httpclient = new DefaultHttpClient();
+//		DefaultHttpClient httpclient = new DefaultHttpClient();
     	try	{
-    		CookieStore cookieStore = httpclient.getCookieStore();
-    		BasicClientCookie cookie = new BasicClientCookie(preferences.getString(ForumListFragment.COOKIE_NAME, ""),
-					preferences.getString(ForumListFragment.COOKIE_VALUE, ""));
-    		cookie.setPath("/");
-    		cookie.setDomain("happyride.se");
-    		cookieStore.addCookie(cookie);
-  		
-        	File extStore = Environment.getExternalStorageDirectory();
-    		File bitmapDirectory = new File(extStore.getAbsolutePath() + mBitmapFolder);		
-    		if(!bitmapDirectory.exists() || !bitmapDirectory.isDirectory()) {
-    			bitmapDirectory.mkdirs();
-    		}
-    		
-    		String urlStr = "https://happyride.se/forum/read.php/1/" + param[1] + "/page=" + param[2];
-            HttpGet httpget = new HttpGet(urlStr);
-           
-            HttpResponse response = httpclient.execute(httpget);
-            HttpEntity entity = response.getEntity();
+//    		CookieStore cookieStore = httpclient.getCookieStore();
+//    		BasicClientCookie cookie = new BasicClientCookie(preferences.getString(ForumListFragment.COOKIE_NAME, ""),
+//					preferences.getString(ForumListFragment.COOKIE_VALUE, ""));
+//    		cookie.setPath("/");
+//    		cookie.setDomain("happyride.se");
+//    		cookieStore.addCookie(cookie);
+//
+//        	File extStore = Environment.getExternalStorageDirectory();
+//    		File bitmapDirectory = new File(extStore.getAbsolutePath() + mBitmapFolder);
+//    		if(!bitmapDirectory.exists() || !bitmapDirectory.isDirectory()) {
+//    			bitmapDirectory.mkdirs();
+//    		}
+//
+//    		String urlStr = "https://happyride.se/forum/read.php/1/" + param[1] + "/page=" + param[2];
+//            HttpGet httpget = new HttpGet(urlStr);
+//
+//            HttpResponse response = httpclient.execute(httpget);
+//            HttpEntity entity = response.getEntity();
+//
+//			InputStreamReader inputStream = new InputStreamReader(entity.getContent());
+//			LineNumberReader lineNumberReader = new LineNumberReader(inputStream);
 
-			InputStreamReader inputStream = new InputStreamReader(entity.getContent()); 				
-			LineNumberReader lineNumberReader = new LineNumberReader(inputStream);
-
+			LineNumberReader lineNumberReader = null;
 			Message item;
 			StringBuilder ksStringBuilder = new StringBuilder();
 			String lineString = "";
@@ -161,7 +151,7 @@ public class MessageListTask extends AsyncTask<Object, Void, Boolean>
         } catch (Exception e) {
     		//Log.d("doInBackground", "Error: " + e.getLocalizedMessage());
 		} finally {
-    		httpclient.getConnectionManager().shutdown();
+//    		httpclient.getConnectionManager().shutdown();
         }
 
 		return mMessages.size() != 0;

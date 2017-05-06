@@ -4,11 +4,6 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import android.os.AsyncTask;
 
 import org.happymtb.unofficial.helpers.HappyUtils;
@@ -54,42 +49,42 @@ public class ArticlesListTask extends AsyncTask<Object, Void, Boolean> {
 	protected Boolean doInBackground(Object... params) {
 		mItems.clear();
 		
-		DefaultHttpClient httpclient = new DefaultHttpClient();
-
-		try {
-			String urlStr = "https://happyride.se/arkiv/";
-			HttpGet httpget = new HttpGet(urlStr);
-
-			HttpResponse response = httpclient.execute(httpget);
-			HttpEntity entity = response.getEntity();
-
-			InputStreamReader inputStream = new InputStreamReader(entity.getContent()); 				
-			LineNumberReader lineNumberReader = new LineNumberReader(inputStream);
-		
-			Item item;
-			String lineString = "";	
-			
-			while((lineString = lineNumberReader.readLine()) != null) {
-				if (lineString.contains("monthtitle")) {
-					mGroup = HappyUtils.replaceHTMLChars(lineString.substring(
-                            lineString.indexOf("<strong>", 0) + 8,
-                            lineString.indexOf("</strong>", 0)));
-					item = new Item(mGroup, false);
-					mItems.add(item);					
-				}
-				else if (lineString.contains("<li>")) {
-					item = ExtractArticleRow(lineString);
-					if (item != null) {
-						mItems.add(item);
-					}					
-				}
-			}					
-		} catch (Exception e) {
-			// Log.d("doInBackground", "Error: " + e.getMessage());
-			return false;
-		} finally {
-			httpclient.getConnectionManager().shutdown();
-		}
+//		DefaultHttpClient httpclient = new DefaultHttpClient();
+//
+//		try {
+//			String urlStr = "https://happyride.se/arkiv/";
+//			HttpGet httpget = new HttpGet(urlStr);
+//
+//			HttpResponse response = httpclient.execute(httpget);
+//			HttpEntity entity = response.getEntity();
+//
+//			InputStreamReader inputStream = new InputStreamReader(entity.getContent());
+//			LineNumberReader lineNumberReader = new LineNumberReader(inputStream);
+//
+//			Item item;
+//			String lineString = "";
+//
+//			while((lineString = lineNumberReader.readLine()) != null) {
+//				if (lineString.contains("monthtitle")) {
+//					mGroup = HappyUtils.replaceHTMLChars(lineString.substring(
+//                            lineString.indexOf("<strong>", 0) + 8,
+//                            lineString.indexOf("</strong>", 0)));
+//					item = new Item(mGroup, false);
+//					mItems.add(item);
+//				}
+//				else if (lineString.contains("<li>")) {
+//					item = ExtractArticleRow(lineString);
+//					if (item != null) {
+//						mItems.add(item);
+//					}
+//				}
+//			}
+//		} catch (Exception e) {
+//			// Log.d("doInBackground", "Error: " + e.getMessage());
+//			return false;
+//		} finally {
+//			httpclient.getConnectionManager().shutdown();
+//		}
 		return true;
 	}
 	

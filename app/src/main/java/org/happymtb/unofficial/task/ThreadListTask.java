@@ -5,13 +5,6 @@ import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.CookieStore;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.cookie.BasicClientCookie;
-
 import org.happymtb.unofficial.fragment.ForumListFragment;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.Thread;
@@ -109,26 +102,27 @@ public class ThreadListTask extends AsyncTask<Object, Void, Boolean>
 	@Override
 	protected Boolean doInBackground(Object... param) {	
     	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences((Context)param[1]);
-        DefaultHttpClient httpclient = new DefaultHttpClient();
+//        DefaultHttpClient httpclient = new DefaultHttpClient();
             	       
     	try {	
-    		CookieStore cookieStore = httpclient.getCookieStore();
-    		BasicClientCookie cookie = new BasicClientCookie(preferences.getString(ForumListFragment.COOKIE_NAME, ""),
-					preferences.getString(ForumListFragment.COOKIE_VALUE, ""));
-    		cookie.setPath("/");
-    		cookie.setDomain("happyride.se");
-    		cookieStore.addCookie(cookie);
+//    		CookieStore cookieStore = httpclient.getCookieStore();
+//    		BasicClientCookie cookie = new BasicClientCookie(preferences.getString(ForumListFragment.COOKIE_NAME, ""),
+//					preferences.getString(ForumListFragment.COOKIE_VALUE, ""));
+//    		cookie.setPath("/");
+//    		cookie.setDomain("happyride.se");
+//    		cookieStore.addCookie(cookie);
+//
+//    		String urlStr = "https://happyride.se/forum/list.php/1/page=" + Integer.toString((Integer)param[0]);
+//
+//            HttpGet httpget = new HttpGet(urlStr);
+//
+//            HttpResponse response = httpclient.execute(httpget);
+//            HttpEntity entity = response.getEntity();
+//
+//			InputStreamReader inputStream = new InputStreamReader(entity.getContent());
+//			LineNumberReader lineNumberReader = new LineNumberReader(inputStream);
+			LineNumberReader lineNumberReader = null;
 
-    		String urlStr = "https://happyride.se/forum/list.php/1/page=" + Integer.toString((Integer)param[0]);
-    		
-            HttpGet httpget = new HttpGet(urlStr);
-
-            HttpResponse response = httpclient.execute(httpget);
-            HttpEntity entity = response.getEntity();
-
-			InputStreamReader inputStream = new InputStreamReader(entity.getContent()); 				
-			LineNumberReader lineNumberReader = new LineNumberReader(inputStream);
-				
 	    	StringBuilder ksStringBuilder = new StringBuilder();
 	    	Thread item;
 			boolean read = false;
@@ -162,7 +156,7 @@ public class ThreadListTask extends AsyncTask<Object, Void, Boolean>
        	} catch (Exception e) {
     		//Log.d("doInBackground", "Error: " + e.getMessage());
 		} finally {
-    		httpclient.getConnectionManager().shutdown();
+//    		httpclient.getConnectionManager().shutdown();
         }
 
 		return mThreads.size() != 0;
