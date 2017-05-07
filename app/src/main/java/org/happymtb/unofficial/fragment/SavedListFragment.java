@@ -36,6 +36,7 @@ import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.database.KoSItemDataSource;
 import org.happymtb.unofficial.database.MyContentProvider;
 import org.happymtb.unofficial.database.MySQLiteHelper;
+import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSListItem;
 
 import java.util.ArrayList;
@@ -64,6 +65,10 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
 		super.onActivityCreated(savedInstanceState);
 
         showProgress(false);
+
+        if (!HappyUtils.isDebugBuild()) {
+            mSwipeRefreshLayout.setEnabled(false);
+        }
 
         mActivity = (MainActivity) getActivity();
 		mActivity.getSupportActionBar().setTitle(getString(R.string.title_bar_saved));
@@ -217,7 +222,9 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
             mActivity.findViewById(R.id.no_content).setVisibility(View.VISIBLE);
         } else {
             // TODO Iterate the cursor and send requests to update the items
-            Toast.makeText(mActivity, "Items: " + cursor.getCount(), Toast.LENGTH_SHORT).show();
+            if (HappyUtils.isDebugBuild()) {
+                Toast.makeText(mActivity, "Items: " + cursor.getCount(), Toast.LENGTH_SHORT).show();
+            }
         }
         showProgress(false);
 	}
