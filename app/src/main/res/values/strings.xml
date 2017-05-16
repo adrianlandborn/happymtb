@@ -74,5 +74,8 @@
     <string name="all_categories">Alla Kategorier</string>
     <string name="all_prices">Alla Priser</string>
     <string name="all_years">Alla Årsmodeller</string>
+    <string name="share">Dela annons…</string>
+    <string name="unable_to_update">Annonsen kunde inte uppdateras</string>
+    <string name="unable_to_save">Annonsen kunde inte sparas</string>
 
 </resources>

@@ -35,6 +35,7 @@ import org.happymtb.unofficial.volley.MyRequestQueue;
 
 public class KoSObjectFragment extends Fragment implements View.OnClickListener {
 	private final static String DATA = "data";
+	private final static int SC_NOT_FOUND = 404;
 
     ImageView mTransitionImageView;
 
@@ -43,7 +44,6 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
 	View mScrollView;
 	View mProgressView;
 	View mNoNetworkView;
-	private Button mReloadButton;
     private TextView mTitle;
     private Button mPerson;
     private TextView mPhone;
@@ -56,12 +56,7 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
     boolean mIsSaved = false;
     boolean mIsSold = false;
 
-    private ImageButton mActionPhone;
-    private ImageButton mActionSms;
-    private ImageButton mActionEmail;
-    private ImageButton mActionPM;
-
-	KoSObjectActivity mActivity;
+    KoSObjectActivity mActivity;
     private String mUrl;
 	KoSItemDataSource datasource;
 
@@ -89,20 +84,20 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
 		mScrollView = mActivity.findViewById(R.id.kos_object_scroll);
 		mProgressView = mActivity.findViewById(R.id.progress_container_id);
 		mNoNetworkView = mActivity.findViewById(R.id.no_network_layout);
-		mReloadButton = (Button)mActivity.findViewById(R.id.reload_button);
 
-		mActionPhone = (ImageButton) mActivity.findViewById(R.id.kos_action_phone);
-		mActionSms = (ImageButton) mActivity.findViewById(R.id.kos_action_sms);
-		mActionEmail = (ImageButton) mActivity.findViewById(R.id.kos_action_email);
-		mActionPM = (ImageButton) mActivity.findViewById(R.id.kos_action_pm);
+        ImageButton actionPhone = (ImageButton) mActivity.findViewById(R.id.kos_action_phone);
+        ImageButton actionSms = (ImageButton) mActivity.findViewById(R.id.kos_action_sms);
+        ImageButton actionEmail = (ImageButton) mActivity.findViewById(R.id.kos_action_email);
+        ImageButton actionPM = (ImageButton) mActivity.findViewById(R.id.kos_action_pm);
+        Button reloadButton = (Button) mActivity.findViewById(R.id.reload_button);
 
         mPerson.setOnClickListener(this);
-        mActionPhone.setOnClickListener(this);
-        mActionSms.setOnClickListener(this);
-        mActionEmail.setOnClickListener(this);
-        mActionPM.setOnClickListener(this);
+        actionPhone.setOnClickListener(this);
+        actionSms.setOnClickListener(this);
+        actionEmail.setOnClickListener(this);
+        actionPM.setOnClickListener(this);
 
-        mReloadButton.setOnClickListener(this);
+        reloadButton.setOnClickListener(this);
 
         if (savedInstanceState != null) {
 			mKoSObjectItem = (KoSObjectItem) savedInstanceState.getSerializable(DATA);
@@ -155,43 +150,43 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
 
         mRequest = new KosObjectRequest(objectLink, new Response.Listener<KoSObjectItem>() {
             @Override
-            public void onResponse(KoSObjectItem response) {
-                mKoSObjectItem = response;
+            public void onResponse(KoSObjectItem item) {
+                mKoSObjectItem = item;
                 if (getActivity() != null && !getActivity().isFinishing()) {
                     if (mKoSObjectItem != null) {
-                        if (!mKoSObjectItem.getTitle().equals(KosObjectRequest.ITEM_REMOVED)) {
-                            fillList();
-                            //TODO update in database
-                            if (mIsSaved) {
-                                updateInDatabase();
-                            }
-                        } else {
-                            mScrollView.setVisibility(View.INVISIBLE);
-                            mActivity.findViewById(R.id.no_content).setVisibility(View.VISIBLE);
-
-                            mIsSold = true;
-                            if (mIsSaved) {
-                                datasource.setItemSold(mActivity.getObjectId(), true);
-                                mActivity.setResult(SavedListFragment.RESULT_MODIFIED, null);
-                            }
-                            mActivity.invalidateOptionsMenu();
+                        fillList();
+                        if (mIsSaved) {
+                            updateInDatabase();
                         }
                     } else {
                         // No data traffic etc.
                         mNoNetworkView.setVisibility(View.VISIBLE);
                     }
-                } else {
-                    // Something went wrong
                 }
                 mProgressView.setVisibility(View.INVISIBLE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
                 if (getActivity() != null && !getActivity().isFinishing()) {
-                    Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+                    mScrollView.setVisibility(View.INVISIBLE);
                     mProgressView.setVisibility(View.INVISIBLE);
-                    mNoNetworkView.setVisibility(View.VISIBLE);
+
+                    if (error.networkResponse.statusCode == SC_NOT_FOUND) {
+                        // Page not found == item is sold
+                        mActivity.findViewById(R.id.no_content).setVisibility(View.VISIBLE);
+
+                        mIsSold = true;
+                        if (mIsSaved) {
+                            datasource.setItemSold(mActivity.getObjectId(), true);
+                            mActivity.setResult(SavedListFragment.RESULT_MODIFIED, null);
+                        }
+                        mActivity.invalidateOptionsMenu();
+
+                    } else {
+                        mNoNetworkView.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
@@ -306,7 +301,7 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
         if (datasource.insertKosItem(mKoSObjectItem) > 0) {
             mIsSaved = true;
         } else {
-            Toast.makeText(mActivity, "Annonsen kunde inte sparas", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, R.string.unable_to_save, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -314,7 +309,7 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
         if (datasource.updateKosItem(mKoSObjectItem) > 0) {
             mActivity.setResult(SavedListFragment.RESULT_MODIFIED, null);
         } else {
-            Toast.makeText(mActivity, "Annonsen kunde inte uppdateras", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, R.string.unable_to_update, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -333,7 +328,7 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
             Intent intent = new Intent(android.content.Intent.ACTION_SEND);
             intent.putExtra(android.content.Intent.EXTRA_TEXT, message);
             intent.setType("text/plain");
-            startActivity(Intent.createChooser(intent, "Dela annons..."));
+            startActivity(Intent.createChooser(intent, getString(R.string.share)));
         }
     }
 
