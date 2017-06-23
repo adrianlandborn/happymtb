@@ -148,4 +148,8 @@ public class KoSItemDataSource {
         item.setSold(cursor.getInt(cursor.getColumnIndex(MySQLiteHelper.COLUMN_SOLD)) == 1);
         return item;
     }
+
+    public Cursor getAllNonSoldItems() {
+       return database.query(MySQLiteHelper.TABLE_SAVED, allColumns, null, null, null, MySQLiteHelper.COLUMN_SOLD + " = 1", null);
+    }
 }

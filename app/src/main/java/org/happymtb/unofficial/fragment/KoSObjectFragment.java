@@ -30,12 +30,12 @@ import org.happymtb.unofficial.analytics.GaConstants;
 import org.happymtb.unofficial.database.KoSItemDataSource;
 import org.happymtb.unofficial.item.KoSObjectItem;
 import org.happymtb.unofficial.item.Person;
+import org.happymtb.unofficial.volley.KosListRequest;
 import org.happymtb.unofficial.volley.KosObjectRequest;
 import org.happymtb.unofficial.volley.MyRequestQueue;
 
 public class KoSObjectFragment extends Fragment implements View.OnClickListener {
 	private final static String DATA = "data";
-	private final static int SC_NOT_FOUND = 404;
 
     ImageView mTransitionImageView;
 
@@ -148,20 +148,18 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
 	private void fetchKoSObject(String objectLink) {
 		mProgressView.setVisibility(View.VISIBLE);
 
-        mRequest = new KosObjectRequest(objectLink, new Response.Listener<KoSObjectItem>() {
+        mRequest = new KosObjectRequest(mActivity.getObjectId(), objectLink, new Response.Listener<KoSObjectItem>() {
             @Override
             public void onResponse(KoSObjectItem item) {
                 mKoSObjectItem = item;
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    if (mKoSObjectItem != null) {
-                        fillList();
-                        if (mIsSaved) {
-                            updateInDatabase();
-                        }
-                    } else {
-                        // No data traffic etc.
-                        mNoNetworkView.setVisibility(View.VISIBLE);
+                if (mKoSObjectItem != null) {
+                    fillList();
+                    if (mIsSaved) {
+                        updateInDatabase();
                     }
+                } else {
+                    // No data traffic etc.
+                    mNoNetworkView.setVisibility(View.VISIBLE);
                 }
                 mProgressView.setVisibility(View.INVISIBLE);
             }
@@ -169,28 +167,27 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    mScrollView.setVisibility(View.INVISIBLE);
-                    mProgressView.setVisibility(View.INVISIBLE);
+                mScrollView.setVisibility(View.INVISIBLE);
+                mProgressView.setVisibility(View.INVISIBLE);
 
-                    if (error.networkResponse.statusCode == SC_NOT_FOUND) {
-                        // Page not found == item is sold
-                        mActivity.findViewById(R.id.no_content).setVisibility(View.VISIBLE);
+                if (error != null && error.networkResponse.statusCode == MyRequestQueue.SC_NOT_FOUND) {
+                    // Page not found == item is sold
+                    mActivity.findViewById(R.id.no_content).setVisibility(View.VISIBLE);
 
-                        mIsSold = true;
-                        if (mIsSaved) {
-                            datasource.setItemSold(mActivity.getObjectId(), true);
-                            mActivity.setResult(SavedListFragment.RESULT_MODIFIED, null);
-                        }
-                        mActivity.invalidateOptionsMenu();
-
-                    } else {
-                        mNoNetworkView.setVisibility(View.VISIBLE);
+                    mIsSold = true;
+                    if (mIsSaved) {
+                        datasource.setItemSold(mActivity.getObjectId(), true);
+                        mActivity.setResult(SavedListFragment.RESULT_MODIFIED, null);
                     }
+                    mActivity.invalidateOptionsMenu();
+
+                } else {
+                    mNoNetworkView.setVisibility(View.VISIBLE);
                 }
             }
         });
 
+        mRequest.setTag(KoSObjectActivity.TAG);
         MyRequestQueue.getInstance(getContext()).addRequest(mRequest);
 	}
 

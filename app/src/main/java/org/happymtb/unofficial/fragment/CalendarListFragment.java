@@ -43,9 +43,7 @@ public class CalendarListFragment extends RefreshListfragment {
   	private final static int DIALOG_FETCH_CALENDAR_ERROR = 0;
 	public static String TAG = "calendar_frag";
 
-	private Tracker mTracker;
-
-	private CalendarListRequest mRequest;
+    private CalendarListRequest mRequest;
 	private CalendarAdapter mCalendarAdapter;
 	private ArrayList<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
 	MainActivity mActivity;
@@ -93,11 +91,11 @@ public class CalendarListFragment extends RefreshListfragment {
 
 		// Obtain the shared Tracker instance.
 		HappyApplication application = (HappyApplication) getActivity().getApplication();
-		mTracker = application.getDefaultTracker();
+        Tracker tracker = application.getDefaultTracker();
 
 		// [START Google analytics screen]
-		mTracker.setScreenName(GaConstants.Categories.CALENDAR);
-		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+		tracker.setScreenName(GaConstants.Categories.CALENDAR);
+		tracker.send(new HitBuilders.ScreenViewBuilder().build());
 		// [END Google analytics screen]
 	}
 
@@ -125,7 +123,7 @@ public class CalendarListFragment extends RefreshListfragment {
 
 	@Override
 	protected void fetchData() {
-		if (hasNetworkConnection()) {
+		if (hasNetworkConnection(true)) {
 			String urlStr = "https://happyride.se/kalender/?list=1"
 					+ "&search=" + mSearch
 					+ "&r=" + mRegionPosition

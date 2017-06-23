@@ -23,10 +23,12 @@ public class KosObjectRequest extends Request<KoSObjectItem> implements Response
 	private static final String TAG = "KosObjectRequest";
     private Response.Listener<KoSObjectItem> mListener;
     private String mUrl;
+    private long mId;
 
-	public KosObjectRequest(String url, Response.Listener<KoSObjectItem> listener, Response.ErrorListener errorListener) {
+	public KosObjectRequest(long id, String url, Response.Listener<KoSObjectItem> listener, Response.ErrorListener errorListener) {
         super(Method.GET, url, errorListener);
 
+        mId = id;
         mUrl = url;
         mListener = listener;
 	}
@@ -168,6 +170,9 @@ public class KosObjectRequest extends Request<KoSObjectItem> implements Response
         return new KoSObjectItem(area, town, type, title, person, publishDate, imgLinkList, description, price, yearModel, url, ""/*category not available*/);
     }
 
+    public long getId() {
+        return mId;
+    }
 
     @Override
     protected Response<KoSObjectItem> parseNetworkResponse(NetworkResponse response) {

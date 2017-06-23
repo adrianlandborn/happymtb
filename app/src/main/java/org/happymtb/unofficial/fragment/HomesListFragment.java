@@ -88,7 +88,7 @@ public class HomesListFragment extends RefreshListfragment implements OnChildCli
 
 	@Override
 	protected void fetchData() {
-        if (hasNetworkConnection()) {
+        if (hasNetworkConnection(true)) {
             mRequest = new HomeListRequest(new Response.Listener<List<HomeItem>>() {
 
                 @Override
@@ -102,7 +102,9 @@ public class HomesListFragment extends RefreshListfragment implements OnChildCli
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+					if (error != null) {
+						Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+					}
                     mHomeItems = new ArrayList<>();
                 }
             });

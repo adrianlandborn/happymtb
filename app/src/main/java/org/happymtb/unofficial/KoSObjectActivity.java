@@ -19,8 +19,11 @@ import org.happymtb.unofficial.analytics.GaConstants;
 import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.fragment.KoSListFragment;
 import org.happymtb.unofficial.fragment.KoSObjectFragment;
+import org.happymtb.unofficial.volley.MyRequestQueue;
 
 public class KoSObjectActivity extends AppCompatActivity {
+
+	public final static String TAG = "KoSObjectActivity";
 
 	public final static String TRANSITION = "transition";
 
@@ -154,6 +157,12 @@ public class KoSObjectActivity extends AppCompatActivity {
 		}
 
 		return objectLink;
+	}
+
+	@Override
+	protected void onStop () {
+		super.onStop();
+		MyRequestQueue.getInstance(this).getRequestQueue().cancelAll(TAG);
 	}
 		
 	@Override

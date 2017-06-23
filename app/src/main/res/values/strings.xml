@@ -50,6 +50,7 @@
     <string name="expand">Expandera</string>
     <string name="error">Något gick fel</string>
     <string name="error_loading_image">Bilden gick inte att hämta</string>
+    <string name="error_server">Servern kan inte nås</string>
     <string name="no_network">Datatrafik saknas</string>
     <string name="no_items_found">Inga objekt hittades</string>
     <string name="kos_no_items_found">Inga annonser hittades</string>
@@ -77,5 +78,7 @@
     <string name="share">Dela annons…</string>
     <string name="unable_to_update">Annonsen kunde inte uppdateras</string>
     <string name="unable_to_save">Annonsen kunde inte sparas</string>
+    <string name="updating_search">Uppdaterar sökning...</string>
+    <string name="delete_sold">Radera sålda</string>
 
 </resources>

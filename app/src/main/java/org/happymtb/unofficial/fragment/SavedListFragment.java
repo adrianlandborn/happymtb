@@ -1,29 +1,38 @@
 package org.happymtb.unofficial.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
@@ -38,8 +47,10 @@ import org.happymtb.unofficial.database.MyContentProvider;
 import org.happymtb.unofficial.database.MySQLiteHelper;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSListItem;
-
-import java.util.ArrayList;
+import org.happymtb.unofficial.item.KoSObjectItem;
+import org.happymtb.unofficial.listener.PageTextWatcher;
+import org.happymtb.unofficial.volley.KosObjectRequest;
+import org.happymtb.unofficial.volley.MyRequestQueue;
 
 import static org.happymtb.unofficial.fragment.KoSListFragment.NO_IMAGE_URL;
 
@@ -50,33 +61,35 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
     public static final int RESULT_CANCELED    		= 0;
     public static final int RESULT_MODIFIED     	= -1;
 
+    public final static long ONE_HOUR = 1000 * 60 * 60;
+//	public final static long ONE_HOUR = 10 * 1000; //(10 sec)
+
     private static final int MENU_CONTEXT_DELETE_ID = 0;
+    private final static String LAST_UPDATE = "saved_last_update";
 
     private Tracker mTracker;
 
 	private SavedListCursorAdapter mAdapter;
 	private MainActivity mActivity;
+    private SharedPreferences mPreferences;
 
-    private KoSItemDataSource datasource;
+    private KoSItemDataSource mDataSource;
+    private int mTotalRequests;
+    private int mTotalResponses;
 
     /** Called when the activity is first created. */
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-        showProgress(false);
-
-        if (!HappyUtils.isDebugBuild()) {
-            mSwipeRefreshLayout.setEnabled(false);
-        }
-
         mActivity = (MainActivity) getActivity();
-		mActivity.getSupportActionBar().setTitle(getString(R.string.title_bar_saved));
+		mActivity.getSupportActionBar().setTitle(R.string.title_bar_saved);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 
         fillList();
 
-        datasource = new KoSItemDataSource(mActivity);
-        datasource.open();
+        mDataSource = new KoSItemDataSource(mActivity);
+        mDataSource.open();
 
         registerForContextMenu(getListView());
 	}
@@ -107,29 +120,26 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
 
     @Override
     protected void reloadCleanList() {
-        mProgressView.setVisibility(View.VISIBLE);
-
-        ArrayList urlList = new ArrayList();
-        Cursor c = mAdapter.getCursor();
-        while (c.moveToNext()) {
-            urlList.add(c.getString(c.getColumnIndex(MySQLiteHelper.COLUMN_LINK)));
-        }
+        showList(true);
+        updateSoldItems();
     }
 
     @Override
     public void onResume() {
-        datasource.open();
+        mDataSource.open();
         super.onResume();
+        if (!getLoaderManager().hasRunningLoaders() & shouldUpdateSoldItems()) {
+            updateSoldItems();
+        }
     }
 
     @Override
     public void onPause() {
-        datasource.close();
+        mDataSource.close();
         super.onPause();
     }
 
 	private void fillList() {
-
         getLoaderManager().initLoader(0, null, this);
         mAdapter = new SavedListCursorAdapter(mActivity, null, 0);
 
@@ -181,11 +191,7 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
                 AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
                 int itemId = Integer.parseInt(mAdapter.getItemColumn(info.position, MySQLiteHelper.COLUMN_ID));
 
-                KoSItemDataSource dataSource = new KoSItemDataSource(mActivity);
-                dataSource.open();
-
-                boolean success = dataSource.deleteItem(itemId);
-                dataSource.close();
+                boolean success = mDataSource.deleteItem(itemId);
                 if (success) {
                     getLoaderManager().restartLoader(0, null, this);
                 }
@@ -218,21 +224,146 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
 	@Override
 	public void onLoadFinished(Loader loader, Cursor cursor) {
         mAdapter.swapCursor(cursor);
+        showProgress(false);
         if (cursor == null || cursor.getCount() == 0) {
             mActivity.findViewById(R.id.no_content).setVisibility(View.VISIBLE);
-        } else {
-            // TODO Iterate the cursor and send requests to update the items
-            if (HappyUtils.isDebugBuild()) {
-                Toast.makeText(mActivity, "Items: " + cursor.getCount(), Toast.LENGTH_SHORT).show();
-            }
+        } else if (shouldUpdateSoldItems()){
+            showProgress(true);
+            updateSoldItems();
         }
-        showProgress(false);
 	}
 
 	@Override
 	public void onLoaderReset(Loader loader) {
         mAdapter.swapCursor(null);
 	}
+
+	private boolean shouldUpdateSoldItems() {
+        if (hasNetworkConnection() && mAdapter.getCursor() != null && mTotalRequests == mTotalResponses) {
+            if (System.currentTimeMillis() > (mPreferences.getLong(LAST_UPDATE, 0) + ONE_HOUR)){
+                return true;
+            }
+        }
+        return false;
+    }
+	private void updateSoldItems() {
+        Cursor cursor = mAdapter.getCursor();
+        if (cursor == null || (mTotalRequests != mTotalResponses)) {
+            return;
+        }
+        KosObjectRequest request;
+        String url;
+        boolean isSold;
+
+        mTotalRequests = 0;
+        mTotalResponses = 0;
+
+        // Count nbr of requests
+        cursor.moveToFirst();
+        do {
+            isSold = cursor.getInt(cursor.getColumnIndex(MySQLiteHelper.COLUMN_SOLD)) == 1;
+            if (!isSold) {
+                mTotalRequests++;
+            }
+        } while (cursor.moveToNext());
+
+        cursor.moveToFirst();
+        do {
+            isSold = cursor.getInt(cursor.getColumnIndex(MySQLiteHelper.COLUMN_SOLD)) == 1;
+            if (!isSold) {
+                final long id = cursor.getLong(cursor.getColumnIndex(MySQLiteHelper.COLUMN_ID));
+                url = cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_LINK));
+                request = new KosObjectRequest(id, url, new Response.Listener<KoSObjectItem>() {
+                    @Override
+                    public void onResponse(KoSObjectItem item) {
+                        mTotalResponses++;
+                        mDataSource.updateKosItem(item);
+                        checkProgressStatus();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        mTotalResponses++;
+                        if (error != null && error.networkResponse.statusCode == MyRequestQueue.SC_NOT_FOUND) {
+                            // TODO enable when tested
+                            mDataSource.setItemSold(id, true);
+                        }
+                        checkProgressStatus();
+                    }
+                });
+                MyRequestQueue.getInstance(getContext()).addRequest(request);
+            }
+        } while (cursor.moveToNext());
+    }
+
+    private void checkProgressStatus() {
+        if (mTotalRequests == mTotalResponses) {
+            // Update complete
+            getLoaderManager().restartLoader(0, null, this);
+            showProgress(false);
+
+            // Save update time
+            mPreferences.edit().putLong(LAST_UPDATE, System.currentTimeMillis()).apply();
+        }
+    }
+
+    private void deleteSoldItems() {
+        Cursor cursor = mAdapter.getCursor();
+        if (cursor == null || (mTotalRequests != mTotalResponses)) {
+            return;
+        }
+        boolean isSold;
+
+        cursor.moveToFirst();
+        do {
+            isSold = cursor.getInt(cursor.getColumnIndex(MySQLiteHelper.COLUMN_SOLD)) == 1;
+            if (isSold) {
+                mDataSource.deleteItem(cursor.getLong(cursor.getColumnIndex(MySQLiteHelper.COLUMN_ID)));
+            }
+        } while (cursor.moveToNext());
+
+        getLoaderManager().restartLoader(0, null, this);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.saved_menu, menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.saved_delete_all:
+                showDeleteDialog();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showDeleteDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
+        alert.setTitle(R.string.remove);
+        alert.setMessage("Ta bort alla sålda annonser?");
+        alert.setPositiveButton(R.string.remove, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // [START Google analytics screen]
+                mTracker.setScreenName(GaConstants.Categories.SAVED_DELETE_DIALOG);
+                mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+                // [END Google analytics screen]
+
+                deleteSoldItems();
+            }
+        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+        final AlertDialog dialog = alert.create();
+        dialog.show();
+    }
 
     public class SavedListCursorAdapter extends CursorAdapter {
 

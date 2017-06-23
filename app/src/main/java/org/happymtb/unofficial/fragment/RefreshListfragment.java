@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import org.happymtb.unofficial.R;
 
@@ -84,8 +85,14 @@ public abstract class RefreshListfragment extends ListFragment {
     }
 
     protected void showNoNetworkView(boolean visible) {
+        showNoNetworkView(visible, getString(R.string.no_network));
+    }
+
+    protected void showNoNetworkView(boolean visible, String message) {
         if (getActivity() != null && !getActivity().isFinishing() && mNoNetworkView != null) {
             if (visible) {
+                TextView text = (TextView) mNoNetworkView.findViewById(R.id.no_network_text);
+                text.setText(message);
                 mNoNetworkView.setVisibility(View.VISIBLE);
             } else {
                 mNoNetworkView.setVisibility(View.GONE);
@@ -104,16 +111,23 @@ public abstract class RefreshListfragment extends ListFragment {
     }
 
     protected boolean hasNetworkConnection() {
+        return hasNetworkConnection(false);
+    }
+
+    protected boolean hasNetworkConnection(boolean updateViews) {
+        //TODO refactor method
         ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         boolean hasConnection = cm.getActiveNetworkInfo() != null;
-        if (hasConnection) {
-            mNoNetworkView.setVisibility(View.GONE);
-            showProgress(true);
-        } else {
-            showProgress(false);
-            mSwipeRefreshLayout.setVisibility(View.GONE);
-            mNoNetworkView.setVisibility(View.VISIBLE);
+        if (updateViews) {
+            if (hasConnection) {
+                mNoNetworkView.setVisibility(View.GONE);
+                showProgress(true);
+            } else {
+                showProgress(false);
+                mSwipeRefreshLayout.setVisibility(View.GONE);
+                mNoNetworkView.setVisibility(View.VISIBLE);
+            }
         }
 
         return hasConnection;

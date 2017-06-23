@@ -171,7 +171,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 
 	@Override
 	protected void fetchData() {
-		if (hasNetworkConnection()) {
+		if (hasNetworkConnection(true)) {
 			String urlStr = "https://happyride.se/video/?p=" + mVideoData.getCurrentPage()
 					+ "&c=" + mVideoData.getCategory()
 					+ "&search=" + mVideoData.getSearch();

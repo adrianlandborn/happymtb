@@ -35,6 +35,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -52,6 +53,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -61,7 +63,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
 		 View.OnClickListener, AbsListView.OnScrollListener {
     public static String TAG = "kos_frag";
 
-	public final static String LAST_UPDATE = "last_update";
+	private final static String LAST_UPDATE = "last_update";
 	public final static long ONE_HOUR = 1000 * 60 * 60;
 //	public final static long ONE_HOUR = 10 * 1000; //(10 sec)
 
@@ -95,24 +97,24 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
     public final static String NO_IMAGE_URL = "https://happyride.se/img/news_250x145.jpg";
     public final static String NO_PRICE = "Prisuppgift saknas";
 
-	private Tracker mTracker;
+	Tracker mTracker;
 
 //	private KoSListTask mKoSTask;
     private KosListRequest mRequest;
 	private KosAdapter mKoSAdapter;
-	private KoSData mKoSData;
+	KoSData mKoSData;
 	private SharedPreferences mPreferences;
 	private MainActivity mActivity;
 
 	private ImageButton prevPageButton;
 	private ImageButton nextPageImageButton;
 
-    private ClearableEditText searchEditText;
-    private Spinner searchCategory;
-    private Spinner searchRegion;
-    private Spinner searchType;
-    private Spinner searchPrice;
-    private Spinner searchYear;
+    ClearableEditText searchEditText;
+    Spinner searchCategory;
+    Spinner searchRegion;
+    Spinner searchType;
+    Spinner searchPrice;
+    Spinner searchYear;
 
     private int mHeaderCount;
 
@@ -259,7 +261,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
         });
     }
 
-    private void updateClearAllButton() {
+    void updateClearAllButton() {
         if (TextUtils.isEmpty(searchEditText.getText().toString().trim())
                 && searchCategory.getSelectedItemPosition() == 0
                 && searchRegion.getSelectedItemPosition() == 0
@@ -303,10 +305,10 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
     @Override
     public void onStart() {
         super.onStart();
-        if (mRequest == null || (mRequest != null && mRequest.hasHadResponseDelivered())) {
+        if (hasNetworkConnection() && (mRequest == null || mRequest.hasHadResponseDelivered())) {
             if (System.currentTimeMillis() > (mPreferences.getLong(LAST_UPDATE, 0) + ONE_HOUR)){
                 if (mKoSData.getCurrentPage() == 1) {
-                    Toast.makeText(mActivity, "Uppdaterar sökning...", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mActivity, R.string.updating_search, Toast.LENGTH_LONG).show();
                     fetchData();
                 }
             }
@@ -395,7 +397,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
 
     @Override
     protected void fetchData() {
-		if (hasNetworkConnection()) {
+		if (hasNetworkConnection(true)) {
             mRequest = new KosListRequest(mKoSData.getCurrentPage(), getUrl(), new Response.Listener<KoSReturnData>() {
 
                 @Override
@@ -423,20 +425,22 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
                     updateBottomBar();
                     updateHeader();
 
-                    // TODO Clear list
-
-                    Toast.makeText(mActivity, mActivity.getString(R.string.kos_no_items_found), Toast.LENGTH_LONG).show();
-
+                    Log.d(TAG, "VolleyError: " + error);
+                    if (error instanceof TimeoutError) {
+                        showNoNetworkView(true, getString(R.string.error_server));
+                    } else {
+                        showNoNetworkView(true);
+                    }
+                    showList(false);
                     showProgress(false);
                 }
             });
-
             MyRequestQueue.getInstance(getContext()).addRequest(mRequest);
         }
 	}
     private String getUrl() {
         String year =  mKoSData.getYear() == 0? "0" :  mKoSData.getYearStr();
-        String urlStr = "https://happyride.se/annonser/"
+        return "https://happyride.se/annonser/"
                 + "?search=" + mKoSData.getSearchString()
                 + "&category=" + mKoSData.getCategory()
                 + "&county=" + mKoSData.getRegion()
@@ -449,10 +453,9 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
                 + "&p=" + mKoSData.getCurrentPage()
                 + "&sortattribute=" + mKoSData.getSortAttributeServer()
                 + "&sortorder=" + mKoSData.getSortOrderServer();
-        return urlStr;
     }
 
-	private void fillList() {
+	void fillList() {
         if (mKoSData.getKoSItems() == null || mKoSData.getKoSItems().isEmpty()) {
             // Workaround for orientation changes before finish loading
             showProgress(true);
@@ -599,7 +602,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Intent intent = new Intent(getActivity(), KoSObjectActivity.class);
-        if (mKoSData.getKoSItems() != null) {
+        if (mKoSData.getKoSItems() != null && mKoSData.getKoSItems().size() > 0) {
             KoSListItem item = mKoSData.getKoSItems().get(position - mHeaderCount);
             intent.putExtra(KoSObjectActivity.URL, item.getLink());
             intent.putExtra(KoSObjectActivity.IMAGE_URL, !TextUtils.isEmpty(item.getImgLink()) ?
@@ -631,14 +634,6 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
         }
         super.onDestroy();
     }
-
-
-//	@Override
-//	public void onCancel(DialogInterface dialog) {
-//		if (mKoSTask != null) {
-//			mKoSTask.cancel(true);
-//        }
-//    }
 
     public void updateSearchParams() {
         String text = searchEditText.getText().toString().trim();
@@ -702,7 +697,6 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
         edit.putInt(SEARCH_CATEGORY_SPINNER, categoryPos);
         edit.putInt(SEARCH_PRICE_SPINNER, pricePos);
         edit.putInt(SEARCH_YEAR_SPINNER, yearPos);
-
         edit.apply();
 
         mKoSData.setCurrentPage(1);

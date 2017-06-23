@@ -14,6 +14,8 @@ import com.android.volley.toolbox.Volley;
  */
 
 public class MyRequestQueue {
+    public final static int SC_NOT_FOUND = 404;
+
     private static MyRequestQueue mInstance;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
