@@ -222,6 +222,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         if (mDrawer.isDrawerOpen(GravityCompat.START)) {
             mDrawer.closeDrawer(GravityCompat.START);
+        } else if (mKosSlidingMenu.isMenuShowing()) {
+            mKosSlidingMenu.toggle();
         } else {
             finish();
         }

@@ -170,7 +170,7 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
                 mScrollView.setVisibility(View.INVISIBLE);
                 mProgressView.setVisibility(View.INVISIBLE);
 
-                if (error != null && error.networkResponse.statusCode == MyRequestQueue.SC_NOT_FOUND) {
+                if (error != null && error.networkResponse != null && error.networkResponse.statusCode == MyRequestQueue.SC_NOT_FOUND) {
                     // Page not found == item is sold
                     mActivity.findViewById(R.id.no_content).setVisibility(View.VISIBLE);
 

@@ -24,7 +24,6 @@ public class WebViewActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.loadUrl(url);
-
     }
 
     @Override
@@ -37,5 +36,4 @@ public class WebViewActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }

@@ -119,6 +119,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
     private int mHeaderCount;
 
     private Button mClearSearchButton;
+    private Button mOkButton;
 
     private SlidingMenu mSlidingMenu;
 
@@ -205,6 +206,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
         searchYear = (Spinner) mActivity.findViewById(R.id.kos_search_dialog_year);
 
         mClearSearchButton = (Button) mActivity.findViewById(R.id.kos_dialog_search_clear_all);
+        mOkButton = (Button) mActivity.findViewById(R.id.kos_dialog_search_ok);
 
         searchEditText.setText(mPreferences.getString(KoSListFragment.SEARCH_TEXT, ""));
         searchCategory.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_CATEGORY_SPINNER, 0), false);
@@ -259,6 +261,12 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
                 updateClearAllButton();
             }
         });
+        mOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSlidingMenu.toggle();
+            }
+        });
     }
 
     void updateClearAllButton() {
@@ -271,7 +279,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
             mClearSearchButton.setEnabled(false);
             mClearSearchButton.setTextColor(getResources().getColor(R.color.grey_light));
         } else {
-            mClearSearchButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+            mClearSearchButton.setTextColor(getResources().getColor(R.color.grey_dark_tint));
             mClearSearchButton.setEnabled(true);
         }
     }
