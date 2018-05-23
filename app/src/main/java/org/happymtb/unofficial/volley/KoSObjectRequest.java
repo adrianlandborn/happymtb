@@ -59,13 +59,13 @@ public class KosObjectRequest extends Request<KoSObjectItem> implements Response
         if (str.contains("<div class=\"carousel-inner\"")) {
             start = getStart(str, "<div class=\"item active\">", start);
             start = getStart(str, "<a href=\"/img/admarket/large/", start);
-            end = getEnd(str, "\" rel=\"lightbox[gallery1]\">", start);
+            end = getEnd(str, "\" data-fancybox=\"image\"", start);
             imgLinkList.add(BASE_URL + "/img/admarket/normal/" + str.substring(start, end));
             start = end;
 
             while (str.substring(start).contains("<div class=\"item\">")) {
                 start = getStart(str, "<a href=\"/img/admarket/large/", start);
-                end = getEnd(str, "\" rel=\"lightbox[gallery1]\">", start);
+                end = getEnd(str, "\" data-fancybox=\"image\"", start);
                 imgLinkList.add(BASE_URL + "/img/admarket/normal/" + str.substring(start, end));
                 start = end;
             }
