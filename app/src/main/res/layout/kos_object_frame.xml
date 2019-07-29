@@ -139,6 +139,15 @@
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
+                <Button
+                    android:id="@+id/kos_all_ads"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Alla annonser"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/kos_object_phone"
                     android:layout_width="match_parent"

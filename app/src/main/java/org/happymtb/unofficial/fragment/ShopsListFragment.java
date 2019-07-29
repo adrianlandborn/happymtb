@@ -29,7 +29,7 @@ public class ShopsListFragment extends ItemsListFragment implements DialogInterf
 	public static String TAG = "shops_frag";
 
 	private ShopsListRequest mRequest;
-	private Tracker mTracker;
+//	private Tracker mTracker;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -42,12 +42,12 @@ public class ShopsListFragment extends ItemsListFragment implements DialogInterf
 		super.onCreate(savedInstanceState);
 
 		// Obtain the shared Tracker instance.
-		HappyApplication application = (HappyApplication) getActivity().getApplication();
-		mTracker = application.getDefaultTracker();
+//		HappyApplication application = (HappyApplication) getActivity().getApplication();
+//		mTracker = application.getDefaultTracker();
 
 		// [START Google analytics screen]
-		mTracker.setScreenName(GaConstants.Categories.SHOPS);
-		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+//		mTracker.setScreenName(GaConstants.Categories.SHOPS);
+//		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 		// [END Google analytics screen]
 	}
 

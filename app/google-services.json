@@ -1,22 +1,29 @@
 {
   "project_info": {
-    "project_id": "happyride-41fa5",
     "project_number": "1086145751976",
-    "name": "Happyride"
+    "firebase_url": "https://happyride-41fa5.firebaseio.com",
+    "project_id": "happyride-41fa5",
+    "storage_bucket": "happyride-41fa5.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:1086145751976:android:0870e090998e59f0",
-        "client_id": "android:org.happymtb.unofficial",
-        "client_type": 1,
         "android_client_info": {
-          "package_name": "org.happymtb.unofficial",
-          "certificate_hash": []
+          "package_name": "org.happymtb.unofficial"
         }
       },
-      "oauth_client": [],
-      "api_key": [],
+      "oauth_client": [
+        {
+          "client_id": "1086145751976-iau5opc5d5bchd7rem1q5792dgkbkhua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuBpwTy8HIqTtnmyLl1NssK26lT6nAk9E"
+        }
+      ],
       "services": {
         "analytics_service": {
           "status": 2,
@@ -24,23 +31,15 @@
             "tracking_id": "UA-76700121-1"
           }
         },
-        "cloud_messaging_service": {
-          "status": 1,
-          "apns_config": []
-        },
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
         },
-        "google_signin_service": {
-          "status": 1
-        },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
   ],
-  "client_info": [],
-  "ARTIFACT_VERSION": "1"
+  "configuration_version": "1"
 }

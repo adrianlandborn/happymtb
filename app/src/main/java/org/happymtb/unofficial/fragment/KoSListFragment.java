@@ -97,7 +97,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
     public final static String NO_IMAGE_URL = "https://happyride.se/img/news_250x145.jpg";
     public final static String NO_PRICE = "Prisuppgift saknas";
 
-	Tracker mTracker;
+//	Tracker mTracker;
 
 //	private KoSListTask mKoSTask;
     private KosListRequest mRequest;
@@ -184,10 +184,10 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
             mSlidingMenu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
                 @Override
                 public void onOpened() {
-                    // [START Google analytics screen]
-                    mTracker.setScreenName(GaConstants.Categories.KOS_SEARCH_MENU);
-                    mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-                    // [END Google analytics screen]
+//            // [START Google analytics screen]
+//            mTracker.setScreenName(GaConstants.Categories.KOS_SEARCH_MENU);
+//            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+//            // [END Google analytics screen]
                 }
             });
 
@@ -289,11 +289,11 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
 
 		// Obtain the shared Tracker instance.
 		HappyApplication application = (HappyApplication) getActivity().getApplication();
-		mTracker = application.getDefaultTracker();
+//		mTracker = application.getDefaultTracker();
 
 		// [START Google analytics screen]
-		mTracker.setScreenName(GaConstants.Categories.KOS_LIST);
-		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+//		mTracker.setScreenName(GaConstants.Categories.KOS_LIST);
+//		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 		// [END Google analytics screen]
 	}
 
@@ -374,8 +374,8 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
                 // Do something with value!
                 if (HappyUtils.isInteger(input.getText().toString())) {
                     // [START Google analytics screen]
-                    mTracker.setScreenName(GaConstants.Categories.KOS_GOTO_DIALOG);
-                    mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+//                    mTracker.setScreenName(GaConstants.Categories.KOS_GOTO_DIALOG);
+//                    mTracker.send(new HitBuilders.ScreenViewBuilder().build());
                     // [END Google analytics screen]
                     mKoSData.setCurrentPage(Integer.parseInt(input.getText().toString()));
                     fetchData();
@@ -406,7 +406,9 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
     @Override
     protected void fetchData() {
 		if (hasNetworkConnection(true)) {
-            mRequest = new KosListRequest(mKoSData.getCurrentPage(), getUrl(), new Response.Listener<KoSReturnData>() {
+//		    String url = "https://happyride.se/annonser/?search=43.5&category=3&county=0&type=1&category2=&county2=&type2=&price=0&year=0&p=1&sortattribute=creationdate&sortorder=DESC";
+		    String url = getUrl();
+            mRequest = new KosListRequest(mKoSData.getCurrentPage(), url, new Response.Listener<KoSReturnData>() {
 
                 @Override
                 public void onResponse(KoSReturnData returnData) {
@@ -464,13 +466,14 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
     }
 
 	void fillList() {
-        if (mKoSData.getKoSItems() == null || mKoSData.getKoSItems().isEmpty()) {
+        if (mKoSData.getKoSItems() == null){
             // Workaround for orientation changes before finish loading
             showProgress(true);
             fetchData();
-
             return;
-        } else if (mKoSAdapter == null) {
+        }
+
+        if (mKoSAdapter == null) {
             mKoSAdapter = new KosAdapter(mActivity, mKoSData.getKoSItems());
 			setListAdapter(mKoSAdapter);
 		} else {
@@ -486,7 +489,8 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
         // Bottombar
         ViewGroup bottombar = (ViewGroup) mActivity.findViewById(R.id.kos_bottombar);
         if (bottombar != null) {
-            if (mKoSData.getKoSItems() == null || mKoSData.getKoSItems().size() == 0) {
+            if (mKoSData.getKoSItems().isEmpty()) {
+                Toast.makeText(mActivity, "Din sökning gav inga träffar.", Toast.LENGTH_SHORT).show();
                 bottombar.setVisibility(View.GONE);
             } else {
                 TextView currentPage = (TextView) mActivity.findViewById(R.id.current_page);
@@ -729,11 +733,11 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
 	}
 
 	private void sendGaEvent(String action, String label) {
-		mActivity.getTracker().send(new HitBuilders.EventBuilder()
-				.setCategory(GaConstants.Categories.KOS_LIST)
-				.setAction(action)
-				.setLabel(label)
-				.build());
+//		mActivity.getTracker().send(new HitBuilders.EventBuilder()
+//				.setCategory(GaConstants.Categories.KOS_LIST)
+//				.setAction(action)
+//				.setLabel(label)
+//				.build());
 	}
 
     @Override

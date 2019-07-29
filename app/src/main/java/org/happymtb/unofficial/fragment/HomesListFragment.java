@@ -35,7 +35,7 @@ public class HomesListFragment extends RefreshListfragment implements OnChildCli
     private HomeListRequest mRequest;
     private ArrayList<HomeItem> mHomeItems = new ArrayList<>();
 
-	private Tracker mTracker;
+//	private Tracker mTracker;
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -60,12 +60,12 @@ public class HomesListFragment extends RefreshListfragment implements OnChildCli
 		super.onCreate(savedInstanceState);
 
 		// Obtain the shared Tracker instance.
-		HappyApplication application = (HappyApplication) getActivity().getApplication();
-		mTracker = application.getDefaultTracker();
-
-		// [START Google analytics screen]
-		mTracker.setScreenName(GaConstants.Categories.HOME);
-		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+//		HappyApplication application = (HappyApplication) getActivity().getApplication();
+//		mTracker = application.getDefaultTracker();
+//
+//		// [START Google analytics screen]
+//		mTracker.setScreenName(GaConstants.Categories.HOME);
+//		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 	}
 
 	@Override

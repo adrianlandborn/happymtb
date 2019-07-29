@@ -46,6 +46,7 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
 	View mNoNetworkView;
     private TextView mTitle;
     private Button mPerson;
+    private Button mAllAds;
     private TextView mPhone;
     private TextView mCategory;
     private TextView mDate;
@@ -60,7 +61,7 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
     private String mUrl;
 	KoSItemDataSource datasource;
 
-	public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
 		mActivity = (KoSObjectActivity) getActivity();
@@ -75,6 +76,7 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
 
 		mTitle = (TextView) mActivity.findViewById(R.id.kos_object_title);
 		mPerson = (Button) mActivity.findViewById(R.id.kos_object_person);
+		mAllAds = (Button) mActivity.findViewById(R.id.kos_all_ads);
 		mPhone = (TextView) mActivity.findViewById(R.id.kos_object_phone);
 		mCategory = (TextView) mActivity.findViewById(R.id.kos_object_category);
 		mDate = (TextView) mActivity.findViewById(R.id.kos_object_date);
@@ -92,6 +94,7 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
         Button reloadButton = (Button) mActivity.findViewById(R.id.reload_button);
 
         mPerson.setOnClickListener(this);
+        mAllAds.setOnClickListener(this);
         actionPhone.setOnClickListener(this);
         actionSms.setOnClickListener(this);
         actionEmail.setOnClickListener(this);
@@ -287,11 +290,11 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
 	}
 
     private void sendGaEvent(String action, String label) {
-        mActivity.getTracker().send(new HitBuilders.EventBuilder()
-                .setCategory(GaConstants.Categories.KOS_OBJECT)
-                .setAction(action)
-                .setLabel(label)
-                .build());
+//        mActivity.getTracker().send(new HitBuilders.EventBuilder()
+//                .setCategory(GaConstants.Categories.KOS_OBJECT)
+//                .setAction(action)
+//                .setLabel(label)
+//                .build());
     }
 
     private void addToDatabase() {
@@ -348,6 +351,8 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
         if (mKoSObjectItem != null) {
             if (v.getId() == R.id.kos_object_person) {
                 openInBrowser(mKoSObjectItem.getPerson().getIdLink(), false);
+            } else if (v.getId() == R.id.kos_all_ads) {
+                openInBrowser("https://happyride.se/annonser/?member=" + mKoSObjectItem.getPerson().getId(), false);
             } else if (v.getId() == R.id.kos_action_phone) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("tel", mKoSObjectItem.getPerson().getPhone(), null));
                 startActivity(intent);

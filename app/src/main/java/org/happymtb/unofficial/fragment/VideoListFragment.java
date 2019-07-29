@@ -86,12 +86,12 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
         super.onCreate(savedInstanceState);
 
         // Obtain the shared Tracker instance.
-        HappyApplication application = (HappyApplication) getActivity().getApplication();
-        mTracker = application.getDefaultTracker();
+//        HappyApplication application = (HappyApplication) getActivity().getApplication();
+//        mTracker = application.getDefaultTracker();
 
         // [START Google analytics screen]
-        mTracker.setScreenName(GaConstants.Categories.VIDEO_LIST);
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+//        mTracker.setScreenName(GaConstants.Categories.VIDEO_LIST);
+//        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         // [END Google analytics screen]
 
     }

@@ -126,9 +126,12 @@ public class KosObjectRequest extends Request<KoSObjectItem> implements Response
         end = getEnd(str, "\">", start);
         String personIdLink = str.substring(start, end);
         start = start + personIdLink.length() + 2;
+//        String personId = personIdLink.substring(getStart(personIdLink, "php/1/", personIdLink.length()));
+        String personId = personIdLink.replace("forum/profile.php/1/",
+                "").substring(1);
         personIdLink = BASE_URL + personIdLink;
 
-        end = getEnd(str, "</a>)<br />", end + 2);
+        end = getEnd(str, "</a>)", end + 2);
         String personName = HappyUtils.replaceHTMLChars(str.substring(start, end));
 
         start = getStart(str, "<strong>Medlem sedan:</strong>", end);
@@ -165,7 +168,7 @@ public class KosObjectRequest extends Request<KoSObjectItem> implements Response
             personEmail = BASE_URL + "/annonser/" + HappyUtils.replaceHTMLChars(contact.substring(start, end));
         }
 
-        person = new Person(personName, personPhone, personMemberSince, personIdLink, personPM, personEmail);
+        person = new Person(personId, personName, personPhone, personMemberSince, personIdLink, personPM, personEmail);
 
         return new KoSObjectItem(area, town, type, title, person, publishDate, imgLinkList, description, price, yearModel, url, ""/*category not available*/);
     }

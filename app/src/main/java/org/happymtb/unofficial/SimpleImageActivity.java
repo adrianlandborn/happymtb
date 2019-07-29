@@ -45,11 +45,11 @@ public class SimpleImageActivity extends AppCompatActivity {
 
         // Obtain the shared Tracker instance.
         HappyApplication application = (HappyApplication) getApplication();
-        Tracker mTracker = application.getDefaultTracker();
+//        Tracker mTracker = application.getDefaultTracker();
 
         // [START Google analytics screen]
-        mTracker.setScreenName(GaConstants.Categories.KOS_ZOOM_IMAGE);
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+//        mTracker.setScreenName(GaConstants.Categories.KOS_ZOOM_IMAGE);
+//        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         // [END sGoogle analytics screen]
 
         findViewById(R.id.progress_container_id).setVisibility(View.VISIBLE);

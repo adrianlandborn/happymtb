@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public class Person implements Serializable {
 
+    private String mId;
     private String mIdLink;
     private String mName;
     private String mPhone;
@@ -14,7 +15,8 @@ public class Person implements Serializable {
     private String mPM;
     private String mMemberSince;
 
-    public Person (String name, String phone, String memberSince, String idLink, String pm, String email) {
+    public Person(String id, String name, String phone, String memberSince, String idLink, String pm, String email) {
+        mId = id;
         mName = name;
         mPhone = phone;
         mMemberSince = memberSince;
@@ -37,6 +39,10 @@ public class Person implements Serializable {
 
     public String getIdLink() {
         return mIdLink;
+    }
+
+    public String getId() {
+        return mId;
     }
 
     public String getPmLink() {

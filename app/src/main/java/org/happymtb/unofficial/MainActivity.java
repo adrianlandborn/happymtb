@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String OPEN_DRAWER = "open_drawer";
     private static final String SHOW_RATING_DIALOG = "show_Rating_dialog";
 
-    private Tracker mTracker;
+//    private Tracker mTracker;
 
     private Fragment mCurrentFragment;
     private SharedPreferences mPreferences;
@@ -78,14 +78,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setContentView(R.layout.activity_main_drawer);
         }
 
-        // Obtain the shared Tracker instance.
-        HappyApplication application = (HappyApplication) getApplication();
-        mTracker = application.getDefaultTracker();
-
-        // [START Google analytics screen]
-        mTracker.setScreenName(GaConstants.Categories.MAIN);
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        // [END sGoogle analytics screen]
+//        // Obtain the shared Tracker instance.
+//        HappyApplication application = (HappyApplication) getApplication();
+//        mTracker = application.getDefaultTracker();
+//
+//        // [START Google analytics screen]
+//        mTracker.setScreenName(GaConstants.Categories.MAIN);
+//        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+//        // [END sGoogle analytics screen]
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -324,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public Tracker getTracker() {
-        return mTracker;
-    }
+//    public Tracker getTracker() {
+//        return mTracker;
+//    }
 }

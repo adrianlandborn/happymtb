@@ -38,11 +38,11 @@ public class ZoomImageActivity extends AppCompatActivity {
 
         // Obtain the shared Tracker instance.
         HappyApplication application = (HappyApplication) getApplication();
-        Tracker mTracker = application.getDefaultTracker();
+//        Tracker mTracker = application.getDefaultTracker();
 
         // [START Google analytics screen]
-        mTracker.setScreenName(GaConstants.Categories.KOS_ZOOM_IMAGE);
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+//        mTracker.setScreenName(GaConstants.Categories.KOS_ZOOM_IMAGE);
+//        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         // [END sGoogle analytics screen]
 
         imageDetail = (ImageView) findViewById(R.id.imageView1); /** set on touch listener on image */

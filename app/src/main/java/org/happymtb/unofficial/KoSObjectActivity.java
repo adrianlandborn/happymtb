@@ -36,7 +36,7 @@ public class KoSObjectActivity extends AppCompatActivity {
 	public final static String IMAGE_URL = "image_url";
 	public final static String URL = "item_url";
 
-	private Tracker mTracker;
+//	private Tracker mTracker;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +48,14 @@ public class KoSObjectActivity extends AppCompatActivity {
 
 		setContentView(R.layout.kos_object_frame);
 
-		// Obtain the shared Tracker instance.
-		HappyApplication application = (HappyApplication) getApplication();
-		mTracker = application.getDefaultTracker();
-
-		// [START Google analytics screen]
-		mTracker.setScreenName(GaConstants.Categories.KOS_OBJECT);
-		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-		// [END sGoogle analytics screen]
+//		// Obtain the shared Tracker instance.
+//		HappyApplication application = (HappyApplication) getApplication();
+//		mTracker = application.getDefaultTracker();
+//
+//		// [START Google analytics screen]
+//		mTracker.setScreenName(GaConstants.Categories.KOS_OBJECT);
+//		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+//		// [END sGoogle analytics screen]
 
 		if (getIntent().getBooleanExtra(TRANSITION, false)) {
 			findViewById(R.id.kos_object_scroll).setVisibility(View.VISIBLE);
@@ -184,7 +184,7 @@ public class KoSObjectActivity extends AppCompatActivity {
 	    }
 	}
 
-	public Tracker getTracker() {
-		return mTracker;
-	}
+//	public Tracker getTracker() {
+//		return mTracker;
+//	}
 }

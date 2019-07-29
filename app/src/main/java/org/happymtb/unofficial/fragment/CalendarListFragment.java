@@ -91,11 +91,11 @@ public class CalendarListFragment extends RefreshListfragment {
 
 		// Obtain the shared Tracker instance.
 		HappyApplication application = (HappyApplication) getActivity().getApplication();
-        Tracker tracker = application.getDefaultTracker();
+//        Tracker tracker = application.getDefaultTracker();
 
 		// [START Google analytics screen]
-		tracker.setScreenName(GaConstants.Categories.CALENDAR);
-		tracker.send(new HitBuilders.ScreenViewBuilder().build());
+//		tracker.setScreenName(GaConstants.Categories.CALENDAR);
+//		tracker.send(new HitBuilders.ScreenViewBuilder().build());
 		// [END Google analytics screen]
 	}
 

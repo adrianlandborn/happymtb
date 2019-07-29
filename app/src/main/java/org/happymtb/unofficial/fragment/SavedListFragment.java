@@ -99,12 +99,12 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
         super.onCreate(savedInstanceState);
 
         // Obtain the shared Tracker instance.
-        HappyApplication application = (HappyApplication) getActivity().getApplication();
-        mTracker = application.getDefaultTracker();
-
-        // [START Google analytics screen]
-        mTracker.setScreenName(GaConstants.Categories.SAVED_LIST);
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+//        HappyApplication application = (HappyApplication) getActivity().getApplication();
+//        mTracker = application.getDefaultTracker();
+//
+//        // [START Google analytics screen]
+//        mTracker.setScreenName(GaConstants.Categories.SAVED_LIST);
+//        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         // [END Google analytics screen]
     }
 
