@@ -3,8 +3,8 @@ package org.happymtb.unofficial.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -19,18 +19,15 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.android.gms.analytics.HitBuilders;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import org.happymtb.unofficial.KoSObjectActivity;
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.WebViewActivity;
 import org.happymtb.unofficial.adapter.ViewPagerAdapter;
-import org.happymtb.unofficial.analytics.GaConstants;
 import org.happymtb.unofficial.database.KoSItemDataSource;
 import org.happymtb.unofficial.item.KoSObjectItem;
 import org.happymtb.unofficial.item.Person;
-import org.happymtb.unofficial.volley.KosListRequest;
 import org.happymtb.unofficial.volley.KosObjectRequest;
 import org.happymtb.unofficial.volley.MyRequestQueue;
 
@@ -262,21 +259,17 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
             case R.id.kos_object_favorite:
                 addToDatabase();
                 mActivity.invalidateOptionsMenu();
-                sendGaEvent(GaConstants.Actions.FAVORITE, GaConstants.Labels.ADD);
                 return true;
             case R.id.kos_object_unfavorite:
                 removeFromDatabase();
                 mActivity.invalidateOptionsMenu();
-                sendGaEvent(GaConstants.Actions.FAVORITE, GaConstants.Labels.REMOVE);
                 return true;
             case R.id.kos_object_share:
                 shareObject();
-                sendGaEvent(GaConstants.Actions.SHARE, GaConstants.Labels.EMPTY);
                 return true;
             case R.id.kos_object_browser:
                 mIsSold = true;
 //                mActivity.invalidateOptionsMenu();
-                sendGaEvent(GaConstants.Actions.OPEN_IN_BROWSER, GaConstants.Labels.EMPTY);
 //                if (mIsSaved) {
 //                    if (datasource.setItemSold(mActivity.getObjectId(), true) != -1) {
 //                        Toast.makeText(mActivity, "Såld!", Toast.LENGTH_SHORT).show();
@@ -288,14 +281,6 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
-
-    private void sendGaEvent(String action, String label) {
-//        mActivity.getTracker().send(new HitBuilders.EventBuilder()
-//                .setCategory(GaConstants.Categories.KOS_OBJECT)
-//                .setAction(action)
-//                .setLabel(label)
-//                .build());
-    }
 
     private void addToDatabase() {
         if (datasource.insertKosItem(mKoSObjectItem) > 0) {

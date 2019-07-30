@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,14 +21,10 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.adapter.ListVideoAdapter;
-import org.happymtb.unofficial.analytics.GaConstants;
-import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.VideoData;
 import org.happymtb.unofficial.item.VideoItem;
@@ -48,7 +44,6 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 	private AlertDialog.Builder mAlertDialog;
     private MainActivity mActivity;
 //	private ListView mListView;
-    private Tracker mTracker;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -84,16 +79,6 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Obtain the shared Tracker instance.
-//        HappyApplication application = (HappyApplication) getActivity().getApplication();
-//        mTracker = application.getDefaultTracker();
-
-        // [START Google analytics screen]
-//        mTracker.setScreenName(GaConstants.Categories.VIDEO_LIST);
-//        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        // [END Google analytics screen]
-
     }
 
 	@Override

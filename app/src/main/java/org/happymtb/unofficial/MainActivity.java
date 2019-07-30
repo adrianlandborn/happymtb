@@ -1,7 +1,5 @@
 package org.happymtb.unofficial;
 
-import org.happymtb.unofficial.analytics.GaConstants;
-import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.fragment.ArticlesListFragment;
 import org.happymtb.unofficial.fragment.CalendarListFragment;
 import org.happymtb.unofficial.fragment.HomesListFragment;
@@ -17,23 +15,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.navigation.NavigationView;
+import androidx.fragment.app.Fragment;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import io.fabric.sdk.android.Fabric;
 import com.crashlytics.android.Crashlytics;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.kobakei.ratethisapp.RateThisApp;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -52,8 +48,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String CURRENT_FRAGMENT_TAG = "current_fragment_tag";
     private static final String OPEN_DRAWER = "open_drawer";
     private static final String SHOW_RATING_DIALOG = "show_Rating_dialog";
-
-//    private Tracker mTracker;
 
     private Fragment mCurrentFragment;
     private SharedPreferences mPreferences;
@@ -77,15 +71,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             setContentView(R.layout.activity_main_drawer);
         }
-
-//        // Obtain the shared Tracker instance.
-//        HappyApplication application = (HappyApplication) getApplication();
-//        mTracker = application.getDefaultTracker();
-//
-//        // [START Google analytics screen]
-//        mTracker.setScreenName(GaConstants.Categories.MAIN);
-//        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-//        // [END sGoogle analytics screen]
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -323,8 +308,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             slidingMenu.setSlidingEnabled(false);
         }
     }
-
-//    public Tracker getTracker() {
-//        return mTracker;
-//    }
 }

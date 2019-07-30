@@ -3,20 +3,16 @@ package org.happymtb.unofficial;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 
-import org.happymtb.unofficial.analytics.GaConstants;
-import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.fragment.KoSListFragment;
 import org.happymtb.unofficial.fragment.KoSObjectFragment;
 import org.happymtb.unofficial.volley.MyRequestQueue;
@@ -36,8 +32,6 @@ public class KoSObjectActivity extends AppCompatActivity {
 	public final static String IMAGE_URL = "image_url";
 	public final static String URL = "item_url";
 
-//	private Tracker mTracker;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
@@ -47,15 +41,6 @@ public class KoSObjectActivity extends AppCompatActivity {
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 		setContentView(R.layout.kos_object_frame);
-
-//		// Obtain the shared Tracker instance.
-//		HappyApplication application = (HappyApplication) getApplication();
-//		mTracker = application.getDefaultTracker();
-//
-//		// [START Google analytics screen]
-//		mTracker.setScreenName(GaConstants.Categories.KOS_OBJECT);
-//		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-//		// [END sGoogle analytics screen]
 
 		if (getIntent().getBooleanExtra(TRANSITION, false)) {
 			findViewById(R.id.kos_object_scroll).setVisibility(View.VISIBLE);
@@ -184,7 +169,4 @@ public class KoSObjectActivity extends AppCompatActivity {
 	    }
 	}
 
-//	public Tracker getTracker() {
-//		return mTracker;
-//	}
 }

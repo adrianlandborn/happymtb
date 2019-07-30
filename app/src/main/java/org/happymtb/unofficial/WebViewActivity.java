@@ -1,9 +1,10 @@
 package org.happymtb.unofficial;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -19,8 +20,16 @@ public class WebViewActivity extends AppCompatActivity {
 
         String url = getIntent().getExtras().getString("url");
 
-        WebView webView = (WebView) findViewById(R.id.webView);
-        webView.setWebChromeClient(new WebChromeClient());
+        WebView webView = findViewById(R.id.webView);
+//        webView.setWebChromeClient(new WebChromeClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, request.getUrl());
+                view.getContext().startActivity(intent);
+                return true;
+            }
+        });
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.loadUrl(url);

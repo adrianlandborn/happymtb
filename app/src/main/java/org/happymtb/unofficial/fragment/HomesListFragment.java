@@ -3,8 +3,8 @@ package org.happymtb.unofficial.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -15,13 +15,9 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.adapter.HomeAdapter;
-import org.happymtb.unofficial.analytics.GaConstants;
-import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.item.HomeItem;
 import org.happymtb.unofficial.volley.HomeListRequest;
 import org.happymtb.unofficial.volley.MyRequestQueue;
@@ -34,8 +30,6 @@ public class HomesListFragment extends RefreshListfragment implements OnChildCli
 	private HomeAdapter mHomeAdapter;
     private HomeListRequest mRequest;
     private ArrayList<HomeItem> mHomeItems = new ArrayList<>();
-
-//	private Tracker mTracker;
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -58,14 +52,6 @@ public class HomesListFragment extends RefreshListfragment implements OnChildCli
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// Obtain the shared Tracker instance.
-//		HappyApplication application = (HappyApplication) getActivity().getApplication();
-//		mTracker = application.getDefaultTracker();
-//
-//		// [START Google analytics screen]
-//		mTracker.setScreenName(GaConstants.Categories.HOME);
-//		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 	}
 
 	@Override

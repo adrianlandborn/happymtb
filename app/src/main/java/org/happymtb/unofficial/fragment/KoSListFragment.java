@@ -7,8 +7,6 @@ import org.happymtb.unofficial.KoSObjectActivity;
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.adapter.KosAdapter;
-import org.happymtb.unofficial.analytics.GaConstants;
-import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSData;
 import org.happymtb.unofficial.item.KoSListItem;
@@ -28,9 +26,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.view.ViewCompat;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -55,8 +53,6 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 public class KoSListFragment extends RefreshListfragment implements /*DialogInterface.OnCancelListener,*/
@@ -96,8 +92,6 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
 
     public final static String NO_IMAGE_URL = "https://happyride.se/img/news_250x145.jpg";
     public final static String NO_PRICE = "Prisuppgift saknas";
-
-//	Tracker mTracker;
 
 //	private KoSListTask mKoSTask;
     private KosListRequest mRequest;
@@ -184,10 +178,6 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
             mSlidingMenu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
                 @Override
                 public void onOpened() {
-//            // [START Google analytics screen]
-//            mTracker.setScreenName(GaConstants.Categories.KOS_SEARCH_MENU);
-//            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-//            // [END Google analytics screen]
                 }
             });
 
@@ -286,15 +276,6 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
 
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// Obtain the shared Tracker instance.
-		HappyApplication application = (HappyApplication) getActivity().getApplication();
-//		mTracker = application.getDefaultTracker();
-
-		// [START Google analytics screen]
-//		mTracker.setScreenName(GaConstants.Categories.KOS_LIST);
-//		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-		// [END Google analytics screen]
 	}
 
     @Override
@@ -338,11 +319,9 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
 			return true;		
 		case R.id.kos_left:
 			previousPage();
-            sendGaEvent(GaConstants.Actions.PREV_PAGE, GaConstants.Labels.EMPTY);
 			return true;
 		case R.id.kos_right:
 			nextPage();
-            sendGaEvent(GaConstants.Actions.NEXT_PAGE, GaConstants.Labels.EMPTY);
 			return true;
 		case R.id.kos_search_option:
             mSlidingMenu.toggle();
@@ -352,7 +331,6 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
 			return true;	
 		case R.id.kos_new_item:
 			String url = "https://happyride.se/annonser/add.php";
-            sendGaEvent(GaConstants.Actions.NEW_ADD, GaConstants.Labels.EMPTY);
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			startActivity(browserIntent);							
 			return true;			
@@ -373,10 +351,6 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
             public void onClick(DialogInterface dialog, int whichButton) {
                 // Do something with value!
                 if (HappyUtils.isInteger(input.getText().toString())) {
-                    // [START Google analytics screen]
-//                    mTracker.setScreenName(GaConstants.Categories.KOS_GOTO_DIALOG);
-//                    mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-                    // [END Google analytics screen]
                     mKoSData.setCurrentPage(Integer.parseInt(input.getText().toString()));
                     fetchData();
                 }
@@ -721,23 +695,13 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
 	public void onClick(View v) {
 		if (v.getId() == R.id.prev) {
 			previousPage();
-			sendGaEvent(GaConstants.Actions.PREV_PAGE, GaConstants.Labels.EMPTY);
 		} else if (v.getId() == R.id.next) {
 			nextPage();
-			sendGaEvent(GaConstants.Actions.NEXT_PAGE, GaConstants.Labels.EMPTY);
         } else if (v.getId() == R.id.kos_list_header) {
             mSlidingMenu.toggle();
         } else if (v.getId() == R.id.kos_bottombar) {
             openGoToPage();
 		}
-	}
-
-	private void sendGaEvent(String action, String label) {
-//		mActivity.getTracker().send(new HitBuilders.EventBuilder()
-//				.setCategory(GaConstants.Categories.KOS_LIST)
-//				.setAction(action)
-//				.setLabel(label)
-//				.build());
 	}
 
     @Override

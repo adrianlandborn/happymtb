@@ -5,12 +5,12 @@ android {
     signingConfigs {
         releaseConfig
     }
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "org.happymtb.unofficial"
-        minSdkVersion 16
-        targetSdkVersion 27
+        minSdkVersion 21
+        targetSdkVersion 28
         signingConfig signingConfigs.releaseConfig
     }
     buildTypes {
@@ -37,10 +37,12 @@ repositories {
 dependencies {
     implementation 'com.android.volley:volley:1.1.0'
 
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
 
-    implementation 'com.google.android.gms:play-services-analytics:16.0.4'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.google.firebase:firebase-core:17.0.1'
+
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'org.droidparts:droidparts:3.1.0'
     implementation 'io.github.kobakei:ratethisapp:1.2.0'

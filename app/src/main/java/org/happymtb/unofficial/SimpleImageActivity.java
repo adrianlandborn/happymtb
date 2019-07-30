@@ -16,19 +16,14 @@
 package org.happymtb.unofficial;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
-import org.happymtb.unofficial.analytics.GaConstants;
-import org.happymtb.unofficial.analytics.HappyApplication;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -42,15 +37,6 @@ public class SimpleImageActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getIntent().getExtras().getString("title"));
-
-        // Obtain the shared Tracker instance.
-        HappyApplication application = (HappyApplication) getApplication();
-//        Tracker mTracker = application.getDefaultTracker();
-
-        // [START Google analytics screen]
-//        mTracker.setScreenName(GaConstants.Categories.KOS_ZOOM_IMAGE);
-//        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        // [END sGoogle analytics screen]
 
         findViewById(R.id.progress_container_id).setVisibility(View.VISIBLE);
         final ImageView mImageView = (ImageView) findViewById(R.id.imageView);

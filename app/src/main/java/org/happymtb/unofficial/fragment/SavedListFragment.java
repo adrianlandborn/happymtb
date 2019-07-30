@@ -9,13 +9,13 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.CursorAdapter;
-import android.text.InputType;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
+import androidx.cursoradapter.widget.CursorAdapter;
+
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -25,7 +25,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,22 +32,16 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 
 import org.happymtb.unofficial.KoSObjectActivity;
 import org.happymtb.unofficial.MainActivity;
 import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.analytics.GaConstants;
-import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.database.KoSItemDataSource;
 import org.happymtb.unofficial.database.MyContentProvider;
 import org.happymtb.unofficial.database.MySQLiteHelper;
-import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSListItem;
 import org.happymtb.unofficial.item.KoSObjectItem;
-import org.happymtb.unofficial.listener.PageTextWatcher;
 import org.happymtb.unofficial.volley.KosObjectRequest;
 import org.happymtb.unofficial.volley.MyRequestQueue;
 
@@ -66,8 +59,6 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
 
     private static final int MENU_CONTEXT_DELETE_ID = 0;
     private final static String LAST_UPDATE = "saved_last_update";
-
-    private Tracker mTracker;
 
 	private SavedListCursorAdapter mAdapter;
 	private MainActivity mActivity;
@@ -97,15 +88,6 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Obtain the shared Tracker instance.
-//        HappyApplication application = (HappyApplication) getActivity().getApplication();
-//        mTracker = application.getDefaultTracker();
-//
-//        // [START Google analytics screen]
-//        mTracker.setScreenName(GaConstants.Categories.SAVED_LIST);
-//        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        // [END Google analytics screen]
     }
 
     @Override
@@ -349,10 +331,6 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
         alert.setMessage("Ta bort alla sålda annonser?");
         alert.setPositiveButton(R.string.remove, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                // [START Google analytics screen]
-                mTracker.setScreenName(GaConstants.Categories.SAVED_DELETE_DIALOG);
-                mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-                // [END Google analytics screen]
 
                 deleteSoldItems();
             }
