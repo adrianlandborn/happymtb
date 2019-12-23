@@ -25,8 +25,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import io.fabric.sdk.android.Fabric;
-import com.crashlytics.android.Crashlytics;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.kobakei.ratethisapp.RateThisApp;
 
@@ -64,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
 
         if (HappyUtils.isDebug(getApplicationContext())) {
             setContentView(R.layout.activity_main_drawer_debug);
