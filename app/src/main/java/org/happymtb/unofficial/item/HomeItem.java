@@ -6,13 +6,15 @@ public class HomeItem implements Serializable {
 	private static final long serialVersionUID = 201111020001L; 
 	
 	private String mTitle;
+	private String mCategory;
 	private String mLink;
 	private String mText;
 	private String mDate;
 	
-	public HomeItem(String Title, String Link, String Text, String Date) {
+	public HomeItem(String Title, String Link, String category, String Text, String Date) {
 		mTitle = Title;
 		mLink = Link;
+		mCategory = category;
 		mText = Text;
 		mDate = Date;	
 	}
@@ -21,10 +23,19 @@ public class HomeItem implements Serializable {
 		return mTitle;
 	}
 
+
 	public void setTitle(String Title) {
 		mTitle = Title;
-	}		
-	
+	}
+
+	public String getCategory() {
+		return mCategory;
+	}
+
+	public void setCategory(String category) {
+		mCategory = category;
+	}
+
 	public String getText() {
 		return mText;
 	}	

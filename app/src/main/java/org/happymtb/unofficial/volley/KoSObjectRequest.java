@@ -154,12 +154,13 @@ public class KosObjectRequest extends Request<KoSObjectItem> implements Response
 
         String contact = str.substring(start);
         start = 0;
-        if (contact.indexOf("Skicka PM") > -1) {
-            // Skicka PM
-            start = getStart(contact, "<a href=\"", start);
-            end = getEnd(contact, "\" class=\"btn btn-primary\"", start);
-            personPM = BASE_URL + HappyUtils.replaceHTMLChars(contact.substring(start, end));
-        }
+        // TODO No need for this, using Person ID instead
+//        if (contact.indexOf("Skicka PM") > -1) {
+//            // Skicka PM
+//            start = getStart(contact, "<a href=\"", start);
+//            end = getEnd(contact, "\" class=\"btn btn-primary\"", start);
+//            personPM = BASE_URL + HappyUtils.replaceHTMLChars(contact.substring(start, end));
+//        }
 
         if (contact.indexOf("Skicka E-post", end) > -1) {
             // Skicka Epost

@@ -39,7 +39,12 @@ public class HomeListRequest extends Request<List<HomeItem>> implements Response
 		String link = str.substring(start, end);
 		start = end;
 
-		start = str.indexOf("<description><![CDATA[", start) + 22;
+		start = str.indexOf("creator>\n" +
+				"\t\t\t\t<category><![CDATA[", start) + 21;
+		end = str.indexOf("]]></category>", start);
+		String category = HappyUtils.replaceHTMLChars(str.substring(start, end));
+
+		start = str.indexOf("400px\" />", start) + 9;
 		end = str.indexOf("]]></description>", start);
 		String text = HappyUtils.replaceHTMLChars(str.substring(start, end));
 
@@ -59,7 +64,7 @@ public class HomeListRequest extends Request<List<HomeItem>> implements Response
 				
 		String date = year + "-" + month + "-" + day;
 		
-		return new HomeItem(title, link, text, date);
+		return new HomeItem(title, link, category, text, date);
 	}
 
     @Override

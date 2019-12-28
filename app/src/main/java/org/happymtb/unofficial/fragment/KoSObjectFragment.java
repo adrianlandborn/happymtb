@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -223,10 +224,6 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
 			mActivity.findViewById(R.id.kos_action_email_layout).setVisibility(View.VISIBLE);
 		}
 
-		if (!TextUtils.isEmpty(person.getPmLink())) {
-			mActivity.findViewById(R.id.kos_action_pm_layout).setVisibility(View.VISIBLE);
-		}
-
 		if (!TextUtils.isEmpty(mKoSObjectItem.getImgLink())) {
             ViewPager viewPager = (ViewPager)mActivity.findViewById(R.id.view_pager);;
             ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(mActivity, mKoSObjectItem.getTitle(), mKoSObjectItem.getImgLinkList());
@@ -317,9 +314,10 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-    private void openInBrowser(String url, boolean popBackStack) {
+    private void  openInBrowser(String url, boolean popBackStack) {
         Intent browserIntent = new Intent(getActivity(), WebViewActivity.class);
         browserIntent.putExtra("url", url);
+        Log.d("happyride", url);
         startActivity(browserIntent);
         if (popBackStack) {
             mActivity.finish();
@@ -347,7 +345,8 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
             } else if (v.getId() == R.id.kos_action_email) {
                 openInBrowser(mKoSObjectItem.getPerson().getEmailLink(), false);
             } else if (v.getId() == R.id.kos_action_pm) {
-                openInBrowser(mKoSObjectItem.getPerson().getPmLink(), false);
+                openInBrowser("https://happyride.se/forum/pm.php/1/page=send/to_id=" + mKoSObjectItem.getPerson().getId(), false);
+//                openInBrowser(mKoSObjectItem.getPerson().getPmLink(), false);
             }
         }
 	}

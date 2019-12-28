@@ -46,6 +46,7 @@ public class HomeAdapter extends BaseAdapter {
 		}
 
 		homeRowView.setTitle(mHomeItems.get(position).getTitle());
+		homeRowView.setCategory(mHomeItems.get(position).getCategory());
 		homeRowView.setText(mHomeItems.get(position).getText());
 		homeRowView.setDate(mHomeItems.get(position).getDate());
 		

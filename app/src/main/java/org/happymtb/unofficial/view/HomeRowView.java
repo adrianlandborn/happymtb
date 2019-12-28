@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 public class HomeRowView extends LinearLayout {
 	TextView mTitle;
+	TextView mCategory;
 	TextView mText;
 	TextView mDate;
 	LinearLayout compoundView;
@@ -21,6 +22,7 @@ public class HomeRowView extends LinearLayout {
         compoundView = (LinearLayout) inflater.inflate(R.layout.home_row, this);
 		
 		mTitle = (TextView) compoundView.findViewById(R.id.home_row_title);
+		mCategory = (TextView) compoundView.findViewById(R.id.home_row_category);
 		mText = (TextView) compoundView.findViewById(R.id.home_row_text);
 		mDate = (TextView) compoundView.findViewById(R.id.home_row_date);
 
@@ -29,6 +31,13 @@ public class HomeRowView extends LinearLayout {
 	public void setTitle(String Title) {
 		if (mTitle != null) {
 			mTitle.setText(Title);
+		}
+	}
+
+	public void setCategory(String category) {
+		if (mCategory != null) {
+			// TODO Parsing fails
+//			mCategory.setText(category);
 		}
 	}
 
