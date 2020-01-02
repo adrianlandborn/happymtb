@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/kos_search_background">
 
     <ScrollView
         android:id="@+id/kos_search_dialog_scroll"
@@ -92,7 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/grey">
+        android:background="@color/grey_dark">
 
         <Button
             android:id="@+id/kos_dialog_search_clear_all"
@@ -101,7 +101,7 @@
             android:layout_margin="8dp"
             android:background="@color/white"
             android:text="Rensa"
-            android:textColor="@color/grey_dark_tint" />
+            android:textColor="@color/button_text_dark_grey" />
 
         <View
             android:layout_width="0px"

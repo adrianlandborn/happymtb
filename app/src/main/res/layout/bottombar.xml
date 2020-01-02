@@ -12,11 +12,11 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:background="@drawable/bottombar_selector"
-        android:tint="@color/grey_dark_tint"
+        android:tint="@color/button_text_dark_grey"
         app:srcCompat="@drawable/ic_action_previous" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center">
@@ -64,7 +64,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:background="@drawable/bottombar_selector"
-        android:tint="@color/grey_dark_tint"
+        android:tint="@color/button_text_dark_grey"
         app:srcCompat="@drawable/ic_action_next" />
 
 </LinearLayout>

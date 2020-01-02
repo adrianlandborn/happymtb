@@ -31,7 +31,6 @@
             android:id="@+id/home_row_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/title_1_text"
             android:textSize="15sp"
             android:textStyle="bold"
             tool:text="Title" />
@@ -41,7 +40,7 @@
         android:id="@+id/home_row_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/title_2_text"
+        android:textColor="@color/text_secondary"
         android:textSize="13sp"
         tool:text="2019-09-09" />
 
@@ -49,8 +48,6 @@
         android:id="@+id/home_row_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/title_3_text"
-        android:textSize="13sp"
-        tool:text="asfmlasjdaskjdkjasd asdiaspdas dpoas d asodpasdas" />
+        android:textSize="13sp" />
 
 </LinearLayout>

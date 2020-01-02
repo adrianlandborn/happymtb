@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="colorPrimary">#A5D6A7</color>
+	<color name="colorPrimaryDark">#121212</color>
+	<color name="colorAccent">#EF9A9A</color>
+
+	<color name="toolbar">#444444</color>
+
+	<color name="text_secondary">#909090</color>
+	<color name="grey_light">#909090</color>
+
+	<color name="kos_divider_background">@color/toolbar</color>
+	<color name="kos_divider_text">@color/colorPrimary</color>
+	<color name="kos_search_background">#707070</color>
+
+</resources>

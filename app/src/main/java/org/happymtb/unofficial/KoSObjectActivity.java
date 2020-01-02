@@ -3,6 +3,8 @@ package org.happymtb.unofficial;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -36,11 +38,13 @@ public class KoSObjectActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
 		
+		setContentView(R.layout.kos_object_frame);
+
 		// Set up the action bar to show a dropdown list.
+		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-		setContentView(R.layout.kos_object_frame);
 
 		if (getIntent().getBooleanExtra(TRANSITION, false)) {
 			findViewById(R.id.kos_object_scroll).setVisibility(View.VISIBLE);

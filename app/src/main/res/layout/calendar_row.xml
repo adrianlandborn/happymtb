@@ -24,29 +24,27 @@
 			android:id="@+id/calendar_row_title"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textSize="15sp"
-			android:textColor="@color/title_1_text" />
+			android:textSize="15sp" />
 
 		<TextView
 			android:id="@+id/calendar_row_time"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:textSize="13sp"
-			android:textColor="@color/title_2_text" />
+			android:textColor="@color/text_secondary" />
 
 		<TextView
 			android:id="@+id/calendar_row_description"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textSize="13sp"
-			android:textColor="@color/black" />
+			android:textSize="13sp" />
 
 		<TextView
 			android:id="@+id/calendar_row_category"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:textSize="13sp"
-            android:textColor="@color/title_2_text"
+            android:textColor="@color/text_secondary"
             android:paddingRight="8dp"
             android:gravity="right"	/>
 	</LinearLayout>

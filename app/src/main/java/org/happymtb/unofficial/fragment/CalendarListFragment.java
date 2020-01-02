@@ -230,60 +230,60 @@ public class CalendarListFragment extends RefreshListfragment {
 		return dialog;
 	}	
 		
-	public static class CalendarSearchDialogFragment extends DialogFragment {
-		public DialogFragment newInstace() {
-			DialogFragment dialogFragment = new CalendarSearchDialogFragment();
-			return dialogFragment;
-		}		
-		
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState)
-		{
-			final MainActivity activity = (MainActivity) getActivity();
-			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-			LayoutInflater inflater = activity.getLayoutInflater();
-			final View view = inflater.inflate(R.layout.calendar_search, null);
-			builder.setView(view);
-			builder.setPositiveButton(R.string.search, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-
-					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-					EditText searchEditText = (EditText) view.findViewById(R.id.calendar_dialog_search_text);
-					Spinner searchCategory = (Spinner) view.findViewById(R.id.calendar_dialog_search_category);
-					Spinner searchRegion = (Spinner) view.findViewById(R.id.calendar_dialog_search_region);
-
-					String search = searchEditText.getText().toString();
-					
-					int position = searchCategory.getSelectedItemPosition();
-					String CategoryArrayPosition [] =  getResources().getStringArray(R.array.calendar_dialog_search_category_position);
-					String CategoryArray [] =  getResources().getStringArray(R.array.calendar_dialog_search_category);
-					String categoryPosition = CategoryArrayPosition[position];
-					String category = CategoryArray[position];
-
-					position = searchRegion.getSelectedItemPosition();
-					String RegionArrayPosition [] =  getResources().getStringArray(R.array.dialog_search_region_position);
-					String RegionArray [] =  getResources().getStringArray(R.array.dialog_search_region_name);
-					String regionPosition = RegionArrayPosition[position];
-					String region = RegionArray[position];
-
-					SharedPreferences.Editor editor = prefs.edit();
-					editor.putString("calendar_search_text", search);
-					editor.putString("calendar_search_category", category);
-					editor.putString("calendar_search_region", region);
-//					editor.putString("calendar_search_category_position", categoryPosition);
-//					editor.putString("calendar_search_region_position", regionPosition);
-					editor.apply();
-
-				}
-			});
-			builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					CalendarSearchDialogFragment.this.getDialog().cancel();
-				}
-			});
-			Dialog dialog = builder.create();	        
-			return dialog;
-	    }
-	}			
+//	public static class CalendarSearchDialogFragment extends DialogFragment {
+//		public DialogFragment newInstace() {
+//			DialogFragment dialogFragment = new CalendarSearchDialogFragment();
+//			return dialogFragment;
+//		}
+//
+//		@Override
+//		public Dialog onCreateDialog(Bundle savedInstanceState)
+//		{
+//			final MainActivity activity = (MainActivity) getActivity();
+//			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+//			LayoutInflater inflater = activity.getLayoutInflater();
+//			final View view = inflater.inflate(R.layout.calendar_search, null);
+//			builder.setView(view);
+//			builder.setPositiveButton(R.string.search, new DialogInterface.OnClickListener() {
+//				@Override
+//				public void onClick(DialogInterface dialog, int id) {
+//
+//					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+//					EditText searchEditText = (EditText) view.findViewById(R.id.calendar_dialog_search_text);
+//					Spinner searchCategory = (Spinner) view.findViewById(R.id.calendar_dialog_search_category);
+//					Spinner searchRegion = (Spinner) view.findViewById(R.id.calendar_dialog_search_region);
+//
+//					String search = searchEditText.getText().toString();
+//
+//					int position = searchCategory.getSelectedItemPosition();
+//					String CategoryArrayPosition [] =  getResources().getStringArray(R.array.calendar_dialog_search_category_position);
+//					String CategoryArray [] =  getResources().getStringArray(R.array.calendar_dialog_search_category);
+//					String categoryPosition = CategoryArrayPosition[position];
+//					String category = CategoryArray[position];
+//
+//					position = searchRegion.getSelectedItemPosition();
+//					String RegionArrayPosition [] =  getResources().getStringArray(R.array.dialog_search_region_position);
+//					String RegionArray [] =  getResources().getStringArray(R.array.dialog_search_region_name);
+//					String regionPosition = RegionArrayPosition[position];
+//					String region = RegionArray[position];
+//
+//					SharedPreferences.Editor editor = prefs.edit();
+//					editor.putString("calendar_search_text", search);
+//					editor.putString("calendar_search_category", category);
+//					editor.putString("calendar_search_region", region);
+////					editor.putString("calendar_search_category_position", categoryPosition);
+////					editor.putString("calendar_search_region_position", regionPosition);
+//					editor.apply();
+//
+//				}
+//			});
+//			builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//				public void onClick(DialogInterface dialog, int id) {
+//					CalendarSearchDialogFragment.this.getDialog().cancel();
+//				}
+//			});
+//			Dialog dialog = builder.create();
+//			return dialog;
+//	    }
+//	}
 }

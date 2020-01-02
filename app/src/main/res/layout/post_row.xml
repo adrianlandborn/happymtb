@@ -4,8 +4,7 @@
 	android:id="@+id/message_row"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
-	android:orientation="vertical"
-	android:background="@color/grey">
+	android:orientation="vertical">
 
 	<LinearLayout 
 		android:layout_width="fill_parent"
@@ -19,37 +18,34 @@
         android:paddingRight="10dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:background="@drawable/rowshape"
-        >
+        android:background="@drawable/rowshape">
 	
 		<TextView
 			android:id="@+id/message_title"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textSize="15sp"
-			android:textColor="@color/title_1_text"/>
+			android:textSize="15sp"/>
 			
 		<TextView
 			android:id="@+id/message_written_by"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:textSize="13sp"
-			android:textColor="@color/title_2_text"/>			
+			android:textColor="@color/text_secondary"/>
 	
 		<TextView
 			android:id="@+id/message_date"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:textSize="13sp"
-			android:textColor="@color/title_2_text"
+			android:textColor="@color/text_secondary"
 			android:paddingBottom="5dp"/>
 		
 		<TextView
 			android:id="@+id/message_text"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textSize="13sp"
-			android:textColor="@color/black"/>	
+			android:textSize="13sp" />
 
 	</LinearLayout>
 </LinearLayout>

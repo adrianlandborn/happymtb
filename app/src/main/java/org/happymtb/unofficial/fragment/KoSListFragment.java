@@ -269,7 +269,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
             mClearSearchButton.setEnabled(false);
             mClearSearchButton.setTextColor(getResources().getColor(R.color.grey_light));
         } else {
-            mClearSearchButton.setTextColor(getResources().getColor(R.color.grey_dark_tint));
+            mClearSearchButton.setTextColor(getResources().getColor(R.color.button_text_dark_grey));
             mClearSearchButton.setEnabled(true);
         }
     }

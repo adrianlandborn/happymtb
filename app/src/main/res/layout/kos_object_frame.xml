@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/toolbar"
+            android:theme="@style/ToolBarStyle"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/kosobjectframe"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:layout_marginTop="56dp" >
 
         <ScrollView
             android:id="@+id/kos_object_scroll"
@@ -28,7 +46,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
-                    android:textColor="@color/title_1_text"
                     android:textIsSelectable="true"
                     android:textSize="17sp" />
 
@@ -38,7 +55,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
-                    android:textColor="@color/black"
                     android:textSize="13sp" />
 
                 <TextView
@@ -47,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
-                    android:textColor="@color/title_2_text"
+                    android:textColor="@color/text_secondary"
                     android:textSize="13sp" />
 
                 <FrameLayout
@@ -87,7 +103,6 @@
                     android:layout_marginTop="16dp"
                     android:gravity="center_horizontal"
                     android:padding="8dp"
-                    android:textColor="@color/black"
                     android:textSize="20sp" />
 
                 <View style="@style/kosObjectDivider" />
@@ -99,7 +114,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:paddingBottom="16dp"
-                    android:textColor="@color/title_2_text"
+                    android:textColor="@color/text_secondary"
                     android:textSize="13sp"
                     android:visibility="gone" />
 
@@ -110,7 +125,6 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:autoLink="web"
-                    android:textColor="@color/black"
                     android:textIsSelectable="true"
                     android:textSize="13sp" />
 
@@ -118,13 +132,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/kos_divider_background"
+                    android:textColor="@color/kos_divider_text"
                     android:paddingBottom="8dp"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp"
                     android:paddingTop="8dp"
-                    android:text="Kontakt"
-                    android:textColor="@color/white" />
+                    android:text="Kontakt" />
 
                 <Button
                     android:id="@+id/kos_object_person"
@@ -136,7 +150,6 @@
                     android:background="@null"
                     android:gravity="center_horizontal"
                     android:padding="8dp"
-                    android:textColor="@color/black"
                     android:textSize="20sp" />
 
                 <Button
@@ -145,7 +158,6 @@
                     android:layout_height="wrap_content"
                     android:text="Alla annonser"
                     android:layout_gravity="center_horizontal"
-                    android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <TextView
@@ -157,7 +169,7 @@
                     android:gravity="center_horizontal"
                     android:visibility="gone"
                     android:text="Telefon: Nummer saknas"
-                    android:textColor="@color/title_2_text"
+                    android:textColor="@color/text_secondary"
                     android:textIsSelectable="true"
                     android:textSize="15sp" />
 
@@ -267,4 +279,5 @@
         <include layout="@layout/no_network_layout" />
 
     </FrameLayout>
-</LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
