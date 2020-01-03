@@ -149,7 +149,7 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
                     && !item.isSold()) {
                 intent.putExtra(KoSObjectActivity.TRANSITION, true);
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(mActivity, (View) v, "image");
+                        makeSceneTransitionAnimation(mActivity, v, "image");
                 startActivityForResult(intent, REQUEST_ITEM_MODIFIED, options.toBundle());
             } else {
                 startActivityForResult(intent, REQUEST_ITEM_MODIFIED);
@@ -222,9 +222,7 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
 
 	private boolean shouldUpdateSoldItems() {
         if (hasNetworkConnection() && mAdapter.getCursor() != null && mTotalRequests == mTotalResponses) {
-            if (System.currentTimeMillis() > (mPreferences.getLong(LAST_UPDATE, 0) + ONE_HOUR)){
-                return true;
-            }
+            return System.currentTimeMillis() > (mPreferences.getLong(LAST_UPDATE, 0) + ONE_HOUR);
         }
         return false;
     }
@@ -368,12 +366,12 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
 
             mRowColor = view.findViewById(R.id.kos_picture_row_color);
 
-            mTitle = (TextView) view.findViewById(R.id.kos_picture_row_title);
-            mTime = (TextView) view.findViewById(R.id.kos_picture_row_time);
-            mArea = (TextView) view.findViewById(R.id.kos_picture_row_area);
-            mCategory = (TextView) view.findViewById(R.id.kos_picture_row_category);
-            mPrice = (TextView) view.findViewById(R.id.kos_picture_row_price);
-            mObjectImageView = (ImageView) view.findViewById(R.id.kos_picture_row_image);
+            mTitle = view.findViewById(R.id.kos_picture_row_title);
+            mTime = view.findViewById(R.id.kos_picture_row_time);
+            mArea = view.findViewById(R.id.kos_picture_row_area);
+            mCategory = view.findViewById(R.id.kos_picture_row_category);
+            mPrice = view.findViewById(R.id.kos_picture_row_price);
+            mObjectImageView = view.findViewById(R.id.kos_picture_row_image);
             mKosSoldView = view.findViewById(R.id.kos_sold);
 
             mTitle.setText(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_TITLE)));

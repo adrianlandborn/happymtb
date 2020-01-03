@@ -39,7 +39,7 @@ public class SimpleImageActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getIntent().getExtras().getString("title"));
 
         findViewById(R.id.progress_container_id).setVisibility(View.VISIBLE);
-        final ImageView mImageView = (ImageView) findViewById(R.id.imageView);
+        final ImageView mImageView = findViewById(R.id.imageView);
 
         Callback imageLoadedCallback = new Callback() {
 

@@ -65,8 +65,8 @@ public class PhotoViewSimpleImageSampleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sample_photoview_simple);
 
-        ImageView mImageView = (ImageView) findViewById(R.id.iv_photo);
-        mCurrMatrixTv = (TextView) findViewById(R.id.tv_current_matrix);
+        ImageView mImageView = findViewById(R.id.iv_photo);
+        mCurrMatrixTv = findViewById(R.id.tv_current_matrix);
 
 //        Drawable bitmap = ContextCompat.getDrawable(this, R.drawable.wallpaper);
 //        mImageView.setImageDrawable(bitmap);

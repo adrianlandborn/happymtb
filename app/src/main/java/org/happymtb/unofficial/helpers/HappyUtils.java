@@ -41,7 +41,7 @@ public class HappyUtils {
 	
 	public static String getFilename(String url) {
 		String fileNameWithoutExtn = "";
-		String fileName = url.substring( url.lastIndexOf('/')+1, url.length() );
+		String fileName = url.substring( url.lastIndexOf('/')+1);
 		System.out.println("HappyUtils: " + fileName);
 		if (!TextUtils.isEmpty(fileName) && fileName.contains(".")) {
 			fileNameWithoutExtn = fileName.substring(0, fileName.lastIndexOf("."));
@@ -88,22 +88,22 @@ public class HappyUtils {
 	}
 
     public static String getSortAttrNameServer(Context ctx, int pos) {
-        String AttributeArrayServer[] = ctx.getResources().getStringArray(R.array.kos_dialog_sort_attribute_position);
+        String[] AttributeArrayServer = ctx.getResources().getStringArray(R.array.kos_dialog_sort_attribute_position);
         return AttributeArrayServer[pos];
     }
 
     public static String getSortAttrNameLocal(Context ctx, int pos) {
-        String AttributeArray[] = ctx.getResources().getStringArray(R.array.kos_dialog_sort_attribute);
+        String[] AttributeArray = ctx.getResources().getStringArray(R.array.kos_dialog_sort_attribute);
         return AttributeArray[pos];
     }
 
     public static String getSortOrderNameServer(Context ctx, int pos) {
-        String OrderArrayServer[] = ctx.getResources().getStringArray(R.array.kos_dialog_sort_order_position);
+        String[] OrderArrayServer = ctx.getResources().getStringArray(R.array.kos_dialog_sort_order_position);
         return OrderArrayServer[pos];
     }
 
     public static String getSortOrderNameLocal(Context ctx, int pos) {
-        String OrderArray[] = ctx.getResources().getStringArray(R.array.kos_dialog_sort_order);
+        String[] OrderArray = ctx.getResources().getStringArray(R.array.kos_dialog_sort_order);
         return OrderArray[pos];
     }
 
@@ -157,11 +157,8 @@ public class HappyUtils {
 
 	public static boolean isHighDensity(Resources resources) {
 		DisplayMetrics metrics = resources.getDisplayMetrics();
-        if (DisplayMetrics.DENSITY_XHIGH <= metrics.densityDpi) {
-			return true;
-		}
-		return false;
-	}
+        return DisplayMetrics.DENSITY_XHIGH <= metrics.densityDpi;
+    }
 
 	public static int getScreenWidth(Context context) {
 		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);

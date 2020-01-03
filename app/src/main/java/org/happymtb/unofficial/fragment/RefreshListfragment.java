@@ -39,7 +39,7 @@ public abstract class RefreshListfragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
 
         Activity activity = getActivity() ;
-        mSwipeRefreshLayout = (SwipeRefreshLayout) activity.findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout = activity.findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -54,7 +54,7 @@ public abstract class RefreshListfragment extends ListFragment {
         showProgress(true);
 
         mNoNetworkView = activity.findViewById(R.id.no_network_layout);
-        mReloadButton = (Button)activity.findViewById(R.id.reload_button);
+        mReloadButton = activity.findViewById(R.id.reload_button);
 
         if (mReloadButton != null) {
             mReloadButton.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +91,7 @@ public abstract class RefreshListfragment extends ListFragment {
     protected void showNoNetworkView(boolean visible, String message) {
         if (getActivity() != null && !getActivity().isFinishing() && mNoNetworkView != null) {
             if (visible) {
-                TextView text = (TextView) mNoNetworkView.findViewById(R.id.no_network_text);
+                TextView text = mNoNetworkView.findViewById(R.id.no_network_text);
                 text.setText(message);
                 mNoNetworkView.setVisibility(View.VISIBLE);
             } else {

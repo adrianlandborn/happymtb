@@ -205,10 +205,10 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 		}
 
 		if (mActivity.findViewById(R.id.video_bottombar) != null) {
-			TextView currentPage = (TextView) mActivity.findViewById(R.id.video_current_page);
+			TextView currentPage = mActivity.findViewById(R.id.video_current_page);
 			currentPage.setText(Integer.toString(mVideoData.getCurrentPage()));
 
-			TextView maxPages = (TextView) mActivity.findViewById(R.id.video_no_of_pages);
+			TextView maxPages = mActivity.findViewById(R.id.video_no_of_pages);
 			maxPages.setText(Integer.toString(mVideoData.getVideoItems().get(0).getNumberOfVideoPages()));
 			mVideoData.setMaxPages(mVideoData.getVideoItems().get(0).getNumberOfVideoPages());
 

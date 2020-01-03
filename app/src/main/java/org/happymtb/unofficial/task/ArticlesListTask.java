@@ -28,7 +28,7 @@ public class ArticlesListTask extends AsyncTask<Object, Void, Boolean> {
 	}
 
 	public Item ExtractArticleRow(String str) {
-		int start = str.indexOf("<li>", 0) + 4;
+		int start = str.indexOf("<li>") + 4;
 		int end = str.indexOf(":&nbsp", start);
 		String description = "Postad den " + str.substring(start, end) + " " + mGroup;
 		start = end;

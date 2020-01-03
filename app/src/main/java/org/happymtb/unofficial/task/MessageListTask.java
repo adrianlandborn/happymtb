@@ -38,10 +38,10 @@ public class MessageListTask extends AsyncTask<Object, Void, Boolean>
 		int End;
 		
       	if (Str.contains("PhorumReadBodySubject")) {
-    		Start = Str.indexOf("PhorumReadBodySubject\">", 0) + 23;
+    		Start = Str.indexOf("PhorumReadBodySubject\">") + 23;
     		End = Str.indexOf("<span", Start);      		
       	} else {
-    		Start = Str.indexOf("<strong>", 0) + 8;
+    		Start = Str.indexOf("<strong>") + 8;
     		End = Str.indexOf("</strong>", Start);      	      	
       	}
       		
@@ -132,7 +132,7 @@ public class MessageListTask extends AsyncTask<Object, Void, Boolean>
     		while((lineString = lineNumberReader.readLine()) != null) {
    			
     			if (lineString.contains("Aktuell sida: </span>")) {    	    
-    				mNumberOfMessagePages = Integer.parseInt(lineString.substring(lineString.indexOf("av ", 0) + 3, lineString.length()));
+    				mNumberOfMessagePages = Integer.parseInt(lineString.substring(lineString.indexOf("av ") + 3));
     			} else if (lineString.contains("PhorumReadMessageBlock")) {
     				read = true;   
     				ksStringBuilder = new StringBuilder();

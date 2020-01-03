@@ -32,7 +32,7 @@ public class ZoomImageActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getIntent().getExtras().getString("title"));
 
 
-        imageDetail = (ImageView) findViewById(R.id.imageView1); /** set on touch listener on image */
+        imageDetail = findViewById(R.id.imageView1); /** set on touch listener on image */
         Picasso.with(this).load(getIntent().getExtras().getString("url")).into(imageDetail);
         imageDetail.setOnTouchListener(new View.OnTouchListener() {
             @Override

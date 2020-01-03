@@ -65,11 +65,11 @@ public class KoSObjectActivity extends AppCompatActivity {
 	}
 
     private void initFromBundle() {
-        TextView title = (TextView) findViewById(R.id.kos_object_title);
-        TextView category = (TextView) findViewById(R.id.kos_object_category);
-        TextView date = (TextView) findViewById(R.id.kos_object_date);
-        TextView price = (TextView) findViewById(R.id.kos_object_price);
-        ImageView transitionImageView = (ImageView) findViewById(R.id.image_transition);
+        TextView title = findViewById(R.id.kos_object_title);
+        TextView category = findViewById(R.id.kos_object_category);
+        TextView date = findViewById(R.id.kos_object_date);
+        TextView price = findViewById(R.id.kos_object_price);
+        ImageView transitionImageView = findViewById(R.id.image_transition);
         View viewPagerFrame = findViewById(R.id.kos_object_viewpager_frame);
 
         title.setText(getObjectTitle());

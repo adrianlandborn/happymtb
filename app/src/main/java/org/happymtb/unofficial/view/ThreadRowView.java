@@ -25,15 +25,15 @@ public class ThreadRowView extends LinearLayout {
 
 		compoundView = (LinearLayout) inflater.inflate(R.layout.forum_row, this);
 
-		mTitle = (TextView) compoundView.findViewById(R.id.thread_title);
-		mNew = (TextView) compoundView.findViewById(R.id.thread_new);
-		mfooter = (TextView) compoundView.findViewById(R.id.thread_footer);
+		mTitle = compoundView.findViewById(R.id.thread_title);
+		mNew = compoundView.findViewById(R.id.thread_new);
+		mfooter = compoundView.findViewById(R.id.thread_footer);
 		
-		mPage = (TextView) compoundView.findViewById(R.id.thread_page);
-		mPage1 = (TextView) compoundView.findViewById(R.id.thread_page_button_1);
-		mPage2 = (TextView) compoundView.findViewById(R.id.thread_page_button_2);
-		mPage3 = (TextView) compoundView.findViewById(R.id.thread_page_button_3);
-		mPage4 = (TextView) compoundView.findViewById(R.id.thread_page_button_4);
+		mPage = compoundView.findViewById(R.id.thread_page);
+		mPage1 = compoundView.findViewById(R.id.thread_page_button_1);
+		mPage2 = compoundView.findViewById(R.id.thread_page_button_2);
+		mPage3 = compoundView.findViewById(R.id.thread_page_button_3);
+		mPage4 = compoundView.findViewById(R.id.thread_page_button_4);
 	}
 
 	@Override

@@ -32,12 +32,12 @@ public class KoSRowView extends LinearLayout {
 		compoundView = (LinearLayout) inflater.inflate(R.layout.kos_row, this);
 
 		mRowColor = compoundView.findViewById(R.id.kos_picture_row_color);
-		mTitle = (TextView) compoundView.findViewById(R.id.kos_picture_row_title);
-		mTime = (TextView) compoundView.findViewById(R.id.kos_picture_row_time);
-		mArea = (TextView) compoundView.findViewById(R.id.kos_picture_row_area);
-		mCategory = (TextView) compoundView.findViewById(R.id.kos_picture_row_category);
-		mPrice = (TextView) compoundView.findViewById(R.id.kos_picture_row_price);
-		mObjectImageView = (ImageView) compoundView.findViewById(R.id.kos_picture_row_image);
+		mTitle = compoundView.findViewById(R.id.kos_picture_row_title);
+		mTime = compoundView.findViewById(R.id.kos_picture_row_time);
+		mArea = compoundView.findViewById(R.id.kos_picture_row_area);
+		mCategory = compoundView.findViewById(R.id.kos_picture_row_category);
+		mPrice = compoundView.findViewById(R.id.kos_picture_row_price);
+		mObjectImageView = compoundView.findViewById(R.id.kos_picture_row_image);
 		mBottomPadding = compoundView.findViewById(R.id.kos_bottom);
 	}
 

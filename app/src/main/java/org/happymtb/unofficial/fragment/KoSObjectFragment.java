@@ -70,26 +70,26 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
 		}
 		setHasOptionsMenu(true);
 
-        mTransitionImageView = (ImageView) mActivity.findViewById(R.id.image_transition);
+        mTransitionImageView = mActivity.findViewById(R.id.image_transition);
 
-		mTitle = (TextView) mActivity.findViewById(R.id.kos_object_title);
-		mPerson = (Button) mActivity.findViewById(R.id.kos_object_person);
-		mAllAds = (Button) mActivity.findViewById(R.id.kos_all_ads);
-		mPhone = (TextView) mActivity.findViewById(R.id.kos_object_phone);
-		mCategory = (TextView) mActivity.findViewById(R.id.kos_object_category);
-		mDate = (TextView) mActivity.findViewById(R.id.kos_object_date);
-		mText = (TextView) mActivity.findViewById(R.id.kos_object_text);
-		mPrice = (TextView) mActivity.findViewById(R.id.kos_object_price);
-		mYear = (TextView) mActivity.findViewById(R.id.kos_object_year_model);
+		mTitle = mActivity.findViewById(R.id.kos_object_title);
+		mPerson = mActivity.findViewById(R.id.kos_object_person);
+		mAllAds = mActivity.findViewById(R.id.kos_all_ads);
+		mPhone = mActivity.findViewById(R.id.kos_object_phone);
+		mCategory = mActivity.findViewById(R.id.kos_object_category);
+		mDate = mActivity.findViewById(R.id.kos_object_date);
+		mText = mActivity.findViewById(R.id.kos_object_text);
+		mPrice = mActivity.findViewById(R.id.kos_object_price);
+		mYear = mActivity.findViewById(R.id.kos_object_year_model);
 		mScrollView = mActivity.findViewById(R.id.kos_object_scroll);
 		mProgressView = mActivity.findViewById(R.id.progress_container_id);
 		mNoNetworkView = mActivity.findViewById(R.id.no_network_layout);
 
-        ImageButton actionPhone = (ImageButton) mActivity.findViewById(R.id.kos_action_phone);
-        ImageButton actionSms = (ImageButton) mActivity.findViewById(R.id.kos_action_sms);
-        ImageButton actionEmail = (ImageButton) mActivity.findViewById(R.id.kos_action_email);
-        ImageButton actionPM = (ImageButton) mActivity.findViewById(R.id.kos_action_pm);
-        Button reloadButton = (Button) mActivity.findViewById(R.id.reload_button);
+        ImageButton actionPhone = mActivity.findViewById(R.id.kos_action_phone);
+        ImageButton actionSms = mActivity.findViewById(R.id.kos_action_sms);
+        ImageButton actionEmail = mActivity.findViewById(R.id.kos_action_email);
+        ImageButton actionPM = mActivity.findViewById(R.id.kos_action_pm);
+        Button reloadButton = mActivity.findViewById(R.id.reload_button);
 
         mPerson.setOnClickListener(this);
         mAllAds.setOnClickListener(this);
@@ -225,12 +225,12 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
 		}
 
 		if (!TextUtils.isEmpty(mKoSObjectItem.getImgLink())) {
-            ViewPager viewPager = (ViewPager)mActivity.findViewById(R.id.view_pager);;
+            ViewPager viewPager = mActivity.findViewById(R.id.view_pager);
             ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(mActivity, mKoSObjectItem.getTitle(), mKoSObjectItem.getImgLinkList());
             viewPager.setAdapter(viewPagerAdapter);
 
             if (mKoSObjectItem.getImgLinkList().size() > 1) {
-                CirclePageIndicator pageIndicator = (CirclePageIndicator)mActivity.findViewById(R.id.view_pager_indicator);
+                CirclePageIndicator pageIndicator = mActivity.findViewById(R.id.view_pager_indicator);
                 pageIndicator.setViewPager(viewPager);
             }
 		}

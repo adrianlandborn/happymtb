@@ -134,9 +134,9 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
 
         getListView().setOnScrollListener(this);
 
-        prevPageButton = (ImageButton) mActivity.findViewById(R.id.prev);
+        prevPageButton = mActivity.findViewById(R.id.prev);
         prevPageButton.setOnClickListener(this);
-        nextPageImageButton = (ImageButton) mActivity.findViewById(R.id.next);
+        nextPageImageButton = mActivity.findViewById(R.id.next);
         nextPageImageButton.setOnClickListener(this);
 
         if (savedInstanceState != null) {
@@ -188,15 +188,15 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
             // TODO remove old listeners before adding new ones?
         }
 
-        searchEditText = (ClearableEditText) mActivity.findViewById(R.id.kos_search_dialog_search_text);
-        searchCategory = (Spinner) mActivity.findViewById(R.id.kos_search_dialog_category);
-        searchRegion = (Spinner) mActivity.findViewById(R.id.kos_search_dialog_region);
-        searchType = (Spinner) mActivity.findViewById(R.id.kos_search_dialog_type);
-        searchPrice = (Spinner) mActivity.findViewById(R.id.kos_search_dialog_price);
-        searchYear = (Spinner) mActivity.findViewById(R.id.kos_search_dialog_year);
+        searchEditText = mActivity.findViewById(R.id.kos_search_dialog_search_text);
+        searchCategory = mActivity.findViewById(R.id.kos_search_dialog_category);
+        searchRegion = mActivity.findViewById(R.id.kos_search_dialog_region);
+        searchType = mActivity.findViewById(R.id.kos_search_dialog_type);
+        searchPrice = mActivity.findViewById(R.id.kos_search_dialog_price);
+        searchYear = mActivity.findViewById(R.id.kos_search_dialog_year);
 
-        mClearSearchButton = (Button) mActivity.findViewById(R.id.kos_dialog_search_clear_all);
-        mOkButton = (Button) mActivity.findViewById(R.id.kos_dialog_search_ok);
+        mClearSearchButton = mActivity.findViewById(R.id.kos_dialog_search_clear_all);
+        mOkButton = mActivity.findViewById(R.id.kos_dialog_search_ok);
 
         searchEditText.setText(mPreferences.getString(KoSListFragment.SEARCH_TEXT, ""));
         searchCategory.setSelection(mPreferences.getInt(KoSListFragment.SEARCH_CATEGORY_SPINNER, 0), false);
@@ -461,17 +461,17 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
 
     private void updateBottomBar() {
         // Bottombar
-        ViewGroup bottombar = (ViewGroup) mActivity.findViewById(R.id.kos_bottombar);
+        ViewGroup bottombar = mActivity.findViewById(R.id.kos_bottombar);
         if (bottombar != null) {
             if (mKoSData.getKoSItems().isEmpty()) {
                 Toast.makeText(mActivity, "Din sökning gav inga träffar.", Toast.LENGTH_SHORT).show();
                 bottombar.setVisibility(View.GONE);
             } else {
-                TextView currentPage = (TextView) mActivity.findViewById(R.id.current_page);
+                TextView currentPage = mActivity.findViewById(R.id.current_page);
                 currentPage.setText(Integer.toString(mKoSData.getCurrentPage()));
 
                 int pages = mKoSData.getMaxPages();
-                TextView maxPages = (TextView) mActivity.findViewById(R.id.no_of_pages);
+                TextView maxPages = mActivity.findViewById(R.id.no_of_pages);
                 maxPages.setText(Integer.toString(pages));
                 mKoSData.setMaxPages(pages);
 
@@ -497,7 +497,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
             } else {
                 // Add or Set header
                 if (header == null) {
-                    header = (ViewGroup) getActivity().getLayoutInflater().inflate(R.layout.kos_list_header, getListView(), false);
+                    header = getActivity().getLayoutInflater().inflate(R.layout.kos_list_header, getListView(), false);
                     header.setOnClickListener(this);
                     ViewCompat.setElevation(header, HappyUtils.dpToPixel(4f));
                     getListView().addHeaderView(header, null, false);
@@ -508,7 +508,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
                 String searchString = mKoSData.getSearchString();
 
                 // Search text
-                TextView search = (TextView) header.findViewById(R.id.kos_header_search_text);
+                TextView search = header.findViewById(R.id.kos_header_search_text);
                 if (searchString.length() > 0) {
                     search.setVisibility(View.VISIBLE);
                     search.setText("Sökord: " + searchString);
@@ -518,7 +518,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
                 }
 
                 // Category
-                TextView category = (TextView) header.findViewById(R.id.kos_header_category);
+                TextView category = header.findViewById(R.id.kos_header_category);
                 if (mKoSData.getCategory() != 0) {
                     category.setText("Kategori: " + mKoSData.getCategoryStr());
                     category.setVisibility(View.VISIBLE);
@@ -527,7 +527,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
                 }
 
                 // Region
-                TextView region = (TextView) header.findViewById(R.id.kos_header_region);
+                TextView region = header.findViewById(R.id.kos_header_region);
                 if (mKoSData.getRegion() != 0) {
                     region.setText("Region: " + mKoSData.getRegionStr());
                     region.setVisibility(View.VISIBLE);
@@ -536,7 +536,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
                 }
 
                 // Type
-                TextView type = (TextView) header.findViewById(R.id.kos_header_type);
+                TextView type = header.findViewById(R.id.kos_header_type);
                 if (mKoSData.getType() != 0) {
                     type.setText("Annonstyp: " + (mKoSData.getType() == KoSData.SALJES ? "Säljes" : "Köpes"));
                     type.setVisibility(View.VISIBLE);
@@ -545,7 +545,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
                 }
 
                 // Price
-                TextView price = (TextView) header.findViewById(R.id.kos_header_price);
+                TextView price = header.findViewById(R.id.kos_header_price);
                 if (mKoSData.getPrice() != 0) {
                     price.setText("Pris: " + mKoSData.getPriceStr());
                     price.setVisibility(View.VISIBLE);
@@ -554,7 +554,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
                 }
 
                 // Year
-                TextView year = (TextView) header.findViewById(R.id.kos_header_year);
+                TextView year = header.findViewById(R.id.kos_header_year);
                 if (mKoSData.getYear() != 0) {
                     year.setText("Årsmodell: " + mKoSData.getYearStr());
                     year.setVisibility(View.VISIBLE);
@@ -604,7 +604,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
                     && !TextUtils.isEmpty(item.getImgLink())) {
                 intent.putExtra(KoSObjectActivity.TRANSITION, true);
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(mActivity, (View) v, "image");
+                        makeSceneTransitionAnimation(mActivity, v, "image");
                 startActivity(intent, options.toBundle());
             } else {
                 startActivity(intent);
@@ -633,30 +633,30 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
          mKoSData.setSearch(text);
 
         // Cyklar, Ramar, Komponenter...
-        String categoryArrayPosition[] = getResources().getStringArray(R.array.kos_dialog_search_category_position);
-        String categoryArrayName[] = getResources().getStringArray(R.array.kos_dialog_search_category_name);
+        String[] categoryArrayPosition = getResources().getStringArray(R.array.kos_dialog_search_category_position);
+        String[] categoryArrayName = getResources().getStringArray(R.array.kos_dialog_search_category_name);
         mKoSData.setCategoryPos(Integer.parseInt(categoryArrayPosition[categoryPos]));
         mKoSData.setCategoryName(categoryArrayName[categoryPos]);
 
         // Skåne, Blekinge, Halland...
-        String regionArrayPosition[] = getResources().getStringArray(R.array.dialog_search_region_position);
-        String regionArrayName[] = getResources().getStringArray(R.array.dialog_search_region_name);
+        String[] regionArrayPosition = getResources().getStringArray(R.array.dialog_search_region_position);
+        String[] regionArrayName = getResources().getStringArray(R.array.dialog_search_region_name);
         mKoSData.setRegionPos(Integer.parseInt(regionArrayPosition[regionPos]));
         mKoSData.setRegionName(regionArrayName[regionPos]);
 
         // Alla, Säljes, Köpes
-        String typeArrayPosition[] = getResources().getStringArray(R.array.kos_dialog_search_type_position);
+        String[] typeArrayPosition = getResources().getStringArray(R.array.kos_dialog_search_type_position);
         mKoSData.setTypePosServer(Integer.parseInt(typeArrayPosition[typePos]));
 
         // Priser...
-        String priceArrayPosition[] = getResources().getStringArray(R.array.kos_dialog_search_price_position);
-        String priceArrayName[] = getResources().getStringArray(R.array.kos_dialog_search_price);
+        String[] priceArrayPosition = getResources().getStringArray(R.array.kos_dialog_search_price_position);
+        String[] priceArrayName = getResources().getStringArray(R.array.kos_dialog_search_price);
         mKoSData.setPricePos(Integer.parseInt(priceArrayPosition[pricePos]));
         mKoSData.setPriceName(priceArrayName[pricePos]);
 
         // Årsmodell
-        String yearArrayPosition[] = getResources().getStringArray(R.array.kos_dialog_search_year_position);
-        String yearArrayName[] = getResources().getStringArray(R.array.kos_dialog_search_year);
+        String[] yearArrayPosition = getResources().getStringArray(R.array.kos_dialog_search_year_position);
+        String[] yearArrayName = getResources().getStringArray(R.array.kos_dialog_search_year);
         mKoSData.setYearPos(Integer.parseInt(yearArrayPosition[yearPos]));
         mKoSData.setYearName(yearArrayName[yearPos]);
 
@@ -714,7 +714,7 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
 
         if (view.getId() == listView.getId()) {
             final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
-            BottomBar bottomBar = (BottomBar) mActivity.findViewById(R.id.kos_bottombar);
+            BottomBar bottomBar = mActivity.findViewById(R.id.kos_bottombar);
             if (currentFirstVisibleItem > mLastFirstVisibleItem) {
                 mIsScrollingUp = false;
                 bottomBar.slideDown();

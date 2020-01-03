@@ -29,7 +29,7 @@ public class HomeListRequest extends Request<List<HomeItem>> implements Response
 	}
 
 	private HomeItem extractHomeRow(String str) {
-		int start = str.indexOf("<title>", 0) + 7;
+		int start = str.indexOf("<title>") + 7;
 		int end = str.indexOf("</title>", start);
 		String title = HappyUtils.replaceHTMLChars(str.substring(start, end));
 		start = end;
@@ -48,7 +48,7 @@ public class HomeListRequest extends Request<List<HomeItem>> implements Response
 		end = str.indexOf("]]></description>", start);
 		String text = HappyUtils.replaceHTMLChars(str.substring(start, end));
 
-		start = link.indexOf("se/", 0) + 3;
+		start = link.indexOf("se/") + 3;
 		end = link.indexOf("/", start);
 		String year = link.substring(start, end);
 		start = end;

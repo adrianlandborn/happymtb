@@ -92,7 +92,7 @@ public class KoSItemDataSource {
 
     public boolean deleteItem(long id) {
         int rowsDeleted = database.delete(MySQLiteHelper.TABLE_SAVED, MySQLiteHelper.COLUMN_ID + " = " + id, null);
-        return  rowsDeleted == 1 ? true : false;}
+        return rowsDeleted == 1;}
 
     public boolean isItemInDatabase(long id) {
         return checkIsDataAlreadyInDBorNot(MySQLiteHelper.COLUMN_ID, String.valueOf(id));

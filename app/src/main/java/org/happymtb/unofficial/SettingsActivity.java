@@ -40,10 +40,10 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.settings_frame);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mUserNameText = (EditText) findViewById(R.id.settings_username);
-        mPasswordText = (EditText) findViewById(R.id.settings_password);
-        mStartPageSpinner = (Spinner) findViewById(R.id.settings_startpage);
-        mVersion = (TextView) findViewById(R.id.version);
+        mUserNameText = findViewById(R.id.settings_username);
+        mPasswordText = findViewById(R.id.settings_password);
+        mStartPageSpinner = findViewById(R.id.settings_startpage);
+        mVersion = findViewById(R.id.version);
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mUserNameText.setText(mPreferences.getString(USERNAME, ""));

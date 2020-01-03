@@ -71,10 +71,10 @@ public class ForumListFragment extends RefreshListfragment {
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		mUsername = mPreferences.getString("username", "");
 
-		mLoginStatusImage = (ImageView) mActivity.findViewById(R.id.thread_login_status_image);
-		mLoginStatus = (TextView) mActivity.findViewById(R.id.thread_login_status);
-		mCurrentPage = (TextView) mActivity.findViewById(R.id.thread_current_page);
-		mMaxPages = (TextView) mActivity.findViewById(R.id.thread_no_of_pages);
+		mLoginStatusImage = mActivity.findViewById(R.id.thread_login_status_image);
+		mLoginStatus = mActivity.findViewById(R.id.thread_login_status);
+		mCurrentPage = mActivity.findViewById(R.id.thread_current_page);
+		mMaxPages = mActivity.findViewById(R.id.thread_no_of_pages);
 
 		mThreadData = new ThreadData();
 

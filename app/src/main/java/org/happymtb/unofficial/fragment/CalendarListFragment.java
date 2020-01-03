@@ -62,9 +62,9 @@ public class CalendarListFragment extends RefreshListfragment {
 		mActivity = (MainActivity) getActivity();
 		mActivity.getSupportActionBar().setTitle(getString(R.string.main_calendar));
 
-		mCategoryView = (TextView) mActivity.findViewById(R.id.calendar_category);
-		mRegionView = (TextView) mActivity.findViewById(R.id.calendar_region);
-		mSearchView = (TextView) mActivity.findViewById(R.id.calendar_search);
+		mCategoryView = mActivity.findViewById(R.id.calendar_category);
+		mRegionView = mActivity.findViewById(R.id.calendar_region);
+		mSearchView = mActivity.findViewById(R.id.calendar_search);
 
         if (savedInstanceState != null) {
 			mCalendarItems = (ArrayList<CalendarItem>)savedInstanceState.getSerializable(DATA);

@@ -160,7 +160,7 @@ public class KosListRequest extends Request<KoSReturnData> implements Response.L
 
                         String str = ksStringBuilder.toString();
                         if (str.contains("selected")) {
-                            int start = str.indexOf("selected >", 0) + 10;    // Start
+                            int start = str.indexOf("selected >") + 10;    // Start
                             int end = str.indexOf("</option>", start);        // End
                             mSelectedCategory = str.substring(start, end);
                         }
@@ -172,7 +172,7 @@ public class KosListRequest extends Request<KoSReturnData> implements Response.L
 
                         String str = ksStringBuilder.toString();
                         if (str.contains("selected")) {
-                            int start = str.indexOf("selected >", 0) + 10;    // Start
+                            int start = str.indexOf("selected >") + 10;    // Start
                             int end = str.indexOf("</option>", start);        // End
                             mSelectedRegion = str.substring(start, end);
                         }
@@ -189,7 +189,7 @@ public class KosListRequest extends Request<KoSReturnData> implements Response.L
                             isLastPage = false;
                         }
 
-                        str = str.substring(str.lastIndexOf("p=") + 2, str.length());
+                        str = str.substring(str.lastIndexOf("p=") + 2);
                         str = str.substring(0, str.indexOf("\">"));
 
                         numberOfKoSPages = Integer.parseInt(str);

@@ -26,12 +26,12 @@ public class VideoRowView extends LinearLayout {
 		
 		compoundView = (LinearLayout) inflater.inflate(R.layout.video_row, this);
 
-		mTitle = (TextView) compoundView.findViewById(R.id.video_picture_row_title);
-		mDate = (TextView) compoundView.findViewById(R.id.video_picture_row_date);
-		mUploader = (TextView) compoundView.findViewById(R.id.video_picture_row_uploader);
-		mCategory = (TextView) compoundView.findViewById(R.id.video_picture_row_category);
-		mLength = (TextView) compoundView.findViewById(R.id.video_picture_row_length);
-		mObjectImage = (ImageView) compoundView.findViewById(R.id.video_picture_row_image);
+		mTitle = compoundView.findViewById(R.id.video_picture_row_title);
+		mDate = compoundView.findViewById(R.id.video_picture_row_date);
+		mUploader = compoundView.findViewById(R.id.video_picture_row_uploader);
+		mCategory = compoundView.findViewById(R.id.video_picture_row_category);
+		mLength = compoundView.findViewById(R.id.video_picture_row_length);
+		mObjectImage = compoundView.findViewById(R.id.video_picture_row_image);
 	}
 
 	public void setObjectImage(Drawable image) {

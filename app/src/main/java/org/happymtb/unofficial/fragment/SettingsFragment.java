@@ -44,10 +44,10 @@ public class SettingsFragment extends Fragment {
 
         final Activity activity = getActivity();
 		
-		mUserNameText = (EditText) activity.findViewById(R.id.settings_username);
-		mPasswordText = (EditText) activity.findViewById(R.id.settings_password);
-		mStartPageSpinner = (Spinner) activity.findViewById(R.id.settings_startpage);
-        mVersion = (TextView) activity.findViewById(R.id.version);
+		mUserNameText = activity.findViewById(R.id.settings_username);
+		mPasswordText = activity.findViewById(R.id.settings_password);
+		mStartPageSpinner = activity.findViewById(R.id.settings_startpage);
+        mVersion = activity.findViewById(R.id.version);
 
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 		mUserNameText.setText(mPreferences.getString(USERNAME, ""));

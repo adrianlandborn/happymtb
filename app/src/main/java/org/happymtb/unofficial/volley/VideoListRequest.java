@@ -76,11 +76,11 @@ public class VideoListRequest extends Request<List<VideoItem>> implements Respon
 
                         int start = 0;
                         int end = 0;
-                        start = str.indexOf("<ul>", 0) + 4;    // Start
-                        str = str.substring(start, str.length());
+                        start = str.indexOf("<ul>") + 4;    // Start
+                        str = str.substring(start);
                         str = str.replaceAll(" class=\"active\"", "");
                         while (str.contains("\">")) {
-                            start = str.indexOf("\">", 0) + 2;    // Start
+                            start = str.indexOf("\">") + 2;    // Start
                             end = str.indexOf("</a>", start);        // End
 
                             if (HappyUtils.isInteger(str.substring(start, end))) {
@@ -88,7 +88,7 @@ public class VideoListRequest extends Request<List<VideoItem>> implements Respon
                                     mNumberOfVideoPages = Integer.parseInt(str.substring(start, end));
                                 }
                             }
-                            str = str.substring(end, str.length());
+                            str = str.substring(end);
                         }
                     }
                 } else if (startReadCategory) {
@@ -98,7 +98,7 @@ public class VideoListRequest extends Request<List<VideoItem>> implements Respon
 
                         String str = ksStringBuilder.toString();
                         if (str.contains("selected")) {
-                            int start = str.indexOf("selected>", 0) + 9;    // Start
+                            int start = str.indexOf("selected>") + 9;    // Start
                             int end = str.indexOf("</option>", start);        // End
                             mSelectedCategory = str.substring(start, end);
                         }
@@ -118,7 +118,7 @@ public class VideoListRequest extends Request<List<VideoItem>> implements Respon
     }
 
     public VideoItem ExtractVideoRow(String VideoStr) {
-        int start = VideoStr.indexOf("<a href=\"", 0) + 9;
+        int start = VideoStr.indexOf("<a href=\"") + 9;
         int end = VideoStr.indexOf("\">", start);
         String link = "https://happyride.se" + VideoStr.substring(start, end);
         start = end;

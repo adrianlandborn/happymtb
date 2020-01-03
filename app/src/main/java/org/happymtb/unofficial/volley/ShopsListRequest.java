@@ -49,8 +49,8 @@ public class ShopsListRequest extends Request<List<Item>> implements Response.Li
                     ksStringBuilder.append(lineString);
                 } else if (lineString.contains("Header' nowrap='nowrap' w")) {
                     mGroup = HappyUtils.replaceHTMLChars(lineString.substring(
-                            lineString.indexOf("=0'>", 0) + 4,
-                            lineString.indexOf("</", 0)));
+                            lineString.indexOf("=0'>") + 4,
+                            lineString.indexOf("</")));
 
                     shopItem = new Item(mGroup, false);
                     shopItems.add(shopItem);
@@ -73,7 +73,7 @@ public class ShopsListRequest extends Request<List<Item>> implements Response.Li
     }
 
     public Item ExtractItemRow(String ShopStr) {
-        int Start = ShopStr.indexOf("<b>", 0) + 3;
+        int Start = ShopStr.indexOf("<b>") + 3;
         int End = ShopStr.indexOf("</b>", Start);
         String Title = HappyUtils.replaceHTMLChars(ShopStr.substring(Start, End));
         Start = End;

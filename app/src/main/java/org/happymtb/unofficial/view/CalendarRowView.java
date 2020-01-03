@@ -25,11 +25,11 @@ public class CalendarRowView extends LinearLayout {
         compoundView = (LinearLayout) inflater.inflate(R.layout.calendar_row, this);
 			
 		mRowColor = compoundView.findViewById(R.id.calendar_row_color);
-		mTitle = (TextView) compoundView.findViewById(R.id.calendar_row_title);
-		mDescription = (TextView) compoundView.findViewById(R.id.calendar_row_description);
-		mCategory = (TextView) compoundView.findViewById(R.id.calendar_row_category);
+		mTitle = compoundView.findViewById(R.id.calendar_row_title);
+		mDescription = compoundView.findViewById(R.id.calendar_row_description);
+		mCategory = compoundView.findViewById(R.id.calendar_row_category);
 	
-		mTime = (TextView) compoundView.findViewById(R.id.calendar_row_time);
+		mTime = compoundView.findViewById(R.id.calendar_row_time);
 	}
 
 	public void setRowBackgroundColor(int id) {

@@ -43,7 +43,7 @@ public class ThreadListTask extends AsyncTask<Object, Void, Boolean>
 			//Log.d("ExtractThreadRow", "NewMsg = False");
 		}
 
-		int Start = Str.indexOf("<a onmouseover=\"return escape('", 0) + 31;
+		int Start = Str.indexOf("<a onmouseover=\"return escape('") + 31;
 		int End = Str.indexOf("')\" href=\"", Start);
 		String MessageText = HappyUtils.replaceHTMLChars(Str.substring(Start, End));
 		Start = End;
@@ -77,8 +77,8 @@ public class ThreadListTask extends AsyncTask<Object, Void, Boolean>
 		Start = End;
 		
       	if (StartedBy.contains("<a href="))	{
-      		int SubStart = StartedBy.indexOf("\">", 0) + 2;
-      		int SubEnd = StartedBy.indexOf("</a>", 0);
+      		int SubStart = StartedBy.indexOf("\">") + 2;
+      		int SubEnd = StartedBy.indexOf("</a>");
           	StartedBy = HappyUtils.replaceHTMLChars(StartedBy.substring(SubStart, SubEnd));
       	}   				      	
       	
@@ -88,8 +88,8 @@ public class ThreadListTask extends AsyncTask<Object, Void, Boolean>
 		Start = End;      	
       			
       	if (LastMessageTime.contains("<a href=")) {
-      		int SubStart = LastMessageTime.indexOf("\">", 0) + 2;
-          	LastMessageTime = HappyUtils.replaceHTMLChars(LastMessageTime.substring(SubStart, LastMessageTime.length()));
+      		int SubStart = LastMessageTime.indexOf("\">") + 2;
+          	LastMessageTime = HappyUtils.replaceHTMLChars(LastMessageTime.substring(SubStart));
       	} 
 
 		Start = Str.indexOf("\">", Start) + 2;
@@ -135,7 +135,7 @@ public class ThreadListTask extends AsyncTask<Object, Void, Boolean>
     				ksStringBuilder = new StringBuilder();
 					ksStringBuilder.append(lineString);
     			} else if (lineString.contains("Aktuell sida: </span>")) {    	    
-    				mNumberOfThreadPages = Integer.parseInt(lineString.substring(lineString.indexOf("av ", 0) + 3, lineString.length()));
+    				mNumberOfThreadPages = Integer.parseInt(lineString.substring(lineString.indexOf("av ") + 3));
     			} else if (read) {
     				ksStringBuilder.append(lineString);
     				if (lineString.contains("PhorumTableHeader")) {

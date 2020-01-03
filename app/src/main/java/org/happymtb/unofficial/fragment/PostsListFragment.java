@@ -66,9 +66,9 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
 
         mUsername = mPreferences.getString("username", "");
 
-        mCurrentPage = (TextView) mActivity.findViewById(R.id.message_current_page);
-        mMaxPages = (TextView) mActivity.findViewById(R.id.message_no_of_pages);
-        mReplyFab = (FloatingActionButton) mActivity.findViewById(R.id.reply);
+        mCurrentPage = mActivity.findViewById(R.id.message_current_page);
+        mMaxPages = mActivity.findViewById(R.id.message_no_of_pages);
+        mReplyFab = mActivity.findViewById(R.id.reply);
 
         Bundle bundle = mActivity.getIntent().getExtras();
         boolean loggedIn = bundle.getBoolean(PostsActivity.LOGGED_IN);
@@ -101,8 +101,8 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
             fetchData();
         }
 
-        ImageView loginStatusImage = (ImageView) mActivity.findViewById(R.id.message_login_status_image);
-        TextView loginStatus = (TextView) mActivity.findViewById(R.id.message_login_status);
+        ImageView loginStatusImage = mActivity.findViewById(R.id.message_login_status_image);
+        TextView loginStatus = mActivity.findViewById(R.id.message_login_status);
         if (mMessageData.getLogined()) {
             loginStatusImage.setImageResource(R.drawable.ic_online);
             loginStatus.setText(mActivity.getString(R.string.logged_in_as) + mUsername);

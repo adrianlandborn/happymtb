@@ -24,15 +24,15 @@ public class ItemRowView extends LinearLayout {
 
 		compoundView = (LinearLayout) inflater.inflate(R.layout.item_row, this);
 
-		mTitle = (TextView) compoundView.findViewById(R.id.item_title);
-		mHeaderTitle = (TextView) compoundView.findViewById(R.id.item_header_title);
-		mDescription = (TextView) compoundView.findViewById(R.id.item_description);
+		mTitle = compoundView.findViewById(R.id.item_title);
+		mHeaderTitle = compoundView.findViewById(R.id.item_header_title);
+		mDescription = compoundView.findViewById(R.id.item_description);
 		
-		mHeaderExpand = (ImageView) compoundView.findViewById(R.id.item_header_expand);
-		mHeaderCollapse = (ImageView) compoundView.findViewById(R.id.item_header_collapse);		
+		mHeaderExpand = compoundView.findViewById(R.id.item_header_expand);
+		mHeaderCollapse = compoundView.findViewById(R.id.item_header_collapse);
 		
-		mLink = (LinearLayout) compoundView.findViewById(R.id.item_row_link);
-		mHeader = (LinearLayout) compoundView.findViewById(R.id.item_row_header);	
+		mLink = compoundView.findViewById(R.id.item_row_link);
+		mHeader = compoundView.findViewById(R.id.item_row_header);
 	}	
 	
 	public ItemRowView(Context context) {

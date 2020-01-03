@@ -45,12 +45,12 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup arg0, int arg1, Object arg2) {
-        ((ViewPager) arg0).removeView((View) arg2);
+        arg0.removeView((View) arg2);
     }
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view == ((RelativeLayout) object);
+        return view == object;
     }
 
     @Override
@@ -62,9 +62,9 @@ public class ViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup collection, final int pos) {
         LayoutInflater inflater = (LayoutInflater) collection.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.kos_image_pager_layout,null);
-        ((ViewPager) collection).addView(view);
+        collection.addView(view);
 
-        final ImageView imageView = (ImageView) view.findViewById(R.id.pager_image_view);
+        final ImageView imageView = view.findViewById(R.id.pager_image_view);
         Picasso.with(mContext)
                 .load(mUrlList.get(pos))
                 .placeholder(R.drawable.no_photo)
@@ -75,7 +75,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                 .into(imageView, new Callback() {
                     @Override
                     public void onSuccess() {
-                        ImageView transitionImageView = (ImageView) ((KoSObjectActivity)mContext).findViewById(R.id.image_transition);
+                        ImageView transitionImageView = ((KoSObjectActivity)mContext).findViewById(R.id.image_transition);
                         // TODO Fade out animation
 //                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0f);
 //                        anim.setDuration(200);

@@ -27,10 +27,10 @@ public class MessageRowView extends LinearLayout {
 		
 		compoundView = (LinearLayout)inflater.inflate(R.layout.post_row, this);
 		
-		mTitle = (TextView) compoundView.findViewById(R.id.message_title);
-		mText = (TextView) compoundView.findViewById(R.id.message_text);
-		mWrittenBy = (TextView) compoundView.findViewById(R.id.message_written_by);
-		mDate = (TextView) compoundView.findViewById(R.id.message_date);
+		mTitle = compoundView.findViewById(R.id.message_title);
+		mText = compoundView.findViewById(R.id.message_text);
+		mWrittenBy = compoundView.findViewById(R.id.message_written_by);
+		mDate = compoundView.findViewById(R.id.message_date);
 	}
 		
 	public void setTitle(String Title) {

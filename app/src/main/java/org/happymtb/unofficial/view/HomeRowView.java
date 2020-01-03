@@ -21,10 +21,10 @@ public class HomeRowView extends LinearLayout {
 
         compoundView = (LinearLayout) inflater.inflate(R.layout.home_row, this);
 		
-		mTitle = (TextView) compoundView.findViewById(R.id.home_row_title);
-		mCategory = (TextView) compoundView.findViewById(R.id.home_row_category);
-		mText = (TextView) compoundView.findViewById(R.id.home_row_text);
-		mDate = (TextView) compoundView.findViewById(R.id.home_row_date);
+		mTitle = compoundView.findViewById(R.id.home_row_title);
+		mCategory = compoundView.findViewById(R.id.home_row_category);
+		mText = compoundView.findViewById(R.id.home_row_text);
+		mDate = compoundView.findViewById(R.id.home_row_date);
 
 	}
 
