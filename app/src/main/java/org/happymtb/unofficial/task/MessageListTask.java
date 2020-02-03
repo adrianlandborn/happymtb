@@ -17,12 +17,12 @@ public class MessageListTask extends AsyncTask<Object, Void, Boolean>
 {
 	private Context mContext;
 	private ArrayList<MessageListListener> mMessageListListenerList;
-	private List<Message> mMessages = new ArrayList<Message>();
+	private List<Message> mMessages = new ArrayList<>();
 	int mNumberOfMessagePages = 1;
 	private static String mBitmapFolder = "/happymtb/";
 	
 	public MessageListTask() {
-		mMessageListListenerList = new ArrayList<MessageListListener>();
+		mMessageListListenerList = new ArrayList<>();
 	}
 	
 	public void addMessageListListener(MessageListListener l) {

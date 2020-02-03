@@ -1,21 +1,21 @@
 package org.happymtb.unofficial.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.view.CalendarRowView;
-import org.happymtb.unofficial.item.CalendarItem;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.item.CalendarItem;
+import org.happymtb.unofficial.view.CalendarRowView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class CalendarAdapter extends BaseAdapter {
 	private Context mContext;
-	private List<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
+	private List<CalendarItem> mCalendarItems;
 
 	public CalendarAdapter(Context context, List<CalendarItem> CalendarItems) {
 		mContext = context;
@@ -39,7 +39,7 @@ public class CalendarAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		CalendarRowView calendarRowView = null;
+		CalendarRowView calendarRowView;
 
 		if (convertView == null) {
 			calendarRowView = new CalendarRowView(mContext);

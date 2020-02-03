@@ -1,9 +1,5 @@
 package org.happymtb.unofficial.helpers;
 
-import java.io.File;
-
-import org.happymtb.unofficial.R;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +8,10 @@ import android.os.Environment;
 import android.text.Html.ImageGetter;
 import android.util.DisplayMetrics;
 import android.view.View;
+
+import org.happymtb.unofficial.R;
+
+import java.io.File;
 
 public class URLImageParser implements ImageGetter {
 	Context mContext;
@@ -86,9 +86,8 @@ public class URLImageParser implements ImageGetter {
     public Bitmap loadBitmap(String BitmapDirStr, String BitmapFilename, DisplayMetrics Metrics) {
     	File extStore = Environment.getExternalStorageDirectory();
     	File file = new File(extStore.getAbsolutePath() + BitmapDirStr, BitmapFilename + ".png");
-       	if (file.exists()) {    
-       		Bitmap bitmap = decodeBitmapFromFile(file, Metrics);
-       		return bitmap;
+       	if (file.exists()) {
+			return decodeBitmapFromFile(file, Metrics);
        	}else{
        		return null;
        	}

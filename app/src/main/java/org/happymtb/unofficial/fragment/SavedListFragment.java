@@ -9,13 +9,6 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.CursorLoader;
-import androidx.loader.content.Loader;
-import androidx.cursoradapter.widget.CursorAdapter;
-
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -29,6 +22,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.cursoradapter.widget.CursorAdapter;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -168,19 +168,17 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case MENU_CONTEXT_DELETE_ID:
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-                int itemId = Integer.parseInt(mAdapter.getItemColumn(info.position, MySQLiteHelper.COLUMN_ID));
+        if (item.getItemId() == MENU_CONTEXT_DELETE_ID) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            int itemId = Integer.parseInt(mAdapter.getItemColumn(info.position, MySQLiteHelper.COLUMN_ID));
 
-                boolean success = mDataSource.deleteItem(itemId);
-                if (success) {
-                    getLoaderManager().restartLoader(0, null, this);
-                }
-                return true;
-            default:
-                return super.onContextItemSelected(item);
+            boolean success = mDataSource.deleteItem(itemId);
+            if (success) {
+                getLoaderManager().restartLoader(0, null, this);
+            }
+            return true;
         }
+        return super.onContextItemSelected(item);
     }
 
     @Override
@@ -198,9 +196,8 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
     @Override
 	public Loader onCreateLoader(int id, Bundle args) {
         String[] projection = MySQLiteHelper.ALL_COLUMNS;
-        CursorLoader cursorLoader = new CursorLoader(mActivity,
+        return new CursorLoader(mActivity,
                 MyContentProvider.CONTENT_URI, projection, null, null, MySQLiteHelper.COLUMN_ID + " DESC");
-        return cursorLoader;
 	}
 
 	@Override
@@ -315,10 +312,9 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.saved_delete_all:
-                showDeleteDialog();
-                return true;
+        if (item.getItemId() == R.id.saved_delete_all) {
+            showDeleteDialog();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

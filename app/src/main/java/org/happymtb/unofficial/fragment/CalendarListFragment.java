@@ -4,23 +4,19 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -41,18 +37,18 @@ public class CalendarListFragment extends RefreshListfragment {
 
     private CalendarListRequest mRequest;
 	private CalendarAdapter mCalendarAdapter;
-	private ArrayList<CalendarItem> mCalendarItems = new ArrayList<CalendarItem>();
-	MainActivity mActivity;
+	private ArrayList<CalendarItem> mCalendarItems = new ArrayList<>();
+	private MainActivity mActivity;
     private ListView mListView;
-	TextView mCategoryView;
-	TextView mRegionView;
-	TextView mSearchView;		
-	String mCategory = "";
-	String mRegion = "";
-	String mSearch = "";		
-	String mCategoryPosition = "";	
-	String mRegionPosition = "";
-    int mFirstVisiblePos = 0;
+	private TextView mCategoryView;
+	private TextView mRegionView;
+	private TextView mSearchView;
+	private String mCategory = "";
+	private String mRegion = "";
+	private String mSearch = "";
+	private String mCategoryPosition = "";
+	private String mRegionPosition = "";
+    private int mFirstVisiblePos = 0;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -132,7 +128,7 @@ public class CalendarListFragment extends RefreshListfragment {
 				public void onErrorResponse(VolleyError error) {
 					if (getActivity() != null && !getActivity().isFinishing()) {
 						Toast.makeText(mActivity, R.string.calendar_no_items_found, Toast.LENGTH_LONG).show();
-						mCalendarItems = new ArrayList<CalendarItem>();
+						mCalendarItems = new ArrayList<>();
 						showProgress(false);
 					}
 				}
@@ -210,8 +206,7 @@ public class CalendarListFragment extends RefreshListfragment {
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog = null;
 		AlertDialog.Builder builder;
-		switch (id) {
-		case DIALOG_FETCH_CALENDAR_ERROR:
+		if (id == DIALOG_FETCH_CALENDAR_ERROR) {
 			builder = new AlertDialog.Builder(mActivity);
 			builder.setTitle("Felmeddelande");
 			builder.setMessage(
@@ -219,13 +214,12 @@ public class CalendarListFragment extends RefreshListfragment {
 					.setPositiveButton(R.string.OK,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
-										int id) {
+													int id) {
 									dialog.cancel();
 									mActivity.finish();
 								}
 							});
 			dialog = builder.create();
-			break;
 		}
 		return dialog;
 	}	

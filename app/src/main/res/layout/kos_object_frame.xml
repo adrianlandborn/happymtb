@@ -249,7 +249,8 @@
                         <ImageButton
                             android:id="@+id/kos_action_pm"
                             style="@style/kosAction"
-                            android:src="@drawable/ic_message" />
+                            android:src="@drawable/ic_message"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:layout_width="wrap_content"

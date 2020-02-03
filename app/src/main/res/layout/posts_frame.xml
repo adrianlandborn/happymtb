@@ -4,12 +4,11 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
 	<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="vertical"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent" >
 
-		<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		<FrameLayout
 			android:id="@+id/messageframe"
 			android:layout_width="fill_parent"
 			android:layout_height="0dp"

@@ -1,19 +1,5 @@
 package org.happymtb.unofficial.task;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FilterInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
-
-import org.happymtb.unofficial.adapter.MessagesAdapter;
-import org.happymtb.unofficial.helpers.HappyUtils;
-import org.happymtb.unofficial.item.Message;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +9,20 @@ import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
+
+import org.happymtb.unofficial.adapter.MessagesAdapter;
+import org.happymtb.unofficial.helpers.HappyUtils;
+import org.happymtb.unofficial.item.Message;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
 
 public class MessageImageDownloadTask extends AsyncTask<Object, Void, Void> { 
 	SpannableStringBuilder htmlSpannable;
@@ -124,8 +124,7 @@ public class MessageImageDownloadTask extends AsyncTask<Object, Void, Void> {
             		o2.inSampleSize = width;
             	}            
             }
-            final Bitmap bitmap = BitmapFactory.decodeStream(new FlushedInputStream(is2), null, o2);             
-            return bitmap;
+            return BitmapFactory.decodeStream(new FlushedInputStream(is2), null, o2);
         } catch (Exception e) {
             return null;
         }

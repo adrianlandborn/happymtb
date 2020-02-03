@@ -2,6 +2,7 @@ package org.happymtb.unofficial.volley;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+
 import androidx.collection.LruCache;
 
 import com.android.volley.Request;
@@ -28,7 +29,7 @@ public class MyRequestQueue {
         mImageLoader = new ImageLoader(mRequestQueue,
                 new ImageLoader.ImageCache() {
                     private final LruCache<String, Bitmap>
-                            cache = new LruCache<String, Bitmap>(20);
+                            cache = new LruCache<>(20);
 
                     @Override
                     public Bitmap getBitmap(String url) {

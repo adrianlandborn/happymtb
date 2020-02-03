@@ -108,7 +108,7 @@ public class HappyUtils {
     }
 
 	public static boolean isDebug(Context context) {
-		PackageInfo pInfo = null;
+		PackageInfo pInfo;
 		try {
 			pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			String version = pInfo.versionName;
@@ -130,7 +130,7 @@ public class HappyUtils {
 	}
 
 	public static boolean isBeta(Context context) {
-		PackageInfo pInfo = null;
+		PackageInfo pInfo;
 		try {
 			pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			String version = pInfo.versionName;

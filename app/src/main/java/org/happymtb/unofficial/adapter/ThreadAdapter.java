@@ -1,14 +1,5 @@
 package org.happymtb.unofficial.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.happymtb.unofficial.MainActivity;
-import org.happymtb.unofficial.PostsActivity;
-import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.view.ThreadRowView;
-import org.happymtb.unofficial.item.Thread;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -21,11 +12,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.happymtb.unofficial.MainActivity;
+import org.happymtb.unofficial.PostsActivity;
+import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.item.Thread;
+import org.happymtb.unofficial.view.ThreadRowView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ThreadAdapter extends BaseAdapter
 {
 	private Context mContext;
 	protected ListView mListView;
-	private List<Thread> mThreads = new ArrayList<Thread>();
+	private List<Thread> mThreads = new ArrayList<>();
 	
 	public ThreadAdapter(Context context, List<Thread> threads) {
 		mContext = context;

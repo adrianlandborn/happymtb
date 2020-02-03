@@ -1,12 +1,12 @@
 package org.happymtb.unofficial.helpers;
 
+import android.graphics.drawable.Drawable;
+import android.text.Html;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.ResponseCache;
 import java.net.URL;
-
-import android.graphics.drawable.Drawable;
-import android.text.Html;
 
 public class CustomImageGetter implements Html.ImageGetter {
 	@Override

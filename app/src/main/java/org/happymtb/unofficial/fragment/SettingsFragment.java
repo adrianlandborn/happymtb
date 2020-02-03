@@ -1,8 +1,5 @@
 package org.happymtb.unofficial.fragment;
 
-import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.SettingsActivity;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -10,7 +7,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.fragment.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -22,6 +18,11 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+
+import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.SettingsActivity;
 
 public class SettingsFragment extends Fragment {
     public static String TAG = "settimgs_frag";

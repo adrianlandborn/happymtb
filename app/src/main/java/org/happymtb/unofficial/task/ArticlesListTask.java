@@ -1,22 +1,20 @@
 package org.happymtb.unofficial.task;
 
-import java.io.InputStreamReader;
-import java.io.LineNumberReader;
-import java.util.ArrayList;
-
 import android.os.AsyncTask;
 
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.Item;
 import org.happymtb.unofficial.listener.ItemListListener;
 
+import java.util.ArrayList;
+
 public class ArticlesListTask extends AsyncTask<Object, Void, Boolean> {
 	private ArrayList<ItemListListener> mItemListListenerList;
-	private ArrayList<Item> mItems = new ArrayList<Item>();
+	private ArrayList<Item> mItems = new ArrayList<>();
 	private String mGroup;
 
 	public ArticlesListTask() {
-		mItemListListenerList = new ArrayList<ItemListListener>();
+		mItemListListenerList = new ArrayList<>();
 	}
 
 	public void addItemListListener(ItemListListener l) {

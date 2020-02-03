@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +17,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -265,8 +266,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog = null;
 		AlertDialog.Builder builder;
-		switch (id) {
-		case DIALOG_FETCH_KOS_ERROR:
+		if (id == DIALOG_FETCH_KOS_ERROR) {
 			builder = new AlertDialog.Builder(mActivity);
 			builder.setTitle(R.string.error_message);
 			builder.setMessage(
@@ -274,13 +274,12 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 					.setPositiveButton(R.string.OK,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
-										int id) {
+													int id) {
 									dialog.cancel();
 									mActivity.finish();
 								}
 							});
 			dialog = builder.create();
-			break;
 		}
 		return dialog;
 	}

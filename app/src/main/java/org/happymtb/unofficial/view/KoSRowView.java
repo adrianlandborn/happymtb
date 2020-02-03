@@ -1,16 +1,16 @@
 package org.happymtb.unofficial.view;
 
-import org.happymtb.unofficial.R;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-
-import androidx.core.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+
+import org.happymtb.unofficial.R;
 
 public class KoSRowView extends LinearLayout {
 	TextView mTitle;

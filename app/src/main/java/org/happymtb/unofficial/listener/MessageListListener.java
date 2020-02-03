@@ -1,8 +1,8 @@
 package org.happymtb.unofficial.listener;
 
-import java.util.List;
-
 import org.happymtb.unofficial.item.Message;
+
+import java.util.List;
 
 public interface MessageListListener 
 {

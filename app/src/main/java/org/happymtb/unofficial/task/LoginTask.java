@@ -1,21 +1,19 @@
 package org.happymtb.unofficial.task;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.happymtb.unofficial.fragment.ForumListFragment;
-import org.happymtb.unofficial.listener.LoginListener;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
+import org.happymtb.unofficial.listener.LoginListener;
+
+import java.util.ArrayList;
+
 public class LoginTask extends AsyncTask<Object, Void, Boolean> {
 	private ArrayList<LoginListener> mLoginListenerList;
 
 	public LoginTask() {
-		mLoginListenerList = new ArrayList<LoginListener>();
+		mLoginListenerList = new ArrayList<>();
 	}
 
 	public void addLoginListener(LoginListener l) {

@@ -1,11 +1,12 @@
 package org.happymtb.unofficial.ui;
 
 import android.content.Context;
-import androidx.core.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+
+import androidx.core.view.ViewCompat;
 
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.helpers.HappyUtils;

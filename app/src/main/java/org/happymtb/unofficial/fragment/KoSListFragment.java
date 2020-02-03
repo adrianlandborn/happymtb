@@ -1,21 +1,5 @@
 package org.happymtb.unofficial.fragment;
 
-import java.util.ArrayList;
-
-import org.droidparts.widget.ClearableEditText;
-import org.happymtb.unofficial.KoSObjectActivity;
-import org.happymtb.unofficial.MainActivity;
-import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.adapter.KosAdapter;
-import org.happymtb.unofficial.helpers.HappyUtils;
-import org.happymtb.unofficial.item.KoSData;
-import org.happymtb.unofficial.item.KoSListItem;
-import org.happymtb.unofficial.item.KoSReturnData;
-import org.happymtb.unofficial.listener.PageTextWatcher;
-import org.happymtb.unofficial.ui.BottomBar;
-import org.happymtb.unofficial.volley.KosListRequest;
-import org.happymtb.unofficial.volley.MyRequestQueue;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -26,9 +10,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -50,10 +31,30 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
+
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+
+import org.droidparts.widget.ClearableEditText;
+import org.happymtb.unofficial.KoSObjectActivity;
+import org.happymtb.unofficial.MainActivity;
+import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.adapter.KosAdapter;
+import org.happymtb.unofficial.helpers.HappyUtils;
+import org.happymtb.unofficial.item.KoSData;
+import org.happymtb.unofficial.item.KoSListItem;
+import org.happymtb.unofficial.item.KoSReturnData;
+import org.happymtb.unofficial.listener.PageTextWatcher;
+import org.happymtb.unofficial.ui.BottomBar;
+import org.happymtb.unofficial.volley.KosListRequest;
+import org.happymtb.unofficial.volley.MyRequestQueue;
+
+import java.util.ArrayList;
 
 public class KoSListFragment extends RefreshListfragment implements /*DialogInterface.OnCancelListener,*/
 		 View.OnClickListener, AbsListView.OnScrollListener {

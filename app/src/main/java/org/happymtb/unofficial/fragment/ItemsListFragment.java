@@ -1,26 +1,27 @@
 package org.happymtb.unofficial.fragment;
 
-import java.util.ArrayList;
-
-import org.happymtb.unofficial.adapter.ItemsAdapter;
-import org.happymtb.unofficial.item.Item;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.ListFragment;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 
+import androidx.fragment.app.ListFragment;
+
+import org.happymtb.unofficial.adapter.ItemsAdapter;
+import org.happymtb.unofficial.item.Item;
+
+import java.util.ArrayList;
+
 public class ItemsListFragment extends ListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
 	protected static final String ITEMS = "items";
 	protected static final String ALL_ITEMS = "all_items";
     protected ItemsAdapter mItemsAdapter;
-	protected ArrayList<Item> mItems = new ArrayList<Item>();
-	protected ArrayList<Item> mAllItems = new ArrayList<Item>();
+	protected ArrayList<Item> mItems = new ArrayList<>();
+	protected ArrayList<Item> mAllItems = new ArrayList<>();
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);

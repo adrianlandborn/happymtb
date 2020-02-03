@@ -14,7 +14,7 @@ public class MarkAsReadTask extends AsyncTask<Object, Void, Boolean>
 	private ArrayList<MarkAsReadListener> mMarkAsReadListenerList;
 	
 	public MarkAsReadTask() {
-		mMarkAsReadListenerList = new ArrayList<MarkAsReadListener>();
+		mMarkAsReadListenerList = new ArrayList<>();
 	}
 	
 	public void addMarkAsReadListener(MarkAsReadListener l) {

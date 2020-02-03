@@ -38,7 +38,7 @@ public class KosObjectRequest extends Request<KoSObjectItem> implements Response
 	}
 
     private KoSObjectItem extractKoSObject(String str, String url) {
-        List<String> imgLinkList = new ArrayList<String>();
+        List<String> imgLinkList = new ArrayList<>();
 
         int start = getStart(str, "<h1>", 0);
         int end = getEnd(str, "</h1>", start);

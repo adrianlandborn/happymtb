@@ -6,7 +6,6 @@
 
 	<color name="black">#000000</color>
 	<color name="white">#FFFFFF</color>
-	<color name="background">?android:attr/colorBackground</color>
 	<color name="grey_light">#ffededed</color>
 	<color name="grey_dark">#ffbdbcbc</color>
 	<color name="button_text_dark_grey">#ff838383</color>

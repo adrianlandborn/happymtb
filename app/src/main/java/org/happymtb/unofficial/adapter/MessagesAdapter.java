@@ -1,20 +1,20 @@
 package org.happymtb.unofficial.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.happymtb.unofficial.view.MessageRowView;
-import org.happymtb.unofficial.item.Message;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import org.happymtb.unofficial.item.Message;
+import org.happymtb.unofficial.view.MessageRowView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MessagesAdapter extends BaseAdapter
 {
 	private Context mContext;
-	private List<Message> mMessages = new ArrayList<Message>();
+	private List<Message> mMessages = new ArrayList<>();
 	
 	public MessagesAdapter(Context context, List<Message> Messages)
 	{

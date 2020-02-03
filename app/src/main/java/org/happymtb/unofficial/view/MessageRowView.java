@@ -1,15 +1,15 @@
 package org.happymtb.unofficial.view;
 
-import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.helpers.URLImageParser;
 import android.content.Context;
-
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.helpers.URLImageParser;
 
 public class MessageRowView extends LinearLayout {
 	TextView mTitle;

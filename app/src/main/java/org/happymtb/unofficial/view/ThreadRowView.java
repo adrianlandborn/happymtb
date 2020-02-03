@@ -1,12 +1,12 @@
 package org.happymtb.unofficial.view;
 
-import org.happymtb.unofficial.R;
-
 import android.content.Context;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.happymtb.unofficial.R;
 
 public class ThreadRowView extends LinearLayout {
 	TextView mTitle;

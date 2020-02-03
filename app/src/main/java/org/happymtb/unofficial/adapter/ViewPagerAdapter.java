@@ -3,13 +3,12 @@ package org.happymtb.unofficial.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;

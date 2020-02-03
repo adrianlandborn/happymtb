@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="drawer_items">
-        <item>@string/title_bar_home</item>
-        <item>@string/title_bar_forum</item>
-        <item>@string/title_bar_articles</item>
-        <item>@string/title_bar_kos</item>
-        <item>@string/title_bar_saved</item>
-        <item>@string/title_bar_videos</item>
-        <item>@string/title_bar_shops</item>
-        <item>@string/title_bar_calendar</item>
-    </string-array>
 
-    <string-array name="entryvalues_list_fontsize">
-        <item>10</item>
-        <item>12</item>
-        <item>14</item>
-        <item>16</item>
-    </string-array>
         
     <string-array name="video_dialog_search_category">
 		<item>Alla</item>

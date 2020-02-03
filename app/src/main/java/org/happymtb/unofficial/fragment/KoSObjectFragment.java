@@ -3,8 +3,6 @@ package org.happymtb.unofficial.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,6 +15,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -335,7 +336,7 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
             if (v.getId() == R.id.kos_object_person) {
                 openInBrowser(mKoSObjectItem.getPerson().getIdLink(), false);
             } else if (v.getId() == R.id.kos_all_ads) {
-                openInBrowser("https://happyride.se/annonser/?member=" + mKoSObjectItem.getPerson().getId(), false);
+                openInBrowser("https://happyride.se/" + mKoSObjectItem.getPerson().getId() + "/#admarket", false);
             } else if (v.getId() == R.id.kos_action_phone) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("tel", mKoSObjectItem.getPerson().getPhone(), null));
                 startActivity(intent);
@@ -345,7 +346,9 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
             } else if (v.getId() == R.id.kos_action_email) {
                 openInBrowser(mKoSObjectItem.getPerson().getEmailLink(), false);
             } else if (v.getId() == R.id.kos_action_pm) {
-                openInBrowser("https://happyride.se/forum/pm.php/1/page=send/to_id=" + mKoSObjectItem.getPerson().getId(), false);
+                openInBrowser("https://happyride.se/" + mKoSObjectItem.getPerson().getId() + "/#about", false);
+//                openInBrowser("https://happyride.se/forum/conversations/add?to=" + mKoSObjectItem.getPerson().getId(), false);
+//                openInBrowser("https://happyride.se/forum/pm.php/1/page=send/to_id=" + mKoSObjectItem.getPerson().getId(), false);
 //                openInBrowser(mKoSObjectItem.getPerson().getPmLink(), false);
             }
         }

@@ -1,19 +1,19 @@
 package org.happymtb.unofficial.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.happymtb.unofficial.view.ItemRowView;
-import org.happymtb.unofficial.item.Item;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import org.happymtb.unofficial.item.Item;
+import org.happymtb.unofficial.view.ItemRowView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItemsAdapter extends BaseAdapter {
 	private Context mContext;
-	private List<Item> mItems = new ArrayList<Item>();
+	private List<Item> mItems = new ArrayList<>();
 
 	public ItemsAdapter(Context context, List<Item> Items) {
 		mContext = context;

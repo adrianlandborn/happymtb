@@ -1,28 +1,26 @@
 package org.happymtb.unofficial.task;
 
-import java.io.InputStreamReader;
-import java.io.LineNumberReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.happymtb.unofficial.fragment.ForumListFragment;
-import org.happymtb.unofficial.helpers.HappyUtils;
-import org.happymtb.unofficial.item.Thread;
-import org.happymtb.unofficial.listener.ThreadListListener;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
+import org.happymtb.unofficial.helpers.HappyUtils;
+import org.happymtb.unofficial.item.Thread;
+import org.happymtb.unofficial.listener.ThreadListListener;
+
+import java.io.LineNumberReader;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ThreadListTask extends AsyncTask<Object, Void, Boolean>  
 {
 	private ArrayList<ThreadListListener> mThreadListListenerList;
-	private List<Thread> mThreads = new ArrayList<Thread>();
+	private List<Thread> mThreads = new ArrayList<>();
 	private int mNumberOfThreadPages;
 	
 	public ThreadListTask() {
-		mThreadListListenerList = new ArrayList<ThreadListListener>();
+		mThreadListListenerList = new ArrayList<>();
 	}
 	
 	public void addThreadListListener(ThreadListListener l) {

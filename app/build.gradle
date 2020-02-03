@@ -26,9 +26,6 @@ android {
             signingConfig signingConfigs.releaseConfig
         }
     }
-    productFlavors {
-    }
-
 }
 repositories {
 

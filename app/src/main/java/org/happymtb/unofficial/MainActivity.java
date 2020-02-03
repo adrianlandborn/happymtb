@@ -1,33 +1,33 @@
 package org.happymtb.unofficial;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.MenuItem;
+import android.view.View;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.navigation.NavigationView;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.kobakei.ratethisapp.RateThisApp;
+
 import org.happymtb.unofficial.fragment.ArticlesListFragment;
 import org.happymtb.unofficial.fragment.CalendarListFragment;
+import org.happymtb.unofficial.fragment.ForumListFragment;
 import org.happymtb.unofficial.fragment.HomesListFragment;
 import org.happymtb.unofficial.fragment.KoSListFragment;
 import org.happymtb.unofficial.fragment.SavedListFragment;
 import org.happymtb.unofficial.fragment.SettingsFragment;
 import org.happymtb.unofficial.fragment.ShopsListFragment;
-import org.happymtb.unofficial.fragment.ForumListFragment;
 import org.happymtb.unofficial.fragment.VideoListFragment;
 import org.happymtb.unofficial.helpers.HappyUtils;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.content.SharedPreferences;
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import android.view.MenuItem;
-import android.view.View;
-
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.kobakei.ratethisapp.RateThisApp;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -214,13 +214,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     public void setLoggedIn(boolean loggedIn) {

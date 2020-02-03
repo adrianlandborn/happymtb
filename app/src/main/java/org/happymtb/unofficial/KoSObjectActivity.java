@@ -3,15 +3,15 @@ package org.happymtb.unofficial;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.squareup.picasso.Picasso;
 
@@ -156,21 +156,12 @@ public class KoSObjectActivity extends AppCompatActivity {
 		
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	    	case android.R.id.home:
+		if (item.getItemId() == android.R.id.home) {
+			this.finish();
 
-				//TODO Use Finish Transitions or not?
-// if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//				supportFinishAfterTransition();
-//			} else {
-//	    		this.finish();
-//			}
-	    		this.finish();
-
-				return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 }

@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.text.InputType;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -20,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.happymtb.unofficial.PostsActivity;
 import org.happymtb.unofficial.R;
@@ -122,8 +123,8 @@ public class PostsListFragment extends RefreshListfragment implements DialogInte
         File dir = new File(PATH);
         if (dir.isDirectory()) {
             String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                new File(dir, children[i]).delete();
+            for (String child : children) {
+                new File(dir, child).delete();
             }
         }
     }

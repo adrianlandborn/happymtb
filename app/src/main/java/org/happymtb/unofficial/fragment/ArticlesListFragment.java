@@ -1,20 +1,21 @@
 package org.happymtb.unofficial.fragment;
 
-import java.util.ArrayList;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.happymtb.unofficial.R;
 import org.happymtb.unofficial.item.Item;
 import org.happymtb.unofficial.listener.ItemListListener;
 import org.happymtb.unofficial.task.ArticlesListTask;
 
-import android.content.DialogInterface;
-import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.Toast;
+import java.util.ArrayList;
 
 public class ArticlesListFragment extends ItemsListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
 	public static String TAG = "articles_frag";

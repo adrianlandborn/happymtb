@@ -1,11 +1,5 @@
 package org.happymtb.unofficial.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.happymtb.unofficial.view.VideoRowView;
-import org.happymtb.unofficial.item.VideoItem;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,9 +8,15 @@ import android.widget.BaseAdapter;
 
 import com.squareup.picasso.Picasso;
 
+import org.happymtb.unofficial.item.VideoItem;
+import org.happymtb.unofficial.view.VideoRowView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ListVideoAdapter extends BaseAdapter {
 	private Context mContext;
-	private List<VideoItem> mVideoItems = new ArrayList<VideoItem>();
+	private List<VideoItem> mVideoItems = new ArrayList<>();
 
 	public ListVideoAdapter(Context context, List<VideoItem> VideoItems) {
 		mContext = context;

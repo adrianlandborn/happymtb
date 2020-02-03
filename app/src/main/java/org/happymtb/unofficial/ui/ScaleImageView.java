@@ -93,7 +93,6 @@ public class ScaleImageView extends ImageView {
         if (getDrawable() == null || getDrawable().getIntrinsicWidth() == 0) {
             // nothing to measure
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-            return;
         } else {
             if (scaleToWidth) {
                 int iw = this.getDrawable().getIntrinsicWidth();
@@ -129,5 +128,4 @@ public class ScaleImageView extends ImageView {
 
         }
     }
-
 }

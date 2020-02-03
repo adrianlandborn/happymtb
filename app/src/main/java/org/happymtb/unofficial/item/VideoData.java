@@ -11,7 +11,7 @@ public class VideoData implements Serializable {
 	private int mMaxPages = 1;
 	private String mSearch = "";
 	private int mCategory = 0;
-	private List<VideoItem> mVideoItems = new ArrayList<VideoItem>();
+	private List<VideoItem> mVideoItems = new ArrayList<>();
 	private int mListPosition;	
 	
 	public VideoData(int CurrentPage, int MaxPages, String Search, int Category, List<VideoItem> VideoItems, int ListPosition) {

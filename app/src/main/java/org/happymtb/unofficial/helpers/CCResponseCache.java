@@ -13,13 +13,12 @@ import java.util.Map;
 
 public class CCResponseCache extends ResponseCache {
 
-	Map<URI, CacheResponse> mCache = new HashMap<URI, CacheResponse>();
+	Map<URI, CacheResponse> mCache = new HashMap<>();
 
 	@Override
 	public CacheResponse get(URI uri, String requestMethod,
 			Map<String, List<String>> requestHeaders) {
-		CacheResponse resp = mCache.get(uri);
-		return resp;
+		return mCache.get(uri);
 	}
 
 	@Override

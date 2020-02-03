@@ -1,10 +1,10 @@
 package org.happymtb.unofficial.helpers;
 
-import android.graphics.drawable.Drawable;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.PixelFormat;
 import android.graphics.ColorFilter;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 
 public class FastBitmapDrawable extends Drawable {
     private final Bitmap mBitmap;

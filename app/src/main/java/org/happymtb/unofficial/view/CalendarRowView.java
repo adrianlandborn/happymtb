@@ -1,12 +1,12 @@
 package org.happymtb.unofficial.view;
 
-import org.happymtb.unofficial.R;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.happymtb.unofficial.R;
 
 public class CalendarRowView extends LinearLayout {
 	TextView mTitle;

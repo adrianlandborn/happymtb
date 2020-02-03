@@ -90,12 +90,10 @@ public class MyContentProvider extends ContentProvider {
         int uriType = sURIMatcher.match(uri);
         SQLiteDatabase sqlDB = database.getWritableDatabase();
         long id = 0;
-        switch (uriType) {
-            case ITEMS:
-                id = sqlDB.insert(MySQLiteHelper.TABLE_SAVED, null, values);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown URI: " + uri);
+        if (uriType == ITEMS) {
+            id = sqlDB.insert(MySQLiteHelper.TABLE_SAVED, null, values);
+        } else {
+            throw new IllegalArgumentException("Unknown URI: " + uri);
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return Uri.parse(BASE_PATH + "/" + id);
@@ -170,8 +168,8 @@ public class MyContentProvider extends ContentProvider {
     private void checkColumns(String[] projection) {
         String[] available = MySQLiteHelper.ALL_COLUMNS;
         if (projection != null) {
-            HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
-            HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));
+            HashSet<String> requestedColumns = new HashSet<>(Arrays.asList(projection));
+            HashSet<String> availableColumns = new HashSet<>(Arrays.asList(available));
             // check if all columns which are requested are available
             if (!availableColumns.containsAll(requestedColumns)) {
                 throw new IllegalArgumentException("Unknown columns in projection");

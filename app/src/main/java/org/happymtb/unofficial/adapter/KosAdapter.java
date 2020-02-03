@@ -1,14 +1,5 @@
 package org.happymtb.unofficial.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.happymtb.unofficial.R;
-import org.happymtb.unofficial.fragment.KoSListFragment;
-import org.happymtb.unofficial.helpers.HappyUtils;
-import org.happymtb.unofficial.view.KoSRowView;
-import org.happymtb.unofficial.item.KoSListItem;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,9 +10,18 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.happymtb.unofficial.R;
+import org.happymtb.unofficial.fragment.KoSListFragment;
+import org.happymtb.unofficial.helpers.HappyUtils;
+import org.happymtb.unofficial.item.KoSListItem;
+import org.happymtb.unofficial.view.KoSRowView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class KosAdapter extends BaseAdapter {
     private Context mContext;
-    private List<KoSListItem> mKoSListItems = new ArrayList<KoSListItem>();
+    private List<KoSListItem> mKoSListItems = new ArrayList<>();
 
     public KosAdapter(Context context, List<KoSListItem> koSListItems) {
         mContext = context;

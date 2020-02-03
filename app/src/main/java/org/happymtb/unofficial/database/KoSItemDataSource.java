@@ -1,9 +1,6 @@
 package org.happymtb.unofficial.database;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,6 +10,9 @@ import android.database.sqlite.SQLiteDatabase;
 import org.happymtb.unofficial.fragment.KoSListFragment;
 import org.happymtb.unofficial.item.KoSListItem;
 import org.happymtb.unofficial.item.KoSObjectItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class KoSItemDataSource {
 
@@ -120,7 +120,7 @@ public class KoSItemDataSource {
     }
 
     public List<KoSListItem> getAllKoSItems() {
-        List<KoSListItem> items = new ArrayList<KoSListItem>();
+        List<KoSListItem> items = new ArrayList<>();
 
         Cursor cursor = database.query(MySQLiteHelper.TABLE_SAVED, allColumns, null, null, null, null, null);
 
