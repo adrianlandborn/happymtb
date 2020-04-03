@@ -2,6 +2,7 @@ package org.happymtb.unofficial.volley;
 
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -9,13 +10,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 
+import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSListItem;
 import org.happymtb.unofficial.item.KoSReturnData;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class KosListRequest extends Request<KoSReturnData> implements Response.Listener<KoSReturnData>{
 	private static final String TAG = "KosListRequest";
@@ -78,10 +83,14 @@ public class KosListRequest extends Request<KoSReturnData> implements Response.L
 
 		//Price
 		start = KoSStr.indexOf("<span class=\"visible-xs\">", start) + 25;
-		end = KoSStr.indexOf("</span></td>", start);
-		price = HappyUtils.replaceHTMLChars(KoSStr.substring(start, end));
-		price = price.replace(":-", " kr");
-		start = end;
+		end = KoSStr.indexOf("</span>", start);
+		if (end == -1) {
+		    price = "";
+        } else {
+            price = HappyUtils.replaceHTMLChars(KoSStr.substring(start, end));
+            price = price.replace(":-", " kr");
+            start = end;
+        }
 
 		//Category
 		start = KoSStr.indexOf("<td class=\"col-3 hidden-xs\">", start) + 28;
@@ -99,6 +108,9 @@ public class KosListRequest extends Request<KoSReturnData> implements Response.L
 
     @Override
     protected Response<KoSReturnData> parseNetworkResponse(NetworkResponse response) {
+
+        MyRequestQueue.getInstance(HappyApplication.get()).checkSessionCookie(response.headers);
+
         List<KoSListItem> kosListItems = new ArrayList();
         int numberOfKoSPages = 1;
         try {
@@ -217,6 +229,23 @@ public class KosListRequest extends Request<KoSReturnData> implements Response.L
             getErrorListener().onErrorResponse(new NetworkError());
         }
 	}
+
+    /* (non-Javadoc)
+     * @see com.android.volley.Request#getHeaders()
+     */
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        Map<String, String> headers = super.getHeaders();
+
+        if (headers == null
+                || headers.equals(Collections.emptyMap())) {
+            headers = new HashMap<String, String>();
+        }
+
+        MyRequestQueue.getInstance(HappyApplication.get()).addSessionCookie(headers);
+
+        return headers;
+    }
 
 	@Override
 	public void onResponse(KoSReturnData response) {

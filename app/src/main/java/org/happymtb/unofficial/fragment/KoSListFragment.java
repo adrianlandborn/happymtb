@@ -381,8 +381,11 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
     @Override
     protected void fetchData() {
 		if (hasNetworkConnection(true)) {
-//		    String url = "https://happyride.se/annonser/?search=43.5&category=3&county=0&type=1&category2=&county2=&type2=&price=0&year=0&p=1&sortattribute=creationdate&sortorder=DESC";
+//		    String url = "https://happyride.se/annonser/?search=&category=1&county=13&type=1&category2=&county2=&type2=&price=7&year=";
+//            String url = "https://happyride.se/annonser/?search=&category=3&county=0&type=1&category2=&county2=&type2=&price=0&year=0"; //&sortattribute=creationdate&sortorder=DESC
+
 		    String url = getUrl();
+		    // TODO Url not working due to paging
             mRequest = new KosListRequest(mKoSData.getCurrentPage(), url, new Response.Listener<KoSReturnData>() {
 
                 @Override
@@ -435,9 +438,9 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
                 + "&type2=" + ""
                 + "&price=" + mKoSData.getPrice()
                 + "&year=" + year
-                + "&p=" + mKoSData.getCurrentPage()
-                + "&sortattribute=" + mKoSData.getSortAttributeServer()
-                + "&sortorder=" + mKoSData.getSortOrderServer();
+                + "&p=" + mKoSData.getCurrentPage();
+//                + "&sortattribute=" + mKoSData.getSortAttributeServer()
+//                + "&sortorder=" + mKoSData.getSortOrderServer();
     }
 
 	void fillList() {

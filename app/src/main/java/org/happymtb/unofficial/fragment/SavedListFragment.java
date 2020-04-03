@@ -42,7 +42,7 @@ import org.happymtb.unofficial.database.MyContentProvider;
 import org.happymtb.unofficial.database.MySQLiteHelper;
 import org.happymtb.unofficial.item.KoSListItem;
 import org.happymtb.unofficial.item.KoSObjectItem;
-import org.happymtb.unofficial.volley.KosObjectRequest;
+import org.happymtb.unofficial.volley.KoSObjectRequest;
 import org.happymtb.unofficial.volley.MyRequestQueue;
 
 import static org.happymtb.unofficial.fragment.KoSListFragment.NO_IMAGE_URL;
@@ -228,7 +228,7 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
         if (cursor == null || (mTotalRequests != mTotalResponses)) {
             return;
         }
-        KosObjectRequest request;
+        KoSObjectRequest request;
         String url;
         boolean isSold;
 
@@ -250,7 +250,7 @@ public class SavedListFragment extends RefreshListfragment implements LoaderMana
             if (!isSold) {
                 final long id = cursor.getLong(cursor.getColumnIndex(MySQLiteHelper.COLUMN_ID));
                 url = cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_LINK));
-                request = new KosObjectRequest(id, url, new Response.Listener<KoSObjectItem>() {
+                request = new KoSObjectRequest(id, url, new Response.Listener<KoSObjectItem>() {
                     @Override
                     public void onResponse(KoSObjectItem item) {
                         mTotalResponses++;
