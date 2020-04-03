@@ -2,21 +2,26 @@ package org.happymtb.unofficial.volley;
 
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 
+import org.happymtb.unofficial.analytics.HappyApplication;
 import org.happymtb.unofficial.helpers.HappyUtils;
 import org.happymtb.unofficial.item.KoSObjectItem;
 import org.happymtb.unofficial.item.Person;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class KosObjectRequest extends Request<KoSObjectItem> implements Response.Listener<KoSObjectItem>{
+public class KoSObjectRequest extends Request<KoSObjectItem> implements Response.Listener<KoSObjectItem>{
     public static final String BASE_URL = "https://happyride.se";
     public static final String ITEM_REMOVED = "Hittade ingen annons";
 
@@ -25,7 +30,7 @@ public class KosObjectRequest extends Request<KoSObjectItem> implements Response
     private String mUrl;
     private long mId;
 
-	public KosObjectRequest(long id, String url, Response.Listener<KoSObjectItem> listener, Response.ErrorListener errorListener) {
+	public KoSObjectRequest(long id, String url, Response.Listener<KoSObjectItem> listener, Response.ErrorListener errorListener) {
         super(Method.GET, url, errorListener);
 
         mId = id;
@@ -180,6 +185,9 @@ public class KosObjectRequest extends Request<KoSObjectItem> implements Response
 
     @Override
     protected Response<KoSObjectItem> parseNetworkResponse(NetworkResponse response) {
+
+        MyRequestQueue.getInstance(HappyApplication.get()).checkSessionCookie(response.headers);
+
         try {
             String htmlString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
             String[] lines = htmlString.split("\\n");
@@ -222,8 +230,31 @@ public class KosObjectRequest extends Request<KoSObjectItem> implements Response
 
 	@Override
 	public void onResponse(KoSObjectItem response) {
+        System.out.println("adasd");
         // Subclasses should implement this
 	}
+
+    @Override
+    protected VolleyError parseNetworkError(VolleyError volleyError) {
+        return super.parseNetworkError(volleyError);
+    }
+
+    /* (non-Javadoc)
+     * @see com.android.volley.Request#getHeaders()
+     */
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        Map<String, String> headers = super.getHeaders();
+
+        if (headers == null
+                || headers.equals(Collections.emptyMap())) {
+            headers = new HashMap<String, String>();
+        }
+
+        MyRequestQueue.getInstance(HappyApplication.get()).addSessionCookie(headers);
+
+        return headers;
+    }
 
     private int getStart(String searchString, String startString, int from) {
         try {

@@ -30,7 +30,7 @@ import org.happymtb.unofficial.adapter.ViewPagerAdapter;
 import org.happymtb.unofficial.database.KoSItemDataSource;
 import org.happymtb.unofficial.item.KoSObjectItem;
 import org.happymtb.unofficial.item.Person;
-import org.happymtb.unofficial.volley.KosObjectRequest;
+import org.happymtb.unofficial.volley.KoSObjectRequest;
 import org.happymtb.unofficial.volley.MyRequestQueue;
 
 public class KoSObjectFragment extends Fragment implements View.OnClickListener {
@@ -38,7 +38,7 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
 
     ImageView mTransitionImageView;
 
-	private KosObjectRequest mRequest;
+	private KoSObjectRequest mRequest;
 	KoSObjectItem mKoSObjectItem;
 	View mScrollView;
 	View mProgressView;
@@ -148,9 +148,19 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
 	}
 
 	private void fetchKoSObject(String objectLink) {
-		mProgressView.setVisibility(View.VISIBLE);
 
-        mRequest = new KosObjectRequest(mActivity.getObjectId(), objectLink, new Response.Listener<KoSObjectItem>() {
+        // TODO Replace this with proper solution
+//        Intent browserIntent = new Intent(getActivity(), KoSObjectWebActivity.class);
+//        browserIntent.putExtra("url", objectLink);
+//        Log.d("happyride", objectLink);
+//        startActivity(browserIntent);
+//        mActivity.finish();
+
+
+//        getActivity().finish();
+
+		mProgressView.setVisibility(View.VISIBLE);
+        mRequest = new KoSObjectRequest(mActivity.getObjectId(), objectLink, new Response.Listener<KoSObjectItem>() {
             @Override
             public void onResponse(KoSObjectItem item) {
                 mKoSObjectItem = item;
@@ -182,6 +192,9 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
                         mActivity.setResult(SavedListFragment.RESULT_MODIFIED, null);
                     }
                     mActivity.invalidateOptionsMenu();
+                    openInBrowser(mActivity.getObjectLink(), false);
+                    getActivity().finish();
+
 
                 } else {
                     mNoNetworkView.setVisibility(View.VISIBLE);
