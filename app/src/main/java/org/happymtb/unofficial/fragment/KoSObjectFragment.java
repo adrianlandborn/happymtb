@@ -192,10 +192,6 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
                         mActivity.setResult(SavedListFragment.RESULT_MODIFIED, null);
                     }
                     mActivity.invalidateOptionsMenu();
-                    openInBrowser(mActivity.getObjectLink(), false);
-                    getActivity().finish();
-
-
                 } else {
                     mNoNetworkView.setVisibility(View.VISIBLE);
                 }
@@ -360,9 +356,6 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
                 openInBrowser(mKoSObjectItem.getPerson().getEmailLink(), false);
             } else if (v.getId() == R.id.kos_action_pm) {
                 openInBrowser("https://happyride.se/" + mKoSObjectItem.getPerson().getId() + "/#about", false);
-//                openInBrowser("https://happyride.se/forum/conversations/add?to=" + mKoSObjectItem.getPerson().getId(), false);
-//                openInBrowser("https://happyride.se/forum/pm.php/1/page=send/to_id=" + mKoSObjectItem.getPerson().getId(), false);
-//                openInBrowser(mKoSObjectItem.getPerson().getPmLink(), false);
             }
         }
 	}

@@ -59,7 +59,7 @@ public class KoSObjectActivity extends AppCompatActivity {
 			fragment = new KoSObjectFragment();
 			getSupportFragmentManager()
 					.beginTransaction()
-					.replace(R.id.kosobjectframe, fragment, "kos_object")
+					.add(R.id.kosobjectframe, fragment, "kos_object")
 					.commit();
 		}
 	}
