@@ -107,40 +107,8 @@ public class HappyUtils {
         return OrderArray[pos];
     }
 
-	public static boolean isDebug(Context context) {
-		PackageInfo pInfo;
-		try {
-			pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-			String version = pInfo.versionName;
-			if (version.toLowerCase().contains("debug")) {
-				return true;
-			}
-		} catch (PackageManager.NameNotFoundException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-
 	public static boolean isDebugBuild() {
-		try {
-			return "debug".equals(BuildConfig.class.getField("BUILD_TYPE").get(null));
-		} catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException e) {
-			return false;
-		}
-	}
-
-	public static boolean isBeta(Context context) {
-		PackageInfo pInfo;
-		try {
-			pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-			String version = pInfo.versionName;
-			if (version.contains("alpha") || version.contains("beta")) {
-				return true;
-			}
-		} catch (PackageManager.NameNotFoundException e) {
-			e.printStackTrace();
-		}
-		return false;
+		return BuildConfig.DEBUG;
 	}
 
 	public static float pixelsToDp(float px) {

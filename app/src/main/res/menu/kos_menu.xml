@@ -10,11 +10,10 @@
     </item>    
        
     <item 
-        android:id="@+id/kos_right" 
-        android:icon="@drawable/ic_action_next"
+        android:id="@+id/kos_profile"
+        android:icon="@drawable/ic_profile_32dp"
         happy:showAsAction="always"
-        android:title="Nästa sida" 
-        android:visible="false">
+        android:title="Profil">
     </item>
 
 	<item

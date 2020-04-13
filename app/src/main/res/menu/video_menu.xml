@@ -28,12 +28,6 @@
             	android:icon="@drawable/ic_action_go_to"
                 android:title="@string/goto_page" />
             
-    		<item
-            	android:id="@+id/video_search"
-            	android:icon="@drawable/ic_action_search"
-                android:title="Sök"
-                android:visible="false"/>
-    		
 			<item
             	android:id="@+id/video_new_item"
             	android:icon="@drawable/ic_action_write"

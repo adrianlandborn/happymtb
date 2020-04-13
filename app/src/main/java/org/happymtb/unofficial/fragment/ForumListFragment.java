@@ -48,7 +48,7 @@ public class ForumListFragment extends RefreshListfragment {
 	private SharedPreferences mPreferences;
 	private String mUsername = "";
 	private MainActivity mActivity;
-	ImageView mLoginStatusImage;
+	private ImageView mLoginStatusImage;
 	private TextView mLoginStatus;
 	private TextView mCurrentPage;
 	private TextView mMaxPages;

@@ -22,7 +22,6 @@ public final class GaConstants {
         public static final String KOS_GOTO_DIALOG =  "kos_goto_dialog";
         public static final String SAVED_DELETE_DIALOG =  "saved_delete_dialog";
         public static final String HOME =  "home";
-        public static final String SHOPS =  "shops";
         public static final String CALENDAR =  "calendar";
 
     }

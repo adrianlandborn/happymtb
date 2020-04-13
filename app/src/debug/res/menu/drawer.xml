@@ -27,18 +27,10 @@
             android:icon="@drawable/ic_favorite_black_24dp"
             android:title="@string/title_bar_saved"/>
         <item
-            android:id="@+id/nav_my_ads"
-            android:icon="@drawable/ic_profile2"
-            android:title="@string/title_bar_my_ads"/>
-        <item
             android:id="@+id/nav_videos"
             android:icon="@drawable/ic_movie_black_24dp"
             android:visible="true"
             android:title="@string/title_bar_videos" />
-        <item
-            android:id="@+id/nav_shops"
-            android:icon="@drawable/ic_store_black_24dp"
-            android:title="@string/title_bar_shops" />
         <item
             android:id="@+id/nav_calendar"
             android:icon="@drawable/ic_event_black_24dp"

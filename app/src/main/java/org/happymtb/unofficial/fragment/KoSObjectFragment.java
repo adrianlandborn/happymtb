@@ -36,13 +36,13 @@ import org.happymtb.unofficial.volley.MyRequestQueue;
 public class KoSObjectFragment extends Fragment implements View.OnClickListener {
 	private final static String DATA = "data";
 
-    ImageView mTransitionImageView;
+    private ImageView mTransitionImageView;
 
 	private KoSObjectRequest mRequest;
-	KoSObjectItem mKoSObjectItem;
-	View mScrollView;
-	View mProgressView;
-	View mNoNetworkView;
+	private KoSObjectItem mKoSObjectItem;
+	private View mScrollView;
+	private View mProgressView;
+	private View mNoNetworkView;
     private TextView mTitle;
     private Button mPerson;
     private Button mAllAds;
@@ -56,9 +56,9 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
     boolean mIsSaved = false;
     boolean mIsSold = false;
 
-    KoSObjectActivity mActivity;
+    private KoSObjectActivity mActivity;
     private String mUrl;
-	KoSItemDataSource datasource;
+	private KoSItemDataSource datasource;
 
     public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -343,9 +343,13 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
 
         if (mKoSObjectItem != null) {
             if (v.getId() == R.id.kos_object_person) {
-                openInBrowser(mKoSObjectItem.getPerson().getIdLink(), false);
+                String url = mKoSObjectItem.getPerson().getIdLink();
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
             } else if (v.getId() == R.id.kos_all_ads) {
-                openInBrowser("https://happyride.se/" + mKoSObjectItem.getPerson().getId() + "/#admarket", false);
+                String url = "https://happyride.se/" + mKoSObjectItem.getPerson().getId() + "/#admarket";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
             } else if (v.getId() == R.id.kos_action_phone) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("tel", mKoSObjectItem.getPerson().getPhone(), null));
                 startActivity(intent);
@@ -355,7 +359,9 @@ public class KoSObjectFragment extends Fragment implements View.OnClickListener 
             } else if (v.getId() == R.id.kos_action_email) {
                 openInBrowser(mKoSObjectItem.getPerson().getEmailLink(), false);
             } else if (v.getId() == R.id.kos_action_pm) {
-                openInBrowser("https://happyride.se/" + mKoSObjectItem.getPerson().getId() + "/#about", false);
+                String url = "https://happyride.se/" + mKoSObjectItem.getPerson().getId() + "/#about";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
             }
         }
 	}

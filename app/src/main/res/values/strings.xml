@@ -9,7 +9,6 @@
     <string name="title_bar_kos">Köp &amp; Sälj</string>
     <string name="title_bar_saved">Sparade annonser</string>
     <string name="title_bar_my_ads">Mina annonser</string>
-    <string name="title_bar_shops">Butiker</string>
     <string name="title_bar_videos">Video</string>
     <string name="title_bar_articles">Artiklar</string>
     <string name="title_bar_calendar">Kalender</string>
@@ -42,7 +41,6 @@
     <string name="main_articles">Artiklar</string>
     <string name="main_kos">Köp &amp; Sälj</string>
     <string name="main_video">Video</string>
-    <string name="main_shops">Butiker</string>
     <string name="main_calendar">Kalender</string>
     <string name="main_settings">Inställningar</string>
     
@@ -55,7 +53,6 @@
     <string name="no_items_found">Inga objekt hittades</string>
     <string name="kos_no_items_found">Inga annonser hittades</string>
     <string name="articles_no_items_found">Artiklarna gick inte att hämta</string>
-    <string name="shops_no_items_found">Butikerna gick inte att hämta</string>
     <string name="calendar_no_items_found">Kalendern gick inte att hämta</string>
     <string name="messages_not_found">Kunde inte hämta meddelanden</string>
     <string name="OK">OK</string>
@@ -78,7 +75,7 @@
     <string name="share">Dela annons…</string>
     <string name="unable_to_update">Annonsen kunde inte uppdateras</string>
     <string name="unable_to_save">Annonsen kunde inte sparas</string>
-    <string name="updating_search">Uppdaterar sökning...</string>
+    <string name="updating_search">Uppdaterar sökning…</string>
     <string name="delete_sold">Radera sålda</string>
 
 </resources>

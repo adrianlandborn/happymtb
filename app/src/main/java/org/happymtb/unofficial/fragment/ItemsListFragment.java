@@ -17,11 +17,11 @@ import org.happymtb.unofficial.item.Item;
 import java.util.ArrayList;
 
 public class ItemsListFragment extends ListFragment implements DialogInterface.OnCancelListener, OnChildClickListener {
-	protected static final String ITEMS = "items";
-	protected static final String ALL_ITEMS = "all_items";
-    protected ItemsAdapter mItemsAdapter;
-	protected ArrayList<Item> mItems = new ArrayList<>();
-	protected ArrayList<Item> mAllItems = new ArrayList<>();
+	private static final String ITEMS = "items";
+	private static final String ALL_ITEMS = "all_items";
+    private ItemsAdapter mItemsAdapter;
+	private ArrayList<Item> mItems = new ArrayList<>();
+	ArrayList<Item> mAllItems = new ArrayList<>();
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);

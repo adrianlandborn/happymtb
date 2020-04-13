@@ -14,17 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <!-- The navigation drawer -->
-    <!--<ListView-->
-        <!--android:id="@+id/drawer_list"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_gravity="start"-->
-        <!--android:choiceMode="singleChoice"-->
-        <!--android:divider="@android:color/darker_gray"-->
-        <!--android:dividerHeight="1dp"-->
-        <!--android:background="@color/grey_light"-->
-        <!--android:paddingTop="100dp"/>-->
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

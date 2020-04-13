@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.kobakei.ratethisapp.RateThisApp;
 
 import org.happymtb.unofficial.fragment.ArticlesListFragment;
 import org.happymtb.unofficial.fragment.CalendarListFragment;
@@ -25,9 +24,7 @@ import org.happymtb.unofficial.fragment.HomesListFragment;
 import org.happymtb.unofficial.fragment.KoSListFragment;
 import org.happymtb.unofficial.fragment.SavedListFragment;
 import org.happymtb.unofficial.fragment.SettingsFragment;
-import org.happymtb.unofficial.fragment.ShopsListFragment;
 import org.happymtb.unofficial.fragment.VideoListFragment;
-import org.happymtb.unofficial.helpers.HappyUtils;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,16 +34,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int ARTICLES = 2;
     private static final int KOP_OCH_SALJ = 3;
     private static final int SAVED = 4;
-    private static final int PROFILE = 5;
-    private static final int VIDEO = 6;
-    private static final int SHOPS = 7;
-    private static final int CALENDAR = 8;
-    private static final int SETTINGS = 9;
+    private static final int VIDEO = 5;
+    private static final int CALENDAR = 6;
+    private static final int SETTINGS = 7;
 
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
     private static final String CURRENT_FRAGMENT_TAG = "current_fragment_tag";
     private static final String OPEN_DRAWER = "open_drawer";
-    private static final String SHOW_RATING_DIALOG = "show_Rating_dialog";
 
     private Fragment mCurrentFragment;
     private SharedPreferences mPreferences;
@@ -64,11 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (HappyUtils.isDebug(getApplicationContext())) {
-            setContentView(R.layout.activity_main_drawer_debug);
-        } else {
-            setContentView(R.layout.activity_main_drawer);
-        }
+        setContentView(R.layout.activity_main_drawer);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -103,19 +93,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mDrawer.openDrawer(GravityCompat.START);
             mPreferences.edit().putBoolean(OPEN_DRAWER, false).apply();
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        // Monitor launch times and interval from installation
-        RateThisApp.onStart(this);
-        // If the criteria is satisfied, "Rate this app" dialog will be shown
-        RateThisApp.showRateDialogIfNeeded(this);
-
-        // Force show the Rate dialog
-//        RateThisApp.showRateDialog(this);
     }
 
     @Override
@@ -159,18 +136,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 frag = new SavedListFragment();
                 newFragmentTag = SavedListFragment.TAG;
                 break;
-            case PROFILE:
-                Intent browserIntent = new Intent(this, WebViewActivity.class);
-                browserIntent.putExtra("url", "https://happyride.se/annonser/my_ads.php");
-                startActivity(browserIntent);
-                break;
             case VIDEO:
                 frag = new VideoListFragment();
                 newFragmentTag = VideoListFragment.TAG;
-                break;
-            case SHOPS:
-                frag = new ShopsListFragment();
-                newFragmentTag = ShopsListFragment.TAG;
                 break;
             case CALENDAR:
                 frag = new CalendarListFragment();
@@ -246,12 +214,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             pos = KOP_OCH_SALJ;
         } else if (id == R.id.nav_saved) {
             pos = SAVED;
-        } else if (id == R.id.nav_my_ads) {
-            pos = PROFILE;
         } else if (id == R.id.nav_videos) {
             pos = VIDEO;
-        } else if (id == R.id.nav_shops) {
-            pos = SHOPS;
         } else if (id == R.id.nav_calendar) {
             pos = CALENDAR;
         } else if (id == R.id.nav_settings) {

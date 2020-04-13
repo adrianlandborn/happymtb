@@ -108,12 +108,7 @@ public class VideoListFragment extends RefreshListfragment implements DialogInte
 		case R.id.video_right:
 			nextPage();
 			return true;
-//		case R.id.video_search:
-//	        FragmentManager fm = mActivity.getSupportFragmentManager();
-//	        VideoSearchDialogFragment videoSearchDialog = new VideoSearchDialogFragment();
-//	        videoSearchDialog.show(fm, "fragment_edit_name");
-//			return true;
-		case R.id.video_go_to_page:			
+		case R.id.video_go_to_page:
 			mAlertDialog = new AlertDialog.Builder(mActivity);
 
 			mAlertDialog.setTitle(R.string.goto_page);

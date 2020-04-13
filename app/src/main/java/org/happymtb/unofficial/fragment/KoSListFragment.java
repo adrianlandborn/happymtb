@@ -97,19 +97,19 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
 //	private KoSListTask mKoSTask;
     private KosListRequest mRequest;
 	private KosAdapter mKoSAdapter;
-	KoSData mKoSData;
+	private KoSData mKoSData;
 	private SharedPreferences mPreferences;
 	private MainActivity mActivity;
 
 	private ImageButton prevPageButton;
 	private ImageButton nextPageImageButton;
 
-    ClearableEditText searchEditText;
-    Spinner searchCategory;
-    Spinner searchRegion;
-    Spinner searchType;
-    Spinner searchPrice;
-    Spinner searchYear;
+    private ClearableEditText searchEditText;
+    private Spinner searchCategory;
+    private Spinner searchRegion;
+    private Spinner searchType;
+    private Spinner searchPrice;
+    private Spinner searchYear;
 
     private int mHeaderCount;
 
@@ -318,11 +318,9 @@ public class KoSListFragment extends RefreshListfragment implements /*DialogInte
 		switch (item.getItemId()) {
 		case R.id.kos_submenu:
 			return true;		
-		case R.id.kos_left:
-			previousPage();
-			return true;
-		case R.id.kos_right:
-			nextPage();
+		case R.id.kos_profile:
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://happyride.se/annonser/my_ads.php"));
+            startActivity(intent);
 			return true;
 		case R.id.kos_search_option:
             mSlidingMenu.toggle();

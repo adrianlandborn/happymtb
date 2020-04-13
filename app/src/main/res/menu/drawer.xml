@@ -32,10 +32,6 @@
             android:visible="true"
             android:title="@string/title_bar_videos" />
         <item
-            android:id="@+id/nav_shops"
-            android:icon="@drawable/ic_store_black_24dp"
-            android:title="@string/title_bar_shops" />
-        <item
             android:id="@+id/nav_calendar"
             android:icon="@drawable/ic_event_black_24dp"
             android:title="@string/title_bar_calendar" />
